@@ -1,0 +1,140 @@
+/**
+ * Created by gjq on 2017/2/24.
+ */
+function changepass() {
+    adddomClass("#changepass", "disabled-mouse");
+    var mpass = $("#mpass").val();
+    var newpass = $("#newpass").val();
+    $.ajax({
+        async: false,
+        url: "",
+        type: "post",
+        data: { "mpass": mpass, "newpass": newpass },
+        timeout: 2000,
+        success: function (data) {
+            quitAndLogin("密码修改成功，点击确定重新登陆", logout);
+            //logout();
+        },
+        error: function () {
+            $("#changepass").after(" &nbsp;&nbsp;<span class='tipscolor tipsfont' id='tip'>原密码输入错误，请重新输入</span>");
+            $("#mpass").val("").focus();
+            $("#newpass").val("");
+            $("#renewpass").val("");
+            setTimeout("removedomid(tip)", 3000);
+            removedomclass("#changepass", "disabled-mouse");
+        }
+    })
+}
+//判断是否登陆
+function userIsLogin(){
+$.ajax({
+    async: false,
+    type: "POST",
+    url: "/Ajax/AjaxUser.aspx",
+    data: {
+        action: 'JudgeUserIsLogin',
+        currenttime: encodeURIComponent(new Date())
+    },
+    cache: false,
+    success: function (msg) {
+        if (msg === "-9999") {
+            //var logou = logout();
+            quitAndLogin("请您重新登陆",logout); // 提示重新登录
+        } else {
+
+            // 判断是否仍然是当前进行的登录
+            var retCurrentUserMsg = JudgeISCurrentUserLogin();
+
+            if (retCurrentUserMsg === "-9999" || retCurrentUserMsg === "-9998") {
+                quitAndLogin("请您重新登陆", logout);
+            }
+            else if (retCurrentUserMsg.indexOf("服务器许可") > -1 && IsShowDelayMessage == false) {
+                IsShowDelayMessage = true;
+                ShowSystemDialog(retCurrentUserMsg);
+                DoLoadSubPage(gLoadUrl, parentContainer);
+            }
+            else {
+                DoLoadSubPage(gLoadUrl, parentContainer);
+            }
+
+        }
+    }
+});
+}
+//判断是否仍然是之前的登陆
+function JudgeISCurrentUserLogin() {
+    var retCurrentUserMsg = "";
+    var LoginUserID = getCookies("UserID");   // 已经登录的用户ID
+    jQuery.ajax({
+        type: "POST",
+        url: "/Ajax/AjaxUser.aspx",
+        data: {
+            LoginUserID: LoginUserID,
+            action: 'JudgeISCurrentUserLogin',
+            currenttime: encodeURIComponent(new Date())
+        },
+        async: false,
+        cache: false,
+        dataType: "text",
+        success: function (retmsg) {
+            retCurrentUserMsg = retmsg;
+        }
+    });
+    return retCurrentUserMsg;
+}
+
+
+// 检测是否登录超时等情况 
+function CheckAjaxReturnDataInfo(retmsg) {
+    if (retmsg == null || retmsg == "") {
+        // 未获取到数据，或获取数据出错
+        return "";
+    } else if (retmsg == "-9999") {
+        quitAndLogin("请您重新登陆", logout());
+        return "";
+    } else {
+        // 判断是否仍然是当前进行的登录
+        var retCurrentUserMsg = JudgeISCurrentUserLogin();
+
+        if (retCurrentUserMsg == "-9999" || retCurrentUserMsg == "-9998") {
+            quitAndLogin("请您重新登陆", logout());//重新登陆
+            return "";
+        } else {
+            return retmsg;
+        }
+    }
+}
+
+
+
+
+//获取用户信息存入cookie
+function GetUserLoginInfo() {
+
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "/Ajax/AjaxUser.aspx",
+        data: { action: 'GetUserLoginInfo',currenttime: encodeURIComponent(new Date())},
+        cache: false,
+        dataType: "text",
+        success: function (msg) {
+
+            if (msg != null && msg != "-9999" && msg != "") {
+                var tmpUserInfoArray = msg.split('|');
+                if (tmpUserInfoArray.length > 5) {
+                    SetCookies("UserID", tmpUserInfoArray[0]);// 操作员ID
+                    SetCookies("UserLoginName", tmpUserInfoArray[1]);// 操作员登录名
+                    SetCookies("UserName", tmpUserInfoArray[2]);// 操作员姓名
+                    SetCookies("UserOperateLevel", tmpUserInfoArray[3]);// 操作员等级
+                    SetCookies("VocationType", tmpUserInfoArray[4]); // 操作员分类
+                    SetCookies("UserSessionID", tmpUserInfoArray[5]);// SessionID
+                  
+                }
+            }
+        },
+        error:function(){
+            quitAndLogin("请您重新登陆"); // 提示重新登录
+    }
+    });
+}

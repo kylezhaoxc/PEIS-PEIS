@@ -1,0 +1,366 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Conclusion.js" type="text/javascript" ></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 科室ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Conclusion" id="ID_Conclusion" value="$!{ID_Conclusion}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    
+    <input type="hidden" name="txtForsex" id="txtForsex" value="$!{Forsex}" />
+    <input type="hidden" name="ID_ConclusionType" id="ID_ConclusionType" value="$!{ID_ConclusionType}" />
+    <input type="hidden" name="txtIs_Banned" id="txtIs_Banned" value="$!{Is_Banned}" />
+    <input type="hidden" name="ID_ICD" id="ID_ICD" value="$!{ID_ICD}" />
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">结论词名称：</td>
+                <td class="inputtext"><input class="width300" name="txtConclusionName" id="txtConclusionName" maxlength="50" value="$!{ConclusionName}" /> </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">团检结论词：</td>
+                <td class="inputtext"><input class="width300" name="txtTeamConclusionName" id="txtTeamConclusionName" maxlength="50" value="$!{TeamConclusionName}" /> </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">隶属分类：</td>
+                <td>
+                    <input type="hidden" name="idSelectConclusionType" id="idSelectConclusionType" value="$!{ID_ConclusionType}" />
+                    <input type="hidden" name="nameSelectConclusionType" id="nameSelectConclusionType" value="$!{ConclusionTypeName}" />
+                    <span id="spanConclusionType"><input  name="txtConclusionTypeInputCode" id="txtConclusionTypeInputCode" onkeyup="QuickQueryConclusionTypeTableData_Ajax();" onchange="QuickQueryConclusionTypeTableData_Ajax();"  onfocus="QuickQueryConclusionTypeTableData_Ajax();"  maxlength="50" value="$!{ConclusionType}" /></span>
+                    <span id="spanSelectConclusionType" style="display:none;"> -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectConclusionType').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryConclusionTypeTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>结论词分类</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryConclusionTypeTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关结论词分类，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave001" onclick="SelectConclusionTypeDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQueryConclusionTypeTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="inputtitle">结论类型：</td>
+                <td>
+                    <input type="hidden" name="idSelectFinalConclusionType" id="idSelectFinalConclusionType" value="$!{ID_FinalConclusionType}" />
+                    <input type="hidden" name="nameSelectFinalConclusionType" id="nameSelectFinalConclusionType" value="$!{FinalConclusionTypeName}" />
+                    <span id="spanFinalConclusionType"><input  name="txtFinalConclusionTypeInputCode" id="txtFinalConclusionTypeInputCode" onkeyup="QuickQueryFinalConclusionTypeTableData_Ajax();" onchange="QuickQueryFinalConclusionTypeTableData_Ajax();"  onfocus="QuickQueryFinalConclusionTypeTableData_Ajax();"  maxlength="50" value="$!{FinalConclusionType}" /></span>
+                    <span id="spanSelectFinalConclusionType" style="display:none;"> -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectFinalConclusionType').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryFinalConclusionTypeTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>结论类型</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryFinalConclusionTypeTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关结论类型，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave002" onclick="SelectFinalConclusionTypeDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse003" onclick="ShowHideQuickQueryFinalConclusionTypeTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+
+                    </div>
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="inputtitle">排序编号：</td>
+                <td class="inputtext"><input name="txtDispOrder" id="txtDispOrder" maxlength="50" value="$!{DispOrder}" /> </td>
+            </tr>
+           
+            <tr>
+                <td class="inputtitle">适用性别：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioForsex" id="radioForsex00" value="0" /> <label for="radioForsex00">女士 </label> 
+                    <input type="radio" name="radioForsex" id="radioForsex01" value="1" /> <label for="radioForsex01">男士 </label> 
+                    <input type="radio" name="radioForsex" id="radioForsex02" value="2" checked="checked" /> <label for="radioForsex02">男女均适用 </label> 
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">ICD 10：</td>
+                <td>
+                    <input type="hidden" name="idSelectICD10" id="idSelectICD10" value="$!{ID_ICD}" />
+                    <input type="hidden" name="nameSelectICD10" id="nameSelectICD10" value="$!{ICDCNName}" />
+                    <span id="spanICD10"><input  name="txtICD10InputCode" id="txtICD10InputCode" onkeyup="QuickQueryICD10TableData_Ajax();" onchange="QuickQueryICD10TableData_Ajax();"  onfocus="QuickQueryICD10TableData_Ajax();"  maxlength="50" value="$!{ICD10}" /></span>
+                    <span id="spanSelectICD10" style="display:none;"> -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectICD10').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryICD10Table" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>ICD中文名</td>
+                                <td>ICD编码</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryICD10TableData">
+                            <tr>
+                                <td colspan="4" style="text-align:center;">未找到相关ICD10，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave001" onclick="SelectICD10DataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQueryICD10Table(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="inputtitle">疾病解释：</td>
+                <td class="inputtext">
+                    <textarea rows="6" cols="35"  name="txtExplanation" id="txtExplanation">$!{Explanation}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">总检建议：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtSuggestion" id="txtSuggestion">$!{Suggestion}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">饮食指导：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35"  name="txtDietGuide" id="txtDietGuide">$!{DietGuide}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">运动指导：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35"  name="txtSportsGuide" id="txtSportsGuide">$!{SportsGuide}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">健康知识：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35"  name="txtHealthKnowledge" id="txtHealthKnowledge">$!{HealthKnowledge}</textarea>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">是否禁用：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /> <label for="radioIs_Banned01">正常 </label>  
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /> <label for="radioIs_Banned02">禁用 </label>  
+                </td>
+            </tr>
+
+            <tr id="trIs_Banned" style="display:none;">
+                <td class="inputtitle">禁用说明：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35" name="txtBanDescribe" id="txtBanDescribe">$!{BanDescribe}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+                    <input type="button" class="button80" name="btnSaveclose" id="btnSaveclose" onclick="AutoCloseDialogWindow('True');SaveConclusionInfo();" value="保存&关闭" />&nbsp;&nbsp;
+                    <input type="button" class="button80" name="btnSave" id="btnSave" onclick="AutoCloseDialogWindow('False');SaveConclusionInfo();" value="保存&继续" />
+                    <input type="button" class="button80" name="btnClose" id="btnClose" onclick="CloseDialogWindow();" value=" 关  闭 " />&nbsp;&nbsp;
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+        <tbody id="ConclusionTypeQuickQueryTableTemplete">
+            <tr onclick="SetConclusionTypeChecked('@ID_ConclusionType');"
+                ondblclick="SelectConclusionTypeDataList();" onkeydown="if(IsEnterKeyDown() == true) { SelectConclusionTypeDataList(); }" >
+                <td>
+                <input type="radio" name="@chkConclusionTypeQueryList" id="chkConclusionType_@ID_ConclusionType" 
+                    value="@ID_ConclusionType"
+                    ConclusionTypeName="@ConclusionTypeName"  />
+                </td>
+                <td>@ConclusionTypeName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptyConclusionTypeQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关结论词分类，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        
+      </table>
+      
+      <div id="UserSelectedConclusionTypeItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedConclusionType();"> × </a> @ConclusionTypeName 
+        
+      </div>
+      
+      <table style="display:none;">
+        <tbody id="ICD10QuickQueryTableTemplete">
+            <tr onclick="SetICD10Checked('@ID_ICD');"
+                ondblclick="SelectICD10DataList();" onkeydown="if(IsEnterKeyDown() == true) { SelectICD10DataList(); }" >
+                <td>
+                <input type="radio" name="@chkICD10QueryList" id="chkICD10_@ID_ICD" 
+                    value="@ID_ICD"
+                    ICDCNName="@ICDCNName"  />
+                </td>
+                <td>@ICDCNName</td>
+                <td>@Code</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptyICD10QuickQueryDataTemplete">
+            <tr>
+                <td colspan="4" style="text-align:center;">未找到相关ICD10，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      
+      <div id="UserSelectedICD10ItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedICD10();"> × </a> @ICDCNName 
+        
+      </div>
+
+
+      <table style="display:none;">
+        <tbody id="FinalConclusionTypeQuickQueryTableTemplete">
+            <tr onclick="SetFinalConclusionTypeChecked('@ID_FinalConclusionType');"
+                ondblclick="SelectFinalConclusionTypeDataList();" onkeydown="if(IsEnterKeyDown() == true) { SelectFinalConclusionTypeDataList(); }" >
+                <td>
+                <input type="radio" name="@chkFinalConclusionTypeQueryList" id="rdiFinalConclusionType_@ID_FinalConclusionType" 
+                    value="@ID_FinalConclusionType"
+                    FinalConclusionTypeName="@FinalConclusionTypeName"  />
+                </td>
+                <td>@FinalConclusionTypeName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptyFinalConclusionTypeQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关结论类型，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        
+      </table>
+      
+      <div id="UserSelectedFinalConclusionTypeItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedFinalConclusionType();"> × </a> @FinalConclusionTypeName 
+        
+      </div>
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    /// <summary> 
+    /// 点击选中对应结论词分类的单选按钮（快速选择列表）
+    /// </summary>
+    function SetConclusionTypeChecked(ID_ConclusionType) {
+        jQuery("#chkConclusionType_" + ID_ConclusionType).attr("checked", true);
+    }
+
+
+    /// <summary> 
+    /// 点击选中对应ICD10的单选按钮（快速选择列表）
+    /// </summary>
+    function SetICD10Checked(ID_ICD) {
+        jQuery("#chkICD10_" + ID_ICD).attr("checked", true);
+    }
+
+    jQuery(document).ready(function () {
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+        // 科室编辑操作时，初始化页面数据
+        InitConclusionEditData();
+    });
+
+
+</script>
+
+

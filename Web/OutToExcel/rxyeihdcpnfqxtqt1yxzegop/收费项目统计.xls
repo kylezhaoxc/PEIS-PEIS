@@ -1,0 +1,38 @@
+﻿<?xml version='1.0'?><?mso-application progid='Excel.Sheet'?>
+<Workbook xmlns='urn:schemas-microsoft-com:office:spreadsheet'
+          xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel'
+          xmlns:ss='urn:schemas-microsoft-com:office:spreadsheet' xmlns:html='http://www.w3.org/TR/REC-html40'>
+<DocumentProperties xmlns='urn:schemas-microsoft-com:office:office'>
+</DocumentProperties>
+<Styles><Style ss:ID='Default' ss:Name='Normal'><Alignment ss:Vertical='Center'/>
+          <Borders/><Font ss:FontName='宋体' x:CharSet='134' ss:Size='11'/><Interior/><NumberFormat/><Protection/></Style>
+<Style ss:ID='Header'><Borders><Border ss:Position='Bottom' ss:Weight='1'/>
+           <Border ss:Position='Left' ss:Weight='1'/>
+           <Border ss:Position='Right' ss:Weight='1'/>
+           <Border ss:Position='Top'  ss:Weight='1'/></Borders>
+           </Style>
+<Style ss:ID='border'><NumberFormat ss:Format='@'/><Borders>
+          <Border ss:Position='Bottom'/>
+          <Border ss:Position='Left' />
+          <Border ss:Position='Right'/>
+          <Border ss:Position='Top'/></Borders></Style>
+</Styles>
+<Worksheet ss:Name='20170317-20170317收费项目统计'>
+<Table x:FullColumns='1' x:FullRows='1'>
+
+<Row ss:AutoFitHeight='1'>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>收费项目名称</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>序号</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>登记人</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>检查医生</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>总金额</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>客户姓名</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>体检号</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>单位名称</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>检查状态</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>收费状态</Data></Cell>
+
+</Row>
+</Table>
+</Worksheet>
+</Workbook>

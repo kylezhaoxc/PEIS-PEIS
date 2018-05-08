@@ -1,0 +1,740 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>报告预览</title>
+    <style type="text/css">
+        .ConclusionTitleClass
+        {
+            padding-left: 122px;
+            float: left;
+        }
+        .ConclusionTitleClass li
+        {
+            float: left;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 1px solid #dcdcdc;
+            cursor: pointer;
+        }
+        .ConclusionTitleClass .selected
+        {
+            float: left;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 1px solid #dcdcdc;
+            background-color: #27a9e3;
+            color: White;
+        }
+        .ConclusionTitleClass li:hover
+        {
+            float: left;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: 1px solid #dcdcdc;
+            background-color: #27a9e3;
+            color: White;
+        }
+        
+        .showQueryConclusionClass .QueryConclusionClass
+        {
+        }
+        
+        .hideQueryConclusionClass .QueryConclusionClass
+        {
+            display: none;
+        }
+        
+        .right
+        {
+            float: right;
+        }
+        .left
+        {
+            float: left;
+        }
+        .textright
+        {
+            text-align: right;
+        }
+        .textcenter
+        {
+            text-align: center;
+        }
+        .textleft
+        {
+            text-align: left;
+        }
+        
+        .style1
+        {
+            text-align: right;
+            width: 89px;
+        }
+        .style2
+        {
+            text-align: right;
+            width: 146px;
+        }
+        .style3
+        {
+            width: 275px;
+        }
+        .previewReportline
+        {
+            line-height: 32px;
+            background-color: #27a9e3;
+            color: White;
+        }
+        .showlidata
+        {
+            width: 100%;
+        }
+        .showlidata li
+        {
+            width: 20%;
+            float: left;
+        }
+    </style>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/css.css" />
+    <script src="$!{templatepath}/js/JS_ReportPreview.js" type="text/javascript"></script>
+</head>
+<body style="text-align: center;">
+    <form onkeyup="OnFormKeyUp();">
+    <div style="display: none;">
+        <!--体检报告预览模版 Begin-->
+        <table id="TemplateReportView">
+            <thead>
+                <tr>
+                    <td>
+                        体检号
+                    </td>
+                    <td style="min-width: 60px;">
+                        姓名
+                    </td>
+                    <td style="min-width: 30px;">
+                        性别
+                    </td>
+                    <td style="min-width: 80px;">
+                        出生日期
+                    </td>
+                    <td style="min-width: 100px;">
+                        单位名称
+                    </td>
+                    <td style="min-width: 60px;">
+                        总审医生
+                    </td>
+                    <td style="min-width: 80px;">
+                        总审时间
+                    </td>
+                    <td style="min-width: 50px;">
+                        打印人
+                    </td>
+                    <td style="min-width: 80px;">
+                        打印时间
+                    </td>
+                    <td style="min-width: 50px;">
+                        通知人
+                    </td>
+                    <td style="min-width: 80px;">
+                        通知时间
+                    </td>
+                    <td style="min-width: 50px;">
+                        领取人
+                    </td>
+                    <td style="min-width: 80px;">
+                        领取时间
+                    </td>
+                    <td style="min-width: 30px;">
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted" is_informed="@Is_Informed"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted">
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblChecker">
+                            @Checker</label>
+                    </td>
+                    <td>
+                        <label name="lblCheckedDate">
+                            @CheckedDate</label>
+                    </td>
+                    <td>
+                        <label name="lblReportPrinter">
+                            @ReportPrinter</label>
+                    </td>
+                    <td>
+                        <label name="lblReportPrintedDate">
+                            @ReportPrintedDate</label>
+                    </td>
+                    <td>
+                        <label name="lblInformer">
+                            @Informer</label>
+                    </td>
+                    <td>
+                        <label name="lblInformedDate">
+                            @InformedDate</label>
+                    </td>
+                    <td>
+                        <label name="lblReportReceiptor">
+                            @ReportReceiptor</label>
+                    </td>
+                    <td>
+                        <label name="lblReportReceiptedDate">
+                            @ReportReceiptedDate</label>
+                    </td>
+                    <td>
+                        <img style="cursor: pointer; width: 20px; height: 18px;" src="/template/blue/images/fangdajing.png"
+                            alt="点击预览报告" title="点击预览报告" onclick="PreviewReport(this);" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告预览模版 End-->
+        <table style="display: none;">
+            <tbody id="CustExamSectionListTemplete">
+                <tr class="@tr_class">
+                    <td rowspan="1" class="text_right">
+                        @SectionName：
+                    </td>
+                    <td>
+                        <div style="word-break: break-all; overflow: hidden; width: 350px;">
+                            @SectionSummaryText</div>
+                    </td>
+                    <td style="text-align: center;" class="examisexamclass">
+                        @Examed
+                    </td>
+                    <td class="examdoctorclass">
+                        @TypistName
+                    </td>
+                    <td class="examdoctorclass">
+                        @SummaryDoctorName
+                    </td>
+                    <td class="examdateclass">
+                        @SectionSummaryDate
+                    </td>
+                    <td style="text-align: center;" class="examisexamclass">
+                        @Checked
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: none;" id="ConclusionSelectedDataEditTemplete">
+        <table style="width: 100%; display: none;" id="ConclusionSelectedDataEdit_@ID_Conclusion">
+            <tr>
+                <td>
+                    结论名称：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input style="width: 100%" name="txtConclusionName_@ID_Conclusion" id="txtConclusionName_@ID_Conclusion"
+                        value="@ConclusionName" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    疾病解释：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="SectionResultSummaryArea" rows="5" id="txtExplanation_@ID_Conclusion"
+                        name="txtExplanation_@ID_Conclusion">@Explanation</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    总检建议：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="SectionResultSummaryArea" rows="2" id="txtSuggestion_@ID_Conclusion"
+                        name="txtSuggestion_@ID_Conclusion">@Suggestion</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    饮食指导：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="SectionResultSummaryArea" rows="2" id="txtDietGuide_@ID_Conclusion"
+                        name="txtDietGuide_@ID_Conclusion">@DietGuide</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    运动指导：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="SectionResultSummaryArea" rows="2" id="txtSportsGuide_@ID_Conclusion"
+                        name="txtSportsGuide_@ID_Conclusion">@SportsGuide</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    健康知识：
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="SectionResultSummaryArea" rows="2" id="txtHealthKnowledge_@ID_Conclusion"
+                        name="txtHealthKnowledge_@ID_Conclusion">@HealthKnowledge</textarea>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle" style="font-size: 14px;">
+                <label style="font-size: 14px;">
+                    体检号(F2)：</label>
+                <input name="txtCustomerID" id="txtCustomerID" type="text" onchange="AutoGetCustomerSectionExamInfo();"
+                    onfocus="this.select();" value="$!{txtCustomerID}" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                <input id="btnSearch" type="button" class="button80" onclick="AutoGetCustomerSectionExamInfo();"
+                    value=" 查  询(F4) " />
+                <input id="btnReportPreview" type="button" class="button80" onclick="PreviewReport();"
+                    value=" 预  览(F10) " />
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <div>
+                <table class="tblExamItemTable" id="tblSearch">
+                    <tbody>
+                        <tr id="loading">
+                            <td colspan="3" align="center" style="text-align: center;">
+                                未找到客户的体检报告信息！
+                            </td>
+                        </tr>
+                        <tr id="trShowData" style="display: none;">
+                            <td style="padding-top: 5px; vertical-align: top;">
+                                <div style="width: 242px; padding: 0px;" id="tdLeft">
+                                    <div>
+                                        <table class="tblRegistTableEdit" style="width: 242px;">
+                                            <tr>
+                                                <td style="width: 60px;">
+                                                    <img style="height: 60px; width: 60px;" id="HeadImg" name="HeadImg" />
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <label id="lblCustomerName">
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <label id="lblSex">
+                                                        </label>
+                                                        <label id="lblAge">
+                                                        </label>
+                                                    </div>
+                                                    <label id="lblMarriedName">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    体检号
+                                                </td>
+                                                <td>
+                                                    <label id="lblID_Customer" name="lblID_Customer">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    证件号
+                                                </td>
+                                                <td class="text_left">
+                                                    <label id="lblIDCard" name="lblIDCard">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    联系电话
+                                                </td>
+                                                <td>
+                                                    <label id="lblTel" name="lblTel">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title ">
+                                                    体检单位
+                                                </td>
+                                                <td>
+                                                    <label id="lblTeamName" name="lblTeamName">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    体检日期
+                                                </td>
+                                                <td colspan="3">
+                                                    <label id="lblRegisterDate" name="lblRegisterDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    体检类型
+                                                </td>
+                                                <td>
+                                                    <label id="lblExamType" name="lblExamType">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    是否总检
+                                                </td>
+                                                <td>
+                                                    <label id="lblIs_FinalFinished">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    总检医生
+                                                </td>
+                                                <td>
+                                                    <label id="lblFinalDoctor">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    总检日期
+                                                </td>
+                                                <td>
+                                                    <label id="lblFinalDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    是否总审
+                                                </td>
+                                                <td>
+                                                    <label id="lblIs_Checked">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    审核人
+                                                </td>
+                                                <td>
+                                                    <label id="lblChecker">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    审核日期
+                                                </td>
+                                                <td>
+                                                    <label id="lblCheckedDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    报告打印
+                                                </td>
+                                                <td>
+                                                    <label id="lblIs_ReportPrinted">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    打印人
+                                                </td>
+                                                <td>
+                                                    <label id="lblReportPrinter">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    打印日期
+                                                </td>
+                                                <td>
+                                                    <label id="lblReportPrintedDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    是否通知
+                                                </td>
+                                                <td>
+                                                    <label id="lblIs_Informed">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    通知人
+                                                </td>
+                                                <td>
+                                                    <label id="lblInformer">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    通知日期
+                                                </td>
+                                                <td>
+                                                    <label id="lblInformedDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    是否领取
+                                                </td>
+                                                <td>
+                                                    <label id="lblIs_ReportReceipted">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    领取人
+                                                </td>
+                                                <td>
+                                                    <label id="lblReportReceiptor">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="title">
+                                                    领取日期
+                                                </td>
+                                                <td>
+                                                    <label id="lblReportReceiptedDate">
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 18px; background-color: #ececec; text-align: center; padding: 0px;">
+                                <div>
+                                    <img alt="隐藏或显示左右区域" direction="left" title="隐藏或显示左右区域" id="hidLeft" onclick="Toggerter(this);"
+                                        src="/template/blue/images/late_left.gif" style="cursor: pointer;" />
+                                </div>
+                            </td>
+                            <td style="vertical-align: top; text-align: left; padding: 0px;">
+                                <div id="tdRight" style="width: 642px; overflow: scroll; min-height: 450px;">
+                                    <table class="examtable" id="tblRightReportPrint" cellpadding="0" cellspacing="0"
+                                        border="1">
+                                        <thead id="FinalConclusionDataHeadInfo">
+                                            <tr>
+                                                <td colspan="7" class="previewReportline" style="text-align: center; font-size: 16px;">
+                                                    <label>
+                                                        分科检查信息</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="feeitemboder itemheaderclass">
+                                                <td class="feenameclass" class="width50">
+                                                    科室名称
+                                                </td>
+                                                <td class="width100">
+                                                    检查结果
+                                                </td>
+                                                <td class="examisexamclass width35">
+                                                    已检
+                                                </td>
+                                                <td class="examdoctorclass width50">
+                                                    录入人员
+                                                </td>
+                                                <td class="examdoctorclass width50">
+                                                    检查医生
+                                                </td>
+                                                <td class="examdateclass width80">
+                                                    检查时间
+                                                </td>
+                                                <td class="examisexamclass width35">
+                                                    已审
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CustExamSectionList">
+                                            <tr>
+                                                <td colspan="6">
+                                                    正在加载客户分检信息，请稍等...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody id="FinalConclusionDataBottomInfo">
+                                            <tr>
+                                                <td colspan="7" class="previewReportline" style="text-align: center; font-size: 16px;">
+                                                    总检信息
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <ul class="ConclusionTitleClass" style="padding: 0px;">
+                                                        <li class="selected" id="liConclusionFinalOverView" onclick="ShowHideFinalTextArea(1);">
+                                                            综述</li>
+                                                        <li id="liConclusionFinalConclusion" onclick="ShowHideFinalTextArea(2);">总检结论</li>
+                                                        <li id="liConclusionMainDiagnose" onclick="ShowHideFinalTextArea(4);">疾病诊断及建议</li>
+                                                        <li id="liConclusionIndicatorDiagnose" onclick="ShowHideFinalTextArea(8);">指标异常及建议</li>
+                                                         <li id="liConclusionOtherDiagnose" onclick="ShowHideFinalTextArea(9);">其它异常及建议</li>
+                                                        <li id="liConclusionResultCompare" onclick="ShowHideFinalTextArea(3);">结果对比</li>
+                                                        <li id="liConclusionFinalDietGuide" onclick="ShowHideFinalTextArea(5);">饮食建议</li>
+                                                        <li id="liConclusionFinalSportGuide" onclick="ShowHideFinalTextArea(6);">运动建议</li>
+                                                        <li id="liConclusionFinalHealthKnowlage" onclick="ShowHideFinalTextArea(7);">健康建议</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr id="trConclusionFinalOverView">
+                                                <td class="text_right" colspan="7">
+                                                    $!{htmlFinalOverView}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionFinalConclusion" style="display: none;">
+                                                    $!{htmlFinalConclusion}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionIndicatorDiagnose" style="display: none;">
+                                                    $!{htmlIndicatorDiagnose}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionOtherDiagnose" style="display: none;">
+                                                    $!{htmlOtherDiagnose}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionMainDiagnose" style="display: none;">
+                                                    $!{htmlMainDiagnose}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7" style="display: none; width: 760px; min-height: 300px; vertical-align: top;"
+                                                    id="trConclusionResultCompare">
+                                                    $!{ResultCompare}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionFinalDietGuide" style="display: none;">
+                                                    $!{htmlFinalDietGuide}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right" colspan="7" id="trConclusionFinalSportGuide" style="display: none;">
+                                                    $!{htmlFinalSportGuide}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="trConclusionFinalHealthKnowlage" style="display: none;" colspan="7">
+                                                    $!{htmlFinalHealthKnowlage}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text_right">
+                                                    总检医生：
+                                                </td>
+                                                <td colspan="6">
+                                                    <ul class="showlidata">
+                                                        #if($!{FinalDoctor} != "")
+                                                        <li style="width: 20%;">$!{FinalDoctor}</li>
+                                                        <li style="width: 20%;">总检时间：</li>
+                                                        <li style="width: 20%;">$!{FinalDate}</li>
+                                                        #else
+                                                        <li style="width: 20%;">$!{LoginUserModel.UserName}</li>
+                                                        <li style="width: 20%;">总检时间：</li>
+                                                        <li style="width: 20%;">$!{today}</li>
+                                                        #end
+                                                        <li style="width: 20%;">&nbsp;</li>
+                                                        <li style="width: 20%;">&nbsp;</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            #if($!{Checker} != "" && $!{Is_FinalFinished} != "True")
+                                            <tr>
+                                                <td class="text_right">
+                                                    审核状态：
+                                                </td>
+                                                <td colspan="6">
+                                                    <ul class="showlidata">
+                                                        <li style="width: 20%;">#if($!{Is_Checked} == "True") 通过审核 #else 未通过审核 #end</li>
+                                                        <li style="width: 20%;">审核人：</li>
+                                                        <li style="width: 20%;">$!{Checker}</li>
+                                                        <li style="width: 20%;">审核时间：</li>
+                                                        <li style="width: 20%;">$!{CheckedDate}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            #if($!{Is_Checked} == "False")
+                                            <tr>
+                                                <td class="text_right">
+                                                    拒绝理由：
+                                                </td>
+                                                <td colspan="6">
+                                                    $!{RefuseReason}
+                                                </td>
+                                            </tr>
+                                            #end #end
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    $!{HiddenInputQueryString}
+    <!-- 提示信息模版 -->
+    <table style="display: none;">
+        <tbody id="TipsInfoTemplate">
+            <tr>
+                <td colspan="14" style="text-align: center;">
+                    @TipsInfo
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 操作密级 -->
+    <input type="hidden" name="CustomerSecurityLevel" id="CustomerSecurityLevel" value="$!{CustomerSecurityLevel}" />
+    </form>
+</body>
+</html>

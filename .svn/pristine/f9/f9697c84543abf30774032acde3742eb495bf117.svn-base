@@ -1,0 +1,160 @@
+﻿
+/**---------------登录-开始--------------**/
+.bodylogin
+{
+    width: 100%;
+    background-image: url('../images/idx_02.png');
+    background-position: center 565px;
+    background-repeat: no-repeat;
+    background-color:#a2adbe;
+    overflow:hidden;
+}
+.bodylogin .top
+{
+    width: 952px;
+    height:110px;
+    background-image: url('../images/idx_01.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding-top:20px;
+    margin:0 auto;
+    text-align:center;
+    
+    
+}
+.bodylogin .content
+{
+    width: 100%;
+    height:439px;
+    background-image: url('../images/idx_03.png');
+    background-repeat: repeat-x;
+    background-color:#a2adbe;
+}
+
+.bodylogin .content .mainpic
+{
+    margin:0 auto;
+    width: 952px;
+    height:439px;
+    background-image: url('../images/mainpic_05.png');
+    background-repeat: no-repeat;
+    background-position:center;
+    position:relative;
+}
+
+.bodylogin .content .login-cont
+{
+    width: 380px;
+    height:300px;
+    background-image: url('../images/loginbg_03.png');
+    background-position: left top;
+    background-repeat: no-repeat;
+    overflow:hidden;
+    top:130px;
+    left:220px;
+    position:absolute;
+}
+
+.bodylogin .content .login-cont .username
+{
+    padding-top:85px;
+    padding-left:110px;
+}
+
+.bodylogin .content .login-cont .username input
+{
+    width: 220px;
+    height:32px;
+    line-height:32px;
+    background-image: url('../images/inpt_bg_03.png');
+    background-position:center;
+    background-repeat:no-repeat;
+    border:0;
+    background-color:transparent;
+    text-indent:8px;
+    font-size:16px;
+}
+
+.bodylogin .content .login-cont .userpassword
+{
+    padding-top:20px;
+    padding-left:110px;
+}
+
+.bodylogin .content .login-cont .userpassword input
+{
+    width: 220px;
+    height:32px;
+    line-height:32px;
+    background-image: url('../images/inpt_bg_03.png');
+    background-position:center;
+    background-repeat:no-repeat;
+    border:0;
+    background-color:transparent;
+    text-indent:8px;
+    font-size:16px;
+}
+
+.bodylogin .content .login-cont .tipsmessage 
+{
+    clear:both;
+    padding-top:3px;
+    height:20px;
+    line-height:20px;
+    padding-left:50px;
+    display:block;
+}
+
+.bodylogin .content .login-cont .tipsmessage span
+{
+    height:20px;
+    line-height:20px;
+    color:Red;
+    
+}
+
+
+.bodylogin .content .login-cont .loginbtn 
+{
+    padding-top:30px;
+    clear:both;
+}
+
+
+.bodylogin .content .login-cont .loginbtn .left
+{
+    float:left;
+    width:205px;
+    text-align:right;
+    padding-right:30px;
+}
+
+.bodylogin .content .login-cont .loginbtn .left a
+{
+    line-height:36px;
+    display:block;
+    overflow:hidden;
+}
+
+
+.bodylogin .content .login-cont .loginbtn .right
+{
+    float:left;
+    width:125px;
+}
+
+
+.bodylogin .content .login-cont .loginbtn  .right input
+{
+    width: 92px;
+    height:36px;
+    background-image: url('../images/btn_07.png');
+    border:0;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-color:transparent;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/**---------------登录-结束--------------**/

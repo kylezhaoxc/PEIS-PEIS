@@ -1,0 +1,833 @@
+﻿
+
+body
+{
+    background-color:transparent;
+    font-size: 12px;
+}
+
+.content, table, table td,.inputtitle
+{
+    font-size: 12px;
+    font-family: "宋体";
+    line-height:24px;
+}
+.content
+{
+    padding-top:30px;
+    padding-left:20px;
+}
+
+
+.inputtitle
+{
+    text-align:right;
+    padding-right:10px;
+}
+
+.inputtext span
+{
+    display:block;
+}
+.selExamItemList li
+{
+    line-height:22px;
+}
+
+
+.span10{ height:24px; width:10px;}
+.span20{ height:24px; width:20px;}
+.span30{ height:24px; width:30px;}
+.span40{ height:24px; width:40px;}
+.span50{ height:24px; width:50px;}
+.span60{ height:24px; width:60px;}
+.span70{ height:24px; width:70px;}
+.span80{ height:24px; width:80px;}
+.span90{ height:24px; width:90px;}
+.span100{ height:24px; width:100px;}
+.span110{ height:24px; width:110px;}
+.span120{ height:24px; width:120px;}
+.span130{ height:24px; width:130px;}
+.span140{ height:24px; width:140px;}
+.span150{ height:24px; width:150px;}
+.span160{ height:24px; width:160px;}
+.span170{ height:24px; width:170px;}
+.span180{ height:24px; width:180px;}
+
+.span240{ height:24px; width:240px;}
+
+/************快速选择科室，结论词 选中后的效果************/
+.QuickSelectedItem,.QuickSelectedItem a,.QuickSelectedItem a:hover,
+#spanSelectConclusionType,#spanSelectSection,#spanSelectSpecimen,#spanSelectICD10,
+#spanSelectConclusionType a,#spanSelectSection a,#spanSelectSpecimen a,#spanSelectICD10 a,
+#spanSelectConclusionType a:hover,#spanSelectSection a:hover,#spanSelectSpecimen a:hover ,#spanSelectICD10 a:hover
+{
+    color:blue;
+}
+
+
+.ArcCustMergeLeft
+{
+    width:250px; 
+    height:320px;
+    padding-top:10px; 
+    float:left; 
+    border:1px solid #d1d1d1;
+}
+
+.ArcCustMergeRight
+{
+    width:250px; 
+    height:320px; 
+    padding-top:10px; 
+    float:right; 
+    border:1px solid #d1d1d1;
+}
+
+
+.ArcCustMergeCenter
+{
+    width:110px; 
+    height:320px; 
+    padding-left:10px; 
+    padding-top:10px; 
+    text-align:center; 
+    vertical-align:middle; 
+    float:left; 
+}
+
+.CustInfoLeft
+{
+    width:160px;
+    overflow:hidden;
+    float:left;
+}
+.CustInfoRight
+{
+    width:50px;
+    border:1px solid #ececec;
+    overflow:hidden;
+    float:left;
+    padding:10px;
+    height:50px;
+}
+.custinfo
+{
+    width:100%;
+    clear:both;
+}
+.custinfo .cleft
+{
+    float:left;
+    width:70px;
+    text-align:right;
+}
+
+.custinfo .cright
+{
+    float:left;
+    text-align:left;
+    padding-left:6px;
+}
+.custinfo .custname
+{
+    width:80px;
+    overflow:hidden;
+}
+.CustomerIDListHead
+{
+    margin-top:10px;
+    height:30px;
+    line-height:30px;
+    border-top:1px solid #efefef;
+    width:248px;
+    text-align:center;
+    font-weight:bold;
+    clear:both;
+}
+
+.CustomerIDList 
+{
+    width:238px;
+    padding-left:10px;
+    padding-top:10px;
+    border-top:1px solid #dcdcdc;
+    height:170px;
+    overflow:scroll;
+    clear:both;
+    display:block;
+}
+.CustomerIDList .one 
+{
+    line-height:20px;
+    width:160px;
+    clear:both;
+}
+
+.CustomerIDList .one span
+{
+    float:left;
+    padding-right:10px;
+}
+
+
+
+
+
+
+
+
+/**************************按钮样式**** start *****************/
+
+
+.btn-common
+{
+	width:90px;
+	height:24px;
+	line-height:24px;
+	padding-left:14px;
+	border:0px;
+	overflow:hidden;
+	cursor:pointer;
+}
+
+.btn-tjdb
+{
+    height:27px  !important;
+    width:75px  !important;
+	background:url(../images/Fkduibi-ico.png) left top no-repeat;
+	background-position:0px 0px;
+	color:White;
+	}
+.btn-tjdb:hover
+{
+    height:27px  !important;
+    width:75px  !important;
+	background:url(../images/Fkduibi-ico.png) left top no-repeat;
+	background-position:0px -27px;
+	color:White;
+	}
+
+.btn-dzj,.btn-dzj-s
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:0px 0px;
+	}
+.btn-dzj:hover,.btn-dzj-s:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:0px -25px;
+	}
+.btn-wzj
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-82px 0px;
+	}
+.btn-wzj:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-82px -25px;
+	}
+.btn-bd,.btn-yl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-164px 0px;
+	}
+.btn-bd:hover,.btn-yl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-164px -25px;
+	}
+.btn-wc,.btn-qd
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-232px 0px;
+	}
+.btn-wc:hover,.btn-qd:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-232px -25px;
+	}
+.btn-tj,.btn-tj-s,.btn-tjsh
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-300px 0px;
+	}
+.btn-tj:hover,.btn-tj-s:hover,.btn-tjsh:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-300px -25px;
+	}
+.btn-sc,.btn-sc-s,.btn-qc
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-368px 0px;
+	}
+.btn-sc:hover,.btn-sc-s:hover,.btn-qc:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-368px -25px;
+	}
+.btn-zk
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-436px 0px;
+	}
+.btn-zk:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-436px -25px;
+	}
+.btn-cx,.btn-cx-s
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-504px 0px;
+	}
+.btn-cx:hover,.btn-cx-s:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-504px -25px;
+	}
+.btn-sf
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-572px 0px;
+	}
+.btn-sf:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-572px -25px;
+	}
+.btn-sq
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-640px 0px;
+	}
+.btn-sq:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-640px -25px;
+	}
+.btn-bc-s
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-708px 0px;
+	}
+.btn-bc-s:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-708px -25px;
+	}
+.btn-tf
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-776px 0px;
+	}
+.btn-tf:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-776px -25px;
+	}
+.btn-bl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-844px 0px;
+	}
+.btn-bl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-844px -25px;
+	}
+.btn-drmd
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-912px 0px;
+	}
+.btn-drmd:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-912px -25px;
+	}
+.btn-qcmd
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1004px 0px;
+	}
+.btn-qcmd:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1004px -25px;
+	}
+.btn-xzmb
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1096px 0px;
+	}
+.btn-xzmb:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1096px -25px;
+	}
+.btn-fz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1188px 0px;
+	}
+.btn-fz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1188px -25px;
+	}
+.btn-sctjh
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1256px 0px;
+	}
+.btn-sctjh:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1256px -25px;
+	}
+.btn-pltz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1360px 0px;
+	}
+.btn-pltz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1360px -25px;
+	}
+.btn-pllq
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:0px -51px;
+	}
+.btn-pllq:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:0px -76px;
+	}
+.btn-szlqr
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-92px -51px;
+	}
+.btn-szlqr:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-92px -76px;
+	}
+.btn-ddbg
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-196px -51px;
+	}
+.btn-ddbg:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-196px -76px;
+	}
+.btn-hz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-288px -51px;
+	}
+.btn-hz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-288px -76px;
+	}
+.btn-fkjs
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-356px -51px;
+	}
+.btn-fkjs:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-356px -76px;
+	}
+.btn-tjsh
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-448px -51px;
+	}
+.btn-tjsh:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-448px -76px;
+	}
+.btn-bgyl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-540px -51px;
+	}
+.btn-bgyl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-540px -76px;
+	}
+.btn-pz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-632px -51px;
+	}
+.btn-pz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-632px -76px;
+	}
+.btn-sx
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-700px -51px;
+	}
+.btn-sx:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-700px -76px;
+	}
+.btn-xz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-768px -51px;
+	}
+.btn-xz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-768px -76px;
+	}
+.btn-fsxx
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-836px -51px;
+	}
+.btn-fsxx:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-836px -76px;
+	}
+.btn-jm
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-928px -51px;
+	}
+.btn-jm:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-928px -76px;
+	}
+.btn-jclq
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-996px -51px;
+	}
+.btn-jclq:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-996px -76px;
+	}
+.btn-qx
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1088px -51px;
+	}
+.btn-qx:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1088px -76px;
+	}
+.btn-cf
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1156px -51px;
+	}
+.btn-cf:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1156px -76px;
+	}
+.btn-dc
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1224px -51px;
+	}
+.btn-dc:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1224px -76px;
+	}
+.btn-bcbgb
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1292px -51px;
+	}
+.btn-bcbgb:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1292px -76px;
+	}
+.btn-bcbjx
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-0px -101px;
+	}
+.btn-bcbjx:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-0px -126px;
+	}
+.btn-mxgl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-104px -101px;
+	}
+.btn-mxgl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-104px -126px;
+	}
+.btn-qs
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-196px -101px;
+	}
+.btn-qs:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-196px -126px;
+	}
+.btn-qh
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-264px -101px;
+	}
+.btn-qh:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-264px -126px;
+	}
+.btn-gl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-332px -101px;
+	}
+.btn-gl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-332px -126px;
+	}
+.btn-cshmm
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-400px -101px;
+	}
+.btn-cshmm:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-400px -126px;
+	}
+.btn-jcxmgl
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-504px -101px;
+	}
+.btn-jcxmgl:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-504px -126px;
+	}
+.btn-qccwcs
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-620px -101px;
+	}
+.btn-qccwcs:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-620px -126px;
+	}
+.btn-khmd
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-736px -101px;
+	}
+.btn-khmd:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-736px -126px;
+	}
+.btn-plsc
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-828px -101px;
+	}
+.btn-plsc:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-828px -126px;
+	}
+.btn-plxz
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-920px -101px;
+	}
+.btn-plxz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-920px -126px;
+	}
+.btn-tyzk
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1012px -101px;
+	}
+.btn-tyzk:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1012px -126px;
+	}
+
+.btn-cxy
+{
+    padding-left:25px;
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1104px -101px;
+	}
+.btn-cxy:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1104px -126px;
+	}
+.btn-csgtz
+{
+    padding-left:25px;
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1184px -101px;
+	}
+.btn-csgtz:hover
+{
+	background:url(../images/anniu-bg.gif) left top no-repeat;
+	background-position:-1184px -126px;
+	}
+
+.button30{ width:30px !important; overflow:hidden;}
+.button35{ width:35px !important; overflow:hidden;}
+.button40{ width:40px !important; overflow:hidden;}
+.button45{ width:45px !important; overflow:hidden;}
+.button50{ width:50px !important; overflow:hidden;}
+.button55{ width:55px !important; overflow:hidden;}
+.button60{ width:60px !important; overflow:hidden;}
+.button65{ width:65px !important; overflow:hidden;}
+.button70{ width:70px !important; overflow:hidden;}
+.button75{ width:75px !important; overflow:hidden;}
+.button80{ width:80px !important; overflow:hidden;}
+.button85{ width:88px !important; overflow:hidden;}
+.button90{ width:90px !important; overflow:hidden;}
+.button95{ width:95px !important; overflow:hidden;}
+.button100{ width:100px !important; overflow:hidden;}
+.button105{ width:105px !important; overflow:hidden;}
+.button110{ width:110px !important; overflow:hidden;}
+.button115{ width:115px !important; overflow:hidden;}
+.button120{ width:120px !important; overflow:hidden;}
+.button125{ width:125px !important; overflow:hidden;}
+.button130{ width:130px !important; overflow:hidden;}
+.button135{ width:135px !important; overflow:hidden;}
+.button140{ width:140px !important; overflow:hidden;}
+.button145{ width:145px !important; overflow:hidden;}
+.button150{ width:150px !important; overflow:hidden;}
+.button155{ width:155px !important; overflow:hidden;}
+.button160{ width:160px !important; overflow:hidden;}
+.button165{ width:165px !important; overflow:hidden;}
+.button170{ width:170px !important; overflow:hidden;}
+.button185{ width:175px !important; overflow:hidden;}
+        
+
+
+/**************************按钮样式**** end *****************/
+
+
+
+.btnsure
+{
+    width:58px !important;
+    height:23px !important;
+    border:none !important;
+    color:#fff !important;
+    float:none  !important;
+    background:url(../images/Layer-icobg.png) bottom center no-repeat  !important;
+    }
+.btnclose
+{
+    width:58px !important;
+    height:23px !important;
+    border:none !important;
+    color:#000 !important;
+    float:none  !important;
+    background:url(../images/Layer-icobg.png) top center no-repeat  !important;
+ }
+.btnsure:hover
+{
+    width:58px !important;
+    height:23px !important;
+    border:none !important;
+    color:#fff !important;
+    font-weight:bold;
+    cursor:pointer;
+    background:url(../images/Layer-icobg.png) bottom center no-repeat;
+    }
+.btnclose:hover
+{
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+.QuickQueryList
+{
+    width:450px; 
+    position:absolute; 
+    border:1px solid #ccc; 
+    background-color:White; 
+    margin-top:-8px;  
+    display:none;
+    }
+
+
+.QuickQueryListHeader
+{
+    width:100%;
+    height:24px !important; 
+    line-height:24px !important;
+    background:url(../images/zjxz-jlc-nr-left-table-bg.jpg) top repeat-x;
+    }
+.QuickQueryListHeader th
+{
+    border-right:1px solid #f1f1f1;
+    border-bottom:1px solid #f1f1f1;
+    text-align:left;
+    padding-left:5px !important;
+    }
+.QuickQueryListContent
+{
+    line-height:24px !important;
+    }
+.QuickQueryListContent td
+{
+    border-right:1px solid #f1f1f1;
+    border-bottom:1px solid #f1f1f1;
+    padding-left:5px !important;
+    text-align:left;/*xmhuang 新增快速检索td内容为居中显示*/
+    }
+    
+.QuickQueryListButton
+{
+     width:100%; height:30px; line-height:30px; text-align:center; background-color:#fafafa;
+     
+    }
+    
+#form1 table td
+{
+    line-height:24px !important;
+}

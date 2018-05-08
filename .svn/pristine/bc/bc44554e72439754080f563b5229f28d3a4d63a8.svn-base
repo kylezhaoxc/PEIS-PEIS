@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle} </title>
+    <script src="$!{templatepath}/js/JS_CustomerManage.js" type="text/javascript"></script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>姓名：</span> <span class="search-2">
+                    <input type="text" id='txtCustomerName' placeholder=" " style="width: 68px;" />
+                </span><span>&nbsp;&nbsp;性别：</span> <span class="span-margin-top" style="margin-right: 5px;">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slSex">
+                            <option value="-1">----</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;&nbsp;出生日期：</span> <span class="search-3" style="margin-left: 0px;">
+                    <input type="text" id="txtBirthday" name="txtBirthday" onclick="WdatePicker()" />
+                </span><span>&nbsp;&nbsp;证件号：</span> <span class="search">
+                    <input type="text" class="width150" id='txtSFZ' placeholder=" " />
+                    <a href="javascript:void(0);" title="查询(F4)" onclick="return RegistListSearch();">
+                        </a>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearch"
+                    onclick="return RegistListSearch();">查询</a></span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 80px" />
+                            <col style="width: 15%" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 7%" />
+                            <col style="width: 7%" />
+                            <col style="width: 15%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                头像
+                            </th>
+                            <th>
+                                证件号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                年龄
+                            </th>
+                            <th>
+                                婚姻
+                            </th>
+                            <th>
+                                民族
+                            </th>
+                            <th>
+                                出生日期
+                            </th>
+                            <th>
+                                联系方式
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="349"
+                    data-min="300" style="overflow: auto;">
+                    <table id="Searchresult" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 80px" />
+                            <col style="width: 15%" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 7%" />
+                            <col style="width: 7%" />
+                            <col style="width: 15%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="content">
+            <!--客户档案模板 Begin-->
+            <div id="divTemplate">
+                <div id="CustomerManageTempLate" style="display: none;">
+                    <table class="tblCustomerBaseInfo" id="@ID_ArcCustomer">
+                        <tbody>
+                            <tr title="双击修改[@CustomerName]基本信息" targeturl="/System/Admin/CustomerManageOper.aspx?ID_ArcCustomer=@ID_ArcCustomer&CustomerName=@CustomerName&IDCard=@IDCard&BirthDay=@BirthDay&Gender=@Gender&MobileNo=@MobileNo"
+                                ondblclick="OpenCustomerManage(this,'修改[@CustomerName]基本信息');">
+                                <td>
+                                    @RowNum
+                                </td>
+                                <td class="DialogPhotoTipsArea" src="@Base64Photo" customername="@CustomerName">
+                                    <div class="box">
+                                        <img id="HeadImg" name="HeadImg" width="23" height="28" src="@Base64Photo" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <label id="lblIDCard" name="lblIDCard">
+                                        @IDCard</label>
+                                </td>
+                                <td class="project-align-left">
+                                    <label id="lblCustomerName" name="lblCustomerName">
+                                        @CustomerName</label>
+                                </td>
+                                <td>
+                                    <label id="lblSex" name="lblSex">
+                                        @GenderName</label>
+                                </td>
+                                <td>
+                                    <label id="lblAge" name="lblAge">
+                                        @age</label>
+                                    岁
+                                </td>
+                                <td>
+                                    <label id="lblMarriageName" name="lblMarriageName">
+                                        @MarriageName</label>
+                                </td>
+                                <td>
+                                    <label id="lblNation" name="lblNation">
+                                        @NationName</label>
+                                </td>
+                                <td>
+                                    <label id="lblBirthDay" name="lblBirthDay">
+                                        @BirthDay</label>
+                                </td>
+                                <td>
+                                    <label id="lblTel" name="lblTel">
+                                        @MobileNo</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--客户档案模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+    </div>
+</body>
+</html>

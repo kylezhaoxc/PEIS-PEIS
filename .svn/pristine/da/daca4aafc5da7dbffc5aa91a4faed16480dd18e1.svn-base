@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+<script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+<title>数据字典-套餐维护</title>
+</head>
+<body>
+
+  	<div class="center">
+
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span>套餐：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input type="text" class="span150" onfocus="this.select();" 
+                        onkeydown="if(IsEnterKeyDown() == true) { SetKeywordsSearch();}" 
+                        id="txtSearchSetKeyword" name="txtSearchSetKeyword" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+                
+            </div>
+        	<div class="oper-bg">
+            
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"  id="btnSearch" onclick="SetKeywordsSearch();">查询</a></span>
+                <span class="buttom-sq float-right" title="修改" onclick="OpenEditSetItemWindow();"><a href="javascript:void(0);">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"  onclick="OpenSetItemOperWindow();" ><a href="javascript:void(0);">新增</a></span>
+
+            </div>
+   	    </div>
+
+        <div class="project">
+            <div class="project-center QueryListNoDataTips">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+            <td style="width:50%">
+            	<div class="Package-table-left">
+                	<div class="Package-table-left-title">套餐列表</div>
+                    <div class="tablesubtitle">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                          
+                            <colgroup>
+                    	        <col style="width:35px" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:35%" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:7%" />
+                    	        <col style="width:10%" />
+                            </colgroup>
+
+                          
+                          <tr class="project-center-lb1-list">
+                            <th>&nbsp;</th>
+                            <th>序号</th>
+                            <th>套餐名称</th>
+                            <th>男</th>
+                            <th>女</th>
+                            <th>禁用</th>
+                            <th>排序号</th>
+                            <th>输入码</th>
+                          </tr>
+                    </table>
+                    </div>
+                    <div class="j-autoHeight QueryListDataAutoHeight" data-left="291" data-min="50" style="overflow:auto; width:100%;">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" >
+                    
+                            <colgroup>
+                    	        <col style="width:35px" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:35%" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:35px" />
+                    	        <col style="width:7%" />
+                    	        <col style="width:10%" />
+                            </colgroup>
+                            <tbody id='Searchresult'>
+                                
+                            </tbody>
+
+                         </table>
+                         </div>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                          <tr>
+                            <td>
+                                <div class="paging paging-xz" id="Pagination">
+                                    <div class="paging-left"></div>
+                                    <div class="paging-center">
+                                        <ul >
+                                        </ul>
+                                    </div>
+                                    <div class="paging-right"></div>
+                                </div>
+                            </td>
+                          </tr>
+                        </table>
+                     </div>
+            </td>
+            <td style="width:50%; overflow:hidden;">
+            	<div class="Package-table-right">
+                	<div class="Package-table-right-title" id="SetItemName">套餐明细</div>
+                    <div class="tablesubtitle">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" >
+                      
+                      <colgroup>
+                    	    <col style="width:35px" />
+                    	    <col style="width:50%" />
+                    	    <col style="width:18%" />
+                    	    <col style="width:12%" />
+                        </colgroup>
+
+                      <tr class="project-center-lb1-list">
+                        <th>序号</th>
+                        <th>收费名称</th>
+                        <th>隶属科室</th>
+                        <th>价格</th>
+                        <th>禁用</th>
+                      </tr>
+                    </table>
+                    </div>
+                    <div class="j-autoHeight QueryListDataAutoHeight QueryListNoDataTips" data-left="291" data-min="50" style="overflow:auto; width:100%;">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                    
+                      <colgroup>
+                    	    <col style="width:35px" />
+                    	    <col style="width:50%" />
+                    	    <col style="width:18%" />
+                    	    <col style="width:12%" />
+                      </colgroup>
+                      
+                      <tbody id='FeeExamList'>
+                    
+                      </tbody>
+
+                     </table>
+                    </div>
+                    <div class="Package-table-right-bottom">
+                    	<span class="Package-table-right-bottom-xmsl" id="FeeItemCount">&nbsp;</span>
+                		<span class="buttom-mxgl Package-table-right-bottom-ann"  title="明细管理"><a href="javascript:void(0);" onclick="OpenSetFeeRelOperWindow();" >明细管理</a></span>
+                    </div>
+                </div>
+            </td>
+            </tr>
+            </table>
+            </div>
+        </div>
+
+    
+    
+    <!--查询列表模板-->
+    <script type="text/plain" id="SetPagesListItemTemplete">
+        <tr onclick="GetFeeListBySet('@PEPackageID');" 
+            ondblclick="OpenEditSetItemWindow();" id="trSet_@PEPackageID" >
+        <td><input id="rdi_Set_@PEPackageID" value="@PEPackageID"  title="" type="radio" setname="@PEPackageName" name='SetRadio' /></td>
+        <td>@RowNum</td>
+        <td class="project-align-left" id="PEPackageName_@PEPackageID" title="@PEPackageName"><div class="nowrap" style="width:100%;">@PEPackageName</div></td>
+        <td id="Forsex01_@PEPackageID">@Forsex01</td>
+        <td id="Forsex00_@PEPackageID">@Forsex00</td>
+        <td id="Is_Banned_@PEPackageID">@Is_Banned</td>
+        <td id="DispOrder_@PEPackageID">@DispOrder</td>
+        <td class="project-align-left" id="InputCode_@PEPackageID" title="@InputCode"><div class="nowrap" style="width:100%;">@InputCode</div></td>
+        </tr>
+    </script>
+        
+    <!--查询列表模板-->
+    <script type="text/plain" id="FeeListItemTemplete">
+            
+        <tr  onclick="SetFeeRadioSelect('@ID_Fee');"
+            ondblclick="OpenSetFeeRelOperWindow();" >
+        <td>@RowNum<span style="display:none;"><input id="rdi_Fee_@ID_Fee" type="radio" value="@ID_Fee" name='FeeRadio' /></span></td>
+        <td class="project-align-left" id="FeeName_@ID_Fee" title="@FeeName"><div class="nowrap" style="width:100%;">@FeeName</div></td>
+        <td class="project-align-left" id="SectionName_@ID_Fee" title="@SectionName"><div class="nowrap" style="width:100%;">@SectionName</div></td>
+        <td class="project-align-right" id="Price_@ID_Fee">@Price</td>
+        <td></td>
+        </tr>
+    </script>
+        
+    <!--查询列表模板-->
+    <script type="text/plain" id="SectionQuickQueryTableTemplete">
+        <tr onclick="SetSectionChecked('@ID_Section')">
+            <td>
+            <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                value="@ID_Section"
+                SectionName="@SectionName"  />
+            </td>
+            <td>@SectionName</td>
+            <td>@InputCode</td>
+        </tr>
+    </script>
+        
+    <!--查询列表模板-->
+    <script type="text/plain" id="EmptySectionQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+        </tr>
+    </script>
+        
+        
+    <!--查询列表模板-->
+    <script type="text/plain" id="SecectedSectionLableTemplete">
+        <div class='selected'><a title="删除" href="javascript:void(0);" onclick="RemoveSelectedSection();"> × </a> @SectionName </div>
+    </script>
+
+
+</body>
+
+
+    <script type="text/javascript">
+
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+           // jQuery(".QueryListDataAutoHeight").attr("data-left", (401 + jQuery("#ShowUserMenuDiv").height()));
+            //jQuery(".QueryListFrameAutoHeight").attr("data-left", (200 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+        });
+
+
+        /// <summary>
+        /// 按照关键字搜索
+        /// </summary>
+        function SetKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+            var SearchSetKeyword = jQuery('#txtSearchSetKeyword').val();      // 检查项目关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchSetKeyword: SearchSetKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchSetList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        //jQuery("#SetItemCount").html(" 【共有 " + msg.totalCount + " 个套餐】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SetPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            newcontent += templateContent
+                                        .replace(/@RowNum/gi, RowNum)
+                                        .replace(/@PEPackageID/gi, item.PEPackageID)
+                                        .replace(/@PEPackageName/gi, item.PEPackageName)
+                                        .replace(/@InputCode/gi, item.InputCode)
+                                        .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                                        .replace(/@BanDate/gi, item.Is_Banned == 'True' ? item.BanDate : ' ')
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@CreateDate/gi, item.CreateDate)
+                                        .replace(/@DispOrder/gi, item.DispOrder)
+                                        .replace(/@BanDescribe/gi, item.Is_Banned == 'True' ? item.BanDescribe : ' ');
+
+                            RowNum++;
+
+                            // 记录第一个收费项目的ID
+                            if (tempFirstItemID == 0) {
+                                tempFirstItemID = item.PEPackageID;
+                            }
+
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                            // 自动读取第一行对应的套餐的收费项目
+                            if (tempFirstItemID != 0) { GetFeeListBySet(tempFirstItemID); }
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                        //jQuery("#SetItemCount").html(" 【共有 0 个套餐】");
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 获取修改或新增的单条套餐的数据
+        /// </summary>
+        function GetSingleBusSet(PEPackageID, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { PEPackageID: PEPackageID,
+                    action: 'GetSingleBusSet',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+
+                        var templateContent = jQuery('#SetPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            if (type == "edit") {
+                                var tmpCurrEditID = item.PEPackageID;
+
+                                ShowModifyTableListInfo("PEPackageName_" + tmpCurrEditID, item.PEPackageName);
+                                ShowModifyTableListInfo("InputCode_" + tmpCurrEditID, item.InputCode);
+                                ShowModifyTableListInfo("BanDescribe_" + tmpCurrEditID, item.Is_Banned == 'True' ? item.BanDescribe : ' ');
+
+                                jQuery("#Forsex00_" + item.PEPackageID).html(Forsex00);
+                                jQuery("#Forsex01_" + item.PEPackageID).html(Forsex01);
+                                jQuery("#Is_Banned_" + item.PEPackageID).html(item.Is_Banned == 'True' ? '√' : '');
+
+                                jQuery("#BanDate_" + item.PEPackageID).html(item.Is_Banned == 'True' ? item.BanDate : ' ');
+                                jQuery("#CreateDate_" + item.PEPackageID).html(item.CreateDate);
+                                jQuery("#DispOrder_" + item.PEPackageID).html(item.DispOrder);
+
+                            } else {
+
+                                newcontent +=
+                                     templateContent.replace(/@PEPackageID/gi, item.PEPackageID)
+                                        .replace(/@RowNum/gi, "&nbsp;")
+                                        .replace(/@PEPackageName/gi, item.PEPackageName)
+                                        .replace(/@InputCode/gi, item.InputCode)
+                                        .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                                        .replace(/@BanDate/gi, item.Is_Banned == 'True' ? item.BanDate : "")
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@CreateDate/gi, item.CreateDate)
+                                        .replace(/@DispOrder/gi, item.DispOrder)
+                                        .replace(/@BanDescribe/gi, item.Is_Banned == 'True' ? item.BanDescribe : ' ');
+
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                                SetTableEvenOddRowStyle(); // 奇偶行背景
+                            }
+
+                        });
+                    } else {
+
+                        jQuery("#FeeExamList").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+
+    </script>
+
+
+
+</html>

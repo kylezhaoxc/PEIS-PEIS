@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>总审通过客户列表</title><title>报告预览</title>
+    <link href="$!{templatepath}/css/Css_RegistOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserName = "${UserName}"; //登记人
+        var ID_User = "${ID_User}"; //登记人
+    </script>
+    <script src="$!{templatepath}/js/JS_ReportPrint.js" type="text/javascript">
+    </script>
+</head>
+<form onkeyup="OnFormKeyUp();">
+<body>
+    <div class="fkx-title">
+        <div class="fkx-title-bt">
+            报告打印</div>
+        <span class="CurrentTime"></span>
+        <div class="fkx-title-fh">
+            <a href="javascript:void(0);" onclick="LoadDefaultPage();">返回>></a></div>
+    </div>
+    <div class="center">
+        <!--模板区域 Begin-->
+        <div style="display: none;">
+            <!--待打印模版 Begin-->
+            <table id="TemplateReportView">
+                <tbody>
+                    <tr is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted" is_informed="@Is_Informed"
+                        is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted">
+                        <td>
+                            <input name="ItemCheckbox" type="checkbox" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td>
+                            <label name="lblID_Customer">
+                                @ID_Customer</label>
+                        </td>
+                        <td class="project-align-left" title="@CustomerName">
+                            <div class="nowrap" style="width: 60px;">
+                                @CustomerName</div>
+                            <label name="lblCustomerName" style="display: none;">
+                                @CustomerName</label>
+                        </td>
+                        <td>
+                            <label name="lblGenderName">
+                                @GenderName</label>
+                        </td>
+                        <td>
+                            <label name="lbldate">
+                                @date</label>
+                        </td>
+                        <td class="project-align-left" title="@TeamName">
+                            <div class="nowrap" style="width: 200px;">
+                                @TeamName</div>
+                            <label name="lblTeamName" style="display: none;">
+                                @TeamName</label>
+                        </td>
+                        <td class="project-align-left" title="@Checker">
+                            <div class="nowrap" style="width: 60px;">
+                                @Checker</div>
+                            <label name="lblChecker" style="display: none;">
+                                @Checker</label>
+                        </td>
+                        <td>
+                            <label name="lblCheckedDate">
+                                @CheckedDate</label>
+                            <label style="display: none;" name="lblID_ExamType">
+                                @ID_ExamType</label>
+                            <label style="display: none;" name="lblExamTypeName">
+                                @ExamTypeName</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--体检报告预览模版 End-->
+            <!--体检报告待打印模版 Begin-->
+            <table id="TemplateReportPrintView">
+                <tbody>
+                    <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                        is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted">
+                        <td>
+                            <input name="ItemCheckbox" type="checkbox" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td>
+                            <label name="lblID_Customer">
+                                @ID_Customer</label>
+                        </td>
+                        <td class="project-align-left" title="@CustomerName">
+                            <div class="nowrap" style="width: 60px;">
+                                @CustomerName</div>
+                            <label name="lblCustomerName" style="display: none;">
+                                @CustomerName</label>
+                        </td>
+                        <td>
+                            <label name="lblGenderName">
+                                @GenderName</label>
+                        </td>
+                        <td>
+                            <label name="lbldate">
+                                @date</label>
+                        </td>
+                        <td class="project-align-left" title="@TeamName">
+                            <div class="nowrap" style="width: 200px;">
+                                @TeamName</div>
+                            <label name="lblTeamName" style="display: none;">
+                                @TeamName</label>
+                        </td>
+                        <td class="project-align-left" title="@Checker">
+                            <div class="nowrap" style="width: 60px;">
+                                @Checker</div>
+                            <label name="lblChecker" style="display: none;">
+                                @Checker</label>
+                        </td>
+                        <td>
+                            <label name="lblCheckedDate">
+                                @CheckedDate</label>
+                            <label style="display: none;" name="lblID_ExamType">
+                                @ID_ExamType</label>
+                            <label style="display: none;" name="lblExamTypeName">
+                                @ExamTypeName</label>
+                        </td>
+                        <td>
+                            <a style="color: Green;" href="javascript:void(0);" onclick="RemovePrintReport(this);"
+                                title="点击移除该项">×</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--体检报告待打印模版 End-->
+            <!--参数输出 Begin-->
+            $!{HiddenInputQueryString}
+            <!--参数输出 End-->
+        </div>
+        <!--模板区域 End-->
+        <!--查询区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div> <div class="oper-right">
+            </div><div class="oper-bg1">
+                 <span>体检号：</span> <span class="search">
+                    <input type="text" name="textfield" id="txtCustomerID" onfocus="this.select();" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                        style="width: 120px;" /><a href="javascript:void(0);" title="查询(F4)" onclick="AutoGetCustomerReport();">
+                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+            </div>
+            <div class="oper-bg">
+               
+                    <span class="buttom-tj-s" title="新增"><a href="javascript:void(0);" onclick="AutoGetCustomerReport();">
+                    新增</a></span> <span class="buttom-sc-s" title="移除"><a href="javascript:void(0);"
+                        onclick="RemoveAllPrintReport();">移除</a></span> <span id="readyPrint" class="buttom-yl"
+                            title="打印"><a href="javascript:void(0);" onclick="PrintReport();">打印</a></span>
+               <span id="readyPrintCover" class="buttom-ddbg" title="打印封面"><a
+                            href="javascript:void(0);" onclick="PrintReport(1);">打印封面</a></span>
+                <span id="waitPrint" class="buttom-ddbg" title="待打报告"><a href="javascript:void(0);"
+                    onclick="CommonShowHideDialog('showDialog');">待打报告</a></span>
+            </div>
+           
+        </div>
+        <!--查询区域 End-->
+        <!--打印列表 Begin-->
+        <div class="project">
+            <div class="project-center" id="bzz">
+                <div>
+                    <table id="customerScrollTitle" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                           <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 13%" />
+                            <col style="width: 9%" />
+                            <col style="width: 5%" />
+                            <col style="width: 9%" />
+                            <col style="width: 30%" />
+                            <col style="width: 9%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input title="全选" id="chbCanPrintReport" type="checkbox" onclick='checkAll(this,"tblRightReportPrint");' />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                出生日期
+                            </th>
+                            <th>
+                                单位名称
+                            </th>
+                            <th>
+                                总审医生
+                            </th>
+                            <th>
+                                总审时间
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight" data-left="132" data-min="200" data-extra="40" style="overflow: auto;
+                    background-color: White;">
+                    <table id="tblRightReportPrint" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                              <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 13%" />
+                            <col style="width: 9%" />
+                            <col style="width: 5%" />
+                            <col style="width: 9%" />
+                            <col style="width: 30%" />
+                            <col style="width: 9%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--打印列表 End-->
+        <!--待打印列表 Begin-->
+        <div class="reportdiv" id="showDialog" style="display: none; height: auto;">
+            <div class="reportdiv-title">
+                <div class="reportdiv-title-l">
+                </div>
+                <div class="reportdiv-title-b">
+                    <div id="WaitPrint" class="reportdiv-title-total">
+                        <div class="reportdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>待打报告</strong>
+                        </div>
+                        <div class="reportdiv-title-off">
+                            <a href="javascript:void(0);" onclick="CommonShowHideDialog('showDialog');"></a>
+                        </div>
+                        <div class="reportdiv-title-fenge">
+                        </div>
+                    </div>
+                    <div class="reportdiv-letool-total">
+                        <label class="checkbox">
+                            <span>
+                                <input id="printReportAll" type="radio" name="printReportRadio" value="all" checked="checked"
+                                    onclick="SelectPrintReport(this,'all');" />全部</span>
+                        </label>
+                        <label class="checkbox">
+                            <span>
+                                <input id="printReportRadioSelf" type="radio" name="printReportRadio" value="self"
+                                    onclick="SelectPrintReport(this,'self');" />个人</span></label>
+                        <label class="checkbox">
+                            <span>
+                                <input id="printReportRadioTeam" type="radio" name="printReportRadio" value="team"
+                                    onclick="SelectPrintReport(this,'team');" />团体 &nbsp; </span>
+                        </label>
+                        . <span id="slTeam" style="display: none; margin-top: 4px;" class="search-ttmc">
+                            <div class="copydiv-letool-total-input1-l">
+                            </div>
+                            <div class="copydiv-letool-total-input1-ttmc-sele">
+                                <span id="spanTeam">
+                                    <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                                    <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                        id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                        onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                        value="" style="border: 0px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                            -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                                × </a></span>
+                                <div>
+                                    <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                                    <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                                    <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                        width: 400px;">
+                                        <div>
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                                <colgroup>
+                                                    <col style="width: 30px" />
+                                                    <col style="width: 250px" />
+                                                </colgroup>
+                                                <tr>
+                                                    <th nowrap="nowrap">
+                                                        &nbsp;
+                                                    </th>
+                                                    <th nowrap="nowrap">
+                                                        团体
+                                                    </th>
+                                                    <th nowrap="nowrap">
+                                                        输入码
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div style="max-height: 200px; width: auto; overflow: auto">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                                <colgroup>
+                                                    <col style="width: 30px" />
+                                                    <col style="width: 250px" />
+                                                </colgroup>
+                                                <tbody id="QuickQueryTeamTableData">
+                                                    <tr>
+                                                        <td colspan="3" style="text-align: center;">
+                                                            未找到团体，请重新输入...&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="QuickQueryListButton">
+                                            <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                                value=" 关  闭 " />
+                                            <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                                value=" 确  定 " />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="copydiv-letool-total-input1-r">
+                            </div>
+                        </span><span class="buttom-wc buttom-wc-fz-cccc" title="添加"><a href="javascript:void(0);"
+                            onclick="AppendToRight();">添加</a></span>
+                    </div>
+                </div>
+                <div class="reportdiv-title-r">
+                </div>
+            </div>
+            <div class="reportdiv-center">
+                <div class="reportdiv-center-l">
+                </div>
+                <div class="reportdiv-center-b">
+                    <div class="reportdiv-center-div-table">
+                        <div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 35px" />
+                                    <col style="width: 130px" />
+                                    <col style="width: 70px" />
+                                    <col style="width: 45px" />
+                                    <col style="width: 90px" />
+                                    <col style="width: 210px" />
+                                    <col style="width: 70px" />
+                                </colgroup>
+                                <tr class="project-center-lb1-list">
+                                    <th>
+                                        <input title="全选" id="chbPrintReport" type="checkbox" onclick='checkAll(this,"tblLeftReportPrint");' />
+                                    </th>
+                                    <th>
+                                        序号
+                                    </th>
+                                    <th>
+                                        体检号
+                                    </th>
+                                    <th>
+                                        姓名
+                                    </th>
+                                    <th>
+                                        性别
+                                    </th>
+                                    <th>
+                                        出生日期
+                                    </th>
+                                    <th>
+                                        单位名称
+                                    </th>
+                                    <th>
+                                        总审医生
+                                    </th>
+                                    <th>
+                                        总审时间
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="overflow: auto; height: 328px">
+                            <table id="tblLeftReportPrint" width="100%" border="0" cellspacing="0" cellpadding="0"
+                                class="stripe">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 35px" />
+                                    <col style="width: 130px" />
+                                    <col style="width: 70px" />
+                                    <col style="width: 45px" />
+                                    <col style="width: 90px" />
+                                    <col style="width: 210px" />
+                                    <col style="width: 70px" />
+                                </colgroup>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                            <tr>
+                                <td>
+                                    <div class="reportdiv-paging" id="Pagination">
+                                        <div class="paging-left">
+                                        </div>
+                                        <div class="paging-center">
+                                            <ul>
+                                            </ul>
+                                        </div>
+                                        <div class="paging-right">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="reportdiv-center-r">
+                </div>
+            </div>
+            <div class="reportdiv-bottom">
+                <div class="reportdiv-bottom-l">
+                </div>
+                <div class="reportdiv-bottom-b">
+                </div>
+                <div class="reportdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--待打印列表 End-->
+    </div>
+</body>
+</form>
+</html>
+<script type="text/javascript" language="javascript">
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+
+    //团体点击回调函数 xmhuang 2014-04-07
+    function TeamCallBack() {
+
+        tempOperPageCount = 0;
+        QueryPagesData(0);
+
+    }
+</script>

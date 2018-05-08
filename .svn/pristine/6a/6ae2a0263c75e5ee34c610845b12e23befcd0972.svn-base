@@ -1,0 +1,1017 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>报告预览</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <link href="$!{templatepath}/css/Css_RegistOper.css" rel="stylesheet" type="text/css" />
+</head>
+<form onkeyup="OnFormKeyUp();">
+<body>
+    <div style="display: none;">
+        <!--体检报告通知模版 Begin-->
+        <table id="TemplateReportView">
+            <tbody>
+                <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted" id_customer="@ID_Customer"
+                    idcard="@IDCard">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td class="project-align-left" title="@CustomerName">
+                        <div class="nowrap" style="width: 100%;">
+                            @CustomerName</div>
+                        <label name="lblCustomerName" style="display: none;">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td style="display: none;">
+                        <label name="lblIDCard">
+                            @IDCard</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td class="project-align-left" title="@MobileNo">
+                        <div class="nowrap" style="width: 100%;">
+                            @MobileNo</div>
+                        <label name="lblMobileNo" style="display: none;">
+                            @MobileNo</label>
+                    </td>
+                    <td class="project-align-left" title="@TeamName">
+                        <div class="nowrap" style="width: 100%;">
+                            @TeamName</div>
+                        <label name="lblTeamName" style="display: none;">
+                            @TeamName</label>
+                    </td>
+                    <td class="project-align-left" title="@ReportPrinter">
+                        <div class="nowrap" style="width: 100%;">
+                            @ReportPrinter</div>
+                        <label name="lblReportPrinter" style="display: none;">
+                            @ReportPrinter</label>
+                    </td>
+                    <td>
+                        <label name="lblReportPrintedDate">
+                            @ReportPrintedDate</label>
+                    </td>
+                    <td>
+                        <a onclick="SingleInforCustomer(this);" href="javascript:void(0);" style="color: Green;">
+                            通知</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告通知模版 End-->
+        <!--体检报告领取模版 Begin-->
+        <table id="TemplateReportViewX">
+            <tbody>
+                <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted" id_customer="@ID_Customer"
+                    idcard="@IDCard">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td>
+                        本人<input type="checkbox" name="ItemCheckbox_Selft" onclick="ChangeSelf(this);" />
+                        <input maxlength="30" name="txtSelf" style="width: 120px;" type="text" />
+                    </td>
+                    <td>
+                        <a style="color: Green;" href="javascript:void(0);" onclick="SingleReceiptCustomer(this);">
+                            领取</a>
+                    </td>
+                    <td>
+                        <label name="lblIDCard">
+                            @IDCard</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblMobileNo">
+                            @MobileNo</label>
+                    </td>
+                    <td class="project-align-left">
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblInformer">
+                            @Informer</label>
+                    </td>
+                    <td>
+                        <label name="lblInformedDate">
+                            @InformedDate</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告领取模版 End-->
+    </div>
+    <div class="fkx-title">
+        <div class="fkx-title-bt">
+            报告通知</div>
+        <span class="CurrentTime"></span>
+        <div class="fkx-title-fh">
+            <a href="javascript:void(0);" onclick="LoadDefaultPage();">返回>></a></div>
+    </div>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检/证件号：</span> <span class="search">
+                    <input type="text" name="textfield" name="txtCustomerID" id="txtCustomerID" onfocus="this.select();"
+                        onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                    <a href="javascript:void(0);" title="查询(F4)" onclick="AutoGetCustomerReport();">
+                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" onclick="AutoGetCustomerReport();">
+                    查询</a></span> <span class="buttom-pltz" title="批量通知" id="btnInformer"><a href="javascript:void(0);"
+                        onclick="InforCustomer();">批量通知</a></span> <span class="buttom-pltz" id="btnReceipt"
+                            title="批量领取"><a href="javascript:void(0);" onclick="ReceiptCustomer();" onclick="InforCustomer();">
+                                批量领取</a></span> <span id="btnSetReceipter" class="buttom-pltz" title="设置领取人"><a href="javascript:void(0);"
+                                    onclick="BatchSetReceipter(this);" value="设置领取人">设置领取人</a></span>
+                &nbsp;
+                <label class="checkbox">
+                    <span>
+                        <input id="printReportAll" type="radio" name="printReportRadio" value="all" checked="checked"
+                            onclick="SelectPrintReport(this,'all');" />全部</span>
+                </label>
+                <label class="checkbox">
+                    <span>
+                        <input id="printReportRadioSelf" type="radio" name="printReportRadio" value="self"
+                            onclick="SelectPrintReport(this,'self');" />个人</span></label>
+                <label class="checkbox">
+                    <span>
+                        <input id="printReportRadioTeam" type="radio" name="printReportRadio" value="team"
+                            onclick="SelectPrintReport(this,'team');" />团体 &nbsp; </span>
+                </label>
+                <span id="slTeam" style="display: none;" class="search-ttmc">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele">
+                        <span id="spanTeam">
+                            <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border: 0px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span>
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 5%" />
+                            <col style="width: 9%" />
+                            <col style="width: 9%" />
+                            <col style="width: 20%" />
+                            <col style="width: 8%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input title="全选" id="chbCanInformedReport" type="checkbox" onclick='commonCheckAll(this);' />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                出生日期
+                            </th>
+                            <th>
+                                联系电话
+                            </th>
+                            <th>
+                                单位名称
+                            </th>
+                            <th>
+                                打印人
+                            </th>
+                            <th>
+                                打印时间
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="j-autoHeight" data-left="208" data-min="300"   style="overflow: auto;">
+                    <table id="tbReportInformer" style="width: 100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 5%" />
+                            <col style="width: 9%" />
+                            <col style="width: 9%" />
+                            <col style="width: 20%" />
+                            <col style="width: 8%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        $!{HiddenInputQueryString}</div>
+</body>
+</form>
+</html>
+<script language="javascript" type="text/javascript">
+    /****************报告通知和领取公用脚本模块  Begin***********************/
+    var tempOperPageCount = 0;
+    var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+    var editTitle = "点击进行修改"; //编辑提示
+    var modelName = jQuery.trim(jQuery("#modelName").val());
+    var TemplateName = "";
+    /*******设置页面元素的显示和隐藏 Begin*******/
+    if (modelName != null) {
+        //报告通知
+        if (modelName.toLowerCase() == "informer") {
+            jQuery("#btnReceipt").hide();
+            jQuery("#btnInformer").show();
+            jQuery("#btnSetReceipter").hide(); //xmhuang 2013-11-01 隐藏批量设置领取人
+            TemplateName = "TemplateReportView";
+
+        }
+        //报告领取
+        if (modelName.toLowerCase() == "receipt") {
+            jQuery("#btnInformer").hide();
+            jQuery("#btnReceipt").show();
+            jQuery("#btnSetReceipter").show(); //xmhuang 2013-11-01 显示批量设置领取人 暂时屏蔽此功能
+            TemplateName = "TemplateReportViewX";
+        }
+        var TemplateTeamTaskGroupFeeContent = ReadTemplateTeamTaskGroup(TemplateName);
+        var templateContent = TemplateTeamTaskGroupFeeContent.teamTaskGroupListTheadTempleteContent;
+        jQuery('#tbReportInformer thead').html(templateContent);
+    }
+    /*******设置页面元素的显示和隐藏 End*******/
+    /// <summary>
+    ///文档加载完毕事件
+    /// </summary>
+    jQuery(document).ready(function () {
+        // SwitchHeader(99); // 隐藏头部
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+        jQuery("#txtCustomerID").focus();
+        QueryPagesData(0);
+    });
+
+    /****************************已审核列表分页绑定 Begin******************************/
+    function pageselectCallback(page_index, jq) {
+
+        if (tempOperPageCount > 0) {
+            tempOperPageCount++;
+            QueryPagesData(page_index);
+        }
+        tempOperPageCount++;
+
+        return false;
+    }
+    /// <summary>
+    /// 获取查询类型 全部：0 个人：1 团体：2
+    ///TemplateTeamTaskGroupID:模版ID
+    /// </summary>
+    function GetSearchType() {
+        this.SearchType = 0;
+        this.ID_Team = jQuery('#idSelectTeam').val();
+        var SearchType = 0;
+        if (document.getElementById("printReportAll").checked) {
+            this.SearchType = 0;
+        }
+        else if (document.getElementById("printReportRadioSelf").checked) {
+            this.SearchType = 1;
+        }
+        else if (document.getElementById("printReportRadioTeam").checked) {
+            this.SearchType = 2;
+            //获取团体ID
+        }
+
+    }
+    function QueryPagesData(pageIndex) {
+        var ID_Customer = jQuery.trim(jQuery("#txtCustomerID").val());
+        optInit = getOptionsFromForm05();
+        //判断是全部、团体还是个人
+        var Search = new GetSearchType();
+        var modelName = jQuery("#modelName").val();
+        var totalCount = 0;
+        var optInit;
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxReportPreview.aspx",
+            data: { ID_Customer: ID_Customer, SearchType: Search.SearchType, ID_Team: Search.ID_Team, modelName: modelName, pageIndex: pageIndex, pageSize: pagePagination05.items_per_page, action: 'GetInformerOrReceiptReport' },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (parseInt(msg.totalCount) > 0) {
+                    jQuery("#Pagination").show();
+                    if (tempOperPageCount == 0) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                    }
+                    else if (tempOldtotalCount != msg.totalCount) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                    }
+                    tempOldtotalCount = msg.totalCount;
+                    var rowNum = 1;
+                    if (pageIndex > 0) {
+                        rowNum = optInit.items_per_page * (pageIndex) + 1;
+                    }
+                    var TemplateTeamTaskGroupFeeContent = ReadTemplateTeamTaskGroup(TemplateName);
+                    var teamTaskGroupFeeListTheadTempleteContent = TemplateTeamTaskGroupFeeContent.teamTaskGroupListTheadTempleteContent;
+                    var templateContent = TemplateTeamTaskGroupFeeContent.teamTaskListBodyTempleteContent;
+                    var Is_Team = 0;
+                    var newContent = '';
+                    jQuery(msg.dataList).each(function (i, item) {
+                        Is_Team = item.TeamName == "" ? 0 : 1;
+                        if (templateContent != null) {
+                            newContent += templateContent.replace(/@ID_Customer/gi, item.ID_Customer)
+                                    .replace(/@CustomerName/gi, item.CustomerName)
+                                    .replace(/@GenderName/gi, item.GenderName)
+                                    .replace(/@date/gi, item.date)
+
+                                    .replace(/@TeamName/gi, item.TeamName)
+
+                                    .replace(/@Checker/gi, DisplayLitterLetter(item.Checker, 5, "..."))
+                                    .replace(/@TitleChecker/gi, item.Checker)
+
+                                    .replace(/@CheckedDate/gi, item.CheckedDate)
+                                    .replace(/@ReportPrinter/gi, item.ReportPrinter)
+
+                                    .replace(/@ReportPrintedDate/gi, item.ReportPrintedDate)
+                                    .replace(/@Is_Checked/gi, item.Is_Checked)
+                                    .replace(/@Is_ReportPrinted/gi, item.Is_ReportPrinted)
+                                    .replace(/@Is_Informed/gi, item.Is_Informed)
+                                    .replace(/@Is_ReportReceipted/gi, item.Is_ReportReceipted)
+                                    .replace(/@FinalDoctor/gi, item.FinalDoctor)
+                                    .replace(/@FinalDoctor/gi, item.FinalDoctor)
+                                    .replace(/@FinalDate/gi, item.FinalDate)
+                                    .replace(/@Department/gi, item.Department)
+                                    .replace(/@Informer/gi, item.Informer)
+                                    .replace(/@InformedDate/gi, item.InformedDate)
+                                    .replace(/@ReportReceiptor/gi, item.ReportReceiptor)
+                                    .replace(/@ReportReceiptedDate/gi, item.ReportReceiptedDate)
+                                    .replace(/@checked/gi, true)
+                                    .replace(/@Is_Team/gi, Is_Team)
+                                    .replace(/@IDCard/gi, item.IDCard)
+
+                                    .replace(/@MobileNo/gi, item.MobileNo)
+
+                                    .replace(/@RowNum/gi, rowNum); ;
+                            rowNum++;
+
+                        }
+                    });
+                    if (newContent != '') {
+                        jQuery('#tbReportInformer tbody').html(newContent);
+                        SetTableRowStyle();
+                        /*为了防止出错，这里屏蔽掉默认勾选功能 xmhuang 20140508*/
+                        //document.getElementById("chbCanInformedReport").checked = true;
+                        //commonCheckAll(document.getElementById("chbCanInformedReport"));
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                } else {
+                    jQuery('#tbReportInformer tbody').html("");
+                    jQuery("#Pagination").hide();
+                }
+            }
+        });
+    }
+    /****************************已审核列表分页绑定 end******************************/
+    /// <summary>
+    /// 表单KeyUp事件
+    ///e：Event参数
+    /// </summary>
+    function OnFormKeyUp(e) {
+        var curEvent = window.event || e;
+        var id = document.activeElement.id;
+        if (curEvent.keyCode == 13)//回车事件
+        {
+            //如果是在搜索中
+            if (id == "txtCustomerID") {
+                AutoGetCustomerReport();
+            }
+            else if (id == "txtReceipterX")//xmhuang 2013-11-01 批量设置领取人
+            {
+                DoSetReceipter();
+                CloseDialogWindow();
+            }
+        }
+    }
+
+    /*******页面事件 End*******/
+
+    /// <summary>
+    /// 读取指定模版
+    ///TemplateTeamTaskGroupID:模版ID
+    /// </summary>
+    function ReadTemplateTeamTaskGroup(TemplateTeamTaskGroupID) {
+        //默认是读取tblTemplateTeamTaskList模版填充到tblTeamTask中显示
+        if (TemplateTeamTaskGroupID == "" || TemplateTeamTaskGroupID == undefined) {
+            TemplateTeamTaskGroupID = "TemplateReportView";
+        }
+        var teamTaskGroupListContent = ""; //团体任务分组table内容
+        var teamTaskGroupListTheadTempleteContent = jQuery('#' + TemplateTeamTaskGroupID + ' thead').html(); //团体任务模版Thead部分
+        var teamTaskListBodyTempleteContent = jQuery('#' + TemplateTeamTaskGroupID + ' tbody').html(); //团体任务模版body部分
+        this.teamTaskGroupListTheadTempleteContent = teamTaskGroupListTheadTempleteContent;
+        this.teamTaskListBodyTempleteContent = teamTaskListBodyTempleteContent;
+        return this;
+    }
+
+    /// <summary>
+    ///移除勾选的元素
+    ///obj:元素ID，这里主要是Table元素的ID值
+    ///key:关键字标识，这里主要是Table元素的ID值
+    /// </summary>
+    function SelectPrintReport(obj, key) {
+        //点击全部
+        if (key == "all") {
+            jQuery("#s2id_slTeam").hide();
+            jQuery("#slTeam").hide();
+
+        }
+        //点击个人
+        else if (key == "self") {
+            jQuery("#s2id_slTeam").hide();
+            jQuery("#slTeam").hide();
+        }
+        //点击团体
+        else if (key == "team") {
+            jQuery("#s2id_slTeam").show(); //显示团体下拉框 Is_CanSelect
+            //jQuery("#slTeam").select2();
+            jQuery("#slTeam").show();
+        }
+        jQuery("#lblErrorMessage").empty();
+        tempOperPageCount = 0;
+
+        QueryPagesData(0);
+    }
+
+    /// <summary>
+    ///移除勾选的元素
+    ///obj:元素ID，这里主要是Table元素的ID值
+    /// </summary>
+    function ResetRownum() {
+        var index = 1;
+        jQuery("#tbReportInformer tbody tr td label[name='lblRowNum']").each(function () {
+            jQuery(this).text(index);
+            index++;
+
+        });
+    }
+    /// <summary>
+    ///扫描体检号
+    ///ID_Customer:ID_Customer
+    ///</summary>
+    function AutoGetCustomerReport() {
+
+        var ID_Customer = jQuery.trim(jQuery("#txtCustomerID").val());
+        var IsCustomer = isCustomerExamNo(ID_Customer);
+        if (!IsCustomer && (ID_Customer.length != 15 && ID_Customer.length != 18)) {
+            ShowSystemDialog("对不起，请您输入正确的体检号/证件号！");
+            return false;
+        }
+        var newContent = "";
+        var findObj = "";
+        //判断体检号是否相同
+        //    jQuery("#tbReportInformer tbody tr td label[name='lblID_Customer']").each(function () {
+        //        
+        //        if (jQuery.trim(jQuery(this).text()) == ID_Customer || jQuery.trim(jQuery(this).parent().find("lable[name='lblIDCard']").text()) == ID_Customer) {
+        //            newContent += jQuery(this).parent().parent()[0].outerHTML;
+        //            jQuery(this).parent().parent().remove();
+        //        } else {
+        //            jQuery(this).parent().parent().removeClass("externSelect");
+        //        }
+        //    });
+        jQuery("#tbReportInformer tbody tr").removeClass("externSelect");
+        //判断体检号是否相同
+        if (IsCustomer) {
+            findObj = jQuery("#tbReportInformer tbody tr[id_customer='" + ID_Customer + "']");
+            if (jQuery(findObj).length > 0) {
+                newContent += jQuery(findObj)[0].outerHTML;
+                jQuery(findObj).remove();
+            }
+            else {
+                jQuery(findObj).removeClass("externSelect");
+            }
+        }
+        //判断证件号是否相同
+        else {
+            findObj = jQuery("#tbReportInformer tbody tr[idcard='" + ID_Customer + "']");
+            if (jQuery(findObj).length > 0) {
+                newContent += jQuery(findObj)[0].outerHTML;
+                jQuery(findObj).remove();
+            }
+            else {
+                jQuery(findObj).removeClass("externSelect");
+            }
+        }
+        if (newContent != "") {
+            jQuery("#tbReportInformer tbody").prepend(newContent);
+            jQuery("#tbReportInformer tbody tr").first().addClass("externSelect");
+            jQuery("#tbReportInformer tbody tr").first().find("[name='ItemCheckbox']").attr('checked', "checked");
+        }
+        else {
+            LoadCustomer(ID_Customer, IsCustomer); //新增身份证检索功能
+        }
+        ResetRownum();
+        jQuery("#txtCustomerID").val("");
+        jQuery("#txtCustomerID").focus();
+        SetTableRowStyle();
+    }
+    /// <summary>
+    ///从服务器加载体检号对应信息
+    ///ID_Customer:ID_Customer xmhuang 2013-11-09 新增身份证检索功能
+    ///</summary>
+    function LoadCustomer(ID_Customer, IsCustomer) {
+
+        var IDCard = "";
+        if (!IsCustomer) {
+            IDCard = ID_Customer;
+            ID_Customer = "";
+        }
+        var modelName = jQuery("#modelName").val();
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxReportPreview.aspx",
+            data: { IDCard: IDCard, ID_Customer: ID_Customer, modelName: modelName, pageIndex: 0, pageSize: pagePagination.items_per_page, action: 'GetInformerOrReceiptReport' },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (parseInt(msg.totalCount) > 0) {
+                    var TemplateTeamTaskGroupFeeContent = ReadTemplateTeamTaskGroup(TemplateName);
+                    var templateContent = TemplateTeamTaskGroupFeeContent.teamTaskListBodyTempleteContent;
+                    var index = 1, Is_Team = 0;
+                    var newContent = '';
+                    jQuery(msg.dataList).each(function (i, item) {
+                        if (jQuery('#tbReportInformer tbody tr[id_customer="' + item.ID_Customer + '"]').length == 0) {
+                            Is_Team = item.TeamName == "" ? 0 : 1;
+                            newContent += templateContent.replace(/@ID_Customer/gi, item.ID_Customer)
+                                    .replace(/@RowNum/gi, index)
+                                    .replace(/@CustomerName/gi, item.CustomerName)
+                                    .replace(/@GenderName/gi, item.GenderName)
+                                    .replace(/@date/gi, item.date)
+                                    .replace(/@TeamName/gi, item.TeamName)
+                                    .replace(/@Checker/gi, item.Checker)
+                                    .replace(/@CheckedDate/gi, item.CheckedDate)
+                                    .replace(/@ReportPrinter/gi, item.ReportPrinter)
+                                    .replace(/@ReportPrintedDate/gi, item.ReportPrintedDate)
+                                    .replace(/@Is_Checked/gi, item.Is_Checked)
+                                    .replace(/@Is_ReportPrinted/gi, item.Is_ReportPrinted)
+                                    .replace(/@Is_Informed/gi, item.Is_Informed)
+                                    .replace(/@Is_ReportReceipted/gi, item.Is_ReportReceipted)
+                                    .replace(/@FinalDoctor/gi, item.FinalDoctor)
+                                    .replace(/@FinalDoctor/gi, item.FinalDoctor)
+                                    .replace(/@FinalDate/gi, item.FinalDate)
+                                    .replace(/@Department/gi, item.Department)
+                                    .replace(/@Informer/gi, item.Informer)
+                                    .replace(/@InformedDate/gi, item.InformedDate)
+                                    .replace(/@ReportReceiptor/gi, item.ReportReceiptor)
+                                    .replace(/@ReportReceiptedDate/gi, item.ReportReceiptedDate)
+                                    .replace(/@RowNum/gi, index)
+                                    .replace(/@checked/gi, true)
+                                     .replace(/@Is_Team/gi, Is_Team)
+                                        .replace(/@IDCard/gi, item.IDCard)
+                                     .replace(/@MobileNo/gi, item.MobileNo)
+                                    ;
+                            index++;
+                        }
+
+                    });
+                    if (newContent != '') {
+                        jQuery('#tbReportInformer tbody').prepend(newContent);
+                        jQuery("#tbReportInformer tbody tr").first().addClass("externSelect");
+                        jQuery("#tbReportInformer tbody tr").first().find("[name='ItemCheckbox']").attr('checked', "checked");
+                        ResetRownum();
+                        SetTableRowStyle();
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+                else {
+                    ShowSystemDialog("对不起，您查询的体检号不存在或者您没有权限查看此体检号的相关信息！");
+                    return false;
+                }
+            }
+        });
+    }
+    function SingleInforCustomer(obj) {
+        var ID_Customer = "", ID_Customers = "", CustomerName = "";
+        if (jQuery(obj).parent().parent().is(":visible") == true) {
+            ID_Customer = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblID_Customer']").text());
+            ID_Customers += "'" + ID_Customer + "',";
+            CustomerName = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblCustomerName']").text());
+            art.dialog.tips("(正在通知[" + CustomerName + "]前来领取体检报告...)", 0.5);
+            //jQuery("#lblErrorMessage").text("(正在通知[" + CustomerName + "]前来领取体检报告...)");
+
+            //jQuery("#lblErrorMessage").text("(已完成[" + CustomerName + "]体检报告领取通知。)");
+            art.dialog.tips("(已完成[" + CustomerName + "]体检报告领取通知。)", 0.5);
+            jQuery(obj).parent().parent().remove();
+        }
+        if (ID_Customers != "") {
+            DoInforCustomer(ID_Customers);
+            ResetRownum();
+        }
+    }
+    /// <summary>
+    ///批量通知
+    ///</summary>
+    function InforCustomer() {
+        if (jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").length == 0) {
+            //jQuery("#lblErrorMessage").text("(您尚未选择需要通知的客户名单！)");
+            ShowSystemDialog("您尚未选择需要通知的客户名单！");
+            return false;
+        }
+        else {
+            var tips = "";
+            var ID_Customer = "", ID_Customers = "", CustomerName = "";
+            //var lblErrorMessage
+            jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").each(function () {
+                //判断当前元素是否是隐藏的
+                if (jQuery(this).parent().parent().is(":visible") == true) {
+                    ID_Customer = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblID_Customer']").text());
+                    ID_Customers += "'" + ID_Customer + "',";
+                    CustomerName = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblCustomerName']").text());
+                    //                jQuery("#lblErrorMessage").text("(正在通知[" + CustomerName + "]前来领取体检报告...)");
+
+                    //                jQuery("#lblErrorMessage").text("(已完成[" + CustomerName + "]体检报告领取通知。)");
+                    jQuery(this).parent().parent().remove();
+                    tips += CustomerName + ",";
+                }
+            });
+            if (ID_Customers != "") {
+                DoInforCustomer(ID_Customers);
+                if (tips.length > 0) {
+                    art.dialog.tips("已完成[" + tips.substr(0, tips.length - 1) + "]体检报告领取通知！", 2);
+                }
+            }
+        }
+    }
+    function DoInforCustomer(ID_Customers) {
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxReportPreview.aspx",
+            data: { ID_Customers: ID_Customers, modelName: modelName, action: 'UpdateCustomerReportInformFlag' },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (msg.success == 1) {
+                    //jQuery("#lblErrorMessage").text("(通知完毕。)");
+                    //判断列表中是否有未通知的项目，没有了则重新绑定数据，有则不做任何处理
+                    if (jQuery("#tbReportInformer tbody tr").length == 0) {
+                        QueryPagesData(0);
+                    }
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    ///单项领取
+    ///</summary>
+    function SingleReceiptCustomer(obj) {
+        //判断是否是本人
+        var ID_Customer = "", ID_Customers = "", CustomerName = "", CustomerNameX = "";
+        var AllData = "", IsChecked = 0;
+        ID_Customer = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblID_Customer']").text());
+        CustomerName = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblCustomerName']").text());
+        CustomerNameX = jQuery.trim(jQuery(obj).parent().parent().find("td input[name='txtSelf']").val());
+        ID_Customers += "'" + ID_Customer + "',";
+        if (jQuery(obj).parent().parent().find("td input[name='ItemCheckbox_Selft']").attr("checked") == "checked") {
+            IsChecked = 1;
+            jQuery(obj).parent().parent().find("td input[name='txtSelft']").val(CustomerName);
+        }
+        else {
+            IsChecked = 0;
+
+            if (CustomerNameX == "") {
+                //jQuery("#lblErrorMessage").text("请您填写[" + CustomerName + "]的领取人！");
+                art.dialog.tips("请您填写[" + CustomerName + "]的领取人！", 2);
+                jQuery(obj).parent().parent().find("td input[name='txtSelf']").focus();
+                return false;
+            }
+        }
+        CustomerName = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblCustomerName']").text());
+        AllData += ID_Customer + "-" + IsChecked + "-" + CustomerNameX + "-" + CustomerName + "|";
+        //    jQuery("#lblErrorMessage").text("(正在领取[" + CustomerName + "]的体检报告...)");
+        //    jQuery("#lblErrorMessage").text("(已完成[" + CustomerName + "]体检报告的领取。)");
+        jQuery(obj).parent().parent().remove();
+        if (AllData != "") {
+            DoReceiptCustomer(AllData);
+        }
+    }
+    /// <summary>
+    ///批量领取,领取时需要修改体检者存档信息中的已完成体检次数和未完成体检次数
+    ///</summary>
+    function ReceiptCustomer() {
+        if (jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").length == 0) {
+            //jQuery("#lblErrorMessage").text("(您尚未选择需要通知的客户名单！)");
+            ShowSystemDialog("对不起，请您选择需要通知的客户名单！");
+            return false;
+        }
+        else {
+            var ID_Customer = "", ID_Customers = "", CustomerName = "", CustomerNameX = "";
+            var AllData = "", IsChecked = 0;
+            //var lblErrorMessage
+            jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").each(function () {
+                //判断当前元素是否是隐藏的
+                if (jQuery(this).parent().parent().is(":visible") == true) {
+                    CustomerName = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblCustomerName']").text());
+                    CustomerNameX = jQuery.trim(jQuery(this).parent().parent().find("td input[name='txtSelf']").val());
+                    ID_Customer = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblID_Customer']").text());
+                    ID_Customers += "'" + ID_Customer + "',";
+                    if (jQuery(this).parent().parent().find("td input[name='ItemCheckbox_Selft']").attr("checked") == "checked") {
+                        IsChecked = 1;
+                    }
+                    else {
+                        IsChecked = 0;
+                        if (CustomerNameX == "") {
+                            //jQuery("#lblErrorMessage").text("请您填写[" + CustomerName + "]的报告领取人！");
+                            art.dialog.tips("请您填写[" + CustomerName + "]的报告领取人！", 0.5);
+                            jQuery(this).parent().parent().find("td input[name='txtSelf']").focus();
+                            return false;
+                        }
+                    }
+
+                    if (IsChecked == 1) {
+                        CustomerNameX = CustomerName;
+                    }
+                    else {
+                        CustomerNameX = jQuery.trim(jQuery(this).parent().parent().find("td input[name='txtSelf']").val());
+                    }
+
+                    AllData += ID_Customer + "-" + IsChecked + "-" + CustomerNameX + "-" + CustomerName + "|";
+                    //                jQuery("#lblErrorMessage").text("(正在领取[" + CustomerName + "]的体检报告...)");
+                    //                jQuery("#lblErrorMessage").text("(已完成[" + CustomerName + "]体检报告的领取。)");
+                    jQuery(this).parent().parent().remove();
+                }
+            });
+            if (AllData != "") {
+                DoReceiptCustomer(AllData);
+            }
+        }
+    }
+    function DoReceiptCustomer(AllData) {
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxReportPreview.aspx",
+            data: { AllData: AllData, modelName: modelName, action: 'UpdateCustomerReportReceiptFlag' },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (msg.success == 1) {
+                    //jQuery("#lblErrorMessage").text("(领取完毕。)");
+                    //判断列表中是否有未通知的项目，没有了则重新绑定数据，有则不做任何处理
+                    if (jQuery("#tbReportInformer tbody tr").length == 0) {
+                        QueryPagesData(0);
+                    }
+                    ResetRownum();
+                }
+            }
+        });
+    }
+
+
+    function ChangeSelf(obj) {
+
+        var ParentTr = jQuery(obj).parent().parent();
+        var Checked = obj.checked;
+        if (Checked == true) {
+            var CustomerName = jQuery.trim(jQuery(ParentTr).find("td label[name='lblCustomerName']").text());
+            jQuery(obj).siblings("input[name='txtSelf']").val(CustomerName);
+            jQuery(obj).siblings("input[name='txtSelf']").attr("readonly", true);
+        }
+        else {
+            jQuery(obj).siblings("input[name='txtSelf']").val("");
+            jQuery(obj).siblings("input[name='txtSelf']").attr("readonly", false);
+            jQuery(obj).siblings("input[name='txtSelf']").focus();
+            jQuery(obj).siblings("input[name='txtSelf']").select();
+        }
+    }
+    /****************报告通知和领取公用脚本模块 End***********************/
+
+    /****************批量设置领取人 xmhuang 2013-11-01 Begin***********************/
+    var OldReceipter = ""; //上一次批量领取人的名称
+    /// <summary>
+    /// 批量设置领取人 xmhuang 2013-11-01 应需求，由于团体领取人可能只是团体负责人统一领取，特提供批量设置领取人功能来设置领取人
+    /// </summary>
+    function BatchSetReceipter(obj) {
+        if (jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").length == 0) {
+            ShowSystemDialog("对不起，请您选择需要" + obj.value + "的客户名单！");
+            return false;
+        }
+        else {
+            //弹出设置界面
+            OpenSetReceipter();
+        }
+    }
+    /// <summary>
+    /// 生成批量设置领取人界面
+    /// </summary>
+    function OpenSetReceipter() {
+        var tipscontent = '<table class="ModifyPassword">' +
+            '<tbody>' +
+            '    <tr><td class="left">领取人：</td><td><input maxlength="30" name="txtReceipterX" id="txtReceipterX" value="' + OldReceipter + '" onkeyup="OnFormKeyUp();"/></td></tr>' +
+            '</tbody>' +
+            '</table>';
+        art.dialog({
+            id: 'OperWindowFrame',
+            content: tipscontent,
+            lock: true,
+            fixed: true,
+            opacity: 0.3,
+            title: '批量设置领取人',
+            init: function () {
+                jQuery("#txtReceipterX").focus();
+                if (OldReceipter != "")
+                { jQuery("#txtReceipterX").select(); }
+
+            },
+            button: [{
+                name: '确定',
+                callback: function () {
+                    var ISSetReceipter = DoSetReceipter(); //生成自定义证件号
+                    return ISSetReceipter;
+                }, focus: true
+            }, {
+                name: '取消'
+            }]
+        });
+    }
+    /// <summary>
+    /// 执行批量设置领取人
+    /// </summary>
+    function DoSetReceipter() {
+        //判断是否填写领取人
+        var Receipter = jQuery.trim(jQuery("#txtReceipterX").val());
+        if (Receipter == "") {
+            //        art.dialog({
+            //            content: '对不起，请您输入领取人姓名！',
+            //            ok: function () {
+            //                jQuery("#txtReceipterX").focus();
+            //                return true;
+            //            }
+            //        });
+            //        return false;
+        }
+        OldReceipter = Receipter;
+        //统一设置已勾选的领取人
+        jQuery("#tbReportInformer tbody tr td input[name='ItemCheckbox']:checked").each(function () {
+            //判断当前元素是否是隐藏的
+            if (jQuery(this).parent().parent().is(":visible") == true) {
+                jQuery(this).parent().parent().find("td input[name='txtSelf']").val(Receipter);
+            }
+        });
+    }
+    /****************批量设置领取人 xmhuang 2013-11-01 End***********************/
+
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+
+    //团体点击回调函数 xmhuang 2014-04-07
+    function TeamCallBack() {
+        var value = jQuery('#idSelectTeam').val();
+        var curTeamName = jQuery('#nameSelectTeam').val();
+        jQuery("#tbReportInformer tbody tr td label[name='lblTeamName']").each(function () {
+            if (jQuery.trim(jQuery(this).text()) == curTeamName) {
+                jQuery(this).parent().parent().show();
+            }
+            else {
+                jQuery(this).parent().parent().hide();
+            }
+        });
+        tempOperPageCount = 0;
+        QueryPagesData(0);
+    }
+    function commonCheckAll(obj) {
+        jQuery("[name='ItemCheckbox']").each(function () {
+            jQuery(this).attr('checked', obj.checked);
+        })
+    }
+</script>

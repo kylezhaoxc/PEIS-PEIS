@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{A79D351E-FAB1-4C76-80BE-54F437A0281B}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>PEIS.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="PEIS.Model\BusBackLogType.cs" />
+    <Compile Include="PEIS.Model\BusConclusion.cs" />
+    <Compile Include="PEIS.Model\BusConclusionType.cs" />
+    <Compile Include="PEIS.Model\BusExamItem.cs" />
+    <Compile Include="PEIS.Model\BusExamItemGroup.cs" />
+    <Compile Include="PEIS.Model\DictExamPlace.cs" />
+    <Compile Include="PEIS.Model\DictExamType.cs" />
+    <Compile Include="PEIS.Model\BusFee.cs" />
+    <Compile Include="PEIS.Model\BusFeeDetail.cs" />
+    <Compile Include="PEIS.Model\BusFeeReport.cs" />
+    <Compile Include="PEIS.Model\DictReceiveReportWay.cs" />
+    <Compile Include="PEIS.Model\BusPEPackage.cs" />
+    <Compile Include="PEIS.Model\BusSetFeeDetail.cs" />
+    <Compile Include="PEIS.Model\BusSpecimen.cs" />
+    <Compile Include="PEIS.Model\BusSymptom.cs" />
+    <Compile Include="PEIS.Model\ClientInfo.cs" />
+    <Compile Include="PEIS.Model\CustomerInfo.cs" />
+    <Compile Include="PEIS.Model\DictCountry.cs" />
+    <Compile Include="PEIS.Model\DictCultrul.cs" />
+    <Compile Include="PEIS.Model\DictFeeWay.cs" />
+    <Compile Include="PEIS.Model\DctFinalConclusionType.cs" />
+    <Compile Include="PEIS.Model\DictGender.cs" />
+    <Compile Include="PEIS.Model\DctICDTen.cs" />
+    <Compile Include="PEIS.Model\DictMarriage.cs" />
+    <Compile Include="PEIS.Model\DictNation.cs" />
+    <Compile Include="PEIS.Model\DictVocation.cs" />
+    <Compile Include="PEIS.Model\ExternByUpdateRegisteType.cs" />
+    <Compile Include="PEIS.Model\LoginState.cs" />
+    <Compile Include="PEIS.Model\NatLog.cs" />
+    <Compile Include="PEIS.Model\SysMenu.cs" />
+    <Compile Include="PEIS.Model\SYSRight.cs" />
+    <Compile Include="PEIS.Model\SysRole.cs" />
+    <Compile Include="PEIS.Model\SysRoleRight.cs" />
+    <Compile Include="PEIS.Model\SYSSection.cs" />
+    <Compile Include="PEIS.Model\SYSUserRight.cs" />
+    <Compile Include="PEIS.Model\SYSUserRole.cs" />
+    <Compile Include="PEIS.Model\SYSUserSection.cs" />
+    <Compile Include="PEIS.Model\OnArcCust.cs" />
+    <Compile Include="PEIS.Model\OnCustApply.cs" />
+    <Compile Include="PEIS.Model\OnCustBackLog.cs" />
+    <Compile Include="PEIS.Model\OnCustConclusion.cs" />
+    <Compile Include="PEIS.Model\OnCustExamItem.cs" />
+    <Compile Include="PEIS.Model\OnCustExamItemResult.cs" />
+    <Compile Include="PEIS.Model\OnCustExamSection.cs" />
+    <Compile Include="PEIS.Model\OnCustFee.cs" />
+    <Compile Include="PEIS.Model\OnCustPhysicalExamInfo.cs" />
+    <Compile Include="PEIS.Model\OnCustRelationCustPEInfo.cs" />
+    <Compile Include="PEIS.Model\OnCustReportManage.cs" />
+    <Compile Include="PEIS.Model\OnFianlCheck.cs" />
+    <Compile Include="PEIS.Model\ServerInfo.cs" />
+    <Compile Include="PEIS.Model\SqlConditionInfo.cs" />
+    <Compile Include="PEIS.Model\SysNode.cs" />
+    <Compile Include="PEIS.Model\SYSOpUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,115 @@
+<html>
+<head>
+    <style type="text/css">
+        #txtTest
+        {
+            width: 557px;
+            height: 361px;
+        }
+        .style1
+        {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <object id="fastreportOfTestLoad" classid="clsid:b4d9b4bf-d98d-4748-9018-73688e1fcb99"
+            codebase="/ActiveX/FYHTakePhotoSetup.msi">
+        </object>
+        <input type="button" value="测试更新" onclick="TestLoad('测试更新');" /><input id="Text1"
+            type="text" value="13101220130001" />
+        <input id="Button1" type="button" value="测试总检总审报告预览" onclick="return Button1_onclick()" /></div>
+    <div>
+        <object id="ClientMainX" classid="clsid:403430f2-05c3-4cf5-a19d-56b714862490" codebase="/ActiveX/FYHTakePhotoSetup.msi">
+        </object>
+        <input type="button" value="StartConnect" onclick="StartConnect();" />
+    </div>
+    <textarea id="txtTest"></textarea>
+    <div style="width: 100%; height: 100%;">
+        <object id="HWUserControlView" classid="clsid:ca36cbf1-1fb2-4b98-b1f0-c5e7f5e80b28"
+            width="500px" height="300px">
+        </object>
+        <br />
+        <table class="style1">
+            <tr>
+                <td rowspan="2" style="text-align: center; font-size: 18px; color: Blue; font-weight: bold;
+                    padding-bottom: 10px;">
+                    序号
+                </td>
+                <td rowspan="2">
+                    登记日期
+                </td>
+                <td colspan="3">
+                    人数
+                </td>
+                <td colspan="3">
+                    百分比
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    男性
+                </td>
+                <td>
+                    女性
+                </td>
+                <td>
+                    合计
+                </td>
+                <td>
+                    男性
+                </td>
+                <td>
+                    女性
+                </td>
+                <td>
+                    合计
+                </td>
+            </tr>
+        </table>
+    </div>
+    <object id="TakePhoto" classid="clsid:ea33a66e-f937-4d0d-aa91-8f6c917d0748" codebase="/ActiveX/FYHTakePhotoSetup.msi">
+    </object>
+    <object id="FastReport" classid="clsid:b4d9b4bf-d98d-4748-9018-73688e1fcb99" codebase="/ActiveX/FYHTakePhotoSetup.msi">
+    </object>
+    <input type="button" value="获取身高体重" onclick="SaveData()" />
+</body>
+</html>
+<script language="JScript">
+//TakePhoto.ShowMessage("aaaa");
+//HWUserControlView.ShowMessage("HWUserControlView");
+function HWUserControlView::ClickEvent(x,y,z)
+{
+    alert(x+"_"+y+"_"+z);
+}
+
+function HWPreview()
+{
+    FastReport.HWPreview("123123","黄兴茂测试");
+}
+function SaveData()
+{
+    alert(HWUserControlView.SaveData());
+}
+//HWPreview();
+</script>
+<script type="text/javascript">
+    var ClientMainX = document.getElementById("ClientMainX");
+    function StartConnect() {
+        ClientMainX.StartConnect();
+    }
+    ClientMainX.SetFun(window, "funCode");
+    function funCode(IsConnecting) {
+        alert(IsConnecting);
+    }
+
+    function TestLoad(msg) {
+        fastreportOfTestLoad.TestLoad(msg);
+    }
+    function Button1_onclick() {
+        FastReport.ReportPreview(Text1.value, "ExamReportPreview_FinalExam_Caption.frx", "1", 0);
+        FastReport.ReportPreview(Text1.value, "ExamReport_Common_Caption.frx", "1", 0);
+    }
+
+</script>

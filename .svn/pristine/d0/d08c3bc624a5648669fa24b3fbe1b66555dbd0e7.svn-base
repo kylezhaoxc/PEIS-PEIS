@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>权限分配</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+
+</head>
+
+<body style="background:none;">
+
+    	<div class="purviewdiv-center-b">
+			<div class="purviewdiv-center-b-div1 margin-top0">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="60" align="right" valign="top">角色：</td>
+                    <td align="left">
+                        <div class="j-roles">
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  	<td>&nbsp;</td>
+                  	<td align="left" class="Gray">（直接选择上面设置好的角色，分配给当前用户即可，可多选）</td>
+                  </tr>
+                  <tr>
+                    <td width="60" align="right" valign="top">权限：</td>
+                    <td align="left">
+                        <div class="purviewdiv-center-b-div1-k1">
+                        </div>
+                    	<div class="purviewdiv-center-b-div1-k2">
+                        	<a class="purviewdiv-center-b-div1-k2-right"></a>
+                        	<a class="purviewdiv-center-b-div1-k2-left"></a>
+                        </div>
+                    	<div class="purviewdiv-center-b-div1-k1"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                  	<td>&nbsp;</td>
+                  	<td align="left" class="Gray">（如果以上角色不能达到你的目的，你可以在下面直接选择对应的权限）</td>
+                  </tr>
+                </table>
+            </div>
+			<div class="purviewdiv-center-b-ann">
+                <span class="buttom-qd" title="提交"><a href="javascript:void(0);">提交</a></span>
+                <span class="buttom-qx" title="取消"><a href="javascript:void(0);" onclick="CloseDialogWindow();">取消</a></span>
+            </div>
+        </div>
+        <input type="hidden" name="RightUserID" id="RightUserID" value="${RightUserID}"/>
+        <input type="hidden" name="RightUserName" id="RightUserName" value="${RightUserName}"/>
+<script src="$!{templatepath}/js/jquery-1.10.1.min.js"></script>
+<script src="$!{templatepath}/js/jsTree/jstree.min.js"></script>
+<script src="$!{templatepath}/js/js_config.js"   type="text/javascript"></script>
+<script src="$!{templatepath}/js/js_right.js"   type="text/javascript"></script>
+<script src="$!{templatepath}/js/Jq-moveTree.js" type="text/javascript" ></script>
+<script src="$!{templatepath}/js/purview-nav.js" type="text/javascript" ></script>
+
+</body>
+</html>

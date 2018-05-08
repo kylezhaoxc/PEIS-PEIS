@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>标本维护</title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" type="text/css" />
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+
+</head>
+
+	
+	
+<body style="background-image:none;" >
+
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 科室ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Specimen" id="ID_Specimen" value="$!{ID_Specimen}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    
+
+<div class="Spediv">
+	<div class="Spediv-title">
+    	<div class="Spediv-title-l"></div>
+    	<div class="Spediv-title-b">
+        	<div class="Spediv-title-total">
+                <div class="Spediv-title-btke">
+                    <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                    <strong>标本维护</strong>
+                </div>
+                <div class="Spediv-title-off" id="btnClose"  onclick="CloseDialogWindow();"><a href="javascript:void();" ></a></div>
+                <div class="Spediv-title-fenge"></div>
+            </div>
+        </div>
+    	<div class="Spediv-title-r"></div>
+    </div>
+
+	<div class="Spediv-center">
+    	<div class="Spediv-center-l"></div>
+    	<div class="Spediv-center-b">
+			<table width="350" border="0" cellspacing="0" cellpadding="0" class="Icddiv-center-b-table1">
+              <tr>
+                <td width="80" align="right">样本名称：</td>
+                <td colspan="3" width="270"><input type="text" name="txtSpecimenName" id="txtSpecimenName" maxlength="50" value="$!{SpecimenName}" /></td>
+              </tr>
+              <tr>
+                <td width="80" align="right">检验科名称：</td>
+                <td colspan="3"><input type="text" name="txtLisSpecimenName" id="txtLisSpecimenName" maxlength="50" value="$!{LisSpecimenName}" /></td>
+              </tr>
+              <tr>
+                <td width="80" align="right">排序编号：</td>
+                <td colspan="3"><input type="text" name="txtDispOrder" id="txtDispOrder" maxlength="50" value="$!{DispOrder}" /></td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                	<table width="350" border="0" cellspacing="0" cellpadding="0">
+                    	<tr>
+                            <td width="80" align="right">禁用：</td>
+                            <td align="left"><input name="" type="checkbox" value="" style="width:15px;" /></td>
+                            <td width="50" align="right">禁用人：</td>
+                            <td align="left">陈小兵</td>
+                            <td width="70" align="right">禁用时间：</td>
+                            <td align="left">2013-12-02</td>
+                        </tr>
+                    </table>
+                  </td>
+              </tr>
+              <tr>
+                <td width="80" align="right" valign="top">禁用说明：</td>
+                <td colspan="3"><textarea cols="" rows="2">无</textarea></td>
+              </tr>
+              <tr>
+                <td colspan="4"><div class="Spediv-center-b-table1-xx"></div></td>
+              </tr>
+            </table>
+			<div class="Spediv-center-b-ann">
+                <span class="buttom-bcbgb" title="保存并关闭" name="btnSaveclose" id="btnSaveclose" onclick="AutoCloseDialogWindow('True');SaveSpecimenInfo();" ><a href="javascript:void(0);">保存并关闭</a></span>
+                <span class="buttom-bcbjx" title="保存并继续" name="btnSave" id="btnSave" onclick="AutoCloseDialogWindow('False');SaveSpecimenInfo();" ><a href="#">保存并继续</a></span>
+            </div>
+        </div>
+    	<div class="Spediv-center-r"></div>
+    </div>
+	<div class="Spediv-bottom">
+    	<div class="Spediv-bottom-l"></div>
+    	<div class="Spediv-bottom-b"></div>
+    	<div class="Spediv-bottom-r"></div>
+    </div>
+</div>
+
+
+
+      <table style="display:none;">
+        <tbody id="SpecimenTypeQuickQueryTableTemplete">
+            <tr onclick="SetSpecimenTypeChecked('@ID_SpecimenType');"
+                ondblclick="SelectSpecimenTypeDataList();" onkeydown="if(IsEnterKeyDown() == true) { SelectSpecimenTypeDataList(); }" >
+                <td>
+                <input type="radio" name="@chkSpecimenTypeQueryList" id="chkSpecimenType_@ID_SpecimenType" 
+                    value="@ID_SpecimenType"
+                    SpecimenTypeName="@SpecimenTypeName"  />
+                </td>
+                <td>@SpecimenTypeName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySpecimenTypeQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关样本分类，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        
+      </table>
+      
+      <div id="UserSelectedSpecimenTypeItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSpecimenType();"> × </a> @SpecimenTypeName 
+        
+      </div>
+      
+
+</body>
+
+
+<script language="javascript" type="text/javascript">
+
+    /// <summary> 
+    /// 点击选中对应样本分类的单选按钮（快速选择列表）
+    /// </summary>
+    function SetSpecimenTypeChecked(ID_SpecimenType) {
+        jQuery("#chkSpecimenType_" + ID_SpecimenType).attr("checked", jQuery("#chkSpecimenType_" + ID_SpecimenType).attr("checked"));
+    }
+
+
+    jQuery(document).ready(function () {
+        // 科室编辑操作时，初始化页面数据
+        InitSpecimenEditData();
+    });
+
+
+</script>
+
+
+
+
+</html>

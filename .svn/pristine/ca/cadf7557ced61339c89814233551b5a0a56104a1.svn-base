@@ -1,0 +1,1196 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>总检总审-总检</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+</head>
+
+<body>
+    <div class="fkx-title">
+        <div class="fkx-title-bt">总检业务</div>
+        <span class="CurrentTime"></span>
+        <div class="fkx-title-fh"><a href="javascript:void(0);" onclick="DoLoad('/System/ConclusionEx/ConclusionList.aspx', '');SwitchHeader(1);">返回总检业务>></a></div>
+	</div>
+
+  	<div class="center">
+    	<div class="oper">
+
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span title="F2获取焦点" >体检号：</span>
+                <span class="search">
+                    <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+                        <input name="txtCustomerID"  id="txtCustomerID"type="text" 
+                        onfocus="this.select();" onkeyup="AutoGetCustomerSectionExamInfo('NewPage');" value="$!{txtCustomerID}"/>
+
+                    <a href="javascript:void(0);" id="btnSearch" onclick="GetCustomerSectionExamInfo('NewPage');"  title="查询(F4)"></a>
+                    
+                </span>
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" onclick="GetCustomerSectionExamInfo('NewPage');" >查询</a></span>
+                
+            </div>
+        	<div class="oper-bg">
+                <div class="Information-s" id="btnCustomerSimpleInfo" onclick="OpenOrClose(this,'divCustomerBaseInfo');" style="cursor:pointer" title="点击显示">
+                    <div class="Information-s-l"></div>
+                    <div class="Information-s-c">
+                        <a href="javascript:void(0);" >$!{CustomerName}</a>
+                    </div>
+                    <div class="Information-s-r"></div>
+                </div></div>
+   	    </div>
+
+        
+        <div id="TipsArea" class="SystemQueryTipsInfo j-autoHeight" data-left="150" data-min="300" style="overflow-y:auto;">
+            <table id="TipsMessage">
+                <tr>
+                    <td colspan="2">
+                        &nbsp; 
+                    </td>
+                </tr>
+             </table>
+        </div>
+
+        
+         <!--客户浮动个人信息-->
+            <div class="Iperso" id="divCustomerBaseInfo" style="display: none;top:105px;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td rowspan="4" class="Iperso-tx">
+                            <img width="70" height="82" id="HeadImg" name="HeadImg" src="$!{templatepath}/images/avatar.jpg" />
+                        </td>
+                        <td colspan="2" align="left">
+                            <span class="Iperso-name">
+                               <label id="CustomerNameText" >$!{CustomerName}</label>
+                            </span><span>
+                               <label id="GenderNameText" >$!{GenderName}</label>
+                            </span><span>
+                                <label id="lblAge">&nbsp;</label>岁
+                            </span><span>
+                                <label id="MarriageNameText">$!{MarriageName}
+                                </label>
+                            </span>
+                        </td>
+                        <td colspan="2" align="left" class="Iperso-Thm">
+                            <label id="lblID_Customer" name="lblID_Customer">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            电话：
+                        </td>
+                        <td align="left">
+                           <label id="lblTel" >$!{MobileNo}</label>
+                        </td>
+                        <td width="80" align="right">
+                            体检日期：
+                        </td>
+                        <td align="left">
+                           <label  id="lblRegisterDate">&nbsp;</label>
+                            <label style="display: none;" id="lblHideRegisterDate" name="lblHideRegisterDate">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            证件：
+                        </td>
+                        <td align="left">
+                            <label id="lblIDCard">$!{IDCardNo}</label>
+                        </td>
+                        <td width="80" align="right">
+                            体检类型：
+                        </td>
+                        <td align="left">
+                            <label id="lblExamType">&nbsp;</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            单位：
+                        </td>
+                        <td colspan="3" align="left">
+                            <label id="lblTeamName">&nbsp;</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--客户浮动个人信息 End--> 
+
+
+          <div id="fkls" class="zjzs-tab" style="display:none;">
+            <ul>
+              <li id="ExamInfoTabLi1" class="fkls-on"><a onclick="javascript:dxqh(1)" onfocus="this.blur()">分科信息</a></li>
+              <li id="ExamInfoTabLi3"><a onclick="javascript:dxqh(3)" onfocus="this.blur()">总检信息</a></li>
+              <li id="ExamInfoTabLi2" style="display:none;"><a onclick="javascript:dxqh(2);GetFinalExamCustomerIDList();" onfocus="this.blur()">历史对比</a></li>
+              <li id="ExamInfoTabLi4" style="display:none;"><a onclick="javascript:dxqh(4);" onfocus="this.blur()">报告预览</a></li>
+
+            </ul>
+          </div>
+          <div id="fklscen" style="display:none;">
+            <div id="ExamInfoTabDetail1">
+                <div class="branch j-autoHeight" data-dynamic="true" data-left="193" data-min="200">
+
+                <div style="width:35%; float:left;">
+                <div class="zjxz-fu  j-autoHeight ReCalcuHeight01" data-dynamic="true" data-left="193" data-min="200">
+                    <div name="notaddscrollheadarea"> 
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" id="acefwe">
+                      <colgroup>
+                      	<col style="width:80px" />
+                      </colgroup>
+                      <tr> 
+                        <th class="project-center-lb1-list-2h">科室名称</th>
+                        <th class="project-center-lb1-list-2h">检查结果</th>
+                      </tr>
+                    </table>
+                    </div>
+                    <div class="j-autoHeight ReCalcuHeight02" data-dynamic="true" data-left="229" data-min="150" style="overflow:auto; border-right: #abccff 1px solid">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" id="acefwe">
+                      <colgroup>
+                      	<col style="width:80px" />
+                      </colgroup>
+                      
+                      <tbody id="CustExamSectionList" >
+                        <tr>
+                            <td colspan="2" style="text-align:center; ">正在加载客户分检信息，请稍等... </td>
+                        </tr>
+                      </tbody>
+                      
+
+                    </table>
+                    </div>
+                </div>
+                </div>
+                
+                <div style="width:65%; float:left;">
+                <div class="zjxz-jlc j-autoHeight ReCalcuHeight01" data-dynamic="true" data-left="193" data-min="200">
+                    <div class="zjxz-jlc-tit"  name="notaddscrollheadarea">
+                        <span class="zjxz-jlc-tit-bt">总检结论</span>
+                        
+                        <span class="zjxz-jlc-tit-bt-right">
+                    
+                            <input type="button" class="btn-hz btn-common button65" id="ButCollect"  onclick="SaveCustomerFinalConclusion(0);" value="汇总" title="汇总(F6)" />
+                            <input type="button" class="btn-tjsh btn-common" id="ButSave"     onclick="SaveCustomerFinalConclusion(1);" value="提交审核 " title="提交审核(F8)" />
+                            <input type="button" class="btn-fkjs btn-common" id="ButUnLock02" onclick="UpdateFinalConclusionSectionLock(0);" value="分科解锁" 
+                            title="解除分科锁定后，分科检查就可以进行【取回】，然后进行分科检查的修改！" />&nbsp;
+                            <span style="display:none;">
+                                <input type="button" class="btn-qc btn-common button65" id="ButClear"    onclick="ClearFinalConclusionText();"     value="清除" />
+                            </span>
+                            <input type="button" class="btn-bgyl btn-common" id="ButReprotPreview" onclick="ReprotPreview();" value="报告预览"  title="报告预览(F10)" />
+                            <input type="button" class="button80" id="ButLock"     onclick="UpdateFinalConclusionSectionLock(1);" value=" 锁  定 " style="display:none;" />
+                   
+                        </span>
+                        
+                        <!--
+                        <span class="buttom-bgyl" title="报告预览(F10)"><a href="#">报告预览</a></span>
+                        <span class="buttom-qc" title="清除"><a href="#">清除</a></span>
+                        <span class="buttom-fkjs" title="分科解锁"><a href="#">分科解锁</a></span>
+                        <span class="buttom-tjsh" title="提交审核"><a href="#">提交审核</a></span>
+                        <span class="buttom-hz" title="汇总(F6)"><a href="#">汇总</a></span>-->
+                    </div>
+                    <div class="zjxz-jlc-nr j-autoHeight ReCalcuHeight03" data-dynamic="true" data-left="228" data-min="150" style="overflow:hidden;">
+
+                        <table border="0" cellspacing="0" cellpadding="0" style="border:0px; width:100%; ">
+                            <tr>
+                                <td style="width:250px; vertical-align:top;">
+                                
+                                    <div class="zjxz-jlc-nr-left">
+                	                <div id="ConclusionQueryArea">
+                                        <input type="hidden" name="tempShowConclusionID" id="tempShowConclusionID" value="" /> <!-- 用于结论词选择后，相应输入信息的显示 -->
+                                        <input type="hidden" name="tempSelectedConclusionID" id="tempSelectedConclusionID" value="" />
+                                        
+                                        <div class="zjxz-jlc-nr-left-top" style="position:relative;">
+                            	            <span class="zjxz-jlc-nr-left-top-jlc">结论词：</span>
+                                            <input type="text" id="txtConclusionInputCode" onkeyup="GetConclusionByKeyWords_Ajax();" onchange="GetConclusionByKeyWords_Ajax();" onfocus="QueryConclusionList(true);" name="txtConclusionInputCode" />
+                                            <span class="zjxz-jlc-nr-left-top-help"><a id="bsf" title="点击查看帮助信息" onclick="OpenOrCloseNoTips(this,'divConclusionTips');"  style="cursor:pointer"><img src="$!{templatepath}/images/help_zj.png" width="16" height="16"  /></a></span>
+                                            <div id="divConclusionTips" style="display:none; position:fixed; width:118px; line-height:22px; margin-left:120px; border:1px solid #ccc; background:#f3f3f3; z-index:100"  >
+                                	            <span class="tips-title" style="width:118px; border-bottom:1px #ddd solid;">
+                                                    &nbsp;结论词帮助  <a style="margin-top:0px;" onclick="OpenOrCloseNoTips(this,'divConclusionTips');"; href="javascript:void(0);"></a>
+                                                </span>
+                                                <div style="padding:5px; ">
+                                                <span>支持中文，例：鼻炎</span><br />
+                                                <span>F7：输入框获取焦点</span><br />
+                                                <span>F9：排序框获取焦点</span><br />
+                                                <span class="zjxz-jlc-nr-left-top-sk1"></span>
+                                                <span>主要诊断</span><br />
+                                                <span class="zjxz-jlc-nr-left-top-sk2"></span>
+                                                <span>次要诊断</span><br />
+                                                <span class="zjxz-jlc-nr-left-top-sk3"></span>
+                                                <span>指标异常</span><br />
+                                                <span class="zjxz-jlc-nr-left-top-sk4"></span>
+                                                <span>正常</span><br />
+                                                <span class="zjxz-jlc-nr-left-top-sk5"></span>
+                                                <span>其它</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+
+                                        <div id="ConclusionDataList" class="QueryConclusionClass QuickQueryList">
+                                            <div  onkeydown="if(IsEnterKeyDown() == true) { SelectConclusionDataList(); }" >
+                                            <div>
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="QueryConclusionDataTable" class="QuickQueryListHeader">
+                	                            <colgroup>
+                    	                        <col style="width:50px" />
+                    	                        <col style="width:280px" />
+                                                </colgroup>
+                                                <tr>
+                                                    <th nowrap="nowrap" >&nbsp;</th>
+                                                    <th nowrap="nowrap">结论词</th>
+                                                    <th nowrap="nowrap" style="display:none;" >结论类型</th>
+                                                </tr>
+                                            </table>
+                                            </div>
+                                            <div style="max-height:200px; width:auto; overflow:auto" >
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                	                            <colgroup>
+                    	                        <col style="width:50px" />
+                    	                        <col style="width:280px" />
+                                                </colgroup>
+                                                <tbody id="QueryConclusionDataTableList">
+                                                <tr>
+                                                    <td>&nbsp;</td>
+                                                    <td>&nbsp;</td>
+                                                    <td style="display:none;">&nbsp;</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                            <div style=" width:100%; height:30px; line-height:30px; text-align:center; background-color:#fafafa">
+                                                    <input type="button" class="btnsure" id="btnsave001" onclick="SelectConclusionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                                                    <input type="button" class="btnclose"  id="btncolse001" onclick="QueryConclusionList(false);" value=" 取  消 " /> 
+                                            </div>
+                                        </div>
+
+                                        <div class="zjxz-jlc-nr-left-table">
+                                            <div class="zjxz-jlc-nr-left-table-title" name="notaddscrollheadarea">
+                                                <table width="100%" height="24" border="0" cellspacing="0" cellpadding="0">
+                                                  <colgroup>
+                                      	            <col style="width:35px" />
+                                      	            <col style="width:35px" />
+                                                  </colgroup>
+                                                  <tr>
+                                                    <td align="center">操作</td>
+                                                    <td align="center">排序</td>
+                                                    <td align="center">结论词</td>
+                                                  </tr>
+                                                </table>
+                                            </div>
+                                            <div class="zjxz-jlc-nr-left-table-jgd j-autoHeight ReCalcuHeight04" id="ConclusionSelectedListFrame" data-dynamic="true" data-left="300" data-min="150" style="overflow:auto;background:#fff">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="zjxz-jlc-nr-left-table-nr" >
+                                                    <colgroup>
+                                                    <col style="width:35px" />
+                                                    <col style="width:35px" />
+                                                    </colgroup>
+                                        
+                                                    <tbody id="ConclusionSelectedList">
+
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                            
+                                    </div>
+
+                                    </div>
+
+                                
+                                </td>
+                                <td style="width:20px;vertical-align:top;">
+                                    <div class="zjxz-jlc-nr-fen" name="notaddscrollheadarea"></div>
+                                </td>
+                                <td style="vertical-align:top;">
+                                    <div class="zjxz-jlc-nr-right j-autoHeight ReCalcuHeight05" data-dynamic="true" data-left="252" data-min="150" style="overflow:auto;">
+                                        <div id="ConclusionSelectedDataEditFrameDiv">
+                                            <div id="ConclusionSelectedDataEdit" style="display:none;">
+                    	            
+                                            </div>		
+                                        </div>					
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                
+
+            </div>
+                <div class="yl-bt" id="ConclusionResultTitle000" style="display:none"><a id="btn" onclick="OpenOrCloseNoTips(this,'ConclusionResultBox');" style="cursor:pointer"></a></div>
+                
+            </div>
+            <div id="ExamInfoTabDetail2" style="display:none">
+              <div class="lisdb">
+              	<div class="lisdb-1">
+                	<span class="lisdb-1-span1">体检号：</span>
+                	<span class="lisdb-1-span2">
+                        <select name="selCustomerID01" id="selCustomerID01">
+                            <option value="">请选择体检号</option>
+                        </select>
+                    </span>
+                	<span class="lisdb-1-span3"></span>
+                	<span class="lisdb-1-span2">
+                        <select name="selCustomerID02" id="selCustomerID02">
+                            <option value="">请选择体检号</option>
+                        </select>
+                    </span>
+                    
+                    <span class="lisdb-1-span4" style="margin-top:6px;">
+                        <input class="btn-tjdb btn-common button75" type="button" id="btnComperQuery" name="btnComperQuery" onclick="GetFinalExamCompareItemList();" value="  对 比  " />
+                    </span>
+                </div>
+              	<div class="lisdb-2 xxdb-tab" id="xxdb" name="notaddscrollheadarea">
+                    <ul>
+                      <li id="mx1" class="xxdb-on"><a href="javascript:void(0);" onclick="javascript:xxdbqh(1)" onFocus="this.blur()">科室小结</a></li>
+                      <li id="mx2"><a href="javascript:void(0);" onclick="javascript:xxdbqh(2)" onFocus="this.blur()">实验对比</a></li>
+                      <li id="mx3"><a href="javascript:void(0);" onclick="javascript:xxdbqh(3)" onFocus="this.blur()">总检对比</a></li>
+                    </ul>
+                </div>
+              	<div class="lisdb-3 j-autoHeight" data-dynamic="true" data-extra="14" data-left="379" data-min="150" id="xxdbcen">
+                    <div id="zxm1">
+                       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe TableVAlignTop">
+                          
+                          <colgroup>
+                            <col style="width:12%" />
+                            <col style="width:44%" />
+                          </colgroup>
+
+                          <tbody id="FinalSectionCompareList">
+
+                          </tbody>
+                        </table>
+                        <table style="display:none;">
+                          <!--分科数据对比数据列表 ( 不同时，使用样式：lisdb-3-Orange ) -->
+                          <tbody id="FinalSectionCompareListTemplate">
+                              <tr>
+                                <td class="lisdb-3-th btnCompareShow" itemid="@ID_Section" itemname="@SectionName" interfacetype="@InterfaceType">@SectionName</td>
+                                <td class="side-space project-align-left d-content-100 @CompareResultClass">@SectionSummary01</td>
+                                <td class="side-space project-align-left d-content-100 @CompareResultClass">@SectionSummary02</td>
+                              </tr>
+                          </tbody>
+                          </table>
+                    </div>
+                    <div id="zxm2" style="display:none">
+                      <div>
+                       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" id="fklsdb">
+                          <colgroup>
+                            <col style="width:11%" />
+                            <col style="width:18%" />
+                            <col style="width:9%" />
+                            <col style="width:9%" />
+                            <col style="width:4%" />
+                            <col style="width:13%" />
+                            <col style="width:9%" />
+                            <col style="width:9%" />
+                            <col style="width:4%" />
+                          </colgroup>
+                          <tr class="project-center-lb1-list-lh">
+                          	<th rowspan="2">收费项目</th>
+                          	<th rowspan="2">检查项目</th>
+                          	<th colspan="4" class="project-center-lb1-list-lh-s" id="project-center-lb1-list-lh-s-id01" custid="" state="">&nbsp;</th>
+                          	<th colspan="4" class="project-center-lb1-list-lh-s" id="project-center-lb1-list-lh-s-id02" custid="" state="">&nbsp;</th>
+                          </tr>
+                          <tr class="project-center-lb1-list-lh-x">
+                            <th height="29">结果</th>
+                            <th>单位</th>
+                            <th>标记</th>
+                            <th>范围</th>
+                            <th>结果</th>
+                            <th>单位</th>
+                            <th>标记</th>
+                            <th>范围</th>
+                          </tr>
+                    </table>
+                    </div>
+                    <div class="j-autoHeight" data-dynamic="true" data-extra="14" data-left="441" data-min="150" style="overflow:auto">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe TableVAlignTop">
+                          <colgroup>
+                            <col style="width:11%" />
+                            <col style="width:18%" />
+                            <col style="width:9%" />
+                            <col style="width:9%" />
+                            <col style="width:4%" />
+                            <col style="width:13%" />
+                            <col style="width:9%" />
+                            <col style="width:9%" />
+                            <col style="width:4%" />
+                          </colgroup>
+                          
+                            <tbody id="FinalSectionExamCompareDataList">
+                            </tbody>
+                        </table>
+
+                        <table style="display:none;">
+                        <tbody id="FinalCompare_ExamItemFirstRowTemplete">
+                            <tr id="tr_@FeeExamItemID">
+                                <td class="side-space project-align-right leftheadbgcolor" rowspan="@FeeItemRowSpan">@FeeName</td>
+                                <td class="side-space project-align-right @CompareResultClass">@ExamItemName</td>
+                                <td class="side-space project-align-right @CompareResultClass">@ResultLabValues01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabUnit01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabMark01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabRange01</td>
+                                <td class="side-space project-align-right @CompareResultClass">@ResultLabValues02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabUnit02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabMark02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabRange02</td>
+                            </tr>
+                        </tbody>
+
+                        <tbody id="FinalCompare_ExamItemOtherRowTemplete">
+                            <tr id="tr_@FeeExamItemID">
+                                <td class="side-space project-align-right @CompareResultClass">@ExamItemName</td>
+                                <td class="side-space project-align-right @CompareResultClass">@ResultLabValues01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabUnit01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabMark01</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabRange01</td>
+                                <td class="side-space project-align-right @CompareResultClass">@ResultLabValues02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabUnit02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabMark02</td>
+                                <td class="side-space  @CompareResultClass">@ResultLabRange02</td>
+                            </tr>
+                        </tbody>
+                        </table>
+                       </div>
+                    </div>
+                    <div id="zxm3" style="display:none">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe TableVAlignTop">
+                            <tbody id="FinalConclusionCompareList">
+                            
+                            </tbody>
+                        </table>
+
+                        <table style="display:none">
+                            <!--总检结果对比模板-->
+                            <tbody id="FinalConclusionCompareListTemplate" style="display:none;">
+                              <tr>
+                                <td class="lisdb-3-th" width="12%">总检综述</td>
+                                <td width="44%" class="side-space project-align-left d-content-100">
+                                    @FinalOverView01
+                                </td>
+                                <td width="44%" class="side-space project-align-left d-content-100">
+                                    @FinalOverView02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">结论汇总</td>
+                                <td class="side-space project-align-left lisdb-3-Orange d-content-100">
+                                    @FinalConclusion01
+                                </td>
+                                <td class="side-space project-align-left lisdb-3-Orange d-content-100">
+                                    @FinalConclusion02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">主要诊断</td>
+                                <td class="side-space project-align-left d-content-100">
+                                @MainDiagnose01
+           					    </td>
+                                <td class="side-space project-align-left d-content-100">
+                                @MainDiagnose02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">次要诊断</td>
+                                <td class="side-space project-align-left d-content-100">
+                                @SecondaryDiagnose01
+           					    </td>
+                                <td class="side-space project-align-left d-content-100">
+                                @SecondaryDiagnose02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">指标异常</td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @IndicatorDiagnose01
+                                </td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @IndicatorDiagnose02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">正常诊断</td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @NormalDiagnose01
+                                </td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @NormalDiagnose02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">其它异常</td>
+                                <td class="side-space project-align-left lisdb-3-Orange d-content-100">@OtherDiagnose01</td>
+                                <td class="side-space project-align-left lisdb-3-Orange d-content-100">@OtherDiagnose02</td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">历史对比</td>
+                                <td class="side-space project-align-left d-content-100">
+                                @ResultCompare01            
+                                </td>
+                                <td class="side-space project-align-left d-content-100">
+                                @ResultCompare02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">饮食建议</td>
+                                <td class="side-space project-align-left d-content-100 lisdb-3-Orange">
+                                @FinalDietGuide01
+                                </td>
+                                <td class="side-space project-align-left d-content-100 lisdb-3-Orange">
+                                @FinalDietGuide02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">运动建议</td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @FinalSportGuide01
+                                </td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @FinalSportGuide02
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="lisdb-3-th">健康建议</td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @FinalHealthKnowlage01
+                                </td>
+                                <td class="side-space project-align-left d-content-100">
+                            	    @FinalHealthKnowlage02
+                                </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                    </div>
+                </div>
+              	<div class="lisdb-4 lisdb-4-to">
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="80" align="right">对比结论：</td> 
+                        <td align="left"><textarea id="txtWriteResultCompare" name="txtWriteResultCompare" cols="45" rows="5" class="lisdb-4-text b-edit" boxtitle="对比结论" >$!{ResultCompare}</textarea></td>
+                        <td width="100" align="center">
+                        <input class="ButFinalCompare" id="ButSaveFinalCompare"  onclick="btnSaveFinalCompare();" />
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+              </div>
+            </div>
+            <div id="ExamInfoTabDetail3" style="display:none">
+            <div class="yl-zjxx branch ExamInfoTabDetail3 j-autoHeight" data-dynamic="true" data-left="193" data-min="425">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                        <td style="width:116px; vertical-align:top;">
+                            <div class="yl-zjxx-left j-autoHeight" data-dynamic="true" data-left="193" data-min="425" id="ylhd" >
+                                <ul>
+                                    <li id="liConclusionFinalOverView" onclick="ShowHideFinalTextArea(1);" class="yl-zjxx-left-a" ><a>总检综述</a></li>
+                                    <li id="liConclusionFinalConclusion" onclick="ShowHideFinalTextArea(2);"><a>结论汇总</a></li>
+                                    <li id="liConclusionMainDiagnose" onclick="ShowHideFinalTextArea(4);"><a>主要诊断</a></li>
+                                    <li id="liConclusionSecondaryDiagnose" onclick="ShowHideFinalTextArea(10);"><a>次要诊断</a></li>
+                                    <li id="liConclusionIndicatorDiagnose" onclick="ShowHideFinalTextArea(8);"><a>指标异常</a></li>
+                                    <li id="liConclusionNormalDiagnose" onclick="ShowHideFinalTextArea(11);"><a>正常诊断</a></li>
+                                    <li id="liConclusionOtherDiagnose" onclick="ShowHideFinalTextArea(9);"><a>其它诊断</a></li>
+                                    <li id="liConclusionResultCompare" onclick="ShowHideFinalTextArea(3);"><a>结果对比</a></li>
+                                    <li id="liConclusionFinalDietGuide" onclick="ShowHideFinalTextArea(5);"><a>饮食建议</a></li>
+                                    <li id="liConclusionFinalSportGuide" onclick="ShowHideFinalTextArea(6);"><a>运动建议</a></li>
+                                    <li id="liConclusionFinalHealthKnowlage" onclick="ShowHideFinalTextArea(7);"><a>健康建议</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td style="vertical-align:top;">
+                            <div id="content" class="yl-zjxx-right j-autoHeight" data-dynamic="true" data-left="193" data-min="425">
+                                <div id="trConclusionFinalOverView" class="yl-zjxx-right-div">
+                	                <textarea readonly="readonly" class="SectionResultSummaryArea" style= "display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalOverView" name="txtConclusionFinalOverView">$!{FinalOverView}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionFinalOverView">
+                                    $!{htmlFinalOverView}
+                                    </div>
+                                </div>
+                                <div id="trConclusionFinalConclusion" class="yl-zjxx-right-div" style="display:none">
+                	                <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalConclusion" name="txtConclusionFinalConclusion">$!{FinalConclusion}</textarea>
+                                    <div  style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionFinalConclusion">
+                                    $!{htmlFinalConclusion}
+                                    </div>
+                                </div>
+                                <div  id="trConclusionMainDiagnose" style="display:none;" class="yl-zjxx-right-div">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionMainDiagnose" name="txtConclusionMainDiagnose">$!{MainDiagnose}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionMainDiagnose">
+                                    $!{htmlMainDiagnose}
+                                    </div>
+                                </div>
+                                <div id="trConclusionSecondaryDiagnose" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionSecondaryDiagnose" name="txtConclusionSecondaryDiagnose">$!{SecondaryDiagnose}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionSecondaryDiagnose">
+                                    $!{htmlSecondaryDiagnose}
+                                    </div>
+                                </div>
+                                <div id="trConclusionIndicatorDiagnose" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionIndicatorDiagnose" name="txtConclusionIndicatorDiagnose">$!{IndicatorDiagnose}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionIndicatorDiagnose">
+                                    $!{htmlIndicatorDiagnose}
+                                    </div>
+                                </div>
+                                <div id="trConclusionNormalDiagnose" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionNormalDiagnose" name="txtConclusionNormalDiagnose">$!{NormalDiagnose}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionNormalDiagnose">
+                                    $!{htmlNormalDiagnose}
+                                    </div>
+                                </div>
+                                <div id="trConclusionOtherDiagnose" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionOtherDiagnose" name="txtConclusionOtherDiagnose">$!{OtherDiagnose}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionOtherDiagnose">
+                                    $!{htmlOtherDiagnose}
+                                    </div>
+                                </div>
+                                <div   id="trConclusionResultCompare"  class="yl-zjxx-right-div" style="display:none">
+                                    <textarea class="SectionResultSummaryArea" style="width:800px; display:none;" rows="16" id="txtConclusionResultCompare" name="txtConclusionResultCompare">$!{ResultCompare}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionResultCompare">
+                                    $!{htmlResultCompare}
+                                    </div>
+                                </div>
+                                <div id="trConclusionFinalDietGuide" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalDietGuide" name="txtConclusionFinalDietGuide">$!{FinalDietGuide}</textarea>
+                                    <div style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionFinalDietGuide">
+                                    $!{htmlFinalDietGuide}
+                                    </div>
+                                </div>
+                                <div id="trConclusionFinalSportGuide" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalSportsGuide" name="txtConclusionFinalSportsGuide">$!{FinalSportGuide}</textarea>
+                                    <div  style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionFinalSportsGuide">
+                                    $!{htmlFinalSportGuide}
+                                    </div>
+                                </div>
+                                <div id="trConclusionFinalHealthKnowlage" class="yl-zjxx-right-div" style="display:none">
+                                    <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalHealthKnowlage" name="txtConclusionFinalHealthKnowlage">$!{FinalHealthKnowlage}</textarea>
+                                    <div  style="width:100%;min-width:760px; min-height:300px; vertical-align:top;word-break: break-all;" id="htmlConclusionFinalHealthKnowlage">
+                                        $!{htmlFinalHealthKnowlage}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+
+
+            </div> 
+            </div>
+
+            <div id="ExamInfoTabDetail4" style="display:none; padding-top:10px">
+           <div id="reportView"  class="lisdb-3 j-autoHeight" data-left="193" data-min="150"></div>
+            </div>
+
+
+                #if($!{Checker} != "" &&  $!{Is_FinalFinished} != "True")
+
+                <div class="zs-tjjl_new" id="FinalExamResultCheckInfo">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-top:#008bd0 1px solid;border-bottom:#008bd0 1px solid;" class="other_dynamic_height">
+                        <tr>
+                        <th width="80" align="right">审核状态：</th>
+                         #if($!{Is_Checked} == "True") 
+                            <td width="80" align="left">通过审核</td> 
+                            #else 
+                            <td width="80" align="left">未通过审核</td> 
+                            #end
+
+                        <th width="80" align="right">总检医生：</th>
+                        <td width="80" align="left"><span>${FinalDoctor}</span></td>
+                        <th width="80" align="right">总检时间：</th>
+                        <td width="80" align="left">$!{FinalDate}</td>
+
+                        <th width="80" align="right">审核人：</th>
+                        <td width="80" align="left">$!{Checker}</td>
+                        <th width="80" align="right">审核时间：</th>
+                        <td width="80" align="left">$!{CheckedDate}</td>
+
+                        </tr>
+                    
+                        #if($!{Is_Checked} == "False")
+                            <tr>
+                            <th align="right" width="80">拒绝理由：</th>
+                            <td align="left" colspan="9" width="870" style="border:1px solid #dcdcdc; padding:0px 5px 0px 5px;">
+                            <div style="max-height:80px;overflow-y:scroll;">$!{RefuseReason}</div>
+                            </td>
+				            </tr>
+                        #end
+
+                    </table>
+                </div>
+
+            
+                #end
+          </div>
+    </div>
+	
+    <!--总检总审弹出层开始 （分科明细）-->
+
+    <div class="Detailsdiv fkmxtcc SectionDetailInfo">
+	    <div class="Detailsdiv-title">
+    	    <div class="Detailsdiv-title-l"></div>
+    	    <div class="Detailsdiv-title-b">
+        	    <div class="Detailsdiv-title-total">
+                    <div class="Detailsdiv-title-btke">
+                        <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" alt="" />
+                        <strong class="SectionDetailTitle">分科明细</strong>
+                    </div>
+                    <div class="Detailsdiv-title-off"><a class="close" ></a></div>
+                    <div class="Detailsdiv-title-fenge"></div>
+                </div>
+            </div>
+    	    <div class="Detailsdiv-title-r"></div>
+        </div>
+	    <div class="Detailsdiv-center">
+    	    <div class="Detailsdiv-center-l"></div>
+    	    <div class="Detailsdiv-center-b">
+        	    <div class="Detailsdiv-center-div-table DetailsDivTypeGeneral">
+            	    <table width="631" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                      <colgroup>
+                        <col style="width:150px" />
+                      </colgroup>
+                      <tr id="project-center-lb1-list">
+                        <th>检查名称</th>
+                        <th>检查结果</th>
+                      </tr>
+                    </table>
+                    <div class="Detailsdiv-center-div-table-divtd">
+
+                	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">                
+                          <colgroup>
+                            <col style="width:150px" />
+                          </colgroup>
+                          <tbody id="ShowSectionDetailDataList">
+                                
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+
+        	    <div class="Detailsdiv-center-div-table DetailsDivTypeLab">
+            	    <table width="631" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                      <colgroup>
+                        <col style="width:150px" />
+                        <col style="width:70px" />
+                        <col style="width:60px" />
+                        <col style="width:60px" />
+                      </colgroup>
+                      <tr id="project-center-lb1-list-lab">
+                        <th>检查名称</th>
+                        <th>结果</th>
+                        <th>单位</th>
+                        <th>标记</th>
+                        <th>范围</th>
+                      </tr>
+                    </table>
+                    <div class="Detailsdiv-center-div-table-divtd">
+
+                	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">                
+                          <colgroup>
+                            <col style="width:150px" />
+                            <col style="width:70px" />
+                            <col style="width:60px" />
+                            <col style="width:60px" />
+                          </colgroup>
+                          <tbody id="ShowSectionDetailDataListLab">
+                                
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    	    <div class="Detailsdiv-center-r"></div>
+        </div>
+	    <div class="Detailsdiv-bottom">
+    	    <div class="Detailsdiv-bottom-l"></div>
+    	    <div class="Detailsdiv-bottom-b"></div>
+    	    <div class="Detailsdiv-bottom-r"></div>
+        </div>
+    </div>
+
+        <!--总检总审弹出层 模板 start -->
+        <table style="display:none;">
+    
+            <!--分科明细弹出层内容模板 -->
+    
+            <tbody id="CustExamDetailListTemplete">
+                <tr>
+                    <td>@ExamItemName</td>
+                    <td>@ExamResultSummary</td>
+                </tr>
+            </tbody>
+
+            <tbody id="CustExamDetailListNoDataTemplete">
+                <tr>
+                    <td colspan="2" style="text-align:center; width:100%; padding:40px 0px 40px 0px;">暂未查询到该科室的检查明细信息！</td>
+                </tr>
+            </tbody>
+
+            <!--分科明细弹出层内容模板 (LAB类) -->
+    
+            <tbody id="CustExamDetailListLabTemplete">
+                <tr>
+                    <td>@ExamItemName</td>
+                    <td>@ResultLabValues</td>
+                    <td>@ResultLabUnit</td>
+                    <td>@ResultLabMark</td>
+                    <td>@ResultLabRange</td>
+                </tr>
+            </tbody>
+
+            <tbody id="CustExamDetailListNoDataLabTemplete">
+                <tr>
+                    <td colspan="5" style="text-align:center; width:100%; padding:40px 0px 40px 0px;">暂未查询到该科室的检查明细信息！</td>
+                </tr>
+            </tbody>
+
+        </table>
+        <!--总检总审弹出层 模板 end -->
+
+    <!--总检总审弹出层结束（分科明细）-->
+    
+    <!--总检总审弹出层开始 （分科明细对比）-->
+
+    <div class="Detailsdiv fkmxtcc SectionCompareDetailInfo">
+	    <div class="Detailsdiv-title">
+    	    <div class="Detailsdiv-title-l"></div>
+    	    <div class="Detailsdiv-title-b">
+        	    <div class="Detailsdiv-title-total">
+                    <div class="Detailsdiv-title-btke">
+                        <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" alt="" />
+                        <strong class="SectionDetailTitle">分科对比</strong>
+                    </div>
+                    <div class="Detailsdiv-title-off"><a class="close" ></a></div>
+                    <div class="Detailsdiv-title-fenge"></div>
+                </div>
+            </div>
+    	    <div class="Detailsdiv-title-r"></div>
+        </div>
+	    <div class="Detailsdiv-center">
+    	    <div class="Detailsdiv-center-l"></div>
+    	    <div class="Detailsdiv-center-b">
+        	    <div class="Detailsdiv-center-div-table">
+            	    <table width="631" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                      <colgroup>
+                        <col style="width:150px" />
+                        <col style="width:200px" />
+                      </colgroup>
+                      <tr class="project-center-lb1-list">
+                        <th>检查名称</th>
+                        <th class="project-center-lb1-list-cust01">检查结果</th>
+                        <th class="project-center-lb1-list-cust02">检查结果</th>
+                      </tr>
+                    </table>
+                    <div class="Detailsdiv-center-div-table-divtd">
+
+                	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">                
+                          <colgroup>
+                            <col style="width:150px" />
+                            <col style="width:200px" />
+                          </colgroup>
+                          <tbody id="ShowSectionCompareDetailDataList">
+                                
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+    	    <div class="Detailsdiv-center-r"></div>
+        </div>
+	    <div class="Detailsdiv-bottom">
+    	    <div class="Detailsdiv-bottom-l"></div>
+    	    <div class="Detailsdiv-bottom-b"></div>
+    	    <div class="Detailsdiv-bottom-r"></div>
+        </div>
+    </div>
+        <table style="display:none;">
+            <!--分科明细弹出层内容模板 -->
+    
+    
+            <!-- 收费项目，检查项目模版 -->
+    
+            <tbody id="SectionCompare_ExamItemFirstRowTemplete">
+                <tr id="tr1">
+                    <td class="lisdb-3-th" width="110" nowrap="nowrap">@ExamItemName</td>
+                    <td class="project-align-left @CompareResultClass">@ResultSummary01</td>
+                    <td class="project-align-left @CompareResultClass">@ResultSummary02</td>
+                </tr>
+            </tbody>
+
+            <tbody id="SectionCompare_ExamItemOtherRowTemplete">
+                <tr id="tr2">
+                    <td class="lisdb-3-th" width="110" nowrap="nowrap">@ExamItemName</td>
+                    <td class="project-align-left @CompareResultClass">@ResultSummary01</td>
+                    <td class="project-align-left @CompareResultClass">@ResultSummary02</td>
+                </tr>
+            </tbody>
+
+            <tbody id="CustSectionExamCompareDetailListNoDataTemplete">
+                <tr>
+                    <td colspan="3" style="text-align:center; width:100%; padding:40px 0px 40px 0px;">暂未查询到对比数据！</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    <!--总检总审弹出层结束 （分科明细对比）-->
+
+    <table style="display:none;">
+        <!--结论词快速选择列表模板-->
+        <tbody id="ConclusionQueryListTemplete">
+            <tr id="trConclusion_@ID_Conclusion" onclick="SetConclusionRadioSelect('@ID_Conclusion');"
+                ondblclick="SelectConclusionDataList();" 
+                onkeydown="if(IsEscKeyDown() == true) { SetConclusionRadioSelect('@ID_Conclusion'); SelectConclusionDataList(); }" >
+                <td>
+                <input type="checkbox" onfocus="ConclusionClickBackground('@ID_Conclusion')"
+                    onclick="SetConclusionRadioSelect('@ID_Conclusion');" 
+                    name="chkConclusionQueryList" id="chkConclusion_@ID_Conclusion" 
+                    onkeydown="ConclusionKeyMove(this, event);if(IsEscKeyDown() == true) { SetConclusionRadioSelect('@ID_Conclusion'); }"
+                    value="@ID_Conclusion"
+                    ConclusionTypeName="@ConclusionTypeName"
+                    FinalConclusionTypeName="@FinalConclusionTypeName"
+                    FinalConclusionSignCode="@FinalConclusionSignCode"
+                    ConclusionName="@ConclusionName"  />
+                </td>
+                <td class="project-align-left">@ConclusionName</td>
+                <td style="display:none;">&nbsp;</td>
+            </tr>
+            <!--原来第三列的值： @FinalConclusionTypeName 20140420 by wtang-->
+        </tbody>
+
+        <tbody id="ConclusionSelectListTemplete">
+                <tr id="trSel_@ID_Conclusion" onclick="ShowSelectedEditArea('@ID_Conclusion');" >
+                    
+                    <td align="center"><a class="zjxz-jlc-nr-left-table-nr-tex" title="点击删除结论词【@ConclusionName】" href="javascript:delSelectedConclusion('@ID_Conclusion');" >×</a></td>
+                    <td><input id="txtConclusionOrder_@ID_Conclusion" 
+                     maxlength="3"
+                     onkeyup="this.value=this.value.replace(/\D/g,'')" 
+                     onkeydown="SelectConclusionKeyMove(this, event);" 
+                     onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                     name="txtConclusionOrder_@ID_Conclusion" 
+                     value="@DispOrder" />
+                     </td>
+                    <td align="left"><span class="@FinalConclusionTypeClass" title="@ConclusionName"><a href="javascript:void(0);">@ConclusionName</a></span></td>
+                    
+                    <td style="display:none;">@ConclusionTypeName</td>
+                    <td style="display:none;">@FinalConclusionTypeName</td>
+                    <td align="center" style="display:none;">
+                    <input type="checkbox" @Is_Checked id="chkSelectedConclusionList_@ID_Conclusion" name="@chkSelectedConclusionListName" 
+                        ConclusionName="@ConclusionName" 
+                        FinalConclusionTypeName="@FinalConclusionTypeName"
+                        FinalConclusionSignCode="@FinalConclusionSignCode"
+                        ConclusionTypeName="@ConclusionTypeName"
+                        ID_CustConclusion="@ID_CustConclusion"  
+                        value="@ID_Conclusion" /></td>
+                </tr>
+        </tbody>
+             
+        <tbody id="CustExamSectionListTemplete">
+                <tr>
+
+                    <td rowspan="1" itemid="@ID_Section" itemname="@SectionName" interfacetype="@InterfaceType" class="project-align-right btnShow" >@SectionName</td>
+                    <td class="project-align-left d-content">@SectionSummaryText</td>
+
+                    <td style="text-align:center; display:none;" class="examisexamclass">@Examed</td>
+                    <td class="examdoctorclass" style=" display:none;">@SummaryDoctorName</td>
+                    <td class="examdateclass" style=" display:none;">@SectionSummaryDate</td>
+                    <td style="text-align:center; display:none;" class="examisexamclass">@Checked</td>
+                </tr>
+        </tbody>
+        
+        <!-- 读取数据等待信息模版 -->
+        <tbody id="ExamItemWaitingTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemWaiting"  style="text-align:center;" >正在读取体检项目信息，请稍后...</td>
+            </tr>
+        </tbody>
+        
+        <!-- 读取空数据模版 （清空收费项目） -->
+        <tbody id="ExamItemEmptyTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemEmpty" >&nbsp;</td>
+            </tr>
+        </tbody>
+        <!-- 其他提示信息模版 -->
+        <tbody id="TipsMessageTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemEmpty" >@TipsMessage</td>
+            </tr>
+        </tbody>
+
+        
+    </table>
+
+    
+    <!--结论词编辑区域模板-->
+    <script type="text/plain"  id="ConclusionSelectedDataEditTemplete"> 
+            
+        <table width="100%" style="display:none;" border="0" id="ConclusionSelectedDataEdit_@ID_Conclusion"  cellspacing="0" cellpadding="0" align="left" class="zjxz-jlc-nr-right-tab1">
+            
+            <tr>
+            <td width="80">结论名称：</td>
+            <td>
+                <input name="txtConclusionName_@ID_Conclusion" id="txtConclusionName_@ID_Conclusion" value="@ConclusionName" ConclusionName="@ConclusionName" maxlength="25" class="zjxz-jlc-nr-right-tab1-input" />
+                <input type="hidden"  name="txtFinalConclusionSignCode_@ID_Conclusion" id="txtFinalConclusionSignCode_@ID_Conclusion" value="@FinalConclusionSignCode"/>
+            </td>
+            </tr>
+            <tr>
+            <td>结论类型：</td>
+            <td>
+                <label class="checkbox"><input type="radio" name="rdiDiagnoseType_@ID_Conclusion" conclusionid="@ID_Conclusion" value="10" onclick="SetDiagnoseTypeValue(this);" />主要诊断</label>
+                <label class="checkbox"><input type="radio" name="rdiDiagnoseType_@ID_Conclusion" conclusionid="@ID_Conclusion" value="20" onclick="SetDiagnoseTypeValue(this);"  />次要诊断</label>
+                <label class="checkbox"><input type="radio" name="rdiDiagnoseType_@ID_Conclusion" conclusionid="@ID_Conclusion" value="30" onclick="SetDiagnoseTypeValue(this);"  />指标异常</label>
+                <label class="checkbox" style="width:71px;"><input type="radio"  name="rdiDiagnoseType_@ID_Conclusion" conclusionid="@ID_Conclusion"  value="40" onclick="SetDiagnoseTypeValue(this);"  />正常</label>
+                <label class="checkbox"><input type="radio"  name="rdiDiagnoseType_@ID_Conclusion" conclusionid="@ID_Conclusion"  value="50" onclick="SetDiagnoseTypeValue(this);"  />其它</label>
+            </td>
+            </tr>
+            <tr>
+            <td>结论解释：</td>
+            <td><textarea cols="45" rows="5" class="zjxz-jlc-nr-right-tab1-text1 b-edit" id="txtExplanation_@ID_Conclusion" name="txtExplanation_@ID_Conclusion" boxtitle="结论解释 @ConclusionName" >@Explanation</textarea></td>
+            </tr>
+            <tr>
+            <td>结论建议：</td>
+            <td><textarea  cols="45" rows="5" class="zjxz-jlc-nr-right-tab1-text1 b-edit" id="txtSuggestion_@ID_Conclusion" name="txtSuggestion_@ID_Conclusion" boxtitle="结论建议 @ConclusionName" >@Suggestion</textarea></td>
+            </tr>
+            <tr>
+            <td>饮食指导：</td>
+            <td><textarea cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit" id="txtDietGuide_@ID_Conclusion" name="txtDietGuide_@ID_Conclusion" boxtitle="饮食指导 @ConclusionName" >@DietGuide</textarea></td>
+            </tr>
+            <tr>
+            <td>运动指导：</td>
+            <td><textarea cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit" id="txtSportsGuide_@ID_Conclusion" name="txtSportsGuide_@ID_Conclusion" boxtitle="运动指导 @ConclusionName" >@SportsGuide</textarea></td>
+            </tr>
+            <tr>
+            <td>健康知识：</td>
+            <td><textarea  cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit" id="txtHealthKnowledge_@ID_Conclusion" name="txtHealthKnowledge_@ID_Conclusion" boxtitle="健康知识 @ConclusionName" >@HealthKnowledge</textarea></td>
+            </tr>
+        </table>	
+
+    </script>
+            
+	    <!-- 体检状态,当次体检信息的状态：0表示在线，1表示归档，2表示在一号分库，3表示在二号分库…  -->
+        <input type="hidden" name="ExamState" id="ExamState" value="$!{ExamState}" />
+
+        <!-- 操作密级 -->
+        <input type="hidden" name="CustomerSecurityLevel" id="CustomerSecurityLevel" value="$!{CustomerSecurityLevel}" />
+	    <!-- 分科锁定 -->
+        <input type="hidden" name="Is_SectionLock" id="Is_SectionLock" value="$!{Is_SectionLock}" />
+        <!-- 总检 -->
+        <input type="hidden" name="Is_FinalConclusion" id="Is_FinalConclusion" value="True" />
+	    <!-- 完成总检 -->
+        <input type="hidden" name="Is_FinalFinished" id="Is_FinalFinished" value="$!{Is_FinalFinished}" />
+	    <!-- 完成总审 -->
+        <input type="hidden" name="Is_Checked" id="Is_Checked" value="$!{Is_Checked}" />
+
+        <!-- 操作类型 // 0：汇总 1：提交 --> 
+        <input type="hidden" name="Oper_IsFinalFinished" id="Oper_IsFinalFinished" value="" />
+
+	    <!-- 是否回收指引单 -->
+        <input type="hidden" name="Is_GuideSheetReturned" id="Is_GuideSheetReturned" value="$!{Is_GuideSheetReturned}" />
+	    <!-- 指引单是否打印 -->
+        <input type="hidden" name="Is_GuideSheetPrinted" id="Is_GuideSheetPrinted" value="$!{Is_GuideSheetPrinted}" />
+        <!-- 报告已经领取 -->
+        <input type="hidden" name="Is_ReportReceipted" id="Is_ReportReceipted" value="$!{Is_ReportReceipted}" />
+	    <!-- 是否禁检 -->
+        <input type="hidden" name="Is_Paused" id="Is_Paused" value="$!{Is_Paused}" />
+	    <!-- 是否完成缴费 -->
+        <input type="hidden" name="Is_FeeSettled" id="Is_FeeSettled" value="$!{Is_FeeSettled}" />
+
+        
+	    <!-- 总检查次数 -->
+        <input type="hidden" name="totalExamNumber" id="totalExamNumber" value="$!{totalExamNumber}" />
+	    <!-- 隐藏的身份证号码 -->
+        <input type="hidden" name="HiddenIDCardNo" id="HiddenIDCardNo" value="$!{IDCardNo}" />
+	    <!-- 隐藏的客户体检号，在数据对比时使用 -->
+        <input type="hidden" name="HiddenCustomerID" id="HiddenCustomerID" value="$!{txtCustomerID}" />
+	    <!-- 隐藏的客户姓名，在数据对比时使用 -->
+        <input type="hidden" name="HiddenCustomerName" id="HiddenCustomerName" value="$!{CustomerName}" />
+	    <!-- 是否加载体征词对应的结论词 -->
+        <input type="hidden" name="IsLoadConnectConclusion" id="IsLoadConnectConclusion" value="0" />
+        
+
+</body>
+
+
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Conclusion.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取分科检查（自动调用）
+        jQuery(document).ready(function () {
+
+            jQuery("#TipsArea").autoHeight(); // 自适应高度(提示信息区域)
+
+            SwitchHeader(3); // 隐藏通用头部 
+
+//            if (jQuery("#FinalExamResultCheckInfo") != undefined) {
+
+//                jQuery(".ReCalcuHeight01").attr("data-left", (parseInt(jQuery(".ReCalcuHeight01").attr("data-left")) + jQuery("#FinalExamResultCheckInfo table").height()));
+//                jQuery(".ReCalcuHeight02").attr("data-left", (parseInt(jQuery(".ReCalcuHeight02").attr("data-left")) + jQuery("#FinalExamResultCheckInfo table").height()));
+//                jQuery(".ReCalcuHeight03").attr("data-left", (parseInt(jQuery(".ReCalcuHeight03").attr("data-left")) + jQuery("#FinalExamResultCheckInfo table").height()));
+//                jQuery(".ReCalcuHeight04").attr("data-left", (parseInt(jQuery(".ReCalcuHeight04").attr("data-left")) + jQuery("#FinalExamResultCheckInfo table").height()));
+//                jQuery(".ReCalcuHeight05").attr("data-left", (parseInt(jQuery(".ReCalcuHeight05").attr("data-left")) + jQuery("#FinalExamResultCheckInfo table").height()));
+//            }
+
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // 查询客户的基本信息，并显示
+            SearchCustomerBaseInfo(0, 0); //原型：SearchCustomerBaseInfo(IsShowMsg, IsLoadCustomerInfo)
+
+            GetCustExamSectionItem();
+
+            // 获取客户的病症级别，并判断是否进行相应的提示 20140326 by wtang 
+            QueryCustomerExamItemDiseaseLevelTips();
+
+
+            jQuery(".Detailsdiv").drag({ handler: jQuery(".Detailsdiv-title-total") });
+        });
+
+        /// <summary>
+        /// 设置结论词项目列选中状态
+        /// </summary>
+        function SetConclusionRadioSelect(ID_Conclusion) {
+
+            jQuery("#chkConclusion_" + ID_Conclusion).attr("checked", !jQuery("#chkConclusion_" + ID_Conclusion).attr("checked"));
+            jQuery("#chkConclusion_" + ID_Conclusion + "").focus();
+
+            ConclusionClickBackground(ID_Conclusion);
+        }
+
+        /// <summary>
+        /// 设置当前行的背景颜色
+        /// </summary>
+        function ConclusionClickBackground(ID_Conclusion) {
+
+            jQuery("#QueryConclusionDataTableList tr").removeClass();
+            jQuery("#trConclusion_" + ID_Conclusion).addClass("SelectedItem");
+        }
+
+        function xxdbqh(n) {
+            var tag = document.getElementById("xxdb").getElementsByTagName("li");
+            var taglength = tag.length;
+
+            for (i = 1; i <= taglength; i++) {
+                document.getElementById("mx" + i).className = "";
+                document.getElementById("zxm" + i).style.display = 'none';
+            }
+            document.getElementById("mx" + n).className = "xxdb-on";
+            document.getElementById("zxm" + n).style.display = '';
+
+            // 判断表格是否存在滚动条,并设置相应的样式
+            JudgeTableIsExistScroll();
+        }
+
+        function SetDiagnoseTypeValue(obj){
+            var conclusionid =  jQuery(obj).attr("conclusionid");
+            
+            jQuery("#trSel_" + conclusionid + " span").removeClass();
+            jQuery("#trSel_" + conclusionid + " span").addClass(GetFinalConclusionTypeClass(jQuery(obj).val()));
+            jQuery("#txtFinalConclusionSignCode_" + conclusionid).val(jQuery(obj).val());
+            jQuery("#chkSelectedConclusionList_" + conclusionid).attr("FinalConclusionSignCode", jQuery(obj).val());
+
+        }
+
+    </script>
+
+
+</html>

@@ -1,0 +1,702 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>总审页面 </title>
+        <meta charset="UTF-8" />
+        
+    <link rel="stylesheet" href="$!{templatepath}/css/exam.css" />
+
+    <style type="text/css">
+        
+        
+        .ConclusionTitleClass
+        {
+            padding-left:122px;
+            float:left;
+        }
+        .ConclusionTitleClass li
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            cursor:pointer;
+        }
+         .ConclusionTitleClass .selected
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            background-color:#27a9e3;
+            color:White;
+        }
+         .ConclusionTitleClass li:hover
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            background-color:#27a9e3;
+            color:White;
+        }
+        
+        .showQueryConclusionClass .QueryConclusionClass
+        {
+            display:block;
+        }
+        
+        .hideQueryConclusionClass .QueryConclusionClass
+        {
+            display:none;
+        }
+        
+        .right
+        {
+            float: right;
+        }
+        .left
+        {
+            float: left;
+        }
+        .textright
+        {
+            text-align: right;
+        }
+        .textcenter
+        {
+            text-align: center;
+        }
+        .textleft
+        {
+            text-align: left;
+        }
+        
+        .style1
+        {
+            text-align: right;
+            width: 89px;
+        }
+        .style2
+        {
+            text-align: right;
+            width: 146px;
+        }
+        .style3
+        {
+            width: 275px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Conclusion.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取分科检查（自动调用）
+        jQuery(document).ready(function () {
+
+            // 查询客户的基本信息，并显示
+            SearchCustomerBaseInfo();
+
+            GetCustExamSectionItem();
+
+        });
+
+    </script>
+
+
+	</head>
+	<body  style="text-align:center;">
+    
+
+    <div class="content">
+
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                扫描区
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <table class="tblRegistTableEdit" id="tblRegistTableEdit">
+                <tr>
+                    <td class="text_left">
+                        体检号(F2)：
+                        <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+                        <input name="txtCustomerID"  id="txtCustomerID"type="text" 
+                        onfocus="this.select();" onkeyup="AutoGetCustomerConclusionCheckInfo('NewPage');" value="$!{txtCustomerID}"/>
+                        
+                        <input id="btnSearch" type="button" class="button80" onclick="GetCustomerConclusionCheckInfo('NewPage');" value=" 查  询(F4) " />
+
+                        <input type="button" class="button100" name="ButUnLockFinalCheck"  id="ButUnLockFinalCheck1" onclick="UnLockFinalFinished_Ajax();" value=" 解除总检 " />
+
+                        
+                        <input id="Button2" type="button" class="button100" onclick="ReprotPreview();" value=" 报告预览(F10) " />&nbsp;
+
+
+                        <span style="display:none;">
+                        <input id="Button10" type="button" class="button80" onclick="ClearCustomerInfo();" title="清除信息，便于进行下一个客户的体检。" value=" 清  除 " />
+
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--客户信息扫描 End-->
+        <div class="widget-box showbox" id="divCustomerInfoArea" style="display:none;">
+            <div class="widget-title bg_lg widget-title-middle">
+                客户基本信息
+                <label id="Label1" style="color: Red;">
+                </label>
+            </div>
+            <div style="min-height: 90px; height: 90px;">
+                <table class="tblCustomerBaseInfo" id="tblSearch">
+                    <tbody>
+                        <tr id="loading">
+                            <td style="text-align: center;" colspan="9">
+                                未找到该体检号对应的客户信息,请核对体检号是否正确...
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title">
+                                体检号
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblID_Customer" name="lblID_Customer">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户姓名
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblCustomerName" name="lblCustomerName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户性别
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblSex" name="lblSex">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户年龄
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblAge" name="lblAge">
+                                    &nbsp;</label> 岁
+                            </td>
+                            <td class="text_center width100" rowspan="3">
+                                <img id="HeadImg" name="HeadImg" style="width: 80px; " src="/template/blue/images/icons/nohead.gif" />
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title">
+                                证件号
+                            </td>
+                            <td class="text_left">
+                                <label id="lblIDCard" name="lblIDCard">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                联系电话
+                            </td>
+                            <td>
+                                <label id="lblTel" name="lblTel">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检日期
+                            </td>
+                            <td colspan="3">
+                                <label id="lblRegisterDate" name="lblRegisterDate">
+                                    &nbsp;</label>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title ">
+                                体检单位
+                            </td>
+                            <td>
+                                <label id="lblTeamName" name="lblTeamName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                婚姻状况
+                            </td>
+                            <td>
+                                <label id="lblMarriedName" name="lblMarriedName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检类型
+                            </td>
+                            <td colspan="3">
+                                <label id="lblExamType" name="lblExamType">
+                                    &nbsp;</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="widget-box showbox" id="ContentArea">
+            
+            <table class="tblCustInfoTableEdit" style="width: 100%; display:none;">
+                <tr>
+                
+                    <td class="text_right">
+                        体检号：
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td class="text_right">身份证号码：</td>
+                    <td id="IDCardNoText">$!{IDCardNo}</td>
+                    <td colspan="2" rowspan="4" style="text-align: center">
+                        <img alt="" id="CustomerPhoto" class="CustPhotoShowSize" src="file:///d:/我的文档/图片收藏/照片/照片.jpg" /></td>
+                </tr>
+                <tr>
+                    <td class="text_right">姓名：</td>
+                    <td id="CustomerNameText">$!{CustomerName} </td>
+                    <td class="text_right">性别：</td>
+                    <td id="GenderNameText">$!{GenderName}</td>
+                </tr>
+                <tr>
+                    <td class="text_right">婚姻状况：</td>
+                    <td id="MarriageNameText">$!{MarriageName}</td>
+                    <td class="text_right">联系电话：</td>
+                    <td id="MobileNoText">$!{MobileNo}</td>
+                </tr>
+            </table>
+
+            <div class="splitline">&nbsp;</div>
+
+            <table class="examtable" cellpadding="0" cellspacing="0" border="1">
+                
+                <thead id="FinalConclusionDataHeadInfo">
+                    <TR class="feeitemboder itemheaderclass">
+                        <TD class="feenameclass">科室名称</TD>
+                        <TD>检查结果</TD>
+                        <TD class="examisexamclass">检查</TD>
+                        <TD class="examdoctorclass" style="white-space:nowrap;">检查医生</TD>
+                        <TD class="examdateclass" style="white-space:nowrap;">检查时间</TD>
+                        <TD class="examisexamclass">提交</TD>
+                    </TR>
+                </thead>
+                
+                <tbody id="CustExamSectionList">
+                
+                <tr>
+                    <td colspan="6">正在加载客户分检信息，请稍等... </td>
+                </tr>
+                </tbody>
+
+                
+
+                <tbody id="FinalConclusionDataBottomInfo">
+                
+                <tr>
+                    <td colspan="6" class="examitemfeeline"> <lable FeeName="@FeeName" id="lab_@ID_Fee" CustFeeID="@ID_CustFee">检查结论</lable></td>
+                </tr>
+
+                <tr style="display:none;">
+                
+                    <td rowspan="3" class="text_right">结论及结论词：</td>
+
+                    <td colspan="5">
+                        <div style=" position:relative;" id="ConclusionQueryArea" class="hideQueryConclusionClass" >
+                            
+                            <input type="hidden" id="txtConclusionInputCode" onkeyup="GetConclusionByKeyWords_Ajax();" onchange="GetConclusionByKeyWords_Ajax();" onfocus="QueryConclusionList(true);" name="txtConclusionInputCode" /> 
+                            <div id="ConclusionDataList" class="QueryConclusionClass" style="width:400px;position:absolute; border:1px solid red; background-color:White; margin-top:-1px; ">
+                                <div style="max-height:200px; width:auto; overflow:auto">
+                                <table style="width:100%;">
+                                    <thead>
+                                    <tr>
+                                        <td>选择</td>
+                                        <td>团检结论词</td>
+                                        <td>结论词</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="QueryConclusionDataTableList">
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div style="width:100%; text-align:center;">
+
+                                     <input type="button" class="button80" id="btnsave001" onclick="SelectConclusionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                                     <input type="button" class="button80" id="btncolse001" onclick="QueryConclusionList(false);" value=" 取  消 " /> 
+                                        
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td colspan="5" id="ConclusionDataListParent" style="display:none;">
+                        <table style="width:600px;"  class="tblList">
+                            <thead>
+                            <tr>
+                                <td title="选中后，表示不出现在结论汇总中">不出现</td>
+                                <td>排序</td>
+                                <td>团检结论词</td>
+                                <td>结论词</td>
+                            </tr>
+                            </thead>
+                            <tbody id="ConclusionSelectedList">
+
+                            </tbody>
+                        </table>
+
+                    </td>
+                </tr>
+                
+
+                <tr>
+                    <td colspan="5" id="ConclusionSelectedDataEdit">
+                    
+                    </td>
+                </tr>
+                <tr id="trConclusionFinalOverView">
+                    <td class="text_right" onclick="jQuery('#showConclusionFinalOverView').hide();jQuery('#linkConclusionFinalOverView').show();"><span style="color:Blue;cursor:pointer;">综述：</span></td>
+                    <td colspan="5" style=" min-width:760px; word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalOverView" name="txtConclusionFinalOverView">$!{FinalOverView}</textarea>
+                       <p id="linkConclusionFinalOverView" onclick="jQuery('#showConclusionFinalOverView').show();jQuery('#linkConclusionFinalOverView').hide();" style="color:Blue; cursor:pointer;">显示详细信息</p>
+                       <p id="showConclusionFinalOverView" style="display:none;">$!{FinalOverView}</p>
+                    </td>
+                </tr>
+                <tr id="trConclusionFinalConclusion">
+                    <td class="text_right">结论汇总：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalConclusion" name="txtConclusionFinalConclusion">$!{FinalConclusion}</textarea>
+                        $!{FinalConclusion}
+                    </td>
+                </tr>
+                <tr id="trConclusionMainDiagnose">
+                    <td class="text_right">疾病诊断及建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionMainDiagnose" name="txtConclusionMainDiagnose">$!{MainDiagnose}</textarea>
+                        $!{MainDiagnose}
+                    </td>
+                </tr>
+                <tr id="trConclusionIndicatorDiagnose">
+                    <td class="text_right">指标异常及建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionIndicatorDiagnose" name="txtConclusionIndicatorDiagnose">$!{IndicatorDiagnose}</textarea>
+                        $!{IndicatorDiagnose}
+                    </td>
+
+                </tr>
+                <tr id="trConclusionOtherDiagnose">
+                    <td class="text_right">其它异常及建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionOtherDiagnose" name="txtConclusionOtherDiagnose">$!{OtherDiagnose}</textarea>
+                        $!{OtherDiagnose}
+                    </td>
+                </tr>
+                <tr id="trConclusionResultCompare">
+                    <td class="text_right">结果对比：</td>
+                    <td colspan="5" style="word-break: break-all;" >
+                       <textarea readonly="readonly"  class="SectionResultSummaryArea" style="display:none;background-color:#ececec;min-width:760px;" rows="16" id="txtConclusionResultCompare" name="txtConclusionResultCompare">$!{ResultCompare}</textarea>
+                        $!{ResultCompare}
+                    </td>
+                </tr>
+                <tr id="trConclusionFinalDietGuide">
+                    <td class="text_right">饮食建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalDietGuide" name="txtConclusionFinalDietGuide">$!{FinalDietGuide}</textarea>
+                        $!{FinalDietGuide}
+                    </td>
+                </tr>
+                <tr id="trConclusionFinalSportGuide">
+                    <td class="text_right">运动建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalSportsGuide" name="txtConclusionFinalSportsGuide">$!{FinalSportGuide}</textarea>
+                        $!{FinalSportGuide}
+                    </td>
+                </tr>
+                <tr id="trConclusionFinalHealthKnowlage">
+                    <td class="text_right">健康建议：</td>
+                    <td colspan="5" style="word-break: break-all;">
+                       <textarea readonly="readonly" class="SectionResultSummaryArea" style="display:none;background-color:#ececec; min-width:760px;" rows="16" id="txtConclusionFinalHealthKnowlage" name="txtConclusionFinalHealthKnowlage">$!{FinalHealthKnowlage}</textarea>
+                        $!{FinalHealthKnowlage}
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="text_right">总检医生：</td>
+                    <td colspan="5">
+                       
+                       <ul class="showlidata"> 
+                       <li style="width:20%;">${FinalDoctor}</li> 
+                       <li style="width:20%;">总检时间：</li> 
+                       <li style="width:20%;">$!{FinalDate}</li> 
+                       <li style="width:20%;">&nbsp;</li> 
+                       <li style="width:20%;">&nbsp;</li> 
+                       </ul>
+
+                       
+                    </td>
+                </tr>
+                
+                
+                #if($!{Checker} != "")
+                <tr>
+                    <td class="text_right">上次审核状态：</td>
+                    <td colspan="5"> 
+                    
+                       <ul class="showlidata"> 
+                       <li style="width:20%;">#if($!{Is_Checked} == "True") 通过审核 #else 未通过审核 #end</li> 
+                       <li style="width:20%;">上次审核人：</li> 
+                       <li style="width:20%;">$!{Checker}</li> 
+                       <li style="width:20%;">上次审核时间：</li> 
+                       <li style="width:20%;">$!{CheckedDate}</li> 
+                       </ul>
+                    
+                    </td>
+                </tr>
+                #if($!{Is_Checked} == "False")
+                <tr>
+                    <td class="text_right">上次拒绝理由：</td>
+                    <td colspan="5"> $!{RefuseReason}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">审核意见：</td>
+                    <td colspan="5">
+                       <textarea style="width:100%;" rows="3" name="txtRefuseReason" id="txtRefuseReason"></textarea>
+                    </td>
+                </tr>
+                #end
+
+                #else
+
+                <tr>
+                    <td class="text_right">审核意见：</td>
+                    <td colspan="5">
+                       <textarea style="width:100%;" rows="3" name="txtRefuseReason" id="txtRefuseReason"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">审核人：</td>
+                    <td colspan="5">
+                       #if($!{Checker} == "")
+                       ${LoginUserModel.UserName}  &nbsp;&nbsp;审核时间：$!{today}
+                       #else
+                       ${Checker}  &nbsp;&nbsp;审核时间：$!{CheckedDate}
+                       #end
+                    </td>
+                </tr>
+
+                #end
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="5" style="line-height:50px;">
+                    <input type="button" class="button90" id="ButChecked" onclick="SaveCustomerFinalCheck(1);" value=" 审核通过(F8) " />
+                    <input type="button" class="button110" id="ButUnCheck" onclick="SaveCustomerFinalCheck(0);" value=" 审核不通过(F9) " />
+                    <input type="button" class="button100" name="ButUnLockFinalCheck" id="ButUnLockFinalCheck2" onclick="UnLockFinalFinished_Ajax();" value=" 解除总检 " />
+                    
+                    <input id="ButReprotPreview" type="button" class="button100" onclick="ReprotPreview();" value=" 报告预览(F10) " />&nbsp;
+
+
+                    <!--<input type="button" class="button80" id="ButUnLock" onclick="LockCustomerFinalCheck(0)" value="解除锁定" />&nbsp; -->
+                    </td>
+                </tr>
+
+                </tbody>
+
+                
+                <tbody style="display:none;">
+                <tr>
+                    <td colspan="6">
+                        <ul class="ConclusionTitleClass">
+                        
+                            <li class="selected" id="liConclusionFinalOverView" onclick="ShowHideFinalTextArea(1);">综述</li>
+                            <li id="liConclusionFinalConclusion" onclick="ShowHideFinalTextArea(2);">结论汇总</li>
+                            <li id="liConclusionResultCompare" onclick="ShowHideFinalTextArea(3);">结果对比</li>
+                            <li id="liConclusionMainDiagnose" onclick="ShowHideFinalTextArea(4);">疾病诊断及建议</li>
+                            <li id="liConclusionIndicatorDiagnose" onclick="ShowHideFinalTextArea(8);">指标异常及建议</li>
+                            <li id="liConclusionOtherDiagnose" onclick="ShowHideFinalTextArea(9);">其它异常及建议</li>
+                            <li id="liConclusionFinalDietGuide" onclick="ShowHideFinalTextArea(5);">饮食建议</li>
+                            <li id="liConclusionFinalSportGuide" onclick="ShowHideFinalTextArea(6);">运动建议</li>
+                            <li id="liConclusionFinalHealthKnowlage" onclick="ShowHideFinalTextArea(7);">健康建议</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                </tbody>
+                
+            </table>
+
+            
+            <div style="height:120px;">&nbsp;</div>
+            
+            <div class="splitline">&nbsp;</div>
+
+
+        </div>
+    </div>
+
+    <table style="display:none;">
+        <tbody id="ConclusionQueryListTemplete">
+            <tr>
+                <td>
+                <input type="checkbox" name="chkConclusionQueryList" id="chkConclusion_@ID_Conclusion" 
+                    value="@ID_Conclusion"
+                    ConclusionTypeName="@ConclusionTypeName"
+                    ConclusionName="@ConclusionName"  />
+                </td>
+                <td>@ConclusionTypeName</td>
+                <td>@ConclusionName</td>
+            </tr>
+        </tbody>
+
+        <tbody id="ConclusionSelectListTemplete">
+                <tr id="trSel_@ID_Conclusion" onclick="ShowSelectedEditArea('@ID_Conclusion');">
+                    <td><input disabled="disabled" type="checkbox" @Is_Checked id="chkSelectedConclusionList_@ID_Conclusion" name="@chkSelectedConclusionListName" 
+                        ConclusionName="@ConclusionName" 
+                        ConclusionTypeName="@ConclusionTypeName"
+                        ID_CustConclusion="@ID_CustConclusion"  
+                        value="@ID_Conclusion" /></td>
+                    <td><input readonly="readonly" 
+                     onblur="SortByOrderNumber();"
+                     id="txtConclusionOrder_@ID_Conclusion" 
+                     maxlength="3"
+                     onkeyup="this.value=this.value.replace(/\D/g,'')" 
+                     onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                     name="txtConclusionOrder_@ID_Conclusion" 
+                     style="background-color:#ececec; width:30px;" 
+                     value="@DispOrder" /></td>
+                    <td>@ConclusionTypeName</td>
+                    <td>@ConclusionName</td>
+                </tr>
+        </tbody>
+             
+        <tbody id="CustExamSectionListTemplete">
+                
+                <tr class="@tr_class">
+                    <td rowspan="1" class="text_right" >@SectionName：</td>
+                    <td>@SectionSummaryText</td>
+                    <td style="text-align:center;" class="examisexamclass">@Examed</td>
+                    <td class="examdoctorclass">@SummaryDoctorName</td>
+                    <td class="examdateclass">@SectionSummaryDate</td>
+                    <td style="text-align:center;" class="examisexamclass">@Checked</td>
+                </tr>
+                
+        </tbody>
+        
+        <!-- 读取数据等待信息模版 -->
+        <tbody id="ExamItemWaitingTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemWaiting" >正在读取体检项目信息，请稍后...</td>
+            </tr>
+        </tbody>
+        
+        <!-- 读取空数据模版 （清空收费项目） -->
+        <tbody id="ExamItemEmptyTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemEmpty" >&nbsp;</td>
+            </tr>
+        </tbody>
+        <!-- 其他提示信息模版 -->
+        <tbody id="TipsMessageTemplete">
+            <tr>
+                <td colspan="6" class="ExamItemEmpty" >@TipsMessage</td>
+            </tr>
+        </tbody>
+    </table>
+
+                <div style="display:none;" id="ConclusionSelectedDataEditTemplete"> 
+                
+                    <table style="width:100%;display:none;" id="ConclusionSelectedDataEdit_@ID_Conclusion">
+                        <tr><td>结论名称：</td></tr>
+                        <tr>
+                            <td><input style="width:100%" name="txtConclusionName_@ID_Conclusion" id="txtConclusionName_@ID_Conclusion" value="@ConclusionName" /></td>
+                        </tr>
+                        <tr><td>结论解释：</td></tr>
+                        <tr>
+                            <td><textarea class="SectionResultSummaryArea" rows="5" id="txtExplanation_@ID_Conclusion" name="txtExplanation_@ID_Conclusion">@Explanation</textarea></td>
+                        </tr>
+                        <tr><td>疾病诊断及建议：</td></tr>
+                        <tr>
+                            <td><textarea class="SectionResultSummaryArea" rows="2" id="txtSuggestion_@ID_Conclusion" name="txtSuggestion_@ID_Conclusion">@Suggestion</textarea></td>
+                        </tr>
+                        <tr><td>饮食指导：</td></tr>
+                        <tr>
+                            <td><textarea class="SectionResultSummaryArea" rows="2" id="txtDietGuide_@ID_Conclusion" name="txtDietGuide_@ID_Conclusion">@DietGuide</textarea></td>
+                        </tr>
+                        <tr><td>运动指导：</td></tr>
+                        <tr>
+                            <td><textarea class="SectionResultSummaryArea" rows="2" id="txtSportsGuide_@ID_Conclusion" name="txtSportsGuide_@ID_Conclusion">@SportsGuide</textarea></td>
+                        </tr>
+                        <tr><td>健康知识：</td></tr>
+                        <tr>
+                            <td><textarea class="SectionResultSummaryArea" rows="2" id="txtHealthKnowledge_@ID_Conclusion" name="txtHealthKnowledge_@ID_Conclusion">@HealthKnowledge</textarea></td>
+                        </tr>
+                    </table>
+            </div>
+
+        <!-- 体检状态,当次体检信息的状态：0表示在线，1表示归档，2表示在一号分库，3表示在二号分库…  -->
+        <input type="hidden" name="ExamState" id="ExamState" value="$!{ExamState}" />
+
+        <!-- 操作密级 -->
+        <input type="hidden" name="CustomerSecurityLevel" id="CustomerSecurityLevel" value="$!{CustomerSecurityLevel}" />
+	    
+	    <!-- 总审 -->
+        <input type="hidden" name="Is_FinalCheck" id="Is_FinalCheck" value="True" />
+	    <!-- 分科锁定 -->
+        <input type="hidden" name="Is_SectionLock" id="Is_SectionLock" value="$!{Is_SectionLock}" />
+	    <!-- 完成总检 -->
+        <input type="hidden" name="Is_FinalFinished" id="Is_FinalFinished" value="$!{Is_FinalFinished}" />
+	    <!-- 总检医生ID -->
+        <input type="hidden" name="ID_FinalDoctor" id="ID_FinalDoctor" value="$!{ID_FinalDoctor}" />
+	    <!-- 总检医生 -->
+        <input type="hidden" name="FinalDoctor" id="FinalDoctor" value="$!{FinalDoctor}" />
+	    <!-- 总检时间 -->
+        <input type="hidden" name="FinalDateDetail" id="FinalDateDetail" value="$!{FinalDateDetail}" />
+        
+        <!-- 操作类型 // 0：汇总 1：提交 --> 
+        <input type="hidden" name="Oper_IsFinalFinished" id="Oper_IsFinalFinished" value="" />
+
+	    <!-- 是否回收指引单 -->
+        <input type="hidden" name="Is_GuideSheetReturned" id="Is_GuideSheetReturned" value="$!{Is_GuideSheetReturned}" />
+	    <!-- 指引单是否打印 -->
+        <input type="hidden" name="Is_GuideSheetPrinted" id="Is_GuideSheetPrinted" value="$!{Is_GuideSheetPrinted}" />
+	    <!-- 报告已经领取 -->
+        <input type="hidden" name="Is_ReportReceipted" id="Is_ReportReceipted" value="$!{Is_ReportReceipted}" />
+	    <!-- 是否禁检 -->
+        <input type="hidden" name="Is_Paused" id="Is_Paused" value="$!{Is_Paused}" />
+	    <!-- 是否完成缴费 -->
+        <input type="hidden" name="Is_FeeSettled" id="Is_FeeSettled" value="$!{Is_FeeSettled}" />
+
+	    <!-- 审核通过 -->
+        <input type="hidden" name="Is_Checked" id="Is_Checked" value="$!{Is_Checked}" />
+	    <!-- 审核人ID -->
+        <input type="hidden" name="ID_Checker" id="ID_Checker" value="$!{ID_Checker}" />
+	    <!-- 审核人 -->
+        <input type="hidden" name="Checker" id="Checker" value="$!{Checker}" />
+	    <!-- 审核时间 -->
+        <input type="hidden" name="CheckedDate" id="CheckedDate" value="$!{CheckedDate}" />
+	    <!-- 总检锁定，如果已经完成总检，表示已经被锁定 -->
+        <input type="hidden" name="Is_ConclusionLock" id="Is_ConclusionLock" value="$!{Is_FinalFinished}" />
+        
+	    <!-- 总检查次数 -->
+        <input type="hidden" name="totalExamNumber" id="totalExamNumber" value="$!{totalExamNumber}" />
+	    <!-- 隐藏的身份证号码 -->
+        <input type="hidden" name="HiddenIDCardNo" id="HiddenIDCardNo" value="$!{IDCardNo}" />
+	    <!-- 隐藏的客户体检号，在数据对比时使用 -->
+        <input type="hidden" name="HiddenCustomerID" id="HiddenCustomerID" value="$!{txtCustomerID}" />
+	    <!-- 隐藏的客户姓名，在数据对比时使用 -->
+        <input type="hidden" name="HiddenCustomerName" id="HiddenCustomerName" value="$!{CustomerName}" />
+	</body>
+</html>

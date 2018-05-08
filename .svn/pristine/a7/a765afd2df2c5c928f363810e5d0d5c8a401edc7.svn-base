@@ -1,0 +1,608 @@
+using PEIS.Base;
+using PEIS.Common;
+using PEIS.BLL;
+using PEIS.Model;
+using Maticsoft.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Reflection;
+
+namespace PEIS.Web.Ajax
+{
+	public class AjaxUser : BasePage
+	{
+		public string ErrorMessage = string.Empty;
+
+		private DateTime logBeginTime = DateTime.Now;
+
+		public void OutPutMessage(string msg)
+		{
+			base.Response.Write(msg);
+		}
+
+		public void TestOutMessage()
+		{
+			this.OutPutMessage("This is the Test Info ... ");
+		}
+
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			this.logBeginTime = DateTime.Now;
+			this.ErrorMessage = "服务器连接失败！";
+			string @string = base.GetString("action");
+			try
+			{
+				MethodInfo method = base.GetType().GetMethod(@string);
+				method.Invoke(this, null);
+			}
+			catch (Exception ex)
+			{
+				string dateDiff = Public.GetDateDiff("Ajax过程中出错", this.logBeginTime, DateTime.Now);
+				Log4J.Instance.Debug(string.Concat(new string[]
+				{
+					Public.GetClientIP(),
+					",",
+					dateDiff,
+					",",
+					ex.Message.ToString()
+				}));
+				this.OutPutMessage(this.ErrorMessage);
+			}
+		}
+
+		public void UserLogin()
+		{
+			DateTime now = DateTime.Now;
+			try
+			{
+				int num = base.GetUserID();
+				if (num > 0)
+				{
+					ClientListManagement.Instance().ClearMe(this.Session.SessionID);
+					this.Session["UserID"] = "0";
+					BasePage.ClearCookie("");
+					num = 0;
+				}
+				if (num <= 0)
+				{
+					string text = base.GetString("UserLoginName");
+					string text2 = base.GetString("UserPassword");
+					string @string = base.GetString("CheckCode");
+					text = text.Trim();
+					text2 = Secret.MD5.Encrypt(text2.Trim());
+					lock ("1")
+					{
+						DataTable userInfoByLoginName = CommonUser.Instance.GetUserInfoByLoginName(text);
+						List<PEIS.Model.SYSOpUser> list = PEIS.BLL.SYSOpUser.Instance.DataTableToList(userInfoByLoginName);
+						if (list != null && list.Count > 0)
+						{
+							int count = list.Count;
+							if (1 == count)
+							{
+								this.JudgeLoginInfo(list[0], text2);
+							}
+							else
+							{
+								this.OutPutMessage(EnumUserLoginState.该用户登录名称存在异常请与管理员联系.ToString());
+							}
+						}
+						else
+						{
+							this.OutPutMessage(EnumUserLoginState.用户名不存在.ToString());
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				string dateDiff = Public.GetDateDiff("登录失败", now, DateTime.Now);
+				Log4J.Instance.Info(string.Concat(new string[]
+				{
+					Public.GetClientIP(),
+					",",
+					base.GetString("UserLoginName"),
+					"，",
+					dateDiff,
+					",错误信息:",
+					ex.Message
+				}));
+				if (ex.Message.Contains("无法打开到 SQL Server 的连接"))
+				{
+					this.OutPutMessage(EnumUserLoginState.数据库连接失败.ToString());
+				}
+				else if (ex.Message.Contains("无法打开登录所请求的数据库"))
+				{
+					this.OutPutMessage("数据库配置错误，请检查数据库配置！");
+				}
+				else if (ex.Message.Contains("用户") && ex.Message.Contains("登录失败"))
+				{
+					this.OutPutMessage("数据库配置错误，请检查数据库配置！");
+				}
+				else
+				{
+					this.OutPutMessage(ex.Message);
+				}
+			}
+		}
+
+		private void JudgeLoginInfo(PEIS.Model.SYSOpUser tempLoginUser, string currUserPassword)
+		{
+			DateTime now = DateTime.Now;
+			if (2 == tempLoginUser.Is_Del)
+			{
+				this.OutPutMessage(EnumUserLoginState.该用户名已被禁用.ToString());
+			}
+			else if (1 == tempLoginUser.Is_Del)
+			{
+				this.OutPutMessage(EnumUserLoginState.该用户名已被删除.ToString());
+			}
+			else if (5 < tempLoginUser.FailCount)
+			{
+				this.OutPutMessage(EnumUserLoginState.连续登录错误次数超过3次请与管理员联系.ToString());
+			}
+			else if (tempLoginUser != null && tempLoginUser.PassWord == currUserPassword)
+			{
+				tempLoginUser.LastLoginTime = new DateTime?(DateTime.Now);
+				if (!tempLoginUser.TotalNum.HasValue || tempLoginUser.TotalNum.ToString() == "")
+				{
+					tempLoginUser.TotalNum = new int?(1);
+				}
+				else
+				{
+					tempLoginUser.TotalNum++;
+				}
+				tempLoginUser.FailCount = new int?(0);
+				bool flag = false;
+				try
+				{
+					flag = PEIS.BLL.SYSOpUser.Instance.Update(tempLoginUser);
+				}
+				catch (Exception ex)
+				{
+					now = DateTime.Now;
+					string dateDiff = Public.GetDateDiff(ex.Message, this.logBeginTime, now);
+					Log4J.Instance.Info(string.Concat(new string[]
+					{
+						Public.GetClientIP(),
+						",",
+						tempLoginUser.UserName,
+						"，",
+						dateDiff
+					}));
+				}
+				if (flag)
+				{
+					try
+					{
+						string cacheKey = "SYSOpUserModel-" + tempLoginUser.UserID;
+						DataCache.DeleteCache(cacheKey);
+						this.Session["UserID"] = tempLoginUser.UserID;
+						this.Session["UserName"] = tempLoginUser.UserName;
+						tempLoginUser.PassWord = "";
+						this.LoginUserModel = tempLoginUser;
+						BasePage.SetCookie(this.LoginUserModel, true, "");
+						this.AddUserInfoToClientList(tempLoginUser);
+						now = DateTime.Now;
+						string dateDiff = Public.GetDateDiff("登录成功", this.logBeginTime, now);
+						Log4J.Instance.Info(string.Concat(new string[]
+						{
+							Public.GetClientIP(),
+							",",
+							tempLoginUser.UserName,
+							"，",
+							dateDiff
+						}));
+						this.OutPutMessage(EnumUserLoginState.登录成功.ToString());
+					}
+					catch (Exception ex)
+					{
+						now = DateTime.Now;
+						string dateDiff = Public.GetDateDiff(ex.Message, this.logBeginTime, now);
+						Log4J.Instance.Info(string.Concat(new string[]
+						{
+							Public.GetClientIP(),
+							",",
+							tempLoginUser.UserName,
+							"，",
+							dateDiff
+						}));
+					}
+				}
+			}
+			else
+			{
+				try
+				{
+					tempLoginUser.LastLoginTime = new DateTime?(DateTime.Now);
+					tempLoginUser.FailCount++;
+					PEIS.BLL.SYSOpUser.Instance.Update(tempLoginUser);
+					this.OutPutMessage(EnumUserLoginState.密码输入错误请重新输入.ToString());
+				}
+				catch (Exception ex)
+				{
+					now = DateTime.Now;
+					string dateDiff = Public.GetDateDiff(ex.Message, this.logBeginTime, now);
+					Log4J.Instance.Info(string.Concat(new string[]
+					{
+						Public.GetClientIP(),
+						",",
+						tempLoginUser.UserName,
+						"，",
+						dateDiff
+					}));
+				}
+			}
+		}
+
+		private void AddUserInfoToClientList(PEIS.Model.SYSOpUser tempLoginUser)
+		{
+			DateTime now = DateTime.Now;
+			if (tempLoginUser != null)
+			{
+				try
+				{
+					ClientInfo clientInfo = new ClientInfo();
+					clientInfo.GUID = tempLoginUser.LoginName;
+					clientInfo.UserName = tempLoginUser.UserName;
+					clientInfo.LoginUserName = tempLoginUser.LoginName;
+					clientInfo.UserID = tempLoginUser.UserID.ToString();
+					clientInfo.IpAddress = Public.GetClientIP();
+					clientInfo.LoginState = LoginState.已成功登陆;
+					ClientListManagement.Instance().AddClientInfo(clientInfo);
+				}
+				catch (Exception ex)
+				{
+					DateTime now2 = DateTime.Now;
+					string dateDiff = Public.GetDateDiff(ex.Message, now, now2);
+					Log4J.Instance.Info(string.Concat(new string[]
+					{
+						"设置在线人员信息出错：",
+						Public.GetClientIP(),
+						",",
+						tempLoginUser.UserName,
+						"，",
+						dateDiff
+					}));
+				}
+			}
+		}
+
+		public void GetUserList()
+		{
+			int @int = base.GetInt("pageIndex", 0);
+			int int2 = base.GetInt("pageSize", 10);
+			int totalCount = 0;
+			int num = 0;
+			string text = base.GetString("SearchUserKeyword").Trim();
+			string pageCode = "QueryPagesUserListParam";
+			SqlConditionInfo[] array = new SqlConditionInfo[1];
+			if (!string.IsNullOrEmpty(text))
+			{
+				pageCode = "QueryPagesUserListParamByName";
+				array[0] = new SqlConditionInfo("@UserName", text, TypeCode.String);
+				array[0].Blur = 3;
+				array[0].Place = 2;
+			}
+			DataTable page = CommonUser.Instance.GetPage(pageCode, @int, int2, out totalCount, out num, array);
+			string msg = JsonHelperFont.Instance.DataTableToJSON(page, totalCount);
+			this.OutPutMessage(msg);
+		}
+
+		public void GetSectionUserList()
+		{
+			int @int = base.GetInt("pageIndex", 0);
+			int int2 = base.GetInt("pageSize", 10);
+			int int3 = base.GetInt("SelectedSectionID", 0);
+			int totalCount = 0;
+			int num = 0;
+			string text = base.GetString("SearchUserKeyword").Trim();
+			SqlConditionInfo[] array = null;
+			string pageCode = "QueryPagesSectionUserListParam";
+			if (!string.IsNullOrEmpty(text) && int3 <= 0)
+			{
+				array = new SqlConditionInfo[1];
+				pageCode = "QueryPagesSectionUserListParamByName";
+				array[0] = new SqlConditionInfo("@UserName", text, TypeCode.String);
+				array[0].Blur = 3;
+				array[0].Place = 2;
+			}
+			if (int3 > 0 && string.IsNullOrEmpty(text))
+			{
+				array = new SqlConditionInfo[1];
+				pageCode = "QueryPagesUserListParamBySection";
+				array[0] = new SqlConditionInfo("@ID_Section", int3, TypeCode.Int32);
+				array[0].Place = 2;
+			}
+			if (int3 > 0 && !string.IsNullOrEmpty(text))
+			{
+				array = new SqlConditionInfo[2];
+				pageCode = "QueryPagesUserListParamByNameAndSection";
+				array[0] = new SqlConditionInfo("@UserName", text, TypeCode.String);
+				array[0].Blur = 3;
+				array[0].Place = 2;
+				array[1] = new SqlConditionInfo("@ID_Section", int3, TypeCode.Int32);
+				array[1].Place = 2;
+			}
+			DataTable page = CommonUser.Instance.GetPage(pageCode, @int, int2, out totalCount, out num, array);
+			if (page != null && page.Rows.Count > 0)
+			{
+				page.Columns.Add("SignatureCodeBase64");
+				foreach (DataRow dataRow in page.Rows)
+				{
+					if (!Convert.IsDBNull(dataRow["Signature"]))
+					{
+						dataRow["SignatureCodeBase64"] = Convert.ToBase64String((byte[])dataRow["Signature"]);
+						dataRow["Signature"] = null;
+					}
+				}
+				page.AcceptChanges();
+			}
+			string msg = JsonHelperFont.Instance.DataTableToJSON(page, totalCount);
+			this.OutPutMessage(msg);
+		}
+
+		public void GetSectionUserLoginCountList()
+		{
+			int @int = base.GetInt("pageIndex", 0);
+			int int2 = base.GetInt("pageSize", 10);
+			int int3 = base.GetInt("SelectedSectionID", 0);
+			int totalCount = 0;
+			int num = 0;
+			string text = base.GetString("SearchUserKeyword").Trim();
+			string pageCode = "QueryPagesSectionUserListParam";
+			SqlConditionInfo[] array;
+			if (!string.IsNullOrEmpty(text) && int3 <= 0)
+			{
+				array = new SqlConditionInfo[2];
+				pageCode = "QueryPagesSectionUserListParamByName";
+				array[0] = new SqlConditionInfo("@UserName", text, TypeCode.String);
+				array[0].Blur = 3;
+				array[0].Place = 2;
+				array[1] = new SqlConditionInfo("@LoginFailCount", 0, TypeCode.Int32);
+				array[1].Place = 3;
+				array[1].ParamOper = ">";
+			}
+			else if (int3 > 0 && string.IsNullOrEmpty(text))
+			{
+				array = new SqlConditionInfo[2];
+				pageCode = "QueryPagesUserListParamBySection";
+				array[0] = new SqlConditionInfo("@ID_Section", int3, TypeCode.Int32);
+				array[0].Place = 2;
+				array[1] = new SqlConditionInfo("@LoginFailCount", 0, TypeCode.Int32);
+				array[1].Place = 3;
+				array[1].ParamOper = ">";
+			}
+			else if (int3 > 0 && !string.IsNullOrEmpty(text))
+			{
+				array = new SqlConditionInfo[3];
+				pageCode = "QueryPagesUserListParamByNameAndSection";
+				array[0] = new SqlConditionInfo("@UserName", text, TypeCode.String);
+				array[0].Blur = 3;
+				array[0].Place = 2;
+				array[1] = new SqlConditionInfo("@ID_Section", int3, TypeCode.Int32);
+				array[1].Place = 2;
+				array[2] = new SqlConditionInfo("@LoginFailCount", 0, TypeCode.Int32);
+				array[2].Place = 3;
+				array[2].ParamOper = ">";
+			}
+			else
+			{
+				array = new SqlConditionInfo[]
+				{
+					new SqlConditionInfo("@LoginFailCount", 0, TypeCode.Int32)
+				};
+				array[0].Place = 3;
+				array[0].ParamOper = ">";
+			}
+			DataTable page = CommonUser.Instance.GetPage(pageCode, @int, int2, out totalCount, out num, array);
+			if (page != null && page.Rows.Count > 0)
+			{
+				page.Columns.Add("SignatureCodeBase64");
+				foreach (DataRow dataRow in page.Rows)
+				{
+					if (!Convert.IsDBNull(dataRow["Signature"]))
+					{
+						dataRow["SignatureCodeBase64"] = Convert.ToBase64String((byte[])dataRow["Signature"]);
+						dataRow["Signature"] = null;
+					}
+				}
+				page.AcceptChanges();
+			}
+			string msg = JsonHelperFont.Instance.DataTableToJSON(page, totalCount);
+			this.OutPutMessage(msg);
+		}
+
+		public void GetSingleSectionUserInfo()
+		{
+			int @int = base.GetInt("ID_User", 0);
+			SqlConditionInfo[] conditions = new SqlConditionInfo[]
+			{
+				new SqlConditionInfo("@ID_User", @int, TypeCode.Int32)
+			};
+			string querySqlCode = "QuerySingleSectionUserInfo_Param";
+			try
+			{
+				DataSet dataSet = CommonUser.Instance.ExcuteQuerySql(querySqlCode, conditions);
+				if (dataSet != null && dataSet.Tables[0].Rows.Count > 0)
+				{
+					dataSet.Tables[0].Columns.Add("SignatureCodeBase64");
+					foreach (DataRow dataRow in dataSet.Tables[0].Rows)
+					{
+						if (!Convert.IsDBNull(dataRow["Signature"]))
+						{
+							dataRow["SignatureCodeBase64"] = Convert.ToBase64String((byte[])dataRow["Signature"]);
+							dataRow["Signature"] = null;
+						}
+					}
+					dataSet.Tables[0].AcceptChanges();
+				}
+				string msg = JsonHelperFont.Instance.DataSetToJSON(dataSet);
+				this.OutPutMessage(msg);
+			}
+			catch (Exception ex)
+			{
+				this.OutPutMessage(ex.Message);
+			}
+		}
+
+		public void GetQuickUserList()
+		{
+			string @string = base.GetString("InputCode");
+			int @int = base.GetInt("UserVocationType", 0);
+			int int2 = base.GetInt("ID_Section", 0);
+			DataTable dataTable;
+			if (base.GetInt("IsShowCurrSectionDoctor", 0) == 0 && int2 == 0)
+			{
+				dataTable = CommonUser.Instance.GetQuickUserList(@string, @int);
+			}
+			else
+			{
+				dataTable = CommonUser.Instance.GetQuickSectionUserList(@string, @int, int2);
+			}
+			string msg = JsonHelperFont.Instance.DataTableToJSON(dataTable, dataTable.Rows.Count);
+			this.OutPutMessage(msg);
+		}
+
+		public void ChangeUser()
+		{
+			string text = base.GetUserID().ToString();
+			string userLoginName = base.GetString("UserLoginName").Trim();
+			string text2 = base.GetString("UserPassword").Trim();
+			text2 = Secret.MD5.Encrypt(text2.Trim());
+			string msg = string.Empty;
+			DataTable userInfoByLoginName = CommonUser.Instance.GetUserInfoByLoginName(userLoginName);
+			List<PEIS.Model.SYSOpUser> list = PEIS.BLL.SYSOpUser.Instance.DataTableToList(userInfoByLoginName);
+			if (list != null && list.Count > 0)
+			{
+				int count = list.Count;
+				if (1 == count)
+				{
+					if (2 == list[0].Is_Del)
+					{
+						msg = "{\"success\":\"0\",\"Message\":\"" + EnumUserLoginState.该用户名已被禁用.ToString() + "\"}";
+						this.OutPutMessage(msg);
+					}
+					else if (1 == list[0].Is_Del)
+					{
+						msg = "{\"success\":\"0\",\"Message\":\"" + EnumUserLoginState.该用户名已被删除.ToString() + "\"}";
+						this.OutPutMessage(msg);
+					}
+					else if (list[0].PassWord == text2)
+					{
+						msg = string.Concat(new object[]
+						{
+							"{\"success\":\"1\",\"UserID\":\"",
+							list[0].UserID,
+							"\",\"UserName\":\"",
+							list[0].UserName,
+							"\",\"DisCountRate\":\"",
+							list[0].DisCountRate,
+							"\",\"Message\":\"",
+							EnumUserLoginState.登录成功.ToString(),
+							"\"}"
+						});
+						this.OutPutMessage(msg);
+						Log4J.Instance.Info(string.Concat(new string[]
+						{
+							Public.GetClientIP(),
+							",",
+							text,
+							"使用[",
+							list[0].UserName,
+							"]获取用户折扣授权信息，登录成功！"
+						}));
+					}
+					else
+					{
+						msg = "{\"success\":\"0\",\"Message\":\"" + EnumUserLoginState.密码输入错误请重新输入.ToString() + "\"}";
+						this.OutPutMessage(msg);
+					}
+				}
+				else
+				{
+					this.OutPutMessage(EnumUserLoginState.该用户登录名称存在异常请与管理员联系.ToString());
+				}
+			}
+			else
+			{
+				msg = "{\"success\":\"0\",\"Message\":\"用户名不存在\"}";
+				this.OutPutMessage(msg);
+			}
+		}
+
+		public void JudgeUserIsLogin()
+		{
+			int userID = base.GetUserID();
+			if (userID <= 0)
+			{
+				base.Response.Clear();
+				this.OutPutMessage("-9999");
+			}
+			else
+			{
+				this.OutPutMessage(userID.ToString());
+			}
+		}
+
+		public void JudgeISCurrentUserLogin()
+		{
+			int userID = base.GetUserID();
+			int @int = base.GetInt("LoginUserID", 0);
+			if (userID <= 0 || @int < 0)
+			{
+				base.Response.Clear();
+				this.OutPutMessage("-9999");
+			}
+			else if (@int > 0 && userID != @int)
+			{
+				base.Response.Clear();
+				this.OutPutMessage("-9998");
+			}
+			else
+			{
+				this.OutPutMessage(userID.ToString());
+			}
+			string text = string.Empty;
+			if (base.Cache["DelayEndDate"] != null)
+			{
+				text = base.Cache["DelayEndDate"].ToString();
+				if (!string.IsNullOrEmpty(text))
+				{
+					DateTime dateTime = DateTime.Parse(text);
+					if (DateTime.Now < dateTime)
+					{
+						base.Response.Clear();
+						this.OutPutMessage("服务器许可即将在[" + dateTime + "]过期,请联系供应商！");
+					}
+				}
+			}
+		}
+
+		public void GetUserLoginInfo()
+		{
+			int userID = base.GetUserID();
+			if (userID <= 0)
+			{
+				base.Response.Clear();
+				this.OutPutMessage("-9999");
+			}
+			else
+			{
+				PEIS.Model.SYSOpUser model = PEIS.BLL.SYSOpUser.Instance.GetModel(userID);
+				if (model != null)
+				{
+					string str = (!model.OperateLevel.HasValue) ? "" : model.OperateLevel.ToString();
+					string str2 = (!model.VocationType.HasValue) ? "" : model.VocationType.ToString();
+					string text = model.UserID.ToString() + "|";
+					text = text + model.LoginName + "|";
+					text = text + model.UserName + "|";
+					text = text + str + "|";
+					text = text + str2 + "|";
+					text += this.Session.SessionID;
+					this.OutPutMessage(text.ToString());
+				}
+			}
+		}
+	}
+}

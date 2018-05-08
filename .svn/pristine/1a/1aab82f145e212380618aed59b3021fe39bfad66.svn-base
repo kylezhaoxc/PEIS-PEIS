@@ -1,0 +1,493 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>操作用户维护</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                
+                 <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+                 <span>所属科室：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c" id="InputSectionCodeText">
+                        <input class="input-3" name="txtSectionInputCode" id="txtSectionInputCode" onkeyup="QuickQueryTableData_Ajax();"
+                            onchange="QuickQueryTableData_Ajax();" onfocus="this.select();QuickQueryTableData_Ajax();"
+                            maxlength="50" value="$!{Section}" />
+                    </div>
+                    <div class="Editor-c" id="SelectedSectionLable" style="display:none;">
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                    <div>
+                            <input type="hidden" name="idSelectSection" id="idSelectSection" value="" />
+                            <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="" />
+                            <div id="QuickQuerySectionTable" class="QuickQueryList" style="margin-top: 24px; width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                科室
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQuerySectionTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到科室，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnSectionColse" onclick="ShowHideQuickQuerySectionTable(false,'');"
+                                        value=" 关  闭 " />
+                                </div>
+                            </div>
+                        </div>
+                </span>
+
+                <span>&nbsp;姓名/登录名：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input class="input-3" type="text" 
+                        onkeydown="if(IsEnterKeyDown() == true) { UserKeywordsSearch();}" 
+                        onfocus="this.select();ShowHideQuickQuerySectionTable(false,'');"  name="txtSearchUserKeyword" id="txtSearchUserKeyword" value="" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+
+            </div>
+        	<div class="oper-bg">
+                
+                <span class="buttom-cx-s" title="查询(F4)"><a id="btnSearch" href="javascript:void(0);"   onclick="UserKeywordsSearch();ShowHideQuickQuerySectionTable(false,'');">查询</a></span>
+
+                <span id="spanUserRight_Right" class="buttom-mxgl float-right" title="权限分配"><a href="javascript:void(0);" onclick="OpenUserRightSet();">权限分配</a></span>
+                <span id="spanClearLoginErrorCount_Right" class="buttom-qccwcs float-right" title="清除错误次数"><a href="javascript:void(0);" onclick="OpenUserLoginCountClearWindow();">清除错误次数</a></span>
+                <span id="spanAllUserPassword_Right" class="buttom-cshmm float-right" title="初始化密码"><a href="javascript:void(0);" onclick="OpenUserPasswordResetWindow();">初始化密码</a></span>
+                <span class="buttom-sq float-right" title="修改"><a href="javascript:void(0);"  onclick="OpenEditUserWindow();">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"><a href="javascript:void(0);"  onclick="OpenUserOperWindow();" >新增</a></span>
+            </div>
+   	    </div>
+        <div class="project">
+            <div class="project-center">
+              <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:35px" />
+                    	<col style="width:35px" />
+                    	<col style="width:13%" />
+                    	<col style="width:8%" />
+                    	<col style="width:6%" />
+                    	<col style="width:5%" />
+                    	<col style="width:5%" />
+                    	<col style="width:7%" />
+                    	<col style="width:7%" />
+                    	<col style="width:13%" />
+                    	<col style="width:9%" />
+                    	<col style="width:13%" />
+                      </colgroup>
+                          <tr id="project-center-lb1-list">
+                            <th></th>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>登录名</th>
+                            <th>职业</th>
+                            <th>折扣率</th>
+                            <th>性别</th>
+                            <th>操作密级</th>
+                            <th>登录次数</th>
+                            <th>登录时间</th>
+                            <th>错误次数</th>
+                            <th>科室</th>
+                            <th>禁用</th>
+                          </tr>
+                </table>
+                </div>
+                <div class="j-autoHeight QueryListNoDataTips"  id="QueryExamListData" data-left="330" data-min="200" style="overflow:auto;">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                    <colgroup>
+                    	<col style="width:35px" />
+                    	<col style="width:35px" />
+                    	<col style="width:13%" />
+                    	<col style="width:8%" />
+                    	<col style="width:6%" />
+                    	<col style="width:5%" />
+                    	<col style="width:5%" />
+                    	<col style="width:7%" />
+                    	<col style="width:7%" />
+                    	<col style="width:13%" />
+                    	<col style="width:9%" />
+                    	<col style="width:13%" />
+                      </colgroup>
+                      
+                    <tbody id='Searchresult'>
+                        
+                    </tbody>
+
+                </table>
+
+                <!--用户列表模板-->
+                <script type="text/plain" id="UserListItemTemplete">
+                        <tr onclick="SetQueryListUserChecked('@ID_User');ShowHideQuickQuerySectionTable(false,'');" ondblclick="OpenEditUserWindow();" >
+                            <td><input id="rdiUser_@ID_User" title="" type="radio" name='UserRadio' username="@UserName" value="@ID_User" /></td>
+                            <td>@RowNum</td>
+                            <td id="UserName_@ID_User"  class="project-align-left" title="@UserName"><div class="nowrap" style="width:100%;">@UserName</div></td>
+                            <td id="LoginName_@ID_User" class="project-align-left" title="@LoginName"><div class="nowrap" style="width:100%;">@LoginName</div></td>
+                            <td id="VocationType_@ID_User" class="project-align-left">@VocationType</td>
+                            <td id="DisCountRate_@ID_User">@DisCountRate</td>
+                            <td id="GenderName_@ID_User">@GenderName</td>
+                            <td id="OperateLevel_@ID_User">@OperateLevel</td>
+                            <td id="LoginTotalNum_@ID_User">@LoginTotalNum</td>
+                            <td id="LastLoginTime_@ID_User">@LastLoginTime</td>
+                            <td id="LoginFailCount_@ID_User">@LoginFailCount</td>
+                            <td id="SectionName_@ID_User" class="project-align-left" title="@SectionName"><div class="nowrap" style="width:100%;">@SectionName</div></td>
+                            <td id="Is_Del_@ID_User">@Is_Del</td>
+                        </tr>
+                </script>
+
+                </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                    <td>      
+                        <div class="paging" id="Pagination">
+                            <div class="paging-left"></div>
+                            <div class="paging-center">
+                                <ul >
+                                </ul>
+                            </div>
+                            <div class="paging-right"></div>
+                        </div>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+    <!--查询列表模板-->
+    <script type="text/plain" id="SectionQuickQueryTableTemplete">
+        <tr onclick="SetSectionChecked('@ID_Section')">
+            <td>
+            <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                value="@ID_Section"
+                SectionName="@SectionName"  />
+            </td>
+            <td>@SectionName</td>
+            <td>@InputCode</td>
+        </tr>
+    </script>
+    
+    <!--查询列表模板-->
+    <script type="text/plain" id="EmptySectionQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+        </tr>
+    </script>
+        
+        
+    <!--查询列表模板-->
+    <script type="text/plain" id="SecectedSectionLableTemplete">
+        <div class='selected'><a title="删除" href="javascript:void(0);" onclick="RemoveSelectedSection();"> × </a> @SectionName </div>
+    </script>
+
+</body>
+
+
+
+    <script type="text/javascript">
+
+
+        /// <summary> 
+        /// 点击选中对应科室的单选按钮（快速选择列表）
+        /// </summary>
+        function SetSectionChecked(ID_Section) {
+            jQuery("#chkSection_" + ID_Section).attr("checked", true);
+            SelectQuerySection(ID_Section);
+            jQuery("#SelectedSectionLable").show();
+            jQuery("#InputSectionCodeText").hide();
+        }
+
+        /// <summary> 
+        /// 移除选择的科室
+        /// </summary>
+        function RemoveSelectedSection() {
+            // 清除显示的科室名称
+            jQuery('#SelectedSectionLable').html("");
+
+            // 清除单项框的选中值
+            jQuery("input[name='chkSectionQueryList']:radio").each(function () {
+                jQuery(this).attr("checked", false);
+            });
+
+            jQuery('#idSelectSection').val("");         // 清空选择的科室ID
+            jQuery('#nameSelectSection').val("");       // 清空选择的科室名称
+
+            jQuery("#SelectedSectionLable").hide();
+            jQuery("#InputSectionCodeText").show();
+            // 重新查询数据
+            UserKeywordsSearch();
+        }
+
+        /// <summary> 
+        /// 选择科室（快速选择）
+        /// </summary>
+        function SelectQuerySection(ID_Section) {
+
+            // 从模版中读取数据加载列表
+            var templateContent = jQuery('#SecectedSectionLableTemplete').html();
+            if (templateContent == undefined) { return; }
+            var tempSectionName = jQuery("#chkSection_" + ID_Section).attr("SectionName");
+
+            var newcontent = templateContent.replace(/@SectionName/gi, tempSectionName); // 替换模版中的关键字
+
+            jQuery('#SelectedSectionLable').html(newcontent);   // 显示到页面
+            jQuery('#idSelectSection').val(ID_Section);         // 选择的科室ID
+            jQuery('#nameSelectSection').val(tempSectionName);  // 选择的科室名称
+
+            // 重新查询数据
+            UserKeywordsSearch();
+        }
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (268 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+        });
+
+
+        /// <summary>
+        /// 按照用户名称关键字搜索
+        /// </summary>
+        function UserKeywordsSearch() {
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+        }
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+            var SearchUserKeyword = jQuery('#txtSearchUserKeyword').val();      // 用户关键字
+            var SelectedSectionID = jQuery('#idSelectSection').val();      // 已选择的科室
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxUser.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchUserKeyword: SearchUserKeyword,
+                    SelectedSectionID: SelectedSectionID,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'GetSectionUserList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#UserItemCount").html(" 【共有 " + msg.totalCount + " 个用户】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#UserListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        var userState = "";
+                        jQuery(msg.dataList).each(function (i, item) {
+                            if (item.Is_Del == 0) {
+                                userState = "--";
+                            } else if (item.Is_Del == 2) {
+                                userState = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else if (item.Is_Del == 1) {
+                                userState = '<span title="已删除" style="color:red;">√</span>';
+                            }
+                            newcontent +=
+                             templateContent.replace(/@UserName/gi, item.UserName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@LoginName/gi, item.LoginName)
+                            .replace(/@ID_User/gi, item.ID_User)
+                            .replace(/@SectionName/gi, item.SectionName)
+                            .replace(/@VocationType/gi, item.VocationType == "1" ? "医生" : item.VocationType == "2" ? "护士" : "其他")
+                            .replace(/@DisCountRate/gi, item.DisCountRate == "0" ? " " : item.DisCountRate)
+                            .replace(/@GenderName/gi, item.GenderName == "1" ? "男" : "女")
+                            .replace(/@OperateLevel/gi, item.OperateLevel)
+                            .replace(/@LoginTotalNum/gi, item.LoginTotalNum)
+
+                            .replace(/@LastLoginTime/gi, item.LastLoginTime)
+                            .replace(/@Signature/gi, item.SignatureCodeBase64 == "" ? "" : '<img src="data:image/gif;base64,' + item.SignatureCodeBase64 + '" alt="" height="26" />')
+                            .replace(/@Is_Del/gi, userState)
+                            .replace(/@LoginFailCount/gi, item.LoginFailCount)
+                            ;
+
+                            RowNum++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                        //jQuery("#UserItemCount").html(" 【共有 0 个用户】");
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+
+        /// <summary>
+        /// 查询单个用户信息，用户更新修改后的用户列表中的数据
+        /// </summary>
+        function GetSingleSectionUserInfo(ID_User, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxUser.aspx",
+                data: { ID_User: ID_User,
+                    action: 'GetSingleSectionUserInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#UserListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (item.Is_Del == 0) {
+                                userState = "--";
+                            } else if (item.Is_Del == 2) {
+                                userState = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else if (item.Is_Del == 1) {
+                                userState = '<span title="已删除" style="color:red;">√</span>';
+                            }
+                            if (type == "edit") {
+                                var tmpCurrEditID = item.ID_User;
+
+                                ShowModifyTableListInfo("UserName_" + tmpCurrEditID, item.UserName);
+                                ShowModifyTableListInfo("LoginName_" + tmpCurrEditID, item.LoginName);
+                                ShowModifyTableListInfo("SectionName_" + tmpCurrEditID, item.SectionName);
+
+                                jQuery("#VocationType_" + item.ID_User).html(item.VocationType == "1" ? "医生" : item.VocationType == "2" ? "护士" : "其他");
+                                jQuery("#DisCountRate_" + item.ID_User).html(item.DisCountRate == "0" ? " " : item.DisCountRate);
+                                jQuery("#GenderName_" + item.ID_User).html(item.GenderName == "1" ? "男" : "女");
+                                jQuery("#OperateLevel_" + item.ID_User).html(item.OperateLevel);
+                                jQuery("#LoginTotalNum_" + item.ID_User).html(item.LoginTotalNum);
+                                jQuery("#LastLoginTime_" + item.ID_User).html(item.LastLoginTime);
+                                jQuery("#Is_Del_" + item.ID_User).html(userState);
+                                jQuery("#Signature_" + item.ID_User).html(item.SignatureCodeBase64 == "" ? "" : '<img src="data:image/gif;base64,' + item.SignatureCodeBase64 + '" alt="" height="26" />');
+
+                            } else {
+
+                                newcontent +=
+                                     templateContent.replace(/@UserName/gi, item.UserName)
+                                    .replace(/@RowNum/gi, "&nbsp;")
+                                    .replace(/@LoginName/gi, item.LoginName)
+                                    .replace(/@ID_User/gi, item.ID_User)
+                                    .replace(/@SectionName/gi, item.SectionName)
+                                    .replace(/@VocationType/gi, item.VocationType == "1" ? "医生" : item.VocationType == "2" ? "护士" : "其他")
+                                    .replace(/@DisCountRate/gi, item.DisCountRate == "0" ? " " : item.DisCountRate)
+                                    .replace(/@GenderName/gi, item.GenderName == "1" ? "男" : "女")
+                                    .replace(/@OperateLevel/gi, item.OperateLevel)
+                                    .replace(/@LoginTotalNum/gi, "0")
+
+                                    .replace(/@LastLoginTime/gi, item.LastLoginTime)
+                                    .replace(/@Signature/gi, item.SignatureCodeBase64 == "" ? "" : '<img src="data:image/gif;base64,' + item.SignatureCodeBase64 + '" alt="" height="26" />')
+                                    .replace(/@Is_Del/gi, userState)
+                                    .replace(/@LoginFailCount/gi, item.LoginFailCount)
+                                    ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+    </script>
+
+
+
+</html>

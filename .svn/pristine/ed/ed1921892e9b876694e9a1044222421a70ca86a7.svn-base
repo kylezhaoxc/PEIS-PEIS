@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
+    <title>$!{webName} $!{pageTitle} </title>
+</head>
+<body>
+    <div class="center">
+        <div style="display: none;">
+            <table id="ClientListTempLate">
+                <tbody>
+                    <tr guid="@GUID" username="@LoginUserName">
+                        <td>
+                            <input type="checkbox" name='ItemCheckbox' />
+                        </td>
+                        <td>
+                            @RowNum
+                        </td>
+                        <td>
+                            @GUID
+                        </td>
+                        <td>
+                            @UserName/@LoginUserName
+                        </td>
+                        <td>
+                            @LoginState
+                        </td>
+                        <td>
+                            @IpAddress
+                        </td>
+                        <td>
+                            @LoginDate
+                        </td>
+                        <td>
+                            <div title="@Message">
+                                @Message</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-sx" title="刷新"><a href="javascript:void(0);" id="btnRefreshClient"
+                    onclick="LoadClientList_Ajax();">刷新</a></span> <span class="buttom-xz" title="下线"><a
+                        href="javascript:void(0);" id="btnSearch" onclick="LogOutCustomer();">下线</a></span>
+                <span class="buttom-fsxx" title="发送消息"><a href="javascript:void(0);" id="btnSendMsg"
+                    onclick="SendMessageToCustomer();">发送消息</a></span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 5%" />
+                            <col style="width: 25%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input name="ckbAll" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                用户标识
+                            </th>
+                            <th>
+                                用户名称
+                            </th>
+                            <th>
+                                用户状态
+                            </th>
+                            <th>
+                                用户地址
+                            </th>
+                            <th>
+                                登陆时间
+                            </th>
+                            <th>
+                                消息内容
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="349" data-min="200" style="overflow: auto;">
+                    <table id="tblCustomerList" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 5%" />
+                            <col style="width: 25%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                            <col style="width: 15%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="pagination" id="PaginationOld">
+                                <ul id="Pagination">
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var ShowTime = 1; //消息默认显示时间,单位分钟
+    var LogoutTime = 3; //下线小时默认响应时间,单位分钟
+    var num = 3;
+    jQuery(document).ready(function () {
+        jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+        jQuery("#tblCustomerList thead").html(jQuery("#ClientListTempLate thead").html());
+        //加载列表
+        LoadClientList_Ajax();
+    });
+    function LoadClientList_Ajax() {
+        IsShowProcessBar = false;
+        var ClientListTempLateContent = jQuery("#ClientListTempLate tbody").html();
+        var ClientListTempLateHeadContent = jQuery("#ClientListTempLate thead").html();
+        var NewContent = "", RowNum = 1;
+        jQuery("#tblCustomerList tbody").html("");
+        //发送ajax请求
+        jQuery.ajax({
+            type: "GET",
+            url: "/Ajax/AjaxClientList.aspx",
+            data: { action: "GetClientList" },
+            dataType: "json",
+            cache: false,
+            success: function (jsonData) {
+                jQuery(jsonData.dataList).each(function (i, item) {
+                    if (ClientListTempLateContent == null) {
+                        return false;
+                    }
+                    else {
+                        NewContent += ClientListTempLateContent.replace(/@RowNum/gi, RowNum)
+                        .replace(/@GUID/gi, item.GUID)
+                        .replace(/@LoginState/gi, item.LoginState)
+                        .replace(/@Message/gi, item.Message)
+                        .replace(/@CpuID/gi, item.CpuID)
+                        .replace(/@DiskID/gi, item.DiskID)
+                        .replace(/@MacAddress/gi, item.IpAddress)
+                        .replace(/@LoginUserName/gi, item.LoginUserName)
+                        .replace(/@UserID/gi, item.UserID)
+                        .replace(/@ComputerName/gi, item.ComputerName)
+                        .replace(/@SystemType/gi, item.SystemType)
+                        .replace(/@TotalPhysicalMemory/gi, item.TotalPhysicalMemory)
+                        .replace(/@IpAddress/gi, item.IpAddress)
+                        .replace(/@UserName/gi, item.UserName)
+                        .replace(/@LoginDate/gi, item.LoginDate)
+                        RowNum++;
+                    }
+                });
+                if (NewContent != "") {
+                    jQuery("#tblCustomerList tbody").html(NewContent);
+                }
+                IsShowProcessBar = true;
+
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+            }
+
+        });
+    }
+
+    /// <summary>
+    /// 下线客户
+    /// </summary>
+    function LogOutCustomer() {
+        var GUID = "";
+        var ToUser = "";
+        var checkedObj = jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked");
+        var checkedObjCount = jQuery(checkedObj).length;
+        if (checkedObjCount == 0) {
+            ShowSystemDialog("请您选择需要下线的客户端！");
+            return false;
+        }
+        else {
+            jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked").each(function () {
+                GUID += jQuery(this).parent().parent().attr("guid") + ",";
+                ToUser += jQuery(this).parent().parent().attr("username") + ",";
+            });
+        }
+        if (GUID != "") {
+            if (confirm("您确认要下线选中的客户端吗？")) {
+                var Msg = "logOut";
+                var LoginName = jQuery("#CookieLoginName").val();
+                var UserName = jQuery("#CookieUserName").val();
+                SendMessage("LOGOUT", ShowTime, LogoutTime, LoginName, UserName, ToUser, Msg);
+            }
+        }
+    }
+    /// <summary>
+    ///发送消息
+    /// </summary>
+    function SendMessageToCustomer() {
+        var GUID = "";
+        var ToUser = "";
+        var checkedObj = jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked");
+        var checkedObjCount = jQuery(checkedObj).length;
+        if (checkedObjCount == 0) {
+            ShowSystemDialog("请您选择需要发送消息的客户端！");
+            return false;
+        }
+        else {
+            jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked").each(function () {
+                GUID += jQuery(this).parent().parent().attr("guid") + ",";
+                ToUser += jQuery(this).parent().parent().attr("username") + ",";
+            });
+        }
+        if (GUID != "") {
+            var tipscontent = '<table>' +
+            '<tbody>' +
+            '    <tr><td><textarea rows="5" name="txtExamCard" id="txtExamCard" style="width:100%:"></textarea></td></tr>' +
+            '</tbody>' +
+            '</table>';
+            art.dialog({
+                id: 'OperWindowFrame',
+                content: tipscontent,
+                lock: true,
+                fixed: true,
+                opacity: 0.3,
+                title: '消息发送',
+                init: function () {
+                    document.getElementById("txtExamCard").focus();
+                },
+                button: [{
+                    id: "btnExamOK",
+                    name: '确定',
+                    callback: function () {
+                        if (jQuery.trim(document.getElementById("txtExamCard").value) == "") {
+                            return false;
+                        }
+                        else {
+                            var ISSend = SendMessageToCustomer_Ajax(GUID, document.getElementById("txtExamCard").value, ToUser); //生成自定义证件号
+                            return ISSend;
+                        }
+                    }, focus: true
+                }, {
+                    name: '取消'
+                }]
+            });
+        }
+    }
+    function SendMessageToCustomer_Ajax(GUID, Msg, ToUser) {
+        var LoginName = jQuery("#CookieLoginName").val();
+        var UserName = jQuery("#CookieUserName").val();
+        SendMessage("SENDMESSAGE", ShowTime, LogoutTime, LoginName, UserName, ToUser, Msg);
+    }
+    /// <summary>
+    /// 心跳程序，定时刷新在线列表数据,默认6分钟
+    /// </summary>
+    function GetClientList() {
+        if (num == "" || num == undefined || num == 0)
+            num = 6;
+        setInterval("LoadClientList_Ajax()", (num * 60 * 1000));
+    }
+    // 获取端每六分钟刷新一次信息
+    GetClientList(5.5);
+</script>

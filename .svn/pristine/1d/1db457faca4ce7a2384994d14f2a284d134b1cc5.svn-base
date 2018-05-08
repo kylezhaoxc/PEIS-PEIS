@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>数据字典-权限预览</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+<script type="text/javascript" src="$!{templatepath}/js/purview-Permissions.js"></script>
+ 
+</head>
+
+<body> 
+
+  	<div class="center">
+    	<div class="Permissions-preview">
+        	<div class="Permissions-preview-title"  name="notaddscrollheadarea">
+            	<div class="Permissions-preview-title-1"></div>
+            	<div class="Permissions-preview-title-2">权限预览</div>
+            	<div class="Permissions-preview-title-3">（此菜单仅提供权限预览查看，如需分配权限请在用户管理操作！）</div>
+            </div>
+        	<div class="j-autoHeight Permissions-preview-center" data-left="100" data-min="200" data-extra="70" style="overflow:auto;">
+            	<div class="Permissions-preview-center-k"></div>
+                <div class="Permissions-preview-center-f"></div>
+            	<div class="Permissions-preview-center-k"></div>
+                <div class="Permissions-preview-center-f"></div>
+            	<div class="Permissions-preview-center-k"></div>
+                <div class="Permissions-preview-center-f"></div>
+            	<div class="Permissions-preview-center-k"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="$!{templatepath}/js/purview-Permissions.js"></script>
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+
+        jQuery(".Permissions-preview-center").attr("data-left", (212 + jQuery("#ShowUserMenuDiv").height()));
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+    });
+
+</script>
+</html>

@@ -1,0 +1,7 @@
+﻿var _this = $('#btnSaveData');
+var quickSearchBoxData = [{ type: 0, inputtype: "number", placeholder: "证件号/体检号", name: "", btnbgcolor: "btn-blue", function: "", tip: "搜索" },
+{ type: 2, name: "", function: "return vailData(" + _this + ",1);", tip: "保存", btnbgcolor: "bg-green", icon: "fa-floppy-o", btnid: "btnSaveData", btnname: "btnComplete" },
+{ type: 2, name: "", function: "", tip: "补打", btnbgcolor: "bg-blue", icon: "fa-print", btnid: "" },
+{ type: 2, name: "", function: "", tip: "完成", btnbgcolor: "bg-red", icon: "fa-check", btnid: "" },
+];
+QuickSearchBox(quickSearchBoxData);

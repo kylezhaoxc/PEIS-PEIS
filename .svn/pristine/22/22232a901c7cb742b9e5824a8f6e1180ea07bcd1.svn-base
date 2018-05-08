@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+    <script src="$!{templatepath}/js/JS_CustomerWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="divHidTemplate" style="display: none;">
+        <!--检查数量统计模板 Begin-->
+        <table id="CustFeeTemplate">
+            <tbody id="SearchresultTeamplate">
+                <tr targeturl="/System/ReportManage/ReportPreview.aspx?ID_Customer=@ID_Customer"
+                    ondblclick="OpenCustomerReport(this,this.title);">
+                    <td>
+                        @index
+                    </td>
+                    <td>
+                        @ID_ArcCustomer
+                    </td>
+                    <td>
+                        @CustomerName
+                    </td>
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td>
+                        @GenderName
+                    </td>
+                    <td>
+                        @MarriageName
+                    </td>
+                    <td>
+                        @IDCard
+                    </td>
+                    <td>
+                        @MobileNo
+                    </td>
+                    <td>
+                        @TeamName
+                    </td>
+                    <td>
+                        @SubScribDate
+                    </td>
+                    <td>
+                        @ExamTypeName
+                    </td>
+                    <td>
+                        @ExamPlaceName
+                    </td>
+                    <td>
+                        @Is_FinalFinished
+                    </td>
+                    <td>
+                        @FinalDoctor
+                    </td>
+                    <td>
+                        @FinalDate
+                    </td>
+                    <td>
+                        @Is_Checked
+                    </td>
+                    <td>
+                        @Checker
+                    </td>
+                    <td>
+                        @CheckedDate
+                    </td>
+                    <td>
+                        @Is_ReportPrinted
+                    </td>
+                    <td>
+                        @ReportPrinter
+                    </td>
+                    <td>
+                        @ReportPrintedDate
+                    </td>
+                    <td>
+                        @Is_Informed
+                    </td>
+                    <td>
+                        @Informer
+                    </td>
+                    <td>
+                        @InformedDate
+                    </td>
+                    <td>
+                        @Is_ReportReceipted
+                    </td>
+                    <td>
+                        @ReportReceiptor
+                    </td>
+                    <td>
+                        @ReportReceiptedDate
+                    </td>
+                    <td>
+                        @ExamState
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--检查数量统计模板 End-->
+    </div>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;$!{pageTitle}</div>
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        姓名/证件号：</label>
+                    <div class="query-controls">
+                        <input type="text" id="txtCustomer" class="width100" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        团体名称：</label>
+                    <div class="query-controls">
+                        <select id="slTeam" name="slTeam" style="width: 150px;" required="Required" errormessage="体检类型不允许为空！">
+                            <option code="qzz" value="-1" selected="selected">-请选择团体--</option>
+                            #foreach($info in $!{TeamDT.Rows})
+                            <option code="${info.InputCode}" value="${info.ID_Team}">${info.TeamName}</option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        日期：</label>
+                    <div class="query-controls">
+                        <input id="BeginExamDate" class="Wdate span100" name="BeginExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                            type="text" value="${today}" />
+                        至
+                        <input id="EndExamDate" class="Wdate span100" name="EndExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                            type="text" value="${today}" />
+                    </div>  
+                </div>
+                <div class="query-group" style="display: none;">
+                    <label class="query-label">
+                        项目编码：</label>
+                    <div class="query-controls">
+                        <input type="text" id="txtInputCode" class="span90" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" name="btnSearch" type="button" class="button80" value=" 查  询(F4) "
+                            onclick="GetCustomerWorkLoad();" />
+                        <input id="btnExport" name="btnExport" type="button" class="button80" value=" 导  出 "
+                            onclick="OutToExcel();" />
+                        <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <div style="overflow: scroll;">
+                    <div style="height: 600px;">
+                        <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                            <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                                <tr>
+                                    <td style="min-width: 40px;">
+                                        序号
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        存档号码
+                                    </td>
+                                    <td style="min-width: 80px;">
+                                        客户姓名
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        体检号
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        客户性别
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        婚姻状态
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        证件号
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        联系电话
+                                    </td>
+                                    <td style="min-width: 200px;">
+                                        单位名称
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        体检日期
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        体检类型
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        体检地点
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        是否总检
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        总检人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        总检时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        是否总审
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        审核人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        审核时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        是否打印
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        打印人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        打印时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        是否通知
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        通知人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        通知时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        是否领取
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        领取人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        领取时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        所在位置
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="Searchresult">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="pagination" id="PaginationOld">
+                    <ul id="Pagination">
+                    </ul>
+                </div>
+            </div>
+            <div id="divLoadCustomerReport" style="display: none;">
+            </div>
+        </div>
+        $!{HiddenInputQueryString}
+    </div>
+</body>
+</html>

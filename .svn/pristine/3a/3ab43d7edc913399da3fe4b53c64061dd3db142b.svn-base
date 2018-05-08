@@ -1,0 +1,1046 @@
+﻿ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <script src="$!{templatepath}/js/JS_ExamOper.js" type="text/javascript"></script>
+
+<title>分科检查</title>
+
+
+</head>
+
+<body>
+
+  	<div class="center">
+
+        <div class="operarea" style="position:relative">
+
+            <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+            <input name="txtGenderID" id="txtGenderID" type="hidden"  value="$!{txtGenderID}"/>
+
+            <div class="oper-left"></div>
+            <div class="oper-right"></div>
+
+            <div class="oper-bg1">
+            <span>体检号：</span>
+                <span class="search">
+                    <input  name="txtCustomerID"  id="txtCustomerID" type="text"
+                            onfocus="this.select();" onkeyup="AutoGetCustomerSectionExamInfo();" value="$!{txtCustomerID}" />
+                    <a href="javascript:void(0);" onclick="GetCustomerSectionExamInfo();" ><img alt="" src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+                <span>
+                    &nbsp;&nbsp;
+                    
+                    <span style="margin:7px 0px 0px 5px;">
+                        <input id="btnSearch" type="button" class="btn-cx-s  btn-common button65" onclick="GetCustomerSectionExamInfo();" title="查询(F4)" value="查询" /> 
+                    </span>
+
+                    <input id="Button10" style="display:none;" type="button" class="button120" onclick="ClearCustomerInfo();" title="清空客户信息，便于进行下一个客户的体检。" value=" 清空客户信息 " />
+                    
+                    <span id="spanPrintSectionBarCode" style="display:none; margin:7px 0px 0px 5px;">
+                        <input id="Button15" type="button" class="btn-bgyl  btn-common" onclick="PrintSectionBarCode();" value="打印条码" /> 
+                    </span>
+
+                    <span class="Btn_IsShowWriteCustomerFileSection" style="display:none; margin:7px 0px 0px 5px;">
+                        <input id="BtnIsShowWriteCustomerFileSection" type="button" class="btn-bgyl  btn-common Btn_IsShowWriteCustomerFileSection" onclick="CreateCustomerSectionFile();" title="将客户信息发送到设备接口中。" value="发送信息" /> 
+                    </span>
+                </span>
+            </div>
+
+
+            <div class="oper-bg">
+                <div id="CustomerSectionQuickSwitch">
+                    <div class="KscenAroww" onclick="GetCustomerSectionQuickSwitchList();"></div>
+                    <div class="KscenCen">
+                        <div class="KscenCenTop">
+                            <div class="KscenCenTop-left"></div>
+                            <div class="KscenCenTop-center"></div>
+                            <div class="KscenCenTop-right"></div>
+                        </div>
+                        <div class="KscenCenCenter">
+                            <div class="KscenCenCenter-left"></div>
+                            <div class="KscenCenCenter-center" id="SectionQuickSwitchList">
+                                <ul>
+                                    <li>正在加载科室...</li>
+                                </ul>
+                            </div>
+                            <div class="KscenCenCenter-right"></div>
+                        </div>
+                        <div class="KscenCenBottom">
+                            <div class="KscenCenBottom-left"></div>
+                            <div class="KscenCenBottom-center"></div>
+                            <div class="KscenCenBottom-right"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="Information-s" id="btnCustomerSimpleInfo" onclick="OpenOrClose(this,'divCustomerBaseInfo');" style="cursor:pointer" title="点击显示">
+                    <div class="Information-s-l"></div>
+                    <div class="Information-s-c">
+                        <a href="javascript:void(0);" >$!{CustomerName}</a>
+                    </div>
+                    <div class="Information-s-r"></div>
+                </div>
+
+            </div>
+   	    </div>
+    <!--客户浮动个人信息-->
+            <div class="Iperso" id="divCustomerBaseInfo" style="display: none;right:28px; top:105px;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td rowspan="4" class="Iperso-tx">
+                            <img width="70" height="82" id="HeadImg" name="HeadImg" src="$!{templatepath}/images/avatar.jpg" />
+                        </td>
+                        <td colspan="2" align="left">
+                            <span class="Iperso-name">
+                                <label name="lblCustomerName">
+                                </label>
+                            </span><span>
+                                <label id="lblSex">
+                                </label>
+                            </span><span>
+                                <label id="lblAge">
+                                </label>
+                            </span><span>
+                                <label id="lblMarriedName">
+                                </label>
+                            </span>
+                        </td>
+                        <td colspan="2" align="left" class="Iperso-Thm">
+                            <label id="lblID_Customer" name="lblID_Customer">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            电话：
+                        </td>
+                        <td align="left">
+                            <label id="lblTel" name="lblTel">
+                            </label>
+                        </td>
+                        <td width="80" align="right">
+                            体检日期：
+                        </td>
+                        <td align="left">
+                            <label id="lblRegisterDate" name="lblRegisterDate">
+                            </label>
+                            <label style="display: none;" id="lblHideRegisterDate" name="lblHideRegisterDate">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            证件：
+                        </td>
+                        <td align="left">
+                            <label id="lblIDCard" name="lblIDCard">
+                            </label>
+                        </td>
+                        <td width="80" align="right">
+                            体检类型：
+                        </td>
+                        <td align="left">
+                            <label id="lblExamType" name="lblExamType">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            单位：
+                        </td>
+                        <td colspan="3" align="left">
+                            <label id="lblTeamName" name="lblTeamName">
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--客户浮动个人信息 End-->
+ 
+        <div id="TipsArea" class="j-autoHeight" data-left="150" data-min="260" style="overflow-y:auto;">
+            <table id="TipsMessage" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td height="41">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <!--<tr>
+                    <td width="150" height="28"></td>
+                    <td>
+                       <input type="" id="" name="" value="请输入要查询的体检号..." />
+                    </td>
+                    <td width="105" ><a href="#" class="go">&nbsp;</a></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="ErrorMessageInfo">该客户分科检查已被锁定，请解除分科锁定后，再进行分科检查！</td>
+                    <td>&nbsp;</td>
+                </tr>-->
+             </table>
+        </div>
+
+
+        <div id="fkls" class="zjzs-tab" style="display:none;">
+            <ul>
+                <li id="ExamInfoTabLi1" class="fkls-on"><a onclick="javascript:dxqh(1)">分科信息</a></li>
+                <li id="ExamInfoTabLi3"><a onclick="javascript:dxqh(3);GetSectionExamedList();">科室小结</a></li>
+                <li id="ExamInfoTabLi2" style="display:none;"><a onclick="javascript:dxqh(2);ShowHideHistorySectionExam_General();">历史对比</a></li>
+                <li id="ExamInfoTabLi4" style="display:none;"><a onclick="javascript:dxqh(4);">采集图像</a></li>
+                <li id="ExamInfoTabLi5" style="display:none;"><a onclick="javascript:dxqh(5)">检查图像</a></li>
+            </ul>
+        </div>
+        <div id="fklscen" style="display:none;">
+        
+            <div id="ExamInfoTabDetail1">
+            
+                <div class="fenk-bs j-autoHeight" data-left="386" data-min="260" style="overflow-x:hidden; overflow-y:auto;">
+               
+                <div class="fenk-bs-xqlb">
+                    <table border="0" cellspacing="0" cellpadding="0" class="fenk-bs-xqlb-table">
+                        <colgroup>
+                            <col style="width:80px;" />
+                            <col style="width:860px;" />                            
+                        </colgroup>
+                        <tbody id="CustExamList" >
+                            <tr>
+                                <td colspan="2" class="ExamItemWaiting">&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+            </div>
+
+            <div id="ExamInfoTabDetail3" style="display:none">
+                <div class="lisdb">
+              	    <div class="lisdb-3 xxdbcen">
+                        <div>
+                          <div name="notaddscrollheadarea">
+                           <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                              <colgroup>
+                                <col style="width:110px" />
+                              </colgroup>
+                       	      <tr class="FeeTable_th">
+                          	    <th>科室名称</th>
+                          	    <th>科室小结</th>
+                              </tr>
+                            </table>
+                        </div>
+                        <div class="j-autoHeight" data-left="425" data-min="260" style="overflow:auto">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                              <colgroup>
+                                <col style="width:110px" />
+                              </colgroup>
+                          
+                              <tbody id="SectionExamedListContent">
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="ExamInfoTabDetail2" style="display:none">
+                <div class="lisdb">
+                <div class="lisdb-1">
+                    <span class="lisdb-1-span1">体检号：</span>
+                    <span class="lisdb-1-span2">
+                        <select name="selCustomerID01" id="selCustomerID01">
+                            <option value="">请选择体检号</option>
+                        </select>
+                    </span>
+                    <span class="lisdb-1-span3"></span>
+                    <span class="lisdb-1-span2">
+                        <select name="selCustomerID02" id="selCustomerID02">
+                            <option value="">请选择体检号</option>
+                        </select>
+                    </span>
+
+                    
+                    <span class="lisdb-1-span4" style="margin-top:7px;">
+                        <input class="btn-tjdb btn-common button75" type="button" id="btnComperQuery" name="btnComperQuery" onclick="ShowHideHistorySectionExam_General();" value="  对 比  " />
+                    </span>
+
+                </div>
+                <div class="lisdb-3 j-autoHeight" data-left="425" data-min="260" style="overflow:auto" id="xxdbcen">
+                    <div id="zxm1">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" id="fklsdb">
+                        
+                            <tbody id="section-exam-compare-waiting" style="display:none;">
+                                <tr><td style="padding:100px 0px 100px 0px;" colspan="3" >数据加载中...</td></tr>
+                            </tbody>
+
+                            <tbody id="SectionExamCompareDataList">
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="zxm2" style="display:none">
+                        
+                    </div>
+                    <div id="zxm3" style="display:none">
+                        
+                    </div>
+                </div>
+                </div>
+            </div>
+            
+            <div id="ExamInfoTabDetail4" style="display:none">
+            	
+                 <!--图像采集 -->
+
+                 <div class="tuxcj"  id="PACSImageUploadAreaContent">
+               	  <div class="tuxcj-1">
+                    <div class="tuxcj-1-left" id="ShowVideoCapture" style=" position:absolute; z-index:10;" >
+                    
+                    </div>
+                   	<div class="tuxcj-1-right">
+                    	<div class="tuxcj-1-right-cai"><a href="#"></a></div> 
+                        <div class="tuxcj-1-right-tu-list-top"></div>
+                    	<div class="tuxcj-1-right-tu">
+                        	<ul id="SmallImageArea111" >
+                            	
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-ysc">已上传</div>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/DSC_3182.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/DSC_3182.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/DSC_3175.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/DSC_3165.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            	<li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/caiji-tu.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                                <li class="tuxcj-1-right-tu-tan">
+                                	<a href="#"><img src="$!{templatepath}/images/DSC_3177.jpg" width="118" height="78" /></a>
+                                    <div class="tuxcj-1-right-guan">
+                                        <a class="tuxcj-1-right-guan-x" href="#">删除图片</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="ShowCaptureBigImage" id="ShowCaptureBigImage" style="display:none;">
+                            <img id="CaptureBigImage" width="810" height="576" src="" alt="" />
+                        </div>
+                        <!-- width="810" height="534" -->
+                        <div class="tuxcj-1-right-tu-list-bottom"></div>
+                    	<div class="tuxcj-1-right-bao"><a href="#"></a></div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                 <!--
+
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:White; display:none; margin-top:10px;" class="divwidth">
+                        <tr>
+                            <td style="padding-top:3px; padding-bottom:10px; border-bottom:1px solid #dcdcdc;">
+                                <div class="PACSImageCapture" style="width: 900px; padding-left:3px; " align="center" id="PACSImageUploadArea">
+                                    <div id="ShowVideoCapture" style="width:768px; height:576px; border:1px solid #ececec; float:left; position:absolute; z-index:10;">
+                                
+                                    </div>
+                                    <div style="width:140px; text-align:center; float:right; ">
+                                        <div style="height:576px;border-left:1px solid #e3e3e3; width:140px; overflow:auto;text-align:center; ">
+                                
+                                            <ul style="width:100%; text-align:center; "  >
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="ShowCaptureBigImage" id="ShowCaptureBigImage" style="display:none;">
+                                        <img id="CaptureBigImage" width="768" height="576" src="" alt="" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td style="line-height:48px; text-align:center;">
+                            <input style="display:none;" type="button" class="button120" name="btnCloseVideoDisplay" id="btnCloseVideoDisplay" value="&nbsp;关闭视频采集卡&nbsp;" onclick="CloseVideoDisplay();" />
+                        
+                            <input type="button" class="button100" name="btnSaveImg" id="btnSaveImg" value="&nbsp;采集图像(F7)&nbsp;" onclick="SaveVideoCaptureImage();" />
+                            <input type="button" class="button130" name="btnUploadImg" id="btnUploadImg" value="&nbsp;保存&上传图像(F9)&nbsp;" onclick="UploadVideoCaptureImage();" />
+                            <div id="showCaptureMsg" style="color:Red;"></div>
+                        </td>
+                    </tr>
+                    </table>
+                 -->
+            </div>
+
+            
+            <div id="ExamInfoTabDetail5" style="display:none; text-align:center; ">
+            
+                <div class="fenk-bs j-autoHeight" data-left="386" data-min="260" id="DeviceResultImagesList" style="overflow-x:hidden; overflow-y:auto; text-align:center;">
+
+
+                </div>
+
+            </div>
+
+         </div>
+
+        <div id="CustExamResult">
+
+        </div>
+
+    </div>
+
+    <!-- ================== 模版定义区域 Start ==================== -->
+    <table style="display:none;">
+        <!-- 收费项目模版 -->
+        <tbody id="FeeDataListTemplete">
+            <tr name="trFee_@ID_Fee" style="cursor:pointer;" onclick="ShowHideFeeExamItem('@ID_Fee');">
+                <td colspan="2" class="FeeName_title">
+                    <div class="fenk-bs-tips">
+                        <div class="fenk-bs-tips-2"><lable FeeName="@FeeName" id="lab_@ID_Fee" CustFeeID="@ID_CustFee">@FeeName</lable></div>
+                        <div class="fenk-bs-tips-3 j-fenkTips" id="ShowHideFee_@ID_Fee"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <!-- 体检项目模版 -->
+        <tbody id="ExamDataListTemplete">
+            <tr name="trExamFee_@ID_Fee" class="fenk-td1-@BGStyleNo">
+                <td class="fenk-bs-xqlb-table-td@BGStyleNo" nowrap="nowrap"><lable IsEntrySectSum="@Is_EntrySectSum" id="lab_@ID_ExamItem" ExamItemName="@ExamItemName">@ExamItemName：</lable></td>
+                <td class="fenk-bs-xqlb-table-td3">
+                    @ExamItemSymptomAndResultDivInfo
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 检查医生模版 -->
+        <tbody id="ExamDoctorSelectTemplete">
+            <tr name="trExamFee_@ID_Fee"  >
+                <td class="examitemleft submitlinestyle" nowrap="nowrap" style="line-height:30px;">检查医生：</td>
+                <td style="text-align:left;">
+                    &nbsp;&nbsp;
+                    <input type="hidden" id="ExamDoctor_@FeeItemID" name="txtExamDoctor" value="@ExamDoctorID" DoctorName="@ExamDoctorName" />
+                    <span id="Lab_ExamDoctor_@FeeItemID" name="spanExamDoctor">@ExamDoctorName</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    检查时间：&nbsp;&nbsp;<span name="Lab_ExamDate">$!{today}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 操作按钮模版 -->
+        <tbody id="ExamOperatorButtonTemplete">
+            <tr style="display:none;">
+                <td class="textright submitlinestyle">&nbsp;</td>
+                <td colspan="3"> 
+
+                </td>
+            </tr>
+        </tbody>
+        
+
+        <!-- 体检项目各个模块定义的子模版 -->
+        <tbody>
+            <tr>
+                <td colspan="2">
+
+                    <!-- 文本输入框模版 -->
+                    <div id="InputTextTemplete">
+                        <div class="ClassSymptomCols_@SymCols">
+                            <input class="ClassSymtomTextInput" @CalcExpression type="text" ExamItemID="@ExamItemID" name="txtSym_@InputTextID" id="txtSym_@InputTextID" value="" /><span id="txtSymUnit_@InputTextID">@InputTextExamItemUnit</span>
+                        </div>
+                    </div>
+                    <!-- 自动计算数据模版 -->
+                    <div id="AutoCalculTemplete">
+                        <div style="display:none;"><input type="radio" @Is_Checked  Is_Default='@Is_Default' id="AutoCalcul_@AutoCalculID" name="AutoCalcul_@InputTextID" NumOperSign="@NumOperSign" AutoCalculNum="@AutoCalculNum" SymptomName="@SymptomName" value="@AutoCalculValue" DiseaseLevel="@DiseaseLevel"/>&nbsp;@SymptomName</div>
+                    </div>
+
+                    <!-- 单选按钮模版 -->
+                    <div id="RadioTemplete">
+                        <div class="ClassSymptomCols_@SymCols" id="SymptomDiv_@SymptomRadioID">
+                            <input class="ClassSymptomRadio" type="radio" name="radioSym_@SymptomRadioParentID" id="radioSym_@SymptomRadioID" value="@RadioValue" /><label for="radioSym_@SymptomRadioID" id="lab_@SymptomRadioID" DiseaseLevel="@DiseaseLevel" SymptomName="@SymptomRadioShowLabel" SymptomDescribe="@SymptomDescribe">@SymptomRadioShowLabel</label>
+                        </div>
+                    </div>
+                    <!-- 复选按钮模版 -->
+                    <div id="CheckboxTemplete">
+                        <div class="ClassSymptomCols_@SymCols" id="SymptomDiv_@SymptomCheckboxID">
+                            <input class="ClassSymptomCheckBox" type="checkbox" name="ckbSym_@SymptomCheckboxParentID" id="ckbSym_@SymptomCheckboxID" value="@CheckboxValue" /><label for="ckbSym_@SymptomCheckboxID" id="lab_@SymptomCheckboxID" DiseaseLevel="@DiseaseLevel" SymptomName="@SymptomCheckboxShowLabel" SymptomDescribe="@SymptomDescribe">@SymptomCheckboxShowLabel</label>
+                        </div>
+                    </div>
+                    <!-- 同行显示排版模版 -->
+                    <div id="ExamItemSymptomResultSameRowRateTemplete">
+                        <div class="ClassSymptomSameRowPartDiv">
+                            <div class="ClassSymptomSameRowPartDiv_@SymCols">
+                            @ExamItemSymptomDivInfo
+                            </div>
+
+                            @ExamItemResultTempleteDivInfo
+                            
+                        </div>
+                    </div>
+                    <!-- 不同行显示排版模版 -->
+                    <div id="ExamItemSymptomResultDiffRowRateTemplete">
+                        <div class="ClassSymptomDiffRowPartDiv">
+                            @ExamItemSymptomDivInfo
+                        </div>
+                        <div class="ClassResultDiffRowPartDiv">
+                            @ExamItemResultDivInfo
+                        </div>
+                    </div>
+
+                    <!-- 单项体检项目结果显示排版模版 -->
+                    <div id="ExamItemResultSameRowRateTemplete">
+                            
+                            <div class="ClassResultSameRowPartDiv_@SymCols">
+                                @ExamItemResultDivInfo
+                            </div>
+
+                    </div>
+                    <!-- 单项体检项目结果模版（单行） -->
+                    <div id="ExamItemResultTextTemplete01">
+                        <div class="ClassSymptomCols_1">
+                            <input type="text" class="ExamItemResultText01 b-edit" boxtitle="@ExamItemName" @IsReadOnly @IsShowThisText name="txtResult_@ExamItemResultText01" id="txtResult_@ExamItemResultText01" GetResultWay="@GetResultWay" value="" />
+                            <input type="hidden" id="txtHidValueResult_@ExamItemResultText01" value="" />
+                            <!-- 上次保存的结果值，用于对比是否进行了改动 -->
+                            <input type="text" style="display:none;" class="ExamItemResultText01" name="txtLastResult_@ExamItemResultText01" id="txtLastResult_@ExamItemResultText01" value="" />
+                            <!-- 体检项目结论编号，便于进行修改 -->
+                            <input type="hidden" id="txtCustExamItemID_@ExamItemResultText01" value="" />
+                            <!-- 默认小结信息 -->
+                            <input type="hidden" id="txtDefaultValueResult_@ExamItemResultText01" value="" />
+                            <!-- 阳性结果 -->
+                            <input type="hidden" id="txtPositiveResult_@ExamItemResultText01" value="" />
+                            <!-- 该检查项目对应的病症级别 -->
+                            <input type="hidden" id="DiseaseLevel_@ExamItemResultText01" value="" />
+                        </div>
+                    </div>
+                    
+                    <!-- 单项体检项目结果模版（多行） -->
+                    <div id="ExamItemResultTextTemplete02">
+                        <div class="ClassSymptomCols_1">
+                            <textarea rows="@ExamItemResultRows" class="ExamItemResultText02 b-edit" boxtitle="@ExamItemName" name="txtResult_@ExamItemResultText02"  id="txtResult_@ExamItemResultText02" GetResultWay="@GetResultWay"></textarea>
+                            <input type="hidden" id="txtHidValueResult_@ExamItemResultText02" value="" />
+                            <!-- 上次保存的结果值，用于对比是否进行了改动 -->
+                            <textarea rows="@ExamItemResultRows" style="display:none;" class="ExamItemResultText02" name="txtLastResult_@ExamItemResultText02"  id="txtLastResult_@ExamItemResultText02"></textarea>
+                            <!-- 体检项目结论编号，便于进行修改 -->
+                            <input type="hidden" id="txtCustExamItemID_@ExamItemResultText02" value="" />
+                            <!-- 默认小结信息 -->
+                            <input type="hidden" id="txtDefaultValueResult_@ExamItemResultText02" value="" />
+                            <!-- 阳性结果 -->
+                            <input type="hidden" id="txtPositiveResult_@ExamItemResultText02" value="" />
+                            <!-- 该检查项目对应的病症级别 -->
+                            <input type="hidden" id="DiseaseLevel_@ExamItemResultText02" value="" />
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 读取数据等待信息模版 -->
+        <tbody id="TypistTemplete">
+            
+            <tr>
+                <td class="text_right">录入护士：</td>
+                <td>$!{UserName}</td>
+            </tr>
+        </tbody>
+
+        <!-- 读取数据等待信息模版 -->
+        <tbody id="ExamItemWaitingTemplete">
+            <tr>
+                <td colspan="2" class="ExamItemWaiting" >正在读取体检项目信息，请稍后...</td>
+            </tr>
+        </tbody>
+
+        <!-- 暂无交费项目或体检项目模版 NoFeeItemTemplete -->
+        <tbody id="NoFeeItemTemplete">
+            <tr>
+                <td colspan="2" class="ExamItemEmpty" ><strong>$!{CustomerName}</strong> 暂无<span style="color:Red; font-weight:bold;">【${SectionModel.SectionName}】</span>的检查项目，请核对是否进行了登记！</td>
+            </tr>
+        </tbody>
+        
+        <!-- 读取空数据模版 （清空收费项目） -->
+        <tbody id="ExamItemEmptyTemplete">
+            <tr>
+                <td colspan="2" class="ExamItemEmpty" >&nbsp;</td>
+            </tr>
+        </tbody>
+
+        <!-- 其他提示信息模版 -->
+        <tbody id="TipsMessageTemplete">
+            <tr style="background:none;  ">
+                <td colspan="2" style="background:none; padding:50px 0px 50px 0px;">@TipsMessage</td>
+            </tr>
+        </tbody>
+    
+        <!-- 分科对比 -- 收费项目模版 -->
+        <!-- 收费项目，检查项目模版 -->
+    
+        <tbody id="SectionCompare_ExamItemFirstRowTemplete">
+            <tr id="tr_@FeeExamItemID">
+                <td class="side-space lisdb-3-th" width="110" nowrap="nowrap">@ExamItemName</td>
+                <td class="side-space project-align-left @CompareResultClass" width="424">@ResultSummary01</td>
+                <td class="side-space project-align-left @CompareResultClass" width="424">@ResultSummary02</td>
+            </tr>
+        </tbody>
+
+        <tbody id="SectionCompare_ExamItemOtherRowTemplete">
+            <tr id="tr_@FeeExamItemID">
+                <td class="side-space lisdb-3-th" width="110" nowrap="nowrap">@ExamItemName</td>
+                <td class="side-space project-align-left @CompareResultClass">@ResultSummary01</td>
+                <td class="side-space project-align-left @CompareResultClass">@ResultSummary02</td>
+            </tr>
+        </tbody>
+
+        <!-- 病症级别提示模板（内容部分） -->
+        <tbody id="DiseaseLevelTipsContentTemplete_Ex">
+            <tr style="background-color:@BackGroundColor;">
+                <td nowrap="nowrap">@ExamItemName</td>
+                <td class="project-align-left">@ResultSummary</td>
+                <td class="project-align-left">@ResultLabRange</td>
+            </tr>
+        </tbody>
+
+        <!--页面内部科室小结-->
+        <tbody id="SectionExamedListContentTemplete">
+            <tr>
+                <td class="side-space lisdb-3-th">@SectionName</td>
+                <td class="side-space project-align-left d-content-300">@SectionSummary</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+        <!-- 科室小结模版 -->
+        <div  id="SectionSummaryTextTemplete" style="display:none;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tbody>
+            <tr>
+                <td colspan="2">
+                
+            
+            <div class="XJTitleBg">
+        	    <span class="XJTitleBg-text">
+            	    <div class="XJTitleBg-text-left"></div>
+                    <div class="XJTitleBg-text-center" style="min-width:80px; text-align:center;"><a href="javascript:void(0);">$!{SectionModel.SummaryName}</a></div>
+                    <div class="XJTitleBg-text-right"></div>
+                </span>
+
+                <span class="float-right"> 
+
+                    <input type="button" class="btn-cxy  btn-common button75 btn_recvcomdata" onclick="ChangeRecvComData(1);"value=" 测血压 " />
+                    <input type="button" class="btn-csgtz  btn-common button100 btn_recvcomdata" onclick="ChangeRecvComData(2);"value=" 测身高体重 " />
+                    
+                    <input type="button" class="btn-qc  btn-common button65" id="@ButClear" onclick="DeleteCustomerExamItemConfirm();" value="清除" />
+                    <!-- 0：不绑定默认值 1：绑定默认值（已经小结的情况下，加载小结后的信息） 2：仅绑定默认值 -->
+                    <input type="button" class="btn-qs  btn-common button65" id="@ButDefault" onclick="InitCustomExamItemPage_IsSetDefaultValue(gPageCustomExamDataMsg,2);" value="缺省" title="缺省(F10)" />   
+                    <input type="button" class="btn-hz  btn-common button65" id="@ButCollect" onclick="GetCustomerExamSectionSummaryValue();" value="汇总" title="汇总(F6)" />
+                    <input type="button" class="btn-bc-s  btn-common button65" id="@ButSave"    onclick="SaveCustomerSectionSummaryConfirm();" value="保存" />
+                    <input type="button" class="btn-qd  btn-common button65" id="@ButCheck"   onclick="UpdateSectionSummaryCheckState_CompareLastSummary();" value="提交" title="提交(F8)" />&nbsp;
+                    <input type="button" class="btn-qh  btn-common button65" id="@ButUnCheck" onclick="UpdateSectionSummaryCheckStateConfirm(0);" value="取回" />&nbsp;&nbsp;&nbsp;&nbsp;
+                </span> 
+            </div>
+
+            <div class="fenk-bs">
+                <div class="fk-zjxz-jlc" style="width:100%;min-width:938px;">
+                    <table  style="width:100%;min-width:928px; " border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td colspan="2" align="left" style="padding-right:20px;">
+                                <textarea class="fk-zs-tjjl-text b-edit" cols="45" rows="5" boxtitle="$!{SectionModel.SummaryName}" id="@SectionSummaryArea" name="@SectionSummaryArea"></textarea>
+                                <textarea style="display:none;" class="Last_SectionResultSummaryArea" rows="7" id="Last_@SectionSummaryArea" name="Last_@SectionSummaryArea"></textarea>
+                
+                                <textarea style="display:none;" class="SectionResultSummaryArea" rows="7" id="@PositiveSummaryArea" name="PositiveSummaryArea"></textarea>
+                                <textarea style="display:none;" class="SectionResultSummaryArea" rows="7" id="Last_@PositiveSummaryArea" name="Last_@PositiveSummaryArea"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                        <td align="left">
+                                    <span style="padding-left:10px;">检查医生：</span>
+                                    <span id="@spanUser"  class="fk-zs-tjjl-span1">
+                                        <!-- 上次保存的检查医生 -->
+                                        <input type="hidden" name="idLastSaveExamDoctor" id="idLastSaveExamDoctor" value="" />
+
+                                        <input type="hidden" name="tempSelectedUserID" id="@tempSelectedUserID" value="" />
+                                        <input type="text" class="QuickQueryShowBox" name="txtUserInputCode" id="@txtUserInputCode"
+                                            onkeyup="QuickQueryUserTableData_Ajax(1);" onchange="QuickQueryUserTableData_Ajax(1);"
+                                            onfocus="this.select();QuickQueryUserTableData_Ajax(1);"
+                                            maxlength="50" value="" />
+                                    </span>
+                                    <span id="@spanSelectUser" class="fk-zs-tjjl-span1" style="display: none;">
+                                    </span>
+                            <span class="fk-zs-tjjl-span1">录入人员：</span>
+                            <span id="spanTypistName">${LoginUserModel.UserName}</span>
+                            <span class="fk-zs-tjjl-span1">录入时间：</span>
+                            <span id="spanTypistDate">$!{today}</span>
+
+                                    <span class="fk-zs-tjjl-span1" style="display:block; width:200px;">
+                                    <div>
+                                        <input type="hidden" name="idSelectUser" id="@idSelectUser" value="" />
+                                        <input type="hidden" name="nameSelectUser" id="@nameSelectUser" value="" />
+                                        <!--检查医生快速选择 Begin-->
+                                        <div id="@QuickQueryUserTable" class="QuickQueryList" style=" margin-top: -246px; margin-left:65px; width: 260px;">
+                                            <div>
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                                    <colgroup>
+                                                        <col style="width: 30px" />
+                                                        <col style="width: 150px" />
+                                                    </colgroup>
+                                                    <tr>
+                                                        <th nowrap="nowrap">
+                                                            &nbsp;
+                                                        </th>
+                                                        <th nowrap="nowrap">
+                                                            姓名
+                                                        </th>
+                                                        <th nowrap="nowrap">
+                                                            输入码
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div style="height: 150px; width: auto; overflow: auto">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                                    <colgroup>
+                                                        <col style="width: 30px" />
+                                                        <col style="width: 150px" />
+                                                    </colgroup>
+                                                    <tbody id="QuickQueryUserTableData">
+                                                        <tr>
+                                                            <td colspan="3" style="text-align: center;">
+                                                                未找到检查医生，请重新输入...&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="QuickQueryListButton">
+                                                <input type="button" class="btnclose"  onclick="ShowHideQuickQueryUserTable(false,'');"
+                                                    value=" 关  闭 " />
+                                                <input type="button" class="btnsure"  onclick="SelectUserDataList();"
+                                                    value=" 确  定 " />
+                                            </div>
+                                        </div>
+                                        <!--检查医生快速选择 End-->
+                                    </div>
+
+<!--
+                                <select style="width:160px;" id="ResultSummaryDoctor" name="ResultSummaryDoctor" onchange="ResultSummaryDoctorChange(this)">
+                                    <option value=""></option>
+                                    #foreach($info in $!{UserModelList})
+                                        #if(${info.UserVocationType} == "1")
+                    	                    <option code="${info.LoginName}" value="${info.ID_User}">${info.UserName}</option>   
+                                        #end
+                                    #end
+                                 </select>
+-->
+
+                                </span>
+
+                        </td>
+                        <td align="right" style="display:none;"><a href="#" class="fk-zs-tjjl-ann" title="提交(F8)"></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+                </td>
+            </tr>
+
+        </tbody>
+        </table>
+        </div>
+    <!-- 病症级别提示模板（整体部分） -->
+    <div id="DiseaseLevelTipsFrameTemplete_Ex" style="display:none;">
+        <table style="width:100%;">
+            <tr>
+                <th>检查项目</th>
+                <th>检查结果</th>
+                <th>参考值</th>
+            </tr>
+            <tbody>
+                @DiseaseLevelTipsContentList
+            </tbody>
+        </table>
+    </div>
+
+    <div style="display:none;">
+                <!-- 检查医生相关模版  -->
+            <table style="display: none;">
+                <tbody id="UserQuickQueryTableTemplete">
+                    <tr style="cursor: pointer;" id="trUser_@ID_User" ondblclick="SetUserChecked('@ID_User');"
+                        onkeydown="if(IsEnterKeyDown() == true) { SetUserChecked('@ID_User'); }">
+                        <td>
+                            <input type="radio" onfocus="UserClickBackground('@ID_User')" name="@chkUserQueryList"
+                                style="clear: none; border: 0px; width: auto; height: auto;" id="chkUser_@ID_User"
+                                value="@ID_User" username="@UserName" />
+                        </td>
+                        <td onclick="UserClick('@ID_User');">
+                            @UserName
+                        </td>
+                        <td onclick="UserClick('@ID_User');">
+                            @InputCode
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="EmptyUserQuickQueryDataTemplete">
+                    <tr>
+                        <td colspan="3" style="text-align: center;">
+                            未找到检查医生，请重新输入...&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="SecectedUserLableTemplete" style="display: none;">
+                <a title="删除重新选择" href="javascript:void(0);" style="text-decoration:none;" onclick="RemoveSelectedUser();RemoveSelectedExamDoctor();">
+                    × </a>
+                <label class="dbclick" title="双击删除重新选择" ondblclick="RemoveSelectedUser();RemoveSelectedExamDoctor();">
+                    @UserName</label>
+            </div>
+    </div>
+
+
+    <!-- 图像采集模板(新) -->
+    <ul style="display:none;" id="CaptureImageItemTemplete">
+        
+        <li class="tuxcj-1-right-tu-tan"  onmouseover="ShowCaptureBigImage('@ImageFileName')" onmouseout="HideCaptureBigImage('@ImageFileName')" id="li_@ImageFileName">
+            
+            <span style="display:none;">
+            <input type="checkbox" id="Capture_@ImageFileName" name="@CaptureImageFile" isupload="@isupload" used="@used" uploadname="@uploadname" value="@ImageFileName" @checked />
+            </span>
+            
+            <a href="javascript:void(0);"><img id="CImage_@ImageFileName" src="@Base64Code" width="118" height="78" /></a>
+            
+            <div class="tuxcj-1-right-guan">
+                <a class="tuxcj-1-right-guan-x" href="javascript:void(0);"  id="Del_@ImageFileName" class="delete" onclick="DeleteSingleImage('@ImageFileName','@IsUpload')" >删除图片</a>
+            </div>
+
+        </li>
+    </ul>
+    
+    <!-- 图像采集模板 -->
+    <ul style="display:none;" id="CaptureImageItemTemplete_old">
+        <li onmouseover="ShowCaptureBigImage('@ImageFileName')" onmouseout="HideCaptureBigImage('@ImageFileName')" id="li_@ImageFileName" style=" width:120px;">
+            <div>
+                <span style="display:none;">
+                <input type="checkbox" id="Capture_@ImageFileName" name="@CaptureImageFile" isupload="@isupload" used="@used" uploadname="@uploadname" value="@ImageFileName" @checked />
+                </span>
+                <div class="CaptureImage" style="position:relative;">
+                    <img id="CImage_@ImageFileName" src="@Base64Code" alt="" width="120" height="90" />
+                    <div id="ShowReport_@ImageFileName" class="showreport" onclick="IsImageShowInReport('@ImageFileName')" >&nbsp;报告中显示&nbsp;</div>
+                    <div id="Del_@ImageFileName" class="delete" onclick="DeleteSingleImage('@ImageFileName','@IsUpload')" >&nbsp;删除&nbsp;</div>
+                    <div id="Message_@ImageFileName" class="message">&nbsp;</div>
+                    <div id="Uploaded_@ImageFileName" class="uploaded">已上传</div>
+                    <div id="Used_@ImageFileName" class="used">&nbsp;</div>
+                    <div id="Up_@ImageFileName" class="up" onclick="UpCaptureImage('@ImageFileName','1')" >&nbsp;↑&nbsp;</div>
+                    <div id="Down_@ImageFileName" class="down" onclick="DownCaptureImage('@ImageFileName','2')" >&nbsp;↓&nbsp;</div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    
+
+    <!-- ================== 模版定义区域 End ==================== -->
+
+	<!-- 体检状态,当次体检信息的状态：0表示在线，1表示归档，2表示在一号分库，3表示在二号分库…  -->
+    <input type="hidden" name="ExamState" id="ExamState" value="$!{ExamState}" />
+
+	<!-- 完成缴费 -->
+    <input type="hidden" name="Is_FeeSettled" id="Is_FeeSettled" value="$!{Is_FeeSettled}" />
+	<!-- 操作密级 -->
+    <input type="hidden" name="CustomerSecurityLevel" id="CustomerSecurityLevel" value="$!{CustomerSecurityLevel}" />
+	<!-- 病症级别 , 在点击汇总的时候，统计出所有体征词对应的最大病症级别 -->
+    <input type="hidden" name="DiseaseLevel" id="DiseaseLevel" value="$!{DiseaseLevel}" />
+	<!-- 指引单是否打印 -->
+    <input type="hidden" name="Is_GuideSheetPrinted" id="Is_GuideSheetPrinted" value="$!{Is_GuideSheetPrinted}" />
+	<!-- 报告已经领取 -->
+    <input type="hidden" name="Is_ReportReceipted" id="Is_ReportReceipted" value="$!{Is_ReportReceipted}" />
+	<!-- 分科锁定 -->
+    <input type="hidden" name="Is_SectionLock" id="Is_SectionLock" value="$!{Is_SectionLock}" />
+	<!-- 0表示处于正常体检状态；1表示处于禁检状态（若客户处于禁检状态时，只有解除禁检后方能进行体检） -->
+    <input type="hidden" name="Is_Paused" id="Is_Paused" value="$!{Is_Paused}" />
+	<!-- 审核通过(总审) -->
+    <input type="hidden" name="Is_Checked" id="Is_Checked" value="$!{Is_Checked}" />
+	<!-- 分科是否已经提交 -->
+    <input type="hidden" name="Is_SectionCheck" id="Is_SectionCheck" value="" />
+	<!-- 小结时间 -->
+    <input type="hidden" name="SectionSummaryDate" id="SectionSummaryDate" value="" />
+    <!-- 医生编号 -->
+    <input type="hidden" name="ID_SummaryDoctor" id="ID_SummaryDoctor" value="" />
+    <!-- 医生姓名，用于判断是否已经进行过小结 -->
+    <input type="hidden" name="SummaryDoctorName" id="SummaryDoctorName" value="" />
+    <!-- 录入人编号 -->
+    <input type="hidden" name="ID_Typist" id="ID_Typist" value="" />
+    <!-- 录入人姓名 -->
+    <input type="hidden" name="TypistName" id="TypistName" value="" />
+    <!-- 录入时间 -->
+    <input type="hidden" name="TypistDate" id="TypistDate" value="" />
+
+	<!-- 小结编号 -->
+    <input type="hidden" name="ID_CustExamSection" id="ID_CustExamSection" value="" />
+	<!-- 默认小结 -->
+    <input type="hidden" name="SectionDefaultSummary" id="SectionDefaultSummary" value="$!{SectionModel.DefaultSummary}" />
+
+	<!-- 项目分隔符 -->
+    <input type="hidden" name="SepBetweenExamItems" id="SepBetweenExamItems" value="$!{SectionModel.SepBetweenExamItems}" />
+	<!-- 体征词分隔符 -->
+    <input type="hidden" name="SepBetweenSymptoms" id="SepBetweenSymptoms" value="$!{SectionModel.SepBetweenSymptoms}" />
+	<!-- 项目终结符 -->
+    <input type="hidden" name="TerminalSymbol" id="TerminalSymbol" value="$!{SectionModel.TerminalSymbol}" />
+	<!-- 项目小结分隔符 -->
+    <input type="hidden" name="SepExamAndValue" id="SepExamAndValue" value="$!{SectionModel.SepExamAndValue}" />
+	<!-- 项目序号 -->
+    <input type="hidden" name="NoBetweenExamItems" id="NoBetweenExamItems" value="$!{SectionModel.NoBetweenExamItems}" />
+	<!-- 体征词序号 -->
+    <input type="hidden" name="NoBetweenSympotms" id="NoBetweenSympotms" value="$!{SectionModel.NoBetweenSympotms}" />
+	<!-- 接口类型 LAB PACS -->
+    <input type="hidden" name="InterfaceType" id="InterfaceType" value="$!{SectionModel.InterfaceType}" />
+
+	<!-- 用于标记是否加载默认选项的信息 -->
+    <input type="hidden" name="IsSetDefaultValue" id="IsSetDefaultValue" value="$!{IsSetDefaultValue}" />
+    <input type="hidden" name="txtHiddenCustomerID" id="txtHiddenCustomerID" value="$!{txtCustomerID}" />
+
+	<!-- 隐藏的登录用户ID -->
+    <input type="hidden" name="HiddenUserID" id="HiddenUserID" value="$!{LoginUserModel.UserID}" />
+	<!-- 隐藏的登录用户姓名 -->
+    <input type="hidden" name="HiddenUserName" id="HiddenUserName" value="$!{LoginUserModel.UserName}" />
+	<!-- 隐藏的登录用户类型 -->
+    <input type="hidden" name="HiddenUserVocationType" id="HiddenUserVocationType" value="$!{LoginUserModel.UserVocationType}" />
+
+	<!-- 当前时间 -->
+    <input type="hidden" name="DateToday" id="DateToday" value="$!{today}" />
+	<!-- 标记是否已经初始化按钮 -->
+    <input type="hidden" name="IS_InitButtom" id="IS_InitButtom" value="False" />
+
+	<!-- 是否点击了清除按钮（这里指的是点击清除默认值的按钮） -->
+    <input type="hidden" name="IS_NotUseLastSaveData" id="IS_NotUseLastSaveData" value="0" />
+	<!-- 科室名称 -->
+    <input type="hidden" name="SectionName" id="SectionName" value="$!{SectionModel.SectionName}" />
+	<!-- 科室是否打印标签 -->
+    <input type="hidden" name="Is_PrintBarCode" id="Is_PrintBarCode" value="$!{SectionModel.Is_PrintBarCode}" />
+	<!-- 本科室打印标签对应的科室ID -->
+    <input type="hidden" name="TagPrintRelSectionID" id="TagPrintRelSectionID" value="$!{TagPrintRelSectionID}" />
+	<!-- 打印标签对应的模版 -->
+    <input type="hidden" name="TagPrintTemplete" id="TagPrintTemplete" value="$!{TagPrintTemplete}" />
+	<!-- 是否打印当前科室的标签 -->
+    <input type="hidden" name="IsPrintCurrSectionTag" id="IsPrintCurrSectionTag" value="${IsPrintCurrSectionTag}" />
+    
+	<!-- 是否弃检 -->
+    <input type="hidden" name="Is_GiveUp" id="Is_GiveUp" value="0" />
+	<!-- 总检查次数 -->
+    <input type="hidden" name="totalExamNumber" id="totalExamNumber" value="$!{totalExamNumber}" />
+	<!-- 隐藏的身份证号码 -->
+    <input type="hidden" name="HiddenIDCardNo" id="HiddenIDCardNo" value="$!{IDCardNo}" />
+	<!-- 隐藏的客户体检号，在分科数据对比时使用 -->
+    <input type="hidden" name="HiddenCustomerID" id="HiddenCustomerID" value="$!{txtCustomerID}" />
+	<!-- 隐藏的客户姓名，在分科数据对比时使用 -->
+    <input type="hidden" name="HiddenCustomerName" id="HiddenCustomerName" value="$!{CustomerName}" />
+	<!-- 记录是否自动完成默认，汇总，保存，及提交 -->
+    <input type="hidden" name="IsAutoFinishSaveAndSubmit" id="IsAutoFinishSaveAndSubmit" value="0" />
+	<!-- 记录需要隐藏的体征词对应的ID -->
+    <input type="hidden" name="HiddenSymptomDivID" id="HiddenSymptomDivID" value="" />
+	<!-- 当前体检号对应的图像上传服务器地址 -->
+    <input type="hidden" name="CurrImageFileUploadUrl" id="CurrImageFileUploadUrl" value="$!{CurrImageFileUploadUrl}" />
+
+	<!-- 标记是否已经显示过图片了 -->
+    <input type="hidden" name="Is_ShowUploadImageFile" id="Is_ShowUploadImageFile" value="0" />
+	<!-- 是否显示设备上传上来的图像 -->
+    <input type="hidden" name="Is_ShowDeviceResultImagesList" id="Is_ShowDeviceResultImagesList" value="$!{IsShowDeviceResultImagesList}" />
+
+	<!-- 是否已经获取采集列表 --> 
+    <input type="hidden" name="IsGetCaptureImageList" id="IsGetCaptureImageList" value="0" />
+	<!-- 是否显示视频信息 -->
+    <input type="hidden" name="IsShowCaptureImage" id="IsShowCaptureImage" value="0" />
+	<!-- 判断当前科室是否需要显示采集卡控件 -->
+    <input type="hidden" name="IsSectionShowVideoCapture" id="IsSectionShowVideoCapture" value="$!{IsSectionShowVideoCapture}" />
+
+    
+	<!-- 是否仅查询当前科室的医生 -->
+    <input type="hidden" name="IsShowCurrSectionDoctor" id="IsShowCurrSectionDoctor" value="1" />
+
+	<!-- 判断当前科室是否显示Com口数据读取控件 -->
+    <input type="hidden" name="IsSectionShowComRead" id="IsSectionShowComRead" value="$!{IsSectionShowComRead}" />
+    <div style="display:none;">
+        <ul id="WaitingUploadFileList">
+            
+        </ul>
+    </div>
+
+	<!-- 【客户端】客户体检号对应文件存放路径 -->
+    <input type="hidden" name="CustomerFileSavePath" id="CustomerFileSavePath" value="$!{CustomerFileSavePath}" />
+	<!-- 【客户端】客户体检号获取结果标记文件存放路径  -->
+    <input type="hidden" name="CustomerFileResultFlagSavePath" id="CustomerFileResultFlagSavePath" value="$!{CustomerFileResultFlagSavePath}" />
+	<!-- 是否显示 生成本地体检号对应文件的按钮 -->
+    <input type="hidden" name="IsShowWriteCustomerFileSectionBtn" id="IsShowWriteCustomerFileSectionBtn" value="$!{IsShowWriteCustomerFileSectionBtn}" />
+
+</body>
+
+</html>

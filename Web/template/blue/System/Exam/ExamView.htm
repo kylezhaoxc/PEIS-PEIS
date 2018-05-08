@@ -1,0 +1,174 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+        .ExamItemList 
+        {
+            width:96%;
+        }
+        .ExamItemName
+        {
+            text-align:right;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+        }
+        .ExamItemList td
+        {
+            padding-left:6px;
+            padding-right:6px;
+        }
+        .ExamItemList tbody td
+        {
+            border-bottom:1px solid #f1ebdc;
+            line-height:22px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 科室ID -->
+    <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+    <!-- 体检号 -->
+    <input type="hidden" name="txtCustomerID" id="txtCustomerID" value="$!{txtCustomerID}" />
+    <!-- 体检号 -->
+    <input type="hidden" name="txtInterfaceType" id="txtInterfaceType" value="$!{SectionModel.InterfaceType}" />
+
+    <div class="content">
+        
+        <table style="width:94%;" class="ExamItemList">
+            <thead>
+            <tr style="background-color:#fff9eb;" >
+                <td class="ExamItemName" style="padding-top:4px; padding-bottom:4px;">科室名称：</td>
+                <td> <span id="showSectionName"><strong>$!{SectionModel.SectionName}</strong></span> </td>
+            </tr>
+
+            <tr><td colspan="2" style="line-height:10px;border-top:1px solid #f1ebdc; "> &nbsp; </td> </tr>
+
+            </thead>
+            <tbody id="CustomerExamItemList">
+
+            </tbody>
+            <tbody>
+            <tr style="background-color:#fff9eb; ">
+                <td class="ExamItemName" style="border-right:1px solid #f1ebdc;">$!{SectionModel.SummaryName}：</td>
+                <td style="padding-top:4px; padding-bottom:4px;"> 
+                <span id="showSectionSummary">  &nbsp; </span>
+                </td>
+            </tr>
+            </tbody>
+            
+            <tfoot>
+            <tr>
+                <td colspan="2" style="padding-top:10px; padding-bottom:20px; text-align:center;">
+                    
+                    <input type="button" class="button80" name="btnClose" id="btnClose" onclick="CloseDialogWindow();" value=" 关  闭 " />
+                    
+                </td>
+            </tr>
+            </tfoot>
+
+        </table>
+    </div>
+
+      <table style="display:none;">
+        
+        <tbody id="EmptyExamItemQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关检查项目，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="ExamItemListTemplete">
+            <tr>
+                <td class="ExamItemName">@ExamItemName：</td>
+                <td>@ResultSummary</td>
+            </tr>
+        </tbody>
+
+      </table>
+      
+      <ul id="UserSelectedExamItemItemDataTemplete" style="display:none;">
+        <li id="spanSelectExamItem_@ID_ExamItem"><span> 
+        <span style="display:none;"><input type="checkbox" name="@chkSelectedExamItemList" id="chkSelectedExamItem_@ID_ExamItem" value="@ID_ExamItem" /></span>
+        <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectExamItem_@ID_ExamItem').remove();"> × </a> @ExamItemName </span> </li>
+      </ul>
+
+
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    jQuery(document).ready(function () {
+        GetCustomerExamResult();
+    });
+
+
+    // 根据客户体检号，查询客户某一个科室的体检结果
+    function GetCustomerExamResult() {
+
+        var txtCustomerID = jQuery.trim(jQuery('#txtCustomerID').val());
+        var txtSectionID = jQuery.trim(jQuery('#txtSectionID').val());
+        
+        if (txtCustomerID == "" || txtSectionID == "" ) {
+            return;
+        }
+
+        jQuery("CustomerExamItemList").html("<tr><td style='text-align:center;' colspan='2'>正在加载检查项目...</td></tr>");
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxCustExam.aspx",
+            data: { CustomerID: txtCustomerID,
+                SectionID: txtSectionID,
+                action: 'GetCustomerExamItemListAndSummary',
+                currenttime: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (jsonmsg) {
+
+                var newcontent = "";
+                var ExamItemListTempleteContent = jQuery('#ExamItemListTemplete').html();               //科室列表模版
+
+                if (jsonmsg != null && jsonmsg != "" && parseInt(jsonmsg.totalCount) > 0) {
+
+
+                    // 遍历检查项目
+                    jQuery(jsonmsg.dataList0).each(function (i, examitem) {
+
+                        newcontent +=
+                            ExamItemListTempleteContent.replace(/@ExamItemName/gi, examitem.ExamItemName)
+                            .replace(/@ResultSummary/gi, examitem.ResultSummary)
+                            .replace(/@Number/gi, i + 1)
+                            ;
+                    });
+
+                    jQuery("#CustomerExamItemList").html(newcontent);
+
+                    
+                    // 科室小结
+                    jQuery(jsonmsg.dataList1).each(function (i, sectionitem) {
+
+                        jQuery("#showSectionSummary").html(sectionitem.SectionSummary.replace(/\n/gi, "<br\/>") ); // 科室小结
+
+                    });
+
+                } else {
+                    jQuery("#CustomerExamItemList").html('<tr><td colspan="2" style="text-align:center;">未找到检查项目</td></tr>');
+                }
+            }
+        });
+
+    }
+
+
+</script>

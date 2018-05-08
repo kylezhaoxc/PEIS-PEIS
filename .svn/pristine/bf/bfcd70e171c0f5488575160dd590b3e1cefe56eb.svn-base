@@ -1,0 +1,234 @@
+using PEIS.DALFactory;
+using PEIS.IDAL;
+using PEIS.Model;
+using Maticsoft.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
+namespace PEIS.BLL
+{
+	public class SYSSection
+    {
+		private readonly ISYSSection dal = DataAccess.CreateSYSSection();
+
+		private static readonly SYSSection _instance = new SYSSection();
+
+		public static SYSSection Instance
+		{
+			get
+			{
+				return SYSSection._instance;
+			}
+		}
+
+		public int GetMaxId()
+		{
+			return this.dal.GetMaxId();
+		}
+
+		public bool Exists(int ID_Section)
+		{
+			return this.dal.Exists(ID_Section);
+		}
+
+		public int Add(PEIS.Model.SYSSection model)
+		{
+			return this.dal.Add(model);
+		}
+
+		public bool Update(PEIS.Model.SYSSection model)
+		{
+			return this.dal.Update(model);
+		}
+
+		public bool Delete(int ID_Section)
+		{
+			return this.dal.Delete(ID_Section);
+		}
+
+		public bool DeleteList(string ID_Sectionlist)
+		{
+			return this.dal.DeleteList(ID_Sectionlist);
+		}
+
+		public PEIS.Model.SYSSection GetModel(int ID_Section)
+		{
+			return this.dal.GetModel(ID_Section);
+		}
+
+		public PEIS.Model.SYSSection GetModelByCache(int ID_Section)
+		{
+			string cacheKey = "SectionModel-" + ID_Section;
+			object obj = Maticsoft.Common.DataCache.GetCache(cacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					obj = this.dal.GetModel(ID_Section);
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						Maticsoft.Common.DataCache.SetCache(cacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (PEIS.Model.SYSSection)obj;
+		}
+
+		public DataSet GetList(string strWhere)
+		{
+			return this.dal.GetList(strWhere);
+		}
+
+		public DataSet GetList(int Top, string strWhere, string filedOrder)
+		{
+			return this.dal.GetList(Top, strWhere, filedOrder);
+		}
+
+		public List<PEIS.Model.SYSSection> GetModelList(string strWhere)
+		{
+			DataSet list = this.dal.GetList(strWhere);
+			return this.DataTableToList(list.Tables[0]);
+		}
+
+		public List<PEIS.Model.SYSSection> DataTableToList(DataTable dt)
+		{
+			List<PEIS.Model.SYSSection> list = new List<PEIS.Model.SYSSection>();
+			int count = dt.Rows.Count;
+			if (count > 0)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					PEIS.Model.SYSSection sysSection = new PEIS.Model.SYSSection();
+					if (dt.Rows[i]["SectionID"].ToString() != "")
+					{
+						sysSection.SectionID = int.Parse(dt.Rows[i]["SectionID"].ToString());
+					}
+					sysSection.SectionName = dt.Rows[i]["SectionName"].ToString();
+					//sysSection.InterfaceType = dt.Rows[i]["InterfaceType"].ToString();
+					if (dt.Rows[i]["Is_NonFunction"].ToString() != "")
+					{
+						if (dt.Rows[i]["FunctionType"].ToString() == "1" || dt.Rows[i]["FunctionType"].ToString().ToLower() == "true")
+						{
+							sysSection.FunctionType = true;
+						}
+						else
+						{
+							sysSection.FunctionType = false;
+						}
+					}
+					//if (dt.Rows[i]["Is_NotSamePage"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_NotSamePage"].ToString() == "1" || dt.Rows[i]["Is_NotSamePage"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_NotSamePage = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_NotSamePage = new bool?(false);
+					//	}
+					//}
+					//if (dt.Rows[i]["Is_NonPrintSectSummary"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_NonPrintSectSummary"].ToString() == "1" || dt.Rows[i]["Is_NonPrintSectSummary"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_NonPrintSectSummary = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_NonPrintSectSummary = new bool?(false);
+					//	}
+					//}
+					//if (dt.Rows[i]["Is_OwnInterface"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_OwnInterface"].ToString() == "1" || dt.Rows[i]["Is_OwnInterface"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_OwnInterface = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_OwnInterface = new bool?(false);
+					//	}
+					//}
+					//if (dt.Rows[i]["Is_AutoApprove"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_AutoApprove"].ToString() == "1" || dt.Rows[i]["Is_AutoApprove"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_AutoApprove = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_AutoApprove = new bool?(false);
+					//	}
+					//}
+					//sysSection.ImageType = dt.Rows[i]["ImageType"].ToString();
+					//sysSection.PicPrintSetup = dt.Rows[i]["PicPrintSetup"].ToString();
+					//sysSection.PacsInterfaceFlag = dt.Rows[i]["PacsInterfaceFlag"].ToString();
+					//sysSection.InputCode = dt.Rows[i]["InputCode"].ToString();
+					//if (dt.Rows[i]["DispOrder"].ToString() != "")
+					//{
+					//	sysSection.DispOrder = new int?(int.Parse(dt.Rows[i]["DispOrder"].ToString()));
+					//}
+					//sysSection.SummaryName = dt.Rows[i]["SummaryName"].ToString();
+					//sysSection.DefaultSummary = dt.Rows[i]["DefaultSummary"].ToString();
+					//sysSection.SepBetweenExamItems = dt.Rows[i]["SepBetweenExamItems"].ToString();
+					//sysSection.SepBetweenSymptoms = dt.Rows[i]["SepBetweenSymptoms"].ToString();
+					//sysSection.TerminalSymbol = dt.Rows[i]["TerminalSymbol"].ToString();
+					//sysSection.SepExamAndValue = dt.Rows[i]["SepExamAndValue"].ToString();
+					//sysSection.NoBetweenExamItems = dt.Rows[i]["NoBetweenExamItems"].ToString();
+					//sysSection.NoBetweenSympotms = dt.Rows[i]["NoBetweenSympotms"].ToString();
+					//sysSection.Note = dt.Rows[i]["Note"].ToString();
+					//if (dt.Rows[i]["Is_NoEntryFinalSummary"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_NoEntryFinalSummary"].ToString() == "1" || dt.Rows[i]["Is_NoEntryFinalSummary"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_NoEntryFinalSummary = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_NoEntryFinalSummary = new bool?(false);
+					//	}
+					//}
+					//if (dt.Rows[i]["Is_NonPrintInReport"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_NonPrintInReport"].ToString() == "1" || dt.Rows[i]["Is_NonPrintInReport"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_NonPrintInReport = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_NonPrintInReport = new bool?(false);
+					//	}
+					//}
+					//if (dt.Rows[i]["Is_PrintBarCode"].ToString() != "")
+					//{
+					//	sysSection.Is_PrintBarCode = new int?(int.Parse(dt.Rows[i]["Is_PrintBarCode"].ToString()));
+					//}
+					sysSection.DisplayMenu = dt.Rows[i]["DisplayMenu"].ToString();
+					//if (dt.Rows[i]["Is_Banned"].ToString() != "")
+					//{
+					//	if (dt.Rows[i]["Is_Banned"].ToString() == "1" || dt.Rows[i]["Is_Banned"].ToString().ToLower() == "true")
+					//	{
+					//		sysSection.Is_Banned = new bool?(true);
+					//	}
+					//	else
+					//	{
+					//		sysSection.Is_Banned = new bool?(false);
+					//	}
+					//}
+					list.Add(sysSection);
+				}
+			}
+			return list;
+		}
+
+		public DataSet GetAllList()
+		{
+			return this.GetList("");
+		}
+	}
+}

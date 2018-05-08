@@ -1,0 +1,558 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>数据字典-结论词维护</title>
+<script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Conclusion.js"></script>
+</head>
+<body>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+            <div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span>结论词分类：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    
+                    <div class="Editor-c" id="InputConclusionTypeCodeText">
+                        <input  class="input-3" name="txtConclusionTypeInputCode" id="txtConclusionTypeInputCode" onkeyup="QuickQueryConclusionTypeTableData_Ajax();" onchange="QuickQueryConclusionTypeTableData_Ajax();"  onfocus="this.select();QuickQueryConclusionTypeTableData_Ajax();"  maxlength="50" value="" />
+
+                    </div>
+
+                    <div class="Editor-c" id="SelectedConclusionTypeLable" style="display:none;">
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+
+                    <div>
+                            <input type="hidden" name="idSelectConclusionType" id="idSelectConclusionType" value="" />
+                            <input type="hidden" name="nameSelectConclusionType" id="nameSelectConclusionType" value="" />
+                            <div id="QuickQueryConclusionTypeTable" class="QuickQueryList" style="margin-top: 24px; width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                结论词分类
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryConclusionTypeTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到结论词分类，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnConclusionTypeColse" onclick="ShowHideQuickQueryConclusionTypeTable(false,'');"
+                                        value=" 关  闭 " />
+                                </div>
+                            </div>
+                        </div>
+
+                </span>
+                <span>&nbsp;结论词/输入码：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                    <input type="text" class="input-3" onfocus="this.select();ShowHideQuickQueryConclusionTypeTable(false,'');" 
+                        onkeydown="if(IsEnterKeyDown() == true) { ConclusionKeywordsSearch();}" 
+                        id="txtSearchConclusionKeyword" name="txtSearchConclusionKeyword" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+            </div>
+        	<div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a id="btnSearch" href="javascript:void(0);"  onclick="ConclusionKeywordsSearch();ShowHideQuickQueryConclusionTypeTable(false,'');">查询</a></span>
+                <span class="buttom-sq float-right" title="修改"><a href="javascript:void();" onclick="OpenEditConclusionWindow();">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"><a href="javascript:void();" onclick="OpenConclusionOperWindow();">新增</a></span>
+            </div>
+   	    </div>
+        <div class="project">
+            <div class="project-center">
+              <div style="overflow:hidden; ">
+            	<table  id="customerScrollTitle" border="0" cellspacing="0" cellpadding="0" class="stripe j-control-title" style="width:100%;min-width:1800px;">
+                          <colgroup>
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:12%" />
+                            <col style="width:6%" />
+                            <col style="width:7%" />
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:4%" />
+                            <col style="width:20%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:5%" />
+                            <col style="width:4%" />
+                            <col style="width:5%" />
+                          </colgroup>
+                          <tr id="project-center-lb1-list">
+                            <th></th>
+                            <th>序号</th>
+                            <th>结论词名称</th>
+                            <th>结论词分类</th>
+                            <th>团检结论词</th>
+                            <th>禁用</th>
+                            <th>男</th>
+                            <th>女</th>
+                            <th>排序</th>
+                            <th>疾病解释</th>
+                            <th>总检建议</th>
+                            <th>饮食指导</th>
+                            <th>运动指导</th>
+                            <th>健康知识</th>
+                            <th>输入码</th>
+                            <th>禁用人</th>
+                            <th>禁用说明</th>
+                            <th>禁用时间</th>
+                          </tr>
+                        </table>
+                        </div>
+                        <div  id="QueryExamListData" class="j-autoHeight j-scroll-control QueryListNoDataTips" data-left="330" data-min="300" style="overflow:auto;">
+                        <table  border="0" cellspacing="0" cellpadding="0" class="stripe" style="width:100%;min-width:1800px;">
+                          <colgroup>
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:12%" />
+                            <col style="width:6%" />
+                            <col style="width:7%" />
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:35px" />
+                            <col style="width:4%" />
+                            <col style="width:20%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:4%" />
+                            <col style="width:5%" />
+                            <col style="width:4%" />
+                            <col style="width:5%" />
+                          </colgroup>
+                         
+                            <tbody id='Searchresult'>
+                            </tbody>
+
+                         </table>
+                         </div>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="project-center-lb1-list-bottom">
+                          <tr>
+                            <td>
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                            </td>
+                          </tr>
+                        </table>
+            </div>
+        </div>
+    </div>
+
+        <script type="text/plain" id="ConclusionListItemTemplete">
+            
+            <tr  onclick="SetConclusionChecked('@ID_Conclusion')" ondblclick="OpenEditConclusionWindow();" >
+            <td><input id="rdiConclusion_@ID_Conclusion" title="" type="radio" name='ConclusionRadio' value="@ID_Conclusion" /></td>
+            <td>@RowNum</td>
+            <td id="ConclusionName_@ID_Conclusion" class="project-align-left" title="@ConclusionName"><div class="nowrap" style="width:100%;">@ConclusionName</div></td>
+            <td id="ConclusionTypeName_@ID_Conclusion" class="project-align-left" title="@ConclusionTypeName"><div class="nowrap" style="width:100%;">@ConclusionTypeName</div></td>
+            <td id="TeamConclusionName_@ID_Conclusion" class="project-align-left" title="@TeamConclusionName"><div class="nowrap" style="width:100%;">@TeamConclusionName</div></td>
+            <td id="Is_Banned_@ID_Conclusion">@Is_Banned</td>
+            <td id="Forsex01_@ID_Conclusion">@Forsex01</td>
+            <td id="Forsex00_@ID_Conclusion">@Forsex00</td>
+            <td style="width:30px;" id="DispOrder_@ID_Conclusion">@DispOrder</td>
+            <td class="project-align-left d-content-40" title="@Explanation">@Explanation</td>
+            <td id="Suggestion_@ID_Conclusion">@Suggestion</td>
+            <td id="DietGuide_@ID_Conclusion">@DietGuide</td>
+            <td id="SportsGuide_@ID_Conclusion">@SportsGuide</td>
+            <td id="HealthKnowledge_@ID_Conclusion">@HealthKnowledge</td>
+            <td id="InputCode_@ID_Conclusion" class="project-align-left" title="@InputCode"><div class="nowrap" style="width:100%;">@InputCode</div></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            </tr>
+        </script>
+    
+    <table style="display:none;">
+    <tbody id="ConclusionTypeQuickQueryTableTemplete">
+        <tr onclick="SetConclusionTypeChecked('@ID_ConclusionType')"
+            ondblclick="ShowHideQuickQueryConclusionTypeTable(false,'');" onkeydown="if(IsEnterKeyDown() == true) { ShowHideQuickQueryConclusionTypeTable(false,''); }"
+        >
+            <td>
+            <input type="radio" name="@chkConclusionTypeQueryList" id="chkConclusionType_@ID_ConclusionType" 
+                value="@ID_ConclusionType"
+                ConclusionTypeName="@ConclusionTypeName"  />
+            </td>
+            <td>@ConclusionTypeName</td>
+            <td>@InputCode</td>
+        </tr>
+    </tbody>
+    <tbody id="EmptyConclusionTypeQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关结论词分类，请重新输入...&nbsp;</td>
+        </tr>
+    </tbody>
+        
+        
+    </table>
+    <div id="SecectedConclusionTypeLableTemplete" style="display:none;">
+    <div class='selected'><a title="删除" href="javascript:void(0);" onclick="RemoveSelectedConclusionType();"> × </a> @ConclusionTypeName </span>
+    </div>
+
+</body>
+
+
+    <script type="text/javascript">
+
+        /// <summary> 
+        /// 点击选中对应结论词分类的单选按钮（快速选择列表）
+        /// </summary>
+        function SetConclusionTypeChecked(ID_ConclusionType) {
+            jQuery("#chkConclusionType_" + ID_ConclusionType).attr("checked", true);
+            SelectQueryConclusionType(ID_ConclusionType);
+
+
+            jQuery("#SelectedConclusionTypeLable").show();
+            jQuery("#InputConclusionTypeCodeText").hide();
+
+        }
+
+        /// <summary> 
+        /// 移除选择的结论词分类
+        /// </summary>
+        function RemoveSelectedConclusionType() {
+            // 清除显示的结论词分类名称
+            jQuery('#SelectedConclusionTypeLable').html("");
+
+            // 清除单项框的选中值
+            jQuery("input[name='chkConclusionTypeQueryList']:radio").each(function () {
+                jQuery(this).attr("checked", false);
+            });
+
+            jQuery('#idSelectConclusionType').val("");         // 清空选择的结论词分类ID
+            jQuery('#nameSelectConclusionType').val("");       // 清空选择的结论词分类名称
+
+            jQuery("#SelectedConclusionTypeLable").hide();
+            jQuery("#InputConclusionTypeCodeText").show();
+            // 重新查询数据
+            ConclusionKeywordsSearch();
+        }
+
+        /// <summary> 
+        /// 选择结论词分类（快速选择）
+        /// </summary>
+        function SelectQueryConclusionType(ID_ConclusionType) {
+
+            // 从模版中读取数据加载列表
+            var templateContent = jQuery('#SecectedConclusionTypeLableTemplete').html();
+            if (templateContent == undefined) { return; }
+            var tempConclusionTypeName = jQuery("#chkConclusionType_" + ID_ConclusionType).attr("ConclusionTypeName");
+
+            var newcontent = templateContent.replace(/@ConclusionTypeName/gi, tempConclusionTypeName); // 替换模版中的关键字
+
+            jQuery('#SelectedConclusionTypeLable').html(newcontent);   // 显示到页面
+            jQuery('#idSelectConclusionType').val(ID_ConclusionType);         // 选择的结论词分类ID
+            jQuery('#nameSelectConclusionType').val(tempConclusionTypeName);  // 选择的结论词分类名称
+
+            // 重新查询数据
+            ConclusionKeywordsSearch();
+        }
+
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+
+            TableScrollByID("customerScrollTitle", "QueryExamListData");
+
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function ConclusionKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+
+            var SearchConclusionKeyword = jQuery('#txtSearchConclusionKeyword').val();      // 科室关键字
+            var SelectedConclusioTypeID = jQuery('#idSelectConclusionType').val();          // 已选择的科室
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConclusion.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchConclusionKeyword: SearchConclusionKeyword,
+                    SelectedConclusioTypeID: SelectedConclusioTypeID,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchConclusionList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#ConclusionItemCount").html(" 【共有 " + msg.totalCount + " 个结论词】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ConclusionListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            newcontent +=
+                             templateContent.replace(/@ConclusionName/gi, item.ConclusionName)
+                            .replace(/@RowNum/gi, "&nbsp;")
+                            .replace(/@ID_Conclusion/gi, item.ID_Conclusion)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ConclusionTypeName/gi, item.ConclusionTypeName)
+                            .replace(/@TeamConclusionName/gi, item.TeamConclusionName)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@Forsex00/gi, Forsex00)
+                            .replace(/@Forsex01/gi, Forsex01)
+                            .replace(/@Explanation/gi, item.Explanation)
+
+                            .replace(/@Suggestion/gi, item.Suggestion == "" ? "&nbsp;" : "<span title='" + item.Suggestion + "'>详细</span>")
+                            .replace(/@DietGuide/gi, item.DietGuide == "" ? "&nbsp;" : "<span title='" + item.DietGuide + "'>详细</span>")
+                            .replace(/@SportsGuide/gi, item.SportsGuide == "" ? "&nbsp;" : "<span title='" + item.SportsGuide + "'>详细</span>")
+                            .replace(/@HealthKnowledge/gi, item.HealthKnowledge == "" ? "&nbsp;" : "<span title='" + item.HealthKnowledge + "'>详细</span>")
+                            .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ')
+                            ;
+                            RowNum++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+
+                            jQuery(".d-content-40").subLength({ len: 38, left: 6 }); // 隐藏分科多余的内容，只显示30个字
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                        jQuery("#ConclusionItemCount").html(" 【共有 0 个结论词】");
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个结论词信息，用户更新修改后的结论词列表中的数据
+        /// </summary>
+        function GetSingleConclusionInfo(ID_Conclusion, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConclusion.aspx",
+                data: { ID_Conclusion: ID_Conclusion,
+                    action: 'GetSingleConclusionInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ConclusionListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            if (type == "edit") {
+
+                                var tmpCurrEditID = item.ID_Conclusion;
+
+                                ShowModifyTableListInfo("ConclusionName_" + tmpCurrEditID, item.ConclusionName);
+                                ShowModifyTableListInfo("InputCode_" + tmpCurrEditID, item.InputCode);
+                                ShowModifyTableListInfo("ConclusionTypeName_" + tmpCurrEditID, item.ConclusionTypeName);
+                                ShowModifyTableListInfo("TeamConclusionName_" + tmpCurrEditID, item.TeamConclusionName);
+                                ShowModifyTableListInfo("InputCode_" + tmpCurrEditID, item.InputCode);
+
+                                jQuery("#DispOrder_" + item.ID_Conclusion).html(item.DispOrder);
+                                jQuery("#Forsex00_" + item.ID_Conclusion).html(Forsex00);
+                                jQuery("#Forsex01_" + item.ID_Conclusion).html(Forsex01);
+                                jQuery("#Explanation_" + item.ID_Conclusion).html(item.Explanation);
+                                jQuery("#Explanation_" + item.ID_Conclusion).attr("title", item.Explanation);
+                                jQuery("#Suggestion_" + item.ID_Conclusion).html(item.Suggestion == "" ? "&nbsp;" : "<span title='" + item.Suggestion + "'>详细</span>");
+                                jQuery("#DietGuide_" + item.ID_Conclusion).html(item.DietGuide == "" ? "&nbsp;" : "<span title='" + item.DietGuide + "'>详细</span>");
+                                jQuery("#SportsGuide_" + item.ID_Conclusion).html(item.SportsGuide == "" ? "&nbsp;" : "<span title='" + item.SportsGuide + "'>详细</span>");
+                                jQuery("#HealthKnowledge_" + item.ID_Conclusion).html(item.HealthKnowledge == "" ? "&nbsp;" : "<span title='" + item.HealthKnowledge + "'>详细</span>");
+                                jQuery("#Is_Banned_" + item.ID_Conclusion).html(item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ');
+
+                            } else {
+
+                                newcontent +=
+                                 templateContent.replace(/@ConclusionName/gi, item.ConclusionName)
+                                .replace(/@ID_Conclusion/gi, item.ID_Conclusion)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@ConclusionTypeName/gi, item.ConclusionTypeName)
+                                .replace(/@TeamConclusionName/gi, item.TeamConclusionName)
+                                .replace(/@DispOrder/gi, item.DispOrder)
+                                .replace(/@Forsex00/gi, Forsex00)
+                                .replace(/@Forsex01/gi, Forsex01)
+                                .replace(/@Explanation/gi, item.Explanation)
+
+                                .replace(/@Suggestion/gi, item.Suggestion == "" ? "&nbsp;" : "<span title='" + item.Suggestion + "'>详细</span>")
+                                .replace(/@DietGuide/gi, item.DietGuide == "" ? "&nbsp;" : "<span title='" + item.DietGuide + "'>详细</span>")
+                                .replace(/@SportsGuide/gi, item.SportsGuide == "" ? "&nbsp;" : "<span title='" + item.SportsGuide + "'>详细</span>")
+                                .replace(/@HealthKnowledge/gi, item.HealthKnowledge == "" ? "&nbsp;" : "<span title='" + item.HealthKnowledge + "'>详细</span>")
+                                .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ')
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+
+                                SetTableEvenOddRowStyle(); // 奇偶行背景
+                            }
+                            jQuery(".d-content-40").subLength({ len: 38, left: 6 }); // 隐藏分科多余的内容，只显示30个字
+
+                        });
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+
+        /// <summary>
+        /// 设置表横向滚动 
+        /// </summary>
+        function TableScrollByID(titleID, scrollID) {
+            var jQueryscrollControl = jQuery("#" + scrollID);
+            if (jQueryscrollControl.length > 0) {
+                var widthLeft = jQueryscrollControl.width() - jQueryscrollControl[0].clientWidth;
+                if (widthLeft > 0) {
+                    var jQueryscrollTitle = jQuery("#" + titleID);
+                    jQueryscrollTitle.css("width", jQueryscrollTitle.width() + widthLeft);
+                }
+                jQueryscrollControl.bind("scroll.j-control", function () {
+                    var left = jQuery(this).scrollLeft();
+                    jQuery("#" + titleID).css("margin-left", 0 - left);
+                });
+            }
+        }
+    </script>
+
+</html>

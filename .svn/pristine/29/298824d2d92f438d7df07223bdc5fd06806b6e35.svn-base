@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/template/blue2/js/skin05/welcome.js"></script>
+    <script src="/template/blue2/js/skin05/config/base.js"></script>
+    
+</head>
+<body>
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong><span class="fa fa-address-book" aria-hidden="true"></span> 个人信息</strong></div>
+        <div class="body-content">
+            <form method="post" class="form-x" action="">
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>姓名</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="userName">${UserName}</label>
+                    </div>
+                </div>
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>账号</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="userLoginName">${LoginUserModel.LoginName}</label>
+                    </div>
+                </div>
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>科室</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="SectionID">$!{UserSectionName}</label>
+                    </div>
+                </div>
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>登录时间</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="userVocationType">${LoginUserModel.LastLoginTime}</label>
+                    </div>
+                </div>
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>登录次数</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="userVocationType">${LoginUserModel.TotalNum}</label>
+                    </div>
+                </div>
+                <div class="form-group" style="width:100%;margin-left: -8%;margin-bottom:0">
+                    <div class="label">
+                        <label>登录IP</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="userVocationType">${ClientIP}</label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+
+        //$("#userLoginName").html(getCookies("UserLoginName"));
+        //$("#userName").html(getCookies("UserName"));
+        //$("#userVocationType").html(getCookies("UserVocationType"));
+
+    </script>
+</body>
+</html>
+

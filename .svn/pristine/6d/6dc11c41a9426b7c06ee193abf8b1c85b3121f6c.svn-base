@@ -1,0 +1,648 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>总检总审-总检-new</title>
+<script language="javascript">
+
+    jQuery(document).ready(function () {
+
+        SwitchHeader(3); // 总检总审头部
+        
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+
+    });
+</script>
+</head>
+
+<body  onload='SetToolMenuXY()' onresize='SetToolMenuXY()'>
+
+
+  	<div id="center" style="padding-top:0px;">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-bg">
+                <span>体检/证件号：</span>
+                <span class="search">
+                    <input type="text" name="textfield" id="textfield" />
+                    <a href="#" title="查询(F4)"><img src="images/search.jpg" width="17" height="14" /></a>
+                </span>
+                <span class="buttom-cx-s" title="查询(F4)"><a href="#">查询</a></span>
+                <span class="buttom-bgyl mop2" title="报告预览(F10)"><a href="#">报告预览</a></span>
+                <div class="Information-s">
+                	<div class="Information-s-l"></div>
+                	<div class="Information-s-c">
+                    	<a id="bcc" onclick="bcc()" style="cursor:pointer">张三</a>
+                    </div>
+                	<div class="Information-s-r"></div>
+                </div>
+            </div>
+        	<div class="oper-right"></div>
+   	    </div>
+        <div class="basic-sf" id="bzz" style="display:none">
+        	<div class="basic-sf-charge-1">
+            	<div class="basic-sf-charge-1-s"><img src="images/avatar-s.jpg" width="80" height="96" /></div>
+            	<div class="basic-sf-charge-1-x"></div>
+            </div>
+        	<div class="basic-sf-charge-2">
+            	<p><span class="basic-sf-charge-2-bm">张三</span><span class="basic-sf-charge-2-bx">男</span><span class="basic-sf-charge-2-bx">52岁</span></p>
+                <p class="basic-sf-charge-2-qt">婚姻状况：已婚<br />联系电话：15284649515<br />证件号码：421560198201168451</p>
+            </div>
+        	<div class="basic-sf-charge-3">
+            	<div class="basic-sf-charge-3-bg">
+                	<div class="basic-sf-charge-3-arr"></div>
+                	<div class="basic-sf-charge-3-if">
+                        <span class="basic-sf-charge-3-hm">体检号码：11354620131204</span><br />
+                        <span>体检类型：健康体检</span><br />
+                        <span>体检日期：2013-10-18</span><br />
+                        <span>单位名称：四川省医学科学院·四川省人民医院</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <div id="fkls" class="zjzs-tab">
+            <ul>
+              <li id="fk1" class="fkls-on"><a onclick="javascript:dxqh(1)" onFocus="this.blur()">分科信息</a></li>
+              <li id="fk2"><a onclick="javascript:dxqh(2)" onFocus="this.blur()">历史对比</a></li>
+            </ul>
+          </div>
+          <div id="fklscen">
+            <div id="cen1">
+                <div class="branch j-autoHeight" data-left="240" data-min="300">
+                    <div class="zjxz-fu j-autoHeight"  data-left="240" data-min="300">
+                        <table width="250" border="0" cellspacing="0" cellpadding="0" class="stripe" id="acefwe">
+                          <tr id="project-center-lb1-list"> 
+                            <th width="80">科室名称</th>
+                            <th width="170">检查结果</th>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">病历及生活史</td>
+                            <td class="project-align-left d-content" title="病历及生活史未见异常。">病历及生活史未见异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">一般检查</td>
+                            <td class="project-align-left d-content" title="(1)身高：152cm (2)体重:52kg (3)臀围：89cm (4)腰臀比：0.76 (5)颈围：30cm 
+        (6)收缩压：118mmHg (7)舒张压：80mmHg。">(1)身高：152cm (2)体重:52kg (3)臀围：89cm (4)腰臀比：0.76 (5)颈围：30cm 
+        (6)收缩压：118mmHg (7)舒张压：80mmHg。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">内科</td>
+                            <td class="project-align-left d-content" title="内科检查未见明显异常。">内科检查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">外科</td>
+                            <td class="project-align-left d-content" title="外科检查未见明显异常。">外科检查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">眼科</td>
+                            <td class="project-align-left d-content" title="(1)矫正视力(右)：1.0   (2)矫正视力(左)：1.0。">(1)矫正视力(右)：1.0   (2)矫正视力(左)：1.0。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">耳鼻喉科</td>
+                            <td class="project-align-left d-content" title="咽部：咽后壁滤泡增加。">咽部：咽后壁滤泡增加。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-lef btnShow">妇科</td>
+                            <td class="project-align-left d-content" title="其他：肛查未见明显异常。">其他：肛查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">心电图室</td>
+                            <td class="project-align-left d-content" title="正常心电图。">正常心电图。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">放射科(X线)</td>
+                            <td class="project-align-left d-content" title="两肺纹理增多、模糊，未见确切斑片影。心影形态、大小未见异常。">两肺纹理增多、模糊，未见确切斑片影。心影形态、大小未见异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-left btnShow">彩超室</td>
+                            <td class="project-align-left d-content">超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，
+                            A:24 PV:0.90 PVG:3.24 MV_E:0.87 MV_EG:3.03 MV_A:0.82 MV_AG:2.69
+E/A:1.06 MV_e:0.13 MV_a:0.12 EF:0.69 FS:0.38 
+----------------------------------------------------------------------------------------------------------------
+        肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-lef btnShow">妇科</td>
+                            <td class="project-align-left d-content" title="其他：肛查未见明显异常。">其他：肛查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="project-align-lef btnShow">妇科</td>
+                            <td class="project-align-left d-content" title="其他：肛查未见明显异常。">其他：肛查未见明显异常。</td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div class="zjxz-jlc j-autoHeight"  data-left="240" data-min="300">
+                        <div class="zjxz-jlc-tit zjxz-jlc-tit-po">
+                            <span class="zjxz-jlc-tit-bt">总检结论</span>
+                            <span class="buttom-bgyl" title="报告预览(F10)"><a href="#">报告预览</a></span>
+                            <span class="buttom-qc" title="清除"><a href="#">清除</a></span>
+                            <span class="buttom-fkjs" title="分科解锁"><a href="#">分科解锁</a></span>
+                            <span class="buttom-tjsh" title="提交审核"><a href="#">提交审核</a></span>
+                            <span class="buttom-hz" title="汇总(F6)"><a href="#">汇总</a></span>
+                        
+                        </div>
+                        <div class="zjxz-jlc-nr zjxz-jlc-nr-ov">
+                            <div class="zjxz-jlc-nr-left zjxz-jlc-nr-left-zsy j-autoHeight"  data-left="240" data-min="300">
+                                <div class="zjxz-jlc-nr-left-top">
+                            	    <span class="zjxz-jlc-nr-left-top-jlc">结论词：</span>
+                                    <input name="" type="text" />
+                                    <span class="zjxz-jlc-nr-left-top-help"><a id="bsf" onmouseover="bsf()" onmouseout="bsf()" style="cursor:pointer"><img src="images/help_zj.png" width="16" height="16"  /></a></span>
+                                    <div style="display:none; position:relative; width:118px; left:115px; border:1px solid #ccc; padding:5px; background:#f3f3f3; z-index:100" id="bxx">
+                                	    <span>支持中文，例：鼻炎</span><br />
+                                        <span class="zjxz-jlc-nr-left-top-sk1"></span>
+                                        <span>指标异常类</span><br />
+                                        <span class="zjxz-jlc-nr-left-top-sk2"></span>
+                                        <span>疾病诊断类</span><br />
+                                        <span class="zjxz-jlc-nr-left-top-sk3"></span>
+                                        <span>其他异常类</span>
+                                    </div>
+                                <!--<span>支持中文</span>
+                                    <span class="zjxz-jlc-nr-left-top-sk1"></span>
+                                    <span>指标异常类</span>
+                                    <span class="zjxz-jlc-nr-left-top-sk2"></span>
+                                    <span>疾病诊断类</span>-->
+                                </div>
+                                <div class="zjxz-jlc-nr-left-table j-autoHeight"  data-left="374" data-min="264">
+                                    <div class="zjxz-jlc-nr-left-table-title">
+                                        <table width="100%" height="24" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td width="35" align="center">操作</td>
+                                            <td width="35" align="center">排序</td>
+                                            <td width="135" align="center">结论词</td>
+                                          </tr>
+                                        </table>
+                                    </div>
+                                    <div class="zjxz-jlc-nr-left-table-jgd j-autoHeight"  data-left="350" data-min="240">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="zjxz-jlc-nr-left-table-nr" >
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="1" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">鼻炎</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="2" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">脂肪肝</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="3" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="3" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx3"><a href="#">其他类型</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="4" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">脂肪肝</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="5" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="6" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">鼻炎</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="7" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="8" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="9" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="10" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">鼻炎</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="11" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="13" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">鼻炎</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="14" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="15" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx2"><a href="#">腹型肥胖</a></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="35" align="center"><a href="#" class="zjxz-jlc-nr-left-table-nr-tex">×</a></td>
+                                            <td width="45" align="center"><input name="" type="text" value="16" /></td>
+                                            <td width="155" align="left"><span class="zjxz-jlc-nr-left-table-nr-lx1"><a href="#">鼻炎</a></span></td>
+                                          </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="zjxz-jlc-nr-fen"></div>
+                            <div class="zjxz-jlc-nr-right zjxz-jlc-nr-right-zsy j-autoHeight"  data-left="320" data-min="300">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" align="left" class="zjxz-jlc-nr-right-tab1">
+                                  <tr>
+                                    <td>结论名称：</td>
+                                    <td><input type="text" name="textfield2" id="textfield2" class="zjxz-jlc-nr-right-tab1-input b-edit" /></td>
+                                  </tr>
+                                  <tr>
+                                    <td>结论解释：</td>
+                                    <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="zjxz-jlc-nr-right-tab1-text1 b-edit"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                    <td>结论建议：</td>
+                                    <td><textarea name="textarea2" id="textarea2" cols="45" rows="5" class="zjxz-jlc-nr-right-tab1-text1 b-edit"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                    <td>饮食指导：</td>
+                                    <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                    <td>运动指导：</td>
+                                    <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                    <td>健康知识：</td>
+                                    <td><textarea name="textarea" id="textarea" cols="45" rows="5" class="zjxz-jlc-nr-right-tab2-text b-edit"></textarea></td>
+                                  </tr>
+                                </table>						
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="yl-bt"><a id="btn" onclick="btn()" style="cursor:pointer">总检信息</a></div>
+                <div class="yl-zjxx" id="box" style="display:none">
+                    <div class="yl-zjxx-left" id="ylhd">
+                        <ul>
+                            <li id="m1"><a href="#" onmouseover="javascript:gopage(1)">综述</a></li>
+                            <li id="m2"><a href="#" onmouseover="javascript:gopage(2)">结论汇总</a></li>
+                            <li id="m3" class="yl-zjxx-left-a"><a href="#" onmouseover="javascript:gopage(3)">诊断异常及建议</a></li>
+                            <li id="m4"><a href="#" onmouseover="javascript:gopage(4)">指标异常及建议</a></li>
+                            <li id="m5"><a href="#" onmouseover="javascript:gopage(5)">其他异常及建议</a></li>
+                            <li id="m6"><a href="#" onmouseover="javascript:gopage(6)">历史对比</a></li>
+                            <li id="m7"><a href="#" onmouseover="javascript:gopage(7)">饮食建议</a></li>
+                            <li id="m8"><a href="#" onmouseover="javascript:gopage(8)">运动建议</a></li>
+                            <li id="m9"><a href="#" onmouseover="javascript:gopage(9)">健康建议</a></li>
+                        </ul>
+                    </div>
+                    <div id="content" class="yl-zjxx-right">
+                        <div id="c1" class="yl-zjxx-right-div" style="display:none">
+                            <h4><span>1</span>病历及生活史</h4>
+                            <span>病历及生活史未见异常。</span>
+                            <h4><span>2</span>一般检查</h4>
+                            <span>(1)身高：152cm (2)体重:52kg (3)臀围：89cm (4)腰臀比：0.76 (5)颈围：30cm (6)收缩压：118mmHg (7)舒张压：80mmHg。</span>
+                            <h4><span>3</span>内科</h4>
+                            <span>内科检查未见明显异常。</span>
+                            <h4><span>4</span>外科</h4>
+                            <span>外科检查未见明显异常。</span>
+                            <h4><span>5</span>眼科</h4>
+                            <span>(1)矫正视力(右)：1.0 (2)矫正视力(左)：1.0。</span>
+                            <h4><span>6</span>耳鼻喉科</h4>
+                            <span>咽部：咽后壁滤泡增加。</span>
+                            <h4><span>7</span>妇科</h4>
+                            <span>其他：肛查未见明显异常。</span>
+                            <h4><span>8</span>心电图室</h4>
+                            <span>正常心电图。</span>
+                            <h4><span>9</span>放射科(X线)</h4>
+                            <span>两肺纹理增多、模糊，未见确切斑片影。心影形态、大小未见异常。</span>
+                            <h4><span>10</span>彩超室</h4>
+                            <span>超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。胆囊：大小正常，壁不厚，囊内液清，未见确切异常回声征象。胆管：肝内外胆管未见明显扩张。胰腺：形态大小未见异常，胰腺实质回声均质，主胰管不扩张。超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。胆囊：大小正常，壁不厚，囊内液清，未见确切异常回声征象。胆管：肝内外胆管未见明显扩张。胰腺：形态大小未见异常，胰腺实质回声均质，主胰管不扩张。超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。胆囊：大小正常，壁不厚，囊内液清，未见确切异常回声征象。胆管：肝内外胆管未见明显扩张。胰腺：形态大小未见异常，胰腺实质回声均质，主胰管不扩张。超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。胆囊：大小正常，壁不厚，囊内液清，未见确切异常回声征象。胆管：肝内外胆管未见明显扩张。胰腺：形态大小未见异常，胰腺实质回声均质，主胰管不扩张。</span>
+                        </div>
+                        <div id="c2" class="yl-zjxx-right-div" style="display:none">
+                            1、肝内占位病变<br />
+                            2、腹型肥胖<br />
+                            3、甘油三脂增高，高密度脂蛋白降低<br />
+                            4、血尿酸增高<br />
+                            5、乙肝表面抗体（HBsAb）阳性<br />
+                            6、其他问题<br />
+                        </div>
+                        <div id="c3" class="yl-zjxx-right-div">
+                          1、肝内占位病变<br />
+    　　    本次体检CT检查提示肝右后叶上段见一最大径约1.9cm不规则低密度结节状影 ，动脉期、门脉期、延迟期呈轻度结节状强化，并逐渐有所推进；不典型血管瘤？其他占位？<br />
+    　　    建议：请您及时到肝胆外科进一步诊治，进一步行MRI检查除外其他占位。<br />
+        2、腹型肥胖<br />
+    　　    根据2003年《中国成人超重和肥胖症预防控制指南》，男性腰围≥85cm，女性腰围≥80cm即为腹型肥胖。本次体检提示您的腰围为94 cm，已属腹型肥胖。肥胖不仅影响形体美，而且会增加心血管疾病的危险，影响消化、内分泌等多系统功能，并会增加肿瘤发生的危险性。而腹型肥胖者腹部脂肪聚积，发生代谢综合症的危险性更大。<br />
+    　　    建议：需要您对腹型肥胖引起重视，结合本次体检提示您的体重指数：超重(25) ，请您心血管或内分泌科定期随访，关注血压、血糖、血脂等变化。日常注意控制饮食总量及食品种类，适当科学地进行运动，在医生指导下降低体重。<br />
+        3、甘油三脂增高，高密度脂蛋白降低<br />
+    　　    考虑为脂代谢紊乱。脂代谢紊乱是促进动脉粥样硬化，导致心脑血管疾病的重要危险因素。<br />
+    　　    建议：低脂饮食、适当增加运动、降低体重是降脂的重要手段。当以上方法不能控制或已有心脏血管病时，应使用药物降脂。您可到内分泌科门诊进一步咨询和诊治。<br />
+        4、血尿酸增高<br />
+    　　    尿酸为嘌呤代谢产物。长期血尿酸增高可以导致痛风性关节炎，严重者可导致痛风性肾病、慢性肾功能不全。医学研究表明高尿酸血症也是心血管疾病的危险因素之一。<br />
+    　　    建议：①减少进食富含嘌呤的食物，如动物内脏、浓肉汤、沙丁鱼等；②适当多饮水，促进尿酸排泄；③戒酒，包括啤酒；④控制体重；⑤定期检查血尿酸，动态观察其变化（每半年监测一次），注意骨关节情况及肾功能监测。您需到风湿免疫科门诊随访，必要时接受药物治疗。<br />
+        5、乙肝表面抗体（HBsAb）阳性<br />
+    　　    即乙肝表面抗体（HBsAb）阳性，属于正常。提示机体已产生保护性抗体，对乙肝病毒具有一定的免疫力。<br />
+    　　    建议：如果乙肝标志物检查仅有HBsAb阳性，提示正常，若为接种乙肝疫苗者则提示接种有效。若伴其他乙肝标志物多项阳性则需综合分析，可到感染科门诊随访诊治。<br />
+        6、其他问题<br />
+    　　    您本次体检所查项目，有部分其它指标结果在参考范围以外，但目前考虑尚无确切临床意义。<br />
+    　　    建议：可随访复查，定期体检，必要时到相关科室就诊。<br />
+                        </div>
+                        <div id="c4" class="yl-zjxx-right-div" style="display:none">
+        1、甘油三脂增高，高密度脂蛋白降低<br />
+    　　    考虑为脂代谢紊乱。脂代谢紊乱是促进动脉粥样硬化，导致心脑血管疾病的重要危险因素。<br />
+    　　    建议：低脂饮食、适当增加运动、降低体重是降脂的重要手段。当以上方法不能控制或已有心脏血管病时，应使用药物降脂。您可到内分泌科门诊进一步咨询和诊治。<br />
+        2、血尿酸增高<br />
+    　　    尿酸为嘌呤代谢产物。长期血尿酸增高可以导致痛风性关节炎，严重者可导致痛风性肾病、慢性肾功能不全。医学研究表明高尿酸血症也是心血管疾病的危险因素之一。<br />
+    　　    建议：①减少进食富含嘌呤的食物，如动物内脏、浓肉汤、沙丁鱼等；②适当多饮水，促进尿酸排泄；③戒酒，包括啤酒；④控制体重；⑤定期检查血尿酸，动态观察其变化（每半年监测一次），注意骨关节情况及肾功能监测。您需到风湿免疫科门诊随访，必要时接受药物治疗。<br />
+        3、乙肝表面抗体（HBsAb）阳性<br />
+    　　    即乙肝表面抗体（HBsAb）阳性，属于正常。提示机体已产生保护性抗体，对乙肝病毒具有一定的免疫力。<br />
+    　　    建议：如果乙肝标志物检查仅有HBsAb阳性，提示正常，若为接种乙肝疫苗者则提示接种有效。若伴其他乙肝标志物多项阳性则需综合分析，可到感染科门诊随访诊治。<br />
+        4、其他问题<br />
+    　　    您本次体检所查项目，有部分其它指标结果在参考范围以外，但目前考虑尚无确切临床意义。<br />
+    　　    建议：可随访复查，定期体检，必要时到相关科室就诊。<br />
+    
+                        </div>
+                        <div id="c5" class="yl-zjxx-right-div" style="display:none">
+        2、血尿酸增高<br />
+    　　    尿酸为嘌呤代谢产物。长期血尿酸增高可以导致痛风性关节炎，严重者可导致痛风性肾病、慢性肾功能不全。医学研究表明高尿酸血症也是心血管疾病的危险因素之一。<br />
+    　　    建议：①减少进食富含嘌呤的食物，如动物内脏、浓肉汤、沙丁鱼等；②适当多饮水，促进尿酸排泄；③戒酒，包括啤酒；④控制体重；⑤定期检查血尿酸，动态观察其变化（每半年监测一次），注意骨关节情况及肾功能监测。您需到风湿免疫科门诊随访，必要时接受药物治疗。<br />
+        3、乙肝表面抗体（HBsAb）阳性<br />
+    　　    即乙肝表面抗体（HBsAb）阳性，属于正常。提示机体已产生保护性抗体，对乙肝病毒具有一定的免疫力。<br />
+    　　    建议：如果乙肝标志物检查仅有HBsAb阳性，提示正常，若为接种乙肝疫苗者则提示接种有效。若伴其他乙肝标志物多项阳性则需综合分析，可到感染科门诊随访诊治。<br />
+        4、其他问题<br />
+    　　    您本次体检所查项目，有部分其它指标结果在参考范围以外，但目前考虑尚无确切临床意义。<br />
+    　　    建议：可随访复查，定期体检，必要时到相关科室就诊。<br />
+    
+                        </div>
+                        <div id="c6" class="yl-zjxx-right-div" style="display:none">
+                          无1
+                        </div>
+                        <div id="c7" class="yl-zjxx-right-div" style="display:none">
+                          无2
+                        </div>
+                        <div id="c8" class="yl-zjxx-right-div" style="display:none">
+                          无3
+                        </div>
+                        <div id="c9" class="yl-zjxx-right-div" style="display:none">
+                          无4
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div id="cen2" style="display:none">
+              <div class="lisdb">
+              	<div class="lisdb-1">
+                	<span class="lisdb-1-span1">项目名称：</span>
+                	<span class="lisdb-1-span2">
+                        <select name="select" id="select">
+                          <option>请选择要对比的体检号...</option>
+                          <option>2013年年底健康体检</option>
+                          <option>2014年年底健康体检</option>
+                        </select>
+                    </span>
+                	<span class="lisdb-1-span3"></span>
+                	<span class="lisdb-1-span2">
+                        <select name="select" id="select">
+                          <option>请选择要对比的体检号...</option>
+                          <option>2013年年底健康体检</option>
+                          <option>2014年年底健康体检</option>
+                        </select>
+                    </span>
+                </div>
+              	<div class="lisdb-2 xxdb-tab" id="xxdb">
+                    <ul>
+                      <li id="mx1" class="xxdb-on"><a href="#" onclick="javascript:xxdbqh(1)" onFocus="this.blur()">分科对比</a></li>
+                      <li id="mx2"><a href="#" onclick="javascript:xxdbqh(2)" onFocus="this.blur()">明细对比</a></li>
+                      <li id="mx3"><a href="#" onclick="javascript:xxdbqh(3)" onFocus="this.blur()">实验对比</a></li>
+                      <li id="mx4" style="width:236px"><a href="#" onclick="javascript:xxdbqh(4)" onFocus="this.blur()">总检对比</a></li>
+                    </ul>
+                </div>
+              	<div class="lisdb-3 j-autoHeight" data-left="355" data-min="300" id="xxdbcen">
+                    <div id="zxm1">
+                       <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe" id="acefwe">
+                          <tr>
+                            <td class="lisdb-3-th" width="110">病历及生活史</td>
+                            <td width="415" class="project-align-left d-content">病历及生活史未见异常。</td>
+                            <td width="415" class="project-align-left d-content">病历及生活史未见异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">一般检查</td>
+                            <td class="project-align-left lisdb-3-Orange d-content">(1)身高：152cm (2)体重:52kg (3)臀围：89cm (4)腰臀比：0.76 (5)颈围：30cm 
+(6)收缩压：118mmHg (7)舒张压：80mmHg。</td>
+                            <td class="project-align-left lisdb-3-Orange d-content">(1)身高：152cm (2)体重:58kg (3)臀围：92cm (4)腰臀比：0.76 (5)颈围：31cm 
+(6)收缩压：118mmHg (7)舒张压：80mmHg。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">内科</td>
+                            <td class="project-align-left d-content">内科检查未见明显异常。</td>
+                            <td class="project-align-left d-content">内科检查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">外科</td>
+                            <td class="project-align-left d-content">外科检查未见明显异常。</td>
+                            <td class="project-align-left d-content">外科检查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">眼科</td>
+                            <td class="project-align-left d-content lisdb-3-Orange">(1)矫正视力(右)：1.0   (2)矫正视力(左)：1.0。</td>
+                            <td class="project-align-left d-content lisdb-3-Orange">(1)矫正视力(右)：0.9   (2)矫正视力(左)：1.0。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">耳鼻喉科</td>
+                            <td class="project-align-left d-content">咽部：咽后壁滤泡增加。</td>
+                            <td class="project-align-left d-content">咽部：咽后壁滤泡增加。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">妇科</td>
+                            <td class="project-align-left d-content">其他：肛查未见明显异常。</td>
+                            <td class="project-align-left d-content">其他：肛查未见明显异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">心电图室</td>
+                            <td class="project-align-left d-content">正常心电图。</td>
+                            <td class="project-align-left d-content">正常心电图。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">放射科(X线)</td>
+                            <td class="project-align-left lisdb-3-Orange d-content">两肺纹理增多、模糊，未见确切斑片影。心影形态、大小未见异常。</td>
+                            <td class="project-align-left lisdb-3-Orange d-content">两肺纹理增多、模糊，未见确切斑片影。心影形态、大小未见异常。</td>
+                          </tr>
+                          <tr>
+                            <td class="lisdb-3-th">彩超室</td>
+                            <td class="project-align-left d-content">超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，
+肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。</td>
+                            <td class="project-align-left d-content">超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，
+肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。</td>
+                          </tr>
+                        </table>
+                    </div>
+                    <div id="zxm2" style="display:none">
+                      gergergergr
+                    </div>
+                    <div id="zxm3" style="display:none">
+                      f25324t35345
+                    </div>
+                    <div id="zxm4" style="display:none">
+                      gw435345
+                    </div>
+                </div>
+              	<div class="lisdb-4 lisdb-4-to">
+                	<table width="958" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="110" align="right">对比结论：</td>
+                        <td width="738" align="left"><textarea name="textarea3" id="textarea3" cols="45" rows="5" class="lisdb-4-text b-edit"></textarea></td>
+                        <td width="100" align="center"><a href="#" class="zs-tjjl-ann"></a></td>
+                      </tr>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        
+    </div>
+	
+
+
+
+<!--分科明细弹出层开始-->
+
+<div class="Detailsdiv fkmxtcc" id="divTop">
+	<div class="Detailsdiv-title">
+    	<div class="Detailsdiv-title-l"></div>
+    	<div class="Detailsdiv-title-b">
+        	<div class="Detailsdiv-title-total">
+                <div class="Detailsdiv-title-btke">
+                    <img src="images/list-icon.png" width="17" height="13" />
+                    <strong>分科明细</strong>
+                </div>
+                <div class="Detailsdiv-title-off"><a class="close" ></a></div>
+                <div class="Detailsdiv-title-fenge"></div>
+            </div>
+        </div>
+    	<div class="Detailsdiv-title-r"></div>
+    </div>
+	<div class="Detailsdiv-center">
+    	<div class="Detailsdiv-center-l"></div>
+    	<div class="Detailsdiv-center-b">
+        	<div class="Detailsdiv-center-div-table">
+            	<table width="631" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                  <tr id="project-center-lb1-list">
+                    <th width="306">检查名称</th>
+                    <th width="325">检查结果</th>
+                  </tr>
+                </table>
+                <div class="Detailsdiv-center-div-table-divtd">
+                	<table width="614" border="0" cellspacing="0" cellpadding="0" class="stripe">                
+                      <tr>
+                        <td width="307">心率</td>
+                        <td width="307">心率(75次/分)</td>
+                      </tr>
+                      <tr>
+                        <td>发育</td>
+                        <td>良好</td>
+                      </tr>
+                      <tr>
+                        <td>营养状况</td>
+                        <td>良好</td>
+                      </tr>
+                      <tr>
+                        <td>体型</td>
+                        <td>均匀</td>
+                      </tr>
+                      <tr>
+                        <td>面容</td>
+                        <td>正常面容</td>
+                      </tr>
+                      <tr>
+                        <td>胸廓</td>
+                        <td>未见异常</td>
+                      </tr>
+                      <tr>
+                        <td>肺部</td>
+                        <td>未见明显异常</td>
+                      </tr>
+                      <tr>
+                        <td>心界</td>
+                        <td>正常</td>
+                      </tr>
+                      <tr>
+                        <td>心律</td>
+                        <td>齐</td>
+                      </tr>
+                      <tr>
+                        <td>心音</td>
+                        <td>正常</td>
+                      </tr>
+                      <tr>
+                        <td>心脏杂音</td>
+                        <td>未闻及病理性杂音</td>
+                      </tr>
+                      <tr>
+                        <td>腹壁</td>
+                        <td>平坦</td>
+                      </tr>
+                      <tr>
+                        <td>腹部压痛</td>
+                        <td>无</td>
+                      </tr>
+                      <tr>
+                        <td>肝脏</td>
+                        <td>未扪及</td>
+                      </tr>
+                      <tr>
+                        <td>胆囊</td>
+                        <td>未扪及</td>
+                      </tr>
+                      <tr>
+                        <td>脾脏</td>
+                        <td>未扪及</td>
+                      </tr>
+                      <tr>
+                        <td>肾脏</td>
+                        <td>无叩痛</td>
+                      </tr>
+                      <tr>
+                        <td>肠鸣音</td>
+                        <td>未见明显异常</td>
+                      </tr>
+                      <tr>
+                        <td>下肢</td>
+                        <td>未见异常</td>
+                      </tr>
+                      <tr>
+                      	<td colspan="2">
+                        <div><b>小结：</b></div>
+                        <div class="Detailsdiv-center-div-table-divxj">超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，
+肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布超声所见：肝脏：肝脏形态大小未见异常，包膜完整光滑，实质回声均匀，其内未见确切占位征象，肝静脉走形正常，门静脉不扩张。CDFI提示肝内无异常血流分布。</div>
+						</td>
+                      </tr>
+                    </table>
+                    
+                </div>
+                
+            </div>
+        </div>
+    	<div class="Detailsdiv-center-r"></div>
+    </div>
+	<div class="Detailsdiv-bottom">
+    	<div class="Detailsdiv-bottom-l"></div>
+    	<div class="Detailsdiv-bottom-b"></div>
+    	<div class="Detailsdiv-bottom-r"></div>
+    </div>
+</div>
+
+<!--分科明细弹出层结束-->
+
+</body>
+</html>

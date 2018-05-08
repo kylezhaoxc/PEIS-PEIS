@@ -1,0 +1,248 @@
+﻿
+        .RightTree,.RightTreeOper
+        {
+            padding-top:20px;
+            padding-bottom:20px;
+        }
+        .RightItemContentArea
+        {
+            line-height:32px;
+        }
+        
+        .RightItemContentArea li
+        {
+            width:500px;
+            display:block;
+            clear:both;
+        }
+        
+        .RightItemContentArea .title
+        {
+            width:120px;
+            text-align:right;
+            display:block;
+            float:left;
+        }
+        .RightItemContentArea .oper
+        {
+            text-align:left;
+            float:left;
+        }
+        .ButtonArea
+        {
+            padding-top:20px;
+            clear:both;
+            display:block;
+            text-align:center;
+        }
+        
+        .rightdata td div
+        {
+            min-width:120px; 
+            text-align:left; 
+            float:left;
+            padding-left:10px;
+            padding-right:10px;
+        }
+
+
+        .rightdata td div input
+        {
+            margin-right:10px;
+        }
+        
+        .RightTree li .openflag
+        {
+            width:20px;
+            display:block;
+            text-align:left;
+            float:left;
+        }
+        
+        
+        .RightTree li ul
+        {
+            padding-left:20px;
+            padding-top:0px;
+        }
+        .SubRightFrame
+        {
+            display:none;
+        }
+        .RightItem
+        {
+            width:100%; 
+            text-align:left; 
+            padding-left:20px;
+        }
+        
+        
+        .RightItem:hover
+        {
+            background-color:#ececec;
+            cursor:pointer;
+        }
+        
+        
+        /**** 角色 样式 ***/
+        
+        .rolelist
+        {
+            width:98%;
+        }
+        .rolelist li
+        {
+            width:100%;
+            border-bottom:1px solid #dcdcdc;
+            display:block;
+            clear:both;
+            overflow:hidden;
+            line-height:26px;
+        }
+        
+        .rolelist li span
+        {
+            float:left;
+        }
+        
+        .rolelist li .radio
+        {
+            padding-left:20px;
+            width:10%;
+        }
+        
+        
+        .rolelist li .name
+        {
+            width:50%;
+        }
+        
+        .rolelist li .name span
+        {
+            color:Red;
+        }
+        
+        .rolelist li .order
+        {
+            width:20%;
+        }
+        
+        .rolelist li .lock
+        {
+        }
+        
+        
+        .rolelist li .username
+        {
+            width:35%;
+        }
+        .rolelist li .loginname
+        {
+            width:35%;
+        }
+        
+        
+        .rolelist  li:hover
+        {
+            background-color:#ececec;
+            cursor:pointer;
+        }
+        
+        /***** 用户权限分配 样式 ********/
+        
+        .UserRightArea
+        {
+            width:100%;  
+            clear:both;
+        }
+        .UserRightArea .UserNameInfo 
+        {
+            line-height:26px;
+            border-bottom:1px solid #dcdcdc;
+            width:100%; 
+            display:block;
+            clear:both;
+            overflow:hidden;
+        }
+        .UserRightArea .UserNameInfo span
+        {
+            float:left;
+            display:block;
+        }
+        
+        .UserRightArea .UserNameInfo .UserNameTitle
+        {
+            padding-left:30px;
+        }
+        
+        .UserRightArea .UserNameInfo .UserName
+        {
+            font-weight:bold;
+            padding-left:10px;
+            font-size:14px;
+        }
+        
+        
+        .UserRightArea .dashedline 
+        {
+            line-height:1px;
+            height:1px;
+            overflow:hidden;
+            border-bottom:1px dashed #eee;
+            width:100%; 
+        }
+        
+        .UserRightArea .solidline 
+        {
+            line-height:1px;
+            height:1px;
+            overflow:hidden;
+            border-bottom:1px solid #eee;
+            width:100%; 
+        }
+        
+        .UserRightArea .RightAreaInfo 
+        {
+            width:100%; 
+            display:block;
+            clear:both;
+            height:auto;
+            overflow:hidden;
+        }
+        .UserRightArea .RightAreaInfo .RightAreaTitle
+        {
+            padding-left:30px;
+        }
+        .UserRightArea .RightAreaInfo .TipsInfo
+        {
+            color:#999999;
+        }
+        
+        /*** 角色选择列表 ***/
+        .SelectRoleList
+        {
+            width:100%;
+            text-align:left;
+        }
+        .SelectRoleList li
+        {
+            padding-left:30px;
+            width:150px;
+            float:left;
+            clear:both;
+        }
+        
+        
+        
+        
+        .showQueryConclusionClass .QueryConclusionClass
+        {
+            display:block;
+        }
+        
+        .hideQueryConclusionClass .QueryConclusionClass
+        {
+            display:none;
+        }
+        
+        

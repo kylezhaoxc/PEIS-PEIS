@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .default
+        {
+            width: 100px;
+        }
+        .default_middle
+        {
+            width: 70px;
+        }
+        .default_min
+        {
+            width: 30px;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CreateDate = "$!{CreateDate}"; //创建日期
+        var Creator = "$!{Creator}"; //创建者
+        var ID_Creator = "$!{ID_Creator}"; //创建者
+        var ID_Team = "$!{ID_TeaM}"; //创建者
+    </script>
+    <script src="$!{templatepath}/js/JS_TeamOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="query-area">
+                <div class="query-group" id="tblRegistTableEdit">
+                    <label class="query-label">
+                        团体名称 : &nbsp;&nbsp;&nbsp;</label>
+                    <select id="txtOperTeamNameX" name="txtOperTeamNameX" style="width: 300px;" required="Required"
+                        errormessage="体检类型不允许为空！">
+                        <option code="qzz" value="-1" selected="selected">-请选择团体--</option>
+                        #foreach($info in $!{TeamDT.Rows})
+                        <option code="${info.InputCode}" value="${info.ID_Team}">${info.TeamName}</option>
+                        #end
+                    </select>
+                </div>
+                <div class="query-group">
+                    &nbsp;&nbsp;&nbsp;
+                    <input id="btnAddX" name="btnAddX" type="button" class="button80" value=" 新  增 "
+                        targeturl="/System/Customer/TeamTaskOper.aspx?type=add&modelName=dialogteamtasklist"
+                        onclick="OpenTeamTask(this,'新增任务');" />
+                    <input id="btnDelX" name="btnDelX" type="button" class="button80" value=" 删  除 "
+                        onclick="return DeleteTeamTask();" />
+                    <input type="button" class="button80" name="btnSaveTeamTask" id="" value=" 保  存 "
+                        onclick="return SaveTeamTask();" />
+                </div>
+            </div>
+            <div style="min-height: 390px;">
+                <table class="tblList querylist" id="tblTeamTask" cellpadding="0" cellspacing="0"
+                    border="1" style="width: 100%;">
+                    <thead style="font-weight: bold;">
+                        <tr>
+                            <td class="text_left width20">
+                                <input id="Checkbox3" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </td>
+                            <td class="text_left width20">
+                                ID
+                            </td>
+                            <td class="text_left width150">
+                                任务名称
+                            </td>
+                            <td class="text_left width80">
+                                创建日期
+                            </td>
+                            <td class="text_left width80">
+                                开始日期
+                            </td>
+                            <td class="text_left width80">
+                                结束日期
+                            </td>
+                            <td class="text_left width50">
+                                体检人数
+                            </td>
+                            <td class="text_left width80">
+                                联系人
+                            </td>
+                            <td class="text_left width80">
+                                联系电话
+                            </td>
+                            <td class="text_left width80">
+                                输入码
+                            </td>
+                            <td class="text_left width40">
+                                分组
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id='hidDiv'>
+        <!--团体检索模版 Begin-->
+        <table id="tblTemplateTeamList">
+            <thead>
+                <tr>
+                    <td>
+                        @TeamNameTitle
+                    </td>
+                    <td>
+                        @InputCodeTitle
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="@ID_Team">
+                    <td name="show">
+                        @TeamName
+                    </td>
+                    <td>
+                        @InputCode
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--团体检索模版 End-->
+        <!--团体任务编辑模版（只包含新行） Begin-->
+        <table id="tblTemplateTeamTaskList_Edit">
+            <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                <tr>
+                    <td class="text_left width20">
+                        <input name="ckbAll" title="全选" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td class="text_left width20">
+                        任务ID
+                    </td>
+                    <td class="text_left width100">
+                        任务名称
+                    </td>
+                    <td>
+                        创建日期
+                    </td>
+                    <td class="text_left width100">
+                        开始日期
+                    </td>
+                    <td class="text_left width100">
+                        结束日期
+                    </td>
+                    <td class="text_left width100">
+                        约定体检人数
+                    </td>
+                    <td class="text_left width100">
+                        联系人
+                    </td>
+                    <td class="text_left width100">
+                        联系电话
+                    </td>
+                    <td class="text_left width20">
+                        顺序
+                    </td>
+                    <td class="text_left width20">
+                        输入码
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr exist="@exist" id="@ID_TeamTask">
+                    <td>
+                        <input id="Checkbox2" title="@title" type="checkbox" name='ItemCheckbox' />
+                    </td>
+                    <td>
+                        <label name="ID_TeamTask">
+                            @ID_TeamTask</label>
+                    </td>
+                    <td oldteamtaskname="@OldTeamTaskName">
+                        <input name="TeamTaskName" class="default" value="@OldTeamTaskName" onblur="BindTeamTaskChange(this);"
+                            type="text" /><label class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <label name="lblCreateDate">
+                            @CreateDate</label>
+                    </td>
+                    <td>
+                        <input class="default" name="TaskExamStartDate" value="@TaskExamStartDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                            class="Wdate" /><label class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <input class="default" name="TaskExamEndDate" value="@TaskExamEndDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                            class="Wdate" type="text" /><label class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <input class="default_min" name="TaskNumCount" value="@TaskNumCount" maxlength="3"
+                            onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" type="text" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <input class="default_middle" name="Contact" value="@Contact" maxlength="30" /><label
+                            class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <input class="default" name="Tel" maxlength="11" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                            value="@Tel" type="text" /><label class="lblRequired">*</label>
+                    </td>
+                    <td>
+                        <input class="default_middle" name="InputCode" value="@InputCode" type="text" />
+                    </td>
+                    <td>
+                        <a>查看</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--团体任务编辑模版 End-->
+        <!--团体任务编辑模版(只读)  Begin-->
+        <table id="tblTemplateTeamTaskList">
+            <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                <tr>
+                    <td class="text_left width20">
+                        <input name="ckbAll" title="全选" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td class="text_left width20">
+                        任务ID
+                    </td>
+                    <td class="text_left width100">
+                        任务名称
+                    </td>
+                    <td>
+                        创建日期
+                    </td>
+                    <td class="text_left width100">
+                        开始日期
+                    </td>
+                    <td class="text_left width100">
+                        结束日期
+                    </td>
+                    <td class="text_left width100">
+                        约定体检人数
+                    </td>
+                    <td class="text_left width100">
+                        联系人
+                    </td>
+                    <td class="text_left width100">
+                        联系电话
+                    </td>
+                    <td class="text_left width20">
+                        顺序
+                    </td>
+                    <td class="text_left width20">
+                        输入码
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr exist="@exist" id="@ID_TeamTask" ondblclick="OpenTeamTask(this,'编辑任务: @OldTeamTaskName');"
+                    targeturl="/System/Customer/TeamTaskOper.aspx?type=edit&modelName=dialogteamtasklist&ID_TeamTask=@ID_TeamTask"
+                    title="双击编辑任务: @OldTeamTaskName">
+                    <td>
+                        <input title="@title" type="checkbox" name='ItemCheckbox' />
+                    </td>
+                    <td>
+                        <label name="ID_TeamTask">
+                            @ID_TeamTask</label>
+                    </td>
+                    <td oldteamtaskname="@OldTeamTaskName">
+                        <a name="TeamTaskName" href="javascript:void(0);">@OldTeamTaskName</a>
+                        <!-- <label name="TeamTaskName" class="default">
+                            @OldTeamTaskName</label>-->
+                    </td>
+                    <td>
+                        <label name="lblCreateDate">
+                            @CreateDate</label>
+                    </td>
+                    <td>
+                        <label name="TaskExamStartDate" class="default">
+                            @TaskExamStartDate</label>
+                    </td>
+                    <td>
+                        <label name="TaskExamEndDate" class="default">
+                            @TaskExamEndDate</label>
+                    </td>
+                    <td>
+                        <label name="TaskNumCount" class="default">
+                            @TaskNumCount</label>
+                    </td>
+                    <td>
+                        <label name="Contact" class="default">
+                            @Contact</label>
+                    </td>
+                    <td>
+                        <label name="Tel" class="default">
+                            @Tel</label>
+                    </td>
+                    <td>
+                        <label name="InputCode" class="default_min">
+                            @InputCode</label>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="DoLoadX(this);" targeturl="/System/Customer/TeamOper.aspx?type=Edit&modelName=TeamTask&ID_TeaM=@ID_TeaM&curTeam=@ID_TeaM&curTeamTask=@ID_TeamTask"
+                            title="@editTitle">查看</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--团体任务编辑模版(只读)  End-->
+        <!--页面参数 Begin-->
+        $!{HiddenInputQueryString}
+        <!--页面参数 End-->
+    </div>
+</body>
+</html>

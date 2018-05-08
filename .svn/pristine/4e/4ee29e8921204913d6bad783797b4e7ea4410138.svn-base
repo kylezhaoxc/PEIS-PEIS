@@ -1,0 +1,58 @@
+using PEIS.Base;
+using PEIS.BLL;
+using PEIS.Model;
+using NVelocity;
+using System;
+
+namespace PEIS.Web.System.Config.Section
+{
+	public class SectionOper : BasePage
+	{
+		protected void Page_Load(object sender, EventArgs e)
+		{
+			this.ProcessRequest();
+		}
+
+		public override void ReplaceContent(ref VelocityContext vltContext)
+		{
+			vltContext.Put("webName", this.SiteName);
+			int @int = base.GetInt("SectionID", 0);
+			vltContext.Put("pageTitle", "新增科室");
+			if (@int > 0)
+			{
+				vltContext.Put("pageTitle", "修改科室");
+				this.GetEditSectionInfo(@int, ref vltContext);
+			}
+		}
+
+		protected void GetEditSectionInfo(int ID_Section, ref VelocityContext vltContext)
+		{
+			PEIS.Model.SYSSection model = PEIS.BLL.SYSSection.Instance.GetModel(ID_Section);
+			vltContext.Put("SectionID", model.SectionID);
+			vltContext.Put("SectionName", model.SectionName);
+			vltContext.Put("FunctionType", model.FunctionType);
+			//vltContext.Put("Is_AutoApprove", model.Is_AutoApprove);
+			//vltContext.Put("Is_OwnInterface", model.Is_OwnInterface);
+			//vltContext.Put("InterfaceType", model.InterfaceType);
+			//vltContext.Put("PacsInterfaceFlag", model.PacsInterfaceFlag);
+			//vltContext.Put("ImageType", model.ImageType);
+			//vltContext.Put("Is_NonPrintSectSummary", model.Is_NonPrintSectSummary);
+			//vltContext.Put("Is_NotSamePage", model.Is_NotSamePage);
+			//vltContext.Put("PicPrintSetup", model.PicPrintSetup);
+			//vltContext.Put("SummaryName", model.SummaryName);
+			//vltContext.Put("DispOrder", model.DispOrder);
+			//vltContext.Put("DefaultSummary", model.DefaultSummary);
+			//vltContext.Put("SepBetweenExamItems", model.SepBetweenExamItems);
+			//vltContext.Put("SepBetweenSymptoms", model.SepBetweenSymptoms);
+			//vltContext.Put("TerminalSymbol", model.TerminalSymbol);
+			//vltContext.Put("SepExamAndValue", model.SepExamAndValue);
+			//vltContext.Put("NoBetweenExamItems", model.NoBetweenExamItems);
+			//vltContext.Put("NoBetweenSympotms", model.NoBetweenSympotms);
+			//vltContext.Put("Is_NoEntryFinalSummary", model.Is_NoEntryFinalSummary);
+			//vltContext.Put("Is_NonPrintInReport", model.Is_NonPrintInReport);
+			//vltContext.Put("Is_Banned", model.Is_Banned);
+			vltContext.Put("DisplayMenu", model.DisplayMenu);
+			//vltContext.Put("Note", model.Note);
+		}
+	}
+}

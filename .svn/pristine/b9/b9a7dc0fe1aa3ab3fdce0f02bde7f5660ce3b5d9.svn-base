@@ -1,0 +1,172 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <configSections>
+    <section name="log4net" type="System.Configuration.IgnoreSectionHandler" />
+  </configSections>
+  <appSettings>
+    <!-- 连接字符串是否加密 -->
+    <add key="ConStringEncrypt" value="false" />
+    <!-- 数据库连接字符串,（如果采用加密方式，上面一项要设置为true；加密工具，可在官方下载，
+     如果使用明文这样server=127.0.0.1;database=.....,上面则设置为false。 -->
+    <!--在线库连接服务器字符串 -->
+    <add key="ConnectionString" value="server=192.168.1.5;database=SCPEIS;uid=sa;pwd=Yjw123456;" />    
+    <!--数据访问层程序集名称 -->
+    <add key="DAL" value="PEIS.SQLServerDAL" />
+    <!--虚拟目录名称(如果是站点，则为空) -->
+    <add key="VirtualPath" value="" />
+    <!--网站域名，本地目录可以用.   -->
+    <add key="WebURL" value="" />
+    <!--默认菜单是否是展开状态-->
+    <add key="MenuExpanded" value="false" />
+    <!--管理员所属部门名称-->
+    <add key="AdManager" value="技术部" />
+    <!--实体对象内容缓村的时间（分钟）-->
+    <add key="ModelCache" value="30" />  
+    
+    <!--统计时默认数据库超时时间（秒）数据库默认超时时间为30秒-->
+    <add key="CommandTimeout" value="120" />
+  </appSettings>
+  <system.web>
+    <httpRuntime executionTimeout="3600" maxRequestLength="1048576" />
+    <compilation debug="true" targetFramework="4.0">
+      <assemblies>
+        <!--<add assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91" />
+        <add assembly="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91" />
+        <add assembly="Microsoft.Build.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A" />-->
+      </assemblies>
+      <buildProviders>
+        <add extension=".rdlc" type="Microsoft.Reporting.RdlBuildProvider, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+      </buildProviders>
+    </compilation>
+    <customErrors mode="Off" />
+    <identity impersonate="true" />
+    <authentication mode="Forms">
+      <forms name="forums" path="/" loginUrl="Login.aspx" protection="All" timeout="400" />
+    </authentication>
+    <pages enableSessionState="true" controlRenderingCompatibilityVersion="3.5" clientIDMode="AutoID" />
+    <sessionState mode="InProc" cookieless="false" timeout="60" />
+    <!-- httpModules-->
+    <httpHandlers>
+      <add path="comet_broadcast.asyn" verb="POST,GET" type="AsnyHandler" />
+      <add path="Reserved.ReportViewerWebControl.axd" verb="*" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" validate="false" />
+    </httpHandlers>
+  </system.web>
+  <log4net>
+    <!--定义输出到文件中 FileAppender，DailyRollingFileAppender，RollingFileAppender-->
+    <appender name="RollingFileAppender" type="log4net.Appender.RollingFileAppender">
+      <!--定义文件存放位置-->
+      <file value="d:/log/PEIS_" />
+      <appendToFile value="true" />
+      <rollingStyle value="Composite" />
+      <!--可为：Once|Size|Date|Composite （为：Size与Date的混合模式）-->
+      <staticLogFileName value="false" />
+      <!--文件名是否不能修改 False：表示按照日期格式动态生成文件名称-->
+      <datePattern value="yyyyMMdd&quot;.log&quot;" />
+      <!--日期格式，&quot;的作用是转义，就是把.log当成字面义-->
+      <maxSizeRollBackups value="100" />
+      <!--日志文件最大个数,-1:无限制（最大1000个）-->
+      <maximumFileSize value="4MB" />
+      <!--单位可为：KB|MB|GB,不要使用小数点，否则会一直写入当前文件-->
+      <layout type="log4net.Layout.PatternLayout">
+        <!--每条日志末尾的文字说明-->
+        <footer value="" />
+        <!--输出格式-->
+        <!--样例：2008-03-26 13:42:32,111 [10] INFO  Log4NetDemo.MainClass [(null)] - info-->
+        <conversionPattern value="%n记录时间：%date 线程ID:[%thread] 日志级别：%-5level 类：%logger property:[%property{NDC}] - 描述：%message%newline" />
+      </layout>
+    </appender>
+    <!--定义输出到控制台命令行中-->
+    <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+      </layout>
+    </appender>
+    <!--定义输出到windows事件中-->
+    <appender name="EventLogAppender" type="log4net.Appender.EventLogAppender">
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+      </layout>
+    </appender>
+    <!--定义输出到数据库中，这里举例输出到Access数据库中，数据库为C盘的log4net.mdb-->
+    <appender name="AdoNetAppender_Access" type="log4net.Appender.AdoNetAppender">
+      <connectionString value="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:log4net.mdb" />
+      <commandText value="INSERT INTO LogDetails ([LogDate],[Thread],[Level],[Logger],[Message]) VALUES (@logDate, @thread, @logLevel, @logger,@message)" />
+      <!--定义各个参数-->
+      <parameter>
+        <parameterName value="@logDate" />
+        <dbType value="String" />
+        <size value="240" />
+        <layout type="log4net.Layout.PatternLayout">
+          <conversionPattern value="%date" />
+        </layout>
+      </parameter>
+      <parameter>
+        <parameterName value="@thread" />
+        <dbType value="String" />
+        <size value="240" />
+        <layout type="log4net.Layout.PatternLayout">
+          <conversionPattern value="%thread" />
+        </layout>
+      </parameter>
+      <parameter>
+        <parameterName value="@logLevel" />
+        <dbType value="String" />
+        <size value="240" />
+        <layout type="log4net.Layout.PatternLayout">
+          <conversionPattern value="%level" />
+        </layout>
+      </parameter>
+      <parameter>
+        <parameterName value="@logger" />
+        <dbType value="String" />
+        <size value="240" />
+        <layout type="log4net.Layout.PatternLayout">
+          <conversionPattern value="%logger" />
+        </layout>
+      </parameter>
+      <parameter>
+        <parameterName value="@message" />
+        <dbType value="String" />
+        <size value="240" />
+        <layout type="log4net.Layout.PatternLayout">
+          <conversionPattern value="%message" />
+        </layout>
+      </parameter>
+    </appender>
+    <!--定义日志的输出媒介，下面定义日志以四种方式输出。也可以下面的按照一种类型或其他类型输出。-->
+    <root>
+      <!--文件形式记录日志-->
+      <appender-ref ref="RollingFileAppender" />
+    </root>
+  </log4net>
+  <system.webServer>
+    <defaultDocument>
+      <files>
+        <remove value="default.aspx" />
+        <remove value="iisstart.htm" />
+        <remove value="index.html" />
+        <remove value="index.htm" />
+        <remove value="Default.asp" />
+        <remove value="Default.htm" />
+        <add value="Login.aspx" />
+      </files>
+    </defaultDocument>
+    <staticContent>
+      <mimeMap fileExtension=".frx" mimeType="application/octet-stream" />
+      <mimeMap fileExtension=".config" mimeType="application/octet-stream" />
+    </staticContent>
+    <handlers>
+      <add name="asyn32" path="*.asyn" verb="*" modules="IsapiModule" scriptProcessor="C:\Windows\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll" resourceType="Unspecified" preCondition="classicMode,runtimeVersionv4.0,bitness32" />
+      <add name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    </handlers>
+    <security>
+      <requestFiltering>
+        <fileExtensions>
+          <remove fileExtension=".config" />
+          <add fileExtension=".config" allowed="true" />
+        </fileExtensions>
+      </requestFiltering>
+    </security>
+    <validation validateIntegratedModeConfiguration="false" />
+  </system.webServer>
+</configuration>

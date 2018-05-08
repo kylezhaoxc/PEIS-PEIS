@@ -1,0 +1,546 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;检查项目列表 <span style=" font-size:12px; color:666;" id="ExamItemCount"></span>
+            </div>
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        科室：</label>
+                    <div class="query-controls">
+                        
+                        <input  class="span150" name="txtSectionInputCode" id="txtSectionInputCode" onkeyup="QuickQueryTableData_Ajax();" onchange="QuickQueryTableData_Ajax();"  onfocus="this.select();QuickQueryTableData_Ajax();"  maxlength="50" value="$!{Section}" />
+
+                        <div>
+                        
+                    <input type="hidden" name="idSelectSection" id="idSelectSection" value="" />
+                    <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="" />
+
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQuerySectionTable" style="min-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="max-height:180px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>科室名称</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQuerySectionTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+            
+                            <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQuerySectionTable(false,'');" value=" 关  闭 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+
+                    </div>
+                </div>
+                <div class="query-group" id="SelectedSectionItem">
+                    <label class="query-labelQuick SelectedItem" id="SelectedSectionLable">
+                       &nbsp;
+                    </label>
+                </div>
+                
+                <div class="query-group">
+                    <label class="query-label">
+                        检查项目 :</label>
+                    <div class="query-controls">
+                        <input type="text" class="span150" 
+                        onfocus="this.select();ShowHideQuickQuerySectionTable(false,'');" 
+                        onkeydown="if(IsEnterKeyDown() == true) { ExamKeywordsSearch();ShowHideQuickQuerySectionTable(false,''); }" 
+                        id="txtSearchExamKeyword" name="txtSearchExamKeyword" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) " onclick="ExamKeywordsSearch();ShowHideQuickQuerySectionTable(false,'');" />
+                    </label>
+                </div>
+                <div class="query-group" style="float: right;">
+                    <input id="Button1" type="button" class="button80" onclick="OpenExamItemOperWindow();" value="  新 增  " onclick="" />
+                    <input id="Button2" type="button" class="button80" onclick="OpenEditExamItemWindow();" value="  修 改  " onclick="" />
+       
+                </div>
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                项目ID
+                            </td>
+                            <td>
+                                检查项目名称
+                            </td>
+                            <td>
+                                科室
+                            </td>
+                            <td>
+                                项目编码
+                            </td>
+                            <td style="text-align:left;">
+                                项目单位
+                            </td>
+                            <td style="text-align:center;">
+                                男
+                            </td>
+                            <td style="text-align:center;">
+                                女
+                            </td>
+                            <td style="text-align:center;" title="隶属于其的体征词是单选还是多选">
+                                多值
+                            </td>
+                            <td style="text-align:center;" title="当前检查项目所隶属的体征词在一行中显示的列数">
+                                列数
+                            </td>
+                            <td style="text-align:center;" title="为放置检查项目汇总所选体征词的文本框，高度是指其占的文本输入行数">
+                                高度
+                            </td>
+                            <td style="text-align:center;" title="体征词与选择的结果是否在同一行">
+                                同行
+                            </td>
+                            <td>
+                                不打<br/>报告
+                            </td>
+                            <td>
+                                备注
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                        
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <ul id="Pagination">
+                        <li class="current prev"><a href="javascript:void(0);">上一页</a></li>
+                        <li class="current"><a href="javascript:void(0);">1</a></li>
+                        <li jquery17204201579934234797="61" href="#"><a href="javascript:void(0);">2</a></li>
+                        <li jquery17204201579934234797="62" href="#"><a href="javascript:void(0);">3</a></li>
+                        <li jquery17204201579934234797="63" href="#"><a href="javascript:void(0);">4</a></li>
+                        <li><a href="javascript:void(0);">...</a></li>
+                        <li jquery17204201579934234797="64" href="#"><a href="javascript:void(0);">26</a></li>
+                        <li class="next" jquery17204201579934234797="65" href="#"><a href="javascript:void(0);">
+                            下一页</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widget-title bg_lg widget-title-middle" style="width: 100%; clear: both;">
+                <span style="float:left;" id="ExamItemName">
+                &nbsp;体征词列表         
+                </span>
+                
+                <span style="float:left; font-weight:normal; font-size:10px;" id="SymptomItemCount">
+                </span>
+
+                <span style="float: right;">
+                    <input id="Button4" type="button" class="button80" value="  新 增  " onclick="OpenSymptomOperWindow();" />
+                    <input id="Button5" type="button" class="button80" value="  修 改  " onclick="OpenEditSymptomItemWindow();" />
+                </span>
+            </div>
+
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            体征词名称
+                        </td>
+                        <td>
+                            输入码
+                        </td>
+                        <td>
+                            结论词
+                        </td>
+                        <td>
+                            病症级别
+                        </td>
+                        <td>
+                            默认值
+                        </td>
+                        <td>
+                            运算符
+                        </td>
+                        <td>
+                            男值
+                        </td>
+                        <td>
+                            女值
+                        </td>
+                        <td style=" text-align:center;">
+                            禁用
+                        </td>
+                        <td>
+                            排序
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id='SymptomListItem'>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <table style="display:none;">
+        <tbody id="ExamPagesListItemTemplete">
+            <tr onclick="GetSymptomDetailListByExamID('@ID_ExamItem');ShowHideQuickQuerySectionTable(false,'');" 
+                ondblclick="OpenEditExamItemWindow();" id="trExamItem_@ID_ExamItem" >
+                <td>
+                    <input id="rdi_ExamItem_@ID_ExamItem" value="@ID_ExamItem"  title="" type="radio" examname="@ExamName" name='ExamItemRadio' />
+                </td>
+                <td id="ID_ExamItem_@ID_ExamItem">@ID_ExamItem</td>
+                <td id="ExamName_@ID_ExamItem">@ExamName</td>
+                <td id="SectionName_@ID_ExamItem">@SectionName</td>
+                <td id="ExamItemCode_@ID_ExamItem">@ExamItemCode</td>
+                <td id="ExamItemUnit_@ID_ExamItem">@ExamItemUnit</td>
+                <td style="text-align:center;" id="Forsex01_@ID_ExamItem">@Forsex01</td>
+                <td style="text-align:center;" id="Forsex00_@ID_ExamItem">@Forsex00</td>
+                <td style="text-align:center;" id="Is_SymMultiValue_@ID_ExamItem">@Is_SymMultiValue</td>
+                <td style="text-align:center;" id="SymCols_@ID_ExamItem">@SymCols</td>
+                <td style="text-align:center;" id="TextboxRows_@ID_ExamItem">@TextboxRows</td>
+                <td style="text-align:center;" id="Is_SameRow_@ID_ExamItem">@Is_SameRow</td>
+                <td style="text-align:center;" id="Is_ExamItemNonPrintInReport_@ID_ExamItem">@Is_ExamItemNonPrintInReport</td>
+                <td style="text-align:left;" id="Note_@ID_ExamItem">@Note</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="SymptomListItemTemplete">
+            <tr onclick="jQuery('#rdi_SymptomItem_@ID_Symptom').attr('checked',true);"
+                ondblclick="OpenEditSymptomItemWindow();" >
+                <td>
+                    <input id="rdi_SymptomItem_@ID_Symptom" type="radio" value="@ID_Symptom" name='SymptomItemRadio' />
+                </td>
+                <td>@SymptomName</td>
+                <td>@InputCode</td>
+                <td>@ConclusionName</td>
+                <td>@DiseaseLevel</td>
+                <td>@Is_Default</td>
+                <td>@NumOperSign</td>
+                <td>@NumMale</td>
+                <td>@NumFemale</td>
+                <td style="text-align:center;">@Is_Banned </td>
+                <td>@DispOrder</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <table style="display:none;">
+    <tbody id="SectionQuickQueryTableTemplete">
+        <tr onclick="SetSectionChecked('@ID_Section')"
+        ondblclick="ShowHideQuickQuerySectionTable(false,'');" onkeydown="if(IsEnterKeyDown() == true) { ShowHideQuickQuerySectionTable(false,''); }"
+        >
+            <td>
+            <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                value="@ID_Section"
+                SectionName="@SectionName"  />
+            </td>
+            <td>@SectionName</td>
+            <td>@InputCode</td>
+        </tr>
+    </tbody>
+    <tbody id="EmptySectionQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+        </tr>
+    </tbody>
+        
+        
+    </table>
+    <div id="SecectedSectionLableTemplete" style="display:none;">
+    <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedSection();"> × </a> @SectionName 
+    </div>
+
+</body>
+</html>
+
+
+
+
+    <script type="text/javascript">
+
+        /// <summary> 
+        /// 点击选中对应科室的单选按钮（快速选择列表）
+        /// </summary>
+        function SetSectionChecked(ID_Section) {
+            jQuery("#chkSection_" + ID_Section).attr("checked", true);
+            SelectQuerySection(ID_Section);
+        }
+
+        /// <summary> 
+        /// 移除选择的科室
+        /// </summary>
+        function RemoveSelectedSection() {
+            // 清除显示的科室名称
+            jQuery('#SelectedSectionLable').html("");
+
+            // 清除单项框的选中值
+            jQuery("input[name='chkSectionQueryList']:radio").each(function () {
+                jQuery(this).attr("checked", false);
+            });
+
+            jQuery('#idSelectSection').val("");         // 清空选择的科室ID
+            jQuery('#nameSelectSection').val("");       // 清空选择的科室名称
+
+            // 重新查询数据
+            ExamKeywordsSearch();
+        }
+
+        /// <summary> 
+        /// 选择科室（快速选择）
+        /// </summary>
+        function SelectQuerySection(ID_Section) {
+
+            // 从模版中读取数据加载列表
+            var templateContent = jQuery('#SecectedSectionLableTemplete').html();
+            if (templateContent == undefined) { return; }
+            var tempSectionName = jQuery("#chkSection_" + ID_Section).attr("SectionName");
+
+            var newcontent = templateContent.replace(/@SectionName/gi, tempSectionName); // 替换模版中的关键字
+
+            jQuery('#SelectedSectionLable').html(newcontent);   // 显示到页面
+            jQuery('#idSelectSection').val(ID_Section);         // 选择的科室ID
+            jQuery('#nameSelectSection').val(tempSectionName);  // 选择的科室名称
+
+            // 重新查询数据
+            ExamKeywordsSearch();
+        }
+
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary>
+        /// 按照关键字搜索
+        /// </summary>
+        function ExamKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var SearchExamKeyword = jQuery('#txtSearchExamKeyword').val();      // 检查项目关键字
+            var SelectedSectionID = jQuery('#idSelectSection').val();      // 已选择的科室
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchExamKeyword: SearchExamKeyword,
+                    SelectedSectionID: SelectedSectionID,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchExamList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#ExamItemCount").html(" 【共有 " + msg.totalCount + " 个检查项目】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var txtBreakfastOrder = ""; // 早餐顺序
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+
+                        jQuery(msg.dataList).each(function (i, examitem) {
+
+                            if (examitem.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (examitem.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            newcontent += templateContent
+                                        .replace(/@ID_ExamItem/gi, examitem.ID_ExamItem)
+                                        .replace(/@SectionName/gi, examitem.SectionName)
+                                        .replace(/@ExamName/gi, examitem.ExamItemName)
+                                        .replace(/@InputCode/gi, examitem.InputCode)
+                                        .replace(/@ExamItemCode/gi, examitem.ExamItemCode)
+                                        .replace(/@ExamItemUnit/gi, examitem.ExamItemUnit)
+                                        .replace(/@Is_SymMultiValue/gi, examitem.Is_SymMultiValue == 'True' ? '√' : ' ')
+                                        .replace(/@Is_ExamItemNonPrintInReport/gi, examitem.Is_ExamItemNonPrintInReport == 'True' ? '√' : ' ')
+                                        .replace(/@TextboxRows/gi, examitem.TextboxRows)
+                                        .replace(/@Is_SameRow/gi, examitem.Is_SameRow == 'True' ? '√' : ' ')
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@SymCols/gi, examitem.SymCols)
+                                        .replace(/@Note/gi, examitem.Note);
+
+                            // 记录第一个收费项目的ID
+                            if (tempFirstItemID == 0) {
+                                tempFirstItemID = examitem.ID_ExamItem;
+                            }
+
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+
+                            // 自动读取第一行对应的检查项目
+                            if (tempFirstItemID != 0) { GetSymptomDetailListByExamID(tempFirstItemID); }
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#ExamItemCount").html(" 【共有 0 个检查项目】");
+                    }
+                }
+            });
+        }
+
+        function GetSingleExamItem(ID_ExamItem,type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ID_ExamItem: ID_ExamItem,
+                    action: 'GetSingleExamItem',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var txtBreakfastOrder = ""; // 早餐顺序
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+                        jQuery(msg.dataList0).each(function (i, examitem) {
+
+                            if (examitem.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (examitem.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+                            if (type == "edit") {
+                                jQuery("#ExamName_" + examitem.ID_ExamItem).html(examitem.ExamItemName);
+                                jQuery("#SectionName_" + examitem.ID_ExamItem).html(examitem.SectionName);
+                                jQuery("#InputCode_" + examitem.ID_ExamItem).html(examitem.InputCode);
+                                jQuery("#ExamItemCode_" + examitem.ID_ExamItem).html(examitem.ExamItemCode);
+                                jQuery("#ExamItemUnit_" + examitem.ID_ExamItem).html(examitem.ExamItemUnit);
+                                jQuery("#Forsex01_" + examitem.ID_ExamItem).html(Forsex01);
+                                jQuery("#Forsex00_" + examitem.ID_ExamItem).html(Forsex00);
+                                jQuery("#Is_SymMultiValue_" + examitem.ID_ExamItem).html(examitem.Is_SymMultiValue == 'True' ? '√' : ' ');
+                                jQuery("#Is_ExamItemNonPrintInReport_" + examitem.ID_ExamItem).html(examitem.Is_ExamItemNonPrintInReport == 'True' ? '√' : ' ');
+                                jQuery("#SymCols_" + examitem.ID_ExamItem).html(examitem.SymCols);
+                                jQuery("#TextboxRows_" + examitem.ID_ExamItem).html(examitem.TextboxRows);
+                                jQuery("#Is_SameRow_" + examitem.ID_ExamItem).html(examitem.Is_SameRow == 'True' ? '√' : ' ');
+                                jQuery("#Note_" + examitem.ID_ExamItem).html(examitem.Note);
+                            } else {
+
+                                newcontent += templateContent
+                                        .replace(/@ID_ExamItem/gi, examitem.ID_ExamItem)
+                                        .replace(/@SectionName/gi, examitem.SectionName)
+                                        .replace(/@ExamName/gi, examitem.ExamItemName)
+                                        .replace(/@InputCode/gi, examitem.InputCode)
+                                        .replace(/@ExamItemCode/gi, examitem.ExamItemCode)
+                                        .replace(/@ExamItemUnit/gi, examitem.ExamItemUnit)
+                                        .replace(/@Is_SymMultiValue/gi, examitem.Is_SymMultiValue == 'True' ? '√' : ' ')
+                                        .replace(/@Is_ExamItemNonPrintInReport/gi, examitem.Is_ExamItemNonPrintInReport == 'True' ? '√' : ' ')
+                                        .replace(/@TextboxRows/gi, examitem.TextboxRows)
+                                        .replace(/@Is_SameRow/gi, examitem.Is_SameRow == 'True' ? '√' : ' ')
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@SymCols/gi, examitem.SymCols)
+                                        .replace(/@Note/gi, examitem.Note);
+
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                }
+            });
+        }
+
+    </script>
+

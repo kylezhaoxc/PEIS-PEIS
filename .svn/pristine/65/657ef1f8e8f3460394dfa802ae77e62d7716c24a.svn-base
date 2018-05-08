@@ -1,0 +1,22 @@
+﻿var url = $('#iframe', parent.document).prop("src");
+var quickSearchBoxData = "";
+var modelName = getUrlParam(url, "modelName");
+var ISTEAM = getUrlParam(url, "IsTeam");
+var type =  getUrlParam(url, "type");
+if (modelName === "Sign" && ISTEAM === "1" && type === "add") {
+    quickSearchBoxData = [{ type: 0, inputtype: "number", placeholder: "证件号/体检号", name: "btnSearchX", btnid: "btnSearch", btnbgcolor: "btn-blue", function: "vailData(5)", tip: "搜索" },
+    { type: 2, name: "", function: "vailData(1)", tip: "保存", btnbgcolor: "bg-green", icon: "fa-floppy-o", btnid: "btnSaveData", btnname: "btnComplete" },
+    { type: 2, name: "", function: "vailData(4)", tip: "补打", btnbgcolor: "bg-blue", icon: "fa-print", btnid: "btnPrintCust", btnname: "btnPrintCust" },
+    { type: 2, name: "", function: "vailData(0)", tip: "完成", btnbgcolor: "bg-red", icon: "fa-check", btnid: "btnRegiste", btnname: "btnComplete" },
+    ];
+} else if (modelName === "SignAndRegiste" && ISTEAM === "0" && type === "add") {
+    quickSearchBoxData = [{ type: 0, inputtype: "number", placeholder: "体检号", name: "btnSearchX", btnid: "btnSearch", btnbgcolor: "btn-blue", function: "vailData(5)", tip: "搜索" },
+   { type: 2, name: "", function: "vailData(1)", tip: "保存", btnbgcolor: "bg-green", icon: "fa-floppy-o", btnid: "btnSaveData", btnname: "btnComplete" },
+   { type: 2, name: "", function: "vailData(4)", tip: "补打", btnbgcolor: "bg-blue", icon: "fa-print", btnid: "btnPrintCust", btnname: "btnPrintCust" },
+   { type: 2, name: "", function: "vailData(0)", tip: "完成", btnbgcolor: "bg-red", icon: "fa-check", btnid: "btnRegiste", btnname: "btnComplete" },
+   { type: 2, name: "", function: "vailData(2)", tip: "读证件", btnbgcolor: "bg-blue", icon: "fa-id-card", btnid: "btnReadFromMachine", btnname: "btnReadFromMachine" },
+   { type: 2, name: "", function: "vailData(3)", tip: "无证件", btnbgcolor: "bg-red", icon: "fa-user-times", btnid: "", btnname: "" }
+    ];
+}
+
+QuickSearchBox(quickSearchBoxData);

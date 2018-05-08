@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_CustomerSubScribDateOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <form id="form1" onkeyup="OnFormKeyUp();">
+        <div style="display: none;">
+            <!--收费项目模版 Begin-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检号：</span> <span class="search">
+                    <input id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                        style="ime-mode: Disabled" />
+                    <a href="javascript:void(0);" title="查询(F4)" id="btnSearchCustomer" name="btnSearchCustomer"
+                        onclick="DoSearchCustomerInfoAndCustFeeInfo();">
+                        </a>
+                </span>
+            </div>
+            <div class="oper-bg">
+            </div>
+        </div>
+        <div class="basic-sf basic-sf-zsy" style="width: 100%; position:static">
+            <div class="basic-sf-zsy-left"></div>
+            <div class="basic-sf-zsy-center">
+                <div class="basic-sf-charge-1">
+                <div class="basic-sf-charge-1-s">
+                    <img src="/template/blue/images/icons/nohead.gif" width="80" height="96" /></div>
+                <div class="basic-sf-charge-1-x">
+                </div>
+            </div>
+                <div class="basic-sf-charge-2">
+                <p>
+                    <span class="basic-sf-charge-2-bm">
+                        <label id="lblCustomerName" name="lblCustomerName">
+                            &nbsp;</label></span><span class="basic-sf-charge-2-bx">
+                                <label id="lblSex" name="lblSex">
+                                    &nbsp;</label></span><span class="basic-sf-charge-2-bx">
+                                        <label id="lblAge" name="lblAge">
+                                            &nbsp;</label>
+                                    </span>
+                </p>
+                <p class="basic-sf-charge-2-qt">
+                    婚姻状况：
+                    <label id="lblMarriedName" name="lblMarriedName">
+                        &nbsp;</label><br />
+                    联系电话：<label id="lblTel" name="lblTel">
+                        &nbsp;</label><br />
+                    证件号：<label id="lblIDCard" name="lblIDCard">
+                        &nbsp;</label></p>
+            </div>
+                <div class="basic-sf-charge-3">
+                <div class="basic-sf-charge-3-bg">
+                    <div class="basic-sf-charge-3-arr-xg">
+                    </div>
+                    <div class="basic-sf-charge-3-if">
+                        <span>体检号：
+                            <label id="lblID_Customer" name="lblID_Customer">
+                                &nbsp;</label></span><br />
+                        <span>体检类型：<label id="lblExamType" name="lblExamType">
+                            &nbsp;</label>
+                            <label id="lblOperateDate" style="display: none;">
+                            </label>
+                            <label id="lblOperator" style="display: none;">
+                            </label>
+                        </span>
+                        <br />
+                        <span class="basic-sf-charge-3-hm-xg"><strong>预定日期：</strong><label id="hidlblRegisterDate"
+                            style="display: none;">
+                        </label>
+                            <input type="text" id="lblRegisterDate" name="lblRegisterDate" onfocus="WdatePicker()"
+                                class="basic-sf-charge-3-arr-xg-input" />
+                            <a href="javascript:void(0);" class="basic-sf-charge-3-arr-xg-bcan" onclick="DoUpdateCustomerSubScribDate();"
+                                id="LSave" title="点击修改体检日期">保存</a></span><br />
+                        <span>单位名称：<label id="lblTeamName" name="lblTeamName">
+                            &nbsp;</label></span>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="basic-sf-zsy-right"></div>
+        </div>
+        $!{HiddenInputQueryString}
+        </form>
+    </div>
+</body>
+</html>

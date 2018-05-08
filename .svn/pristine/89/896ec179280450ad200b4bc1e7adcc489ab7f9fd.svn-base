@@ -1,0 +1,116 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+        body{ font-size:12px;}
+        table td{ font-size:12px !important; line-height:36px;}
+    </style>
+</head>
+<body style="background:none;">
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_ExamItemGroup" id="ID_ExamItemGroup" value="$!{ID_ExamItemGroup}" />
+    <input type="hidden" name="txtIs_Default" id="txtIs_Default" value="$!{Is_Default}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+        
+            <tr>
+                <td class="inputtitle">分组名称：</td>
+                <td class="inputtext"><input style="width:260px; height:24px; line-height:20px;" name="txtExamItemGroupName" id="txtExamItemGroupName" maxlength="100" value="$!{ExamItemGroupName}" /> </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">排序编号：</td>
+                <td class="inputtext"><input style="width:260px;" name="txtDispOrder" id="txtDispOrder" maxlength="50" value="$!{DispOrder}"  onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g, '')" /> </td>
+            </tr>
+           
+
+            <tr>
+                <td class="inputtitle">文本备注：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtNote"  onkeyup="SetTextAreaMaxLength(this,50);" onafterpaste="SetTextAreaMaxLength(this,50);" id="txtNote">$!{Note}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">是否禁用：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /> <label for="radioIs_Banned01">正常 </label>  
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /> <label for="radioIs_Banned02">禁用 </label>  
+                </td>
+            </tr>
+
+            <tr id="trIs_Banned" style="display:none;">
+                <td class="inputtitle">禁用说明：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35" name="txtBanDescribe" id="txtBanDescribe">$!{BanDescribe}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+                
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveExamItemGroupInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveExamItemGroupInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        
+        </form>
+    </div>
+    
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+    
+    jQuery(document).ready(function () {
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+        // 科室编辑操作时，初始化页面数据
+        InitExamItemGroupEditData();
+
+    });
+
+    function SetTextAreaMaxLength(obj, cnt) {
+
+        var s = document.getElementById("txtNote").value;
+        if (s.length > cnt) {
+            document.getElementById("txtNote").value = s.substring(0, cnt);
+        }
+    }
+    
+</script>
+
+

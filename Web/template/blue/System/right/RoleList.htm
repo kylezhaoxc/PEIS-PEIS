@@ -1,0 +1,173 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+
+    <meta charset="UTF-8" />
+    
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Right.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取全部角色信息
+        jQuery(document).ready(function () {
+
+            GetAllRoleItemList();               // 读取所有角色列表
+            GetUserAssignAllRightItemList();    // 读取所有的权限信息
+
+        });
+
+
+    </script>
+</head>
+<body>
+    
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;系统权限列表 </div>
+                <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+                
+                <table class="querylist" >
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td>
+                            角色列表
+                        </td>
+                        <td>
+                            角色操作区域
+                        </td>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <tr>
+                        <td class="RightTree" style="width:50%;vertical-align:top; text-align:left;">
+                            
+                            <ul class="rolelist" id="SystemRoleList">
+                                
+                            </ul>
+                            
+                        </td>
+                        <td style=" vertical-align:top; text-align:left;">
+                            <div class="RightTreeOper"  style=" vertical-align:top; text-align:left;">
+                                <div class="RightItemContentArea" id="RightItemContentArea">
+                                    <ul>
+                                        <li>
+                                            <input type="hidden" name="txtRoleID"  id="txtRoleID" value="" />
+
+                                            <span class="title">角色名称：</span>
+
+                                            <span class="oper"><input name="txtRoleName"  id="txtRoleName" value="" /></span>
+                                        </li>
+                                        <li>
+                                            <span class="title">分组排序：</span>
+                                            <span class="oper"><input name="txtDispOrder"  id="txtDispOrder" value="" maxlength="3" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /></span>
+                                        </li>
+                                        <li>
+                                            <span class="title">是否锁定：</span>
+                                            <span class="oper">
+                                                <input type="radio" name="IsLockedRole"  id="IsLockedRole01" value="0"/> 未锁定
+                                                <input type="radio" name="IsLockedRole"  id="IsLockedRole02" value="1"/> 锁定  </span>
+                                        </li>
+                                    </ul>                                                                                                                                                                                                                                                                                                                                                           
+                                </div>
+                                
+                                 
+                                    <div class="UserRightArea" style="padding-left:30px;">  
+                                        
+                                        <div style="padding-top:10px;" class="solidline"></div>
+
+                                        <div class="RightAreaInfo">
+                                            <span class="RightAreaTitle">分配权限</span>
+                                            <span class="TipsInfo">(给角色分配默认的权限)</span>
+                                        </div>
+                                        <div class="dashedline"></div>
+                                        <div style="height:240px; width:460px; overflow:auto;">
+                                        
+                                        <div class="RightTree"  id='RightTree'  style="width:430px; overflow:hidden;" >
+                                            <ul>
+                                                <li class="RightItem" >
+                                                <span style="color:#dcdcdc;">数据加载中...</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        </div>
+
+                                        <div class="solidline"></div>
+                                    </div>   
+                                    
+
+
+                                <div id="RoleOperButtomArea" class="ButtonArea">
+                                    <input type="button" class="button80" name="btnAddRole" onclick="SaveRoleNodeItem(1);" value="  新增  " />
+                                    <input type="button" class="button80" name="btnEditRole" onclick="SaveRoleNodeItem(2);" value="  修改  " />
+                                    <input type="button" class="button80" name="btnDeleteRole" onclick="DeleteRoleNodeClick();" value="  删除  " />
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+        </div>
+    </div>
+ 
+ <div style="display:none;" >
+    <ul class="rolelist" id="SystemRoleListItemTemplete">
+        <li id="roleli_@ID_Role" onclick="RoleLiClick('@ID_Role');">
+            <span class="radio">
+                <input class=".RoleRadioClass" onclick="RoleValueOnchange('@ID_Role');" type="radio" name="radioRole" 
+                id="radioRole_@ID_Role" 
+                rolename="@RoleName" 
+                disporder="@DispOrder" 
+                isdefaultrole="@Is_DefaultRole" 
+                isLocked="@Is_Locked" 
+                value="@ID_Role" />
+            </span>
+            <span class="name">@ShowRoleName</span>
+            <span class="order">@DispOrder</span>
+            <span class="lock">@ShowLockedState</span>
+        </li>
+    </ul>
+    <ul class="rolelist" id="SystemRoleHeaderItemTemplete">
+        <li id="roleli_0">
+            <span class="radio">选择</span>
+            <span class="name">角色名称</span>
+            <span class="order">排序</span>
+            <span class="lock">是否锁定</span>
+        </li>
+    </ul>
+
+        <!-- 权限模版 -->
+    <div id="SelectSingleRightItemTemplete">
+        <ul id="RightItem_@ID_Right">
+            <li class="RightItem" >
+            <span id="openflag_@ID_Right" class="openflag" onclick="ShowHideSubRightItem('@ID_Right');">&nbsp;</span>
+            <span>
+                
+            <input 
+            id="chkRight_@ID_Right" 
+            name="chkRight" 
+            class="RightItemClass"
+            rightname="@RightName" 
+            parentid="@ID_ParentRight" 
+            isLocked="@Is_Locked" 
+            rightcode="@RightCode" 
+            disporder="@DispOrder" 
+            currentlevel="@CurrentLevel" 
+            type="checkbox" 
+            value="@ID_Right"/>
+                
+            </span>
+            <span onclick="ShowHideSubRightItem('@ID_Right');">@ShowRightName</span>
+            </li>
+            <li id="SubRightFrame_@ID_Right" class="SubRightFrame" style="display:none;"></li>
+        </ul>
+    </div>
+      
+
+</div>
+</body>
+</html>

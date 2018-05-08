@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .Yellow, .TeamYellow
+        {
+            color: Gray;
+        }
+        .Green, .TeamGreen
+        {
+            color: Green;
+        }
+        .TeamYellow td input[type='checkbox'], .TeamRed td input[type='checkbox'], .TeamGreen td input[type='checkbox'], .Yellow td input[type='checkbox']
+        {
+            display: none;
+        }
+        .selExamItemList li
+        {
+            line-height: 22px;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+        var RegisteDate = "${RegisteDate}"; //登记日期
+        var Register = "${Register}"; //登记人
+        var DisCountRate = "$!{DisCountRate}"; //折扣为0表示没有折扣
+        DisCountRate = (DisCountRate == "" || DisCountRate == 0) ? 10 : DisCountRate;
+        var Base64PhtoStr = "$!{Base64Photo}";
+        var UserID = "$!{UserID}"; //登录人名称
+        var UserName = "$!{UserName}"; //登录人名称
+    </script>
+    <!--团体通用脚本-->
+    <script src="$!{templatepath}/js/JS_TeamSearch.js" type="text/javascript"></script>
+    <!--团体通用脚本-->
+    <script src="$!{templatepath}/js/JS_CustomerCharges.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" onkeyup="OnFormKeyUp();">
+    <div style="display: none;">
+        <!--收费项目模版 Begin-->
+        <table id="tblTemplateCustFee">
+            <thead>
+                <tr>
+                    <td>
+                        <input type="checkbox" id="Checkbox1" onclick="CheckAllCustFee(this);" />
+                    </td>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                    <td>
+                        项目名称
+                    </td>
+                    <td>
+                        原价(元)
+                    </td>
+                    <td>
+                        折扣
+                    </td>
+                    <td>
+                        折扣人
+                    </td>
+                    <td>
+                        实价(元)
+                    </td>
+                    <td>
+                        付款方式
+                    </td>
+                    <td class="text_center">
+                        已收费
+                    </td>
+                    <td class="text_center">
+                        已退费
+                    </td>
+                    <td>
+                        收费人
+                    </td>
+                    <td>
+                        收费日期
+                    </td>
+                    <td>
+                        退费人
+                    </td>
+                    <td>
+                        退费日期
+                    </td>
+                    <td>
+                        检查状态
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="@CustCssStyle" style="mystyle" id="@ID_Fee" id_customer="@ID_Customer"
+                    feename="@FeeName" name="busList" id_fee="@ID_Fee" feechargestaute="@FeeChargeStaute"
+                    is_printed="@Is_Printed" custfeechargestate="@CustFeeChargeState" is_feecharged="@Is_FeeCharged"
+                    is_feerefund="@Is_FeeRefund" id_teamtaskgroup="@ID_TeamTaskGroup" is_examined="@Is_Examined">
+                    <td>
+                        <input name="@ItemCheckbox" type="checkbox">
+                    </td>
+                    <td style="width: 30px;">
+                        <label style="width: 10px;" name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td style="width: 160px;" title="@FeeName">
+                        <label name="xmmc" title="@FeeName">
+                            @FeeName</label>
+                    </td>
+                    <td style="text-align: right; width: 60px;">
+                        <label name="yj" class="zkx">
+                            @Price</label>
+                    </td>
+                    <td style="text-align: right; width: 30px;">
+                        <label class="zkx" name="zk">
+                            @Discount</label>
+                    </td>
+                    <td style="text-align: center; width: 50px;">
+                        <label name="zkr">
+                            @DscctName</label>
+                    </td>
+                    <td style="text-align: right; width: 60px;">
+                        <label class="zkx" name="sj">
+                            @FactPrice</label>
+                    </td>
+                    <td style="text-align: center; width: 60px;">
+                        <label class="sffs" name="fffs">
+                            @FeeWayName
+                        </label>
+                    </td>
+                    <td style="text-align: center; font-size: 18px; width: 30px;">
+                        <label name="sfzt">
+                            @FeeChargeStaute</label>
+                    </td>
+                    <td style="text-align: center; font-size: 18px; width: 30px;">
+                        <label name="sfzt">
+                            @XFeeChargeStaute</label>
+                    </td>
+                    <td>
+                        <label name="sfr">
+                            @FeeCharger</label>
+                    </td>
+                    <td>
+                        <label name="sfsj">
+                            @FeeChargeDate</label>
+                    </td>
+                    <td>
+                        <label name="tfr">
+                            @FeeRefunderName</label>
+                    </td>
+                    <td>
+                        <label name="tfrq">
+                            @FeeRefunderDate</label>
+                    </td>
+                    <td>
+                        <label name="jczt">
+                            @Is_Examined</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--收费项目模版 End-->
+        <!--退费发票绑定模板 Begin-->
+        <table id="tblInvoiceTemplate">
+            <tbody>
+                <tr>
+                    <td style="text-align: center; border-bottom: #dcdcdc 1px solid; border-top: #dcdcdc 1px solid;
+                        border-right: #dcdcdc 1px solid" class="inputtitle">
+                        @InvoiceName
+                    </td>
+                    <td style="border-bottom: #dcdcdc 1px solid; border-left: #dcdcdc 1px solid; border-top: #dcdcdc 1px solid">
+                        <div style="padding-bottom: 6px; padding-left: 6px; padding-right: 6px; height: 60px;
+                            overflow: auto; padding-top: 6px">
+                            <ul id="showInvoiceList" class="selExamItemList">
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--退费发票绑定模板 End-->
+        <!--退费发票列表模板 Begin-->
+        <div id="InvoiceTemplate">
+            <li id="@InvoiceNo"><a title="删除" onclick="DeleteMe(this);" href="javascript:void(0);">
+                × </a>@InvoiceNo</li>
+        </div>
+        <!--退费发票列表模板 End-->
+        $!{HiddenInputQueryString}
+    </div>
+    <div class="content">
+        <!-- 快速导航区域 根据不同权限显示不同科室 -->
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                扫描区
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <table class="tblRegistTableEdit" id="tblRegistTableEdit">
+                <tr>
+                    <td class="text_left">
+                        体检号(F2)：
+                        <input id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                        <input type="button" class="button80" id="btnSearchCustomer" name="btnSearchCustomer"
+                            value=" 检  索(F4) " onclick="DoSearchCustomerInfoAndCustFeeInfo();" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--客户信息扫描 End-->
+        <div class="widget-box showbox" id="divCustomerInfoArea">
+            <div class="widget-title bg_lg widget-title-middle">
+                客户基本信息
+                <label id="Label1" style="color: Red;">
+                </label>
+            </div>
+            <div style="min-height: 90px; height: 90px;">
+                <table class="tblCustomerBaseInfo" id="tblSearch">
+                    <tbody>
+                        <tr id="loading">
+                            <td style="text-align: center;" colspan="9">
+                                未找到该体检号对应的客户信息,请核对体检号是否正确...
+                            </td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td class="title">
+                                体检号
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblID_CustomerCode128" name="lblID_CustomerCode128">
+                                </label>
+                                <label id="lblID_Customer" name="lblID_Customer">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户姓名
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblCustomerName" name="lblCustomerName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户性别
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblSex" name="lblSex">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户年龄
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblAge" name="lblAge">
+                                    &nbsp;</label>
+                                岁
+                            </td>
+                            <td class="text_center width100" rowspan="3">
+                                <img id="HeadImg" name="HeadImg" style="width: 80px;" src="/template/blue/images/icons/nohead.gif" />
+                            </td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td class="title">
+                                证件号
+                            </td>
+                            <td class="text_left">
+                                <label id="lblIDCard" name="lblIDCard">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                联系电话
+                            </td>
+                            <td>
+                                <label id="lblTel" name="lblTel">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检日期
+                            </td>
+                            <td colspan="3">
+                                <label id="lblRegisterDate" name="lblRegisterDate">
+                                    &nbsp;</label>
+                            </td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td class="title ">
+                                体检单位
+                            </td>
+                            <td>
+                                <label id="lblTeamName" name="lblTeamName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                婚姻状况
+                            </td>
+                            <td>
+                                <label id="lblMarriedName" name="lblMarriedName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检类型
+                            </td>
+                            <td colspan="3">
+                                <label id="lblExamType" name="lblExamType">
+                                    &nbsp;</label>
+                                <label id="lblOperateDate" style="display: none;">
+                                </label>
+                                <label id="lblOperator" style="display: none;">
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle" id="divSumHeader">
+                收费项目
+            </div>
+            <span>
+                <input type="button" class="button80" style="display: none;" id="btnInvoice" value="补录发票"
+                    onclick="return LoseInvoiceCharge();" />
+                <input type="button" class="button80" id="btnCharge" value=" 收 费(F8) " onclick="return Charge();" />
+                <input type="button" class="button80" id="btnUnCharge" value=" 退 费(F8) " onclick="return UnCharge();" />
+                <input type="button" class="button80" id="btnPrintReport" value="打印指引单" onclick="return DoPrintReport();"
+                    style="display: none;" />
+                <input type="button" class="button90" id="btnReprintCustomerCredence" value="补打预约凭证"
+                    onclick="return ReprintCustomerCredence();" style="display: none;" />
+                <input type="button" class="button80" id="btnRePrintReport" value="补打指引单" onclick="return ReDoPrint();" />
+            </span>
+            <div>
+                <table style="width: 100%;">
+                    <tr>
+                        <td colspan="2" style="text-align: left;">
+                            <table class="tblList tblExamItemTable" id="tblTeamTaskGroupFee" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="Checkbox2" onclick="CheckAllCustFee(this);" />
+                                        </td>
+                                        <td>
+                                            序号
+                                        </td>
+                                        <td>
+                                            项目名称
+                                        </td>
+                                        <td>
+                                            原价价格
+                                        </td>
+                                        <td>
+                                            折扣
+                                        </td>
+                                        <td>
+                                            折扣人
+                                        </td>
+                                        <td>
+                                            实价价格
+                                        </td>
+                                        <td>
+                                            付款方式
+                                        </td>
+                                        <td class="text_center">
+                                            已收
+                                        </td>
+                                        <td class="text_center">
+                                            已退
+                                        </td>
+                                        <td>
+                                            收费人
+                                        </td>
+                                        <td>
+                                            收费日期
+                                        </td>
+                                        <td>
+                                            退费人
+                                        </td>
+                                        <td>
+                                            退费日期
+                                        </td>
+                                        <td>
+                                            检查状态
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="loading">
+                                        <td style="text-align: center;" colspan="15">
+                                            未检索到任何数据...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <label id="lblSumHeaderX">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text_right" style="display: none; text-align: right; vertical-align: middle;
+                            padding-top: 10px;">
+                            登记日期：$!{RegisteDate}; 登记人：$!{Register};
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    $!{HiddenInputQueryString}
+    </form>
+</body>
+</html>

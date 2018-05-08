@@ -1,0 +1,236 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 体征词ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Symptom" id="ID_Symptom" value="$!{ID_Symptom}" />
+    <!-- 检查项目ID，表示该体征词属于那个检查项目 -->
+    <input type="hidden" name="ID_ExamItem" id="ID_ExamItem" value="$!{ID_ExamItem}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    <input type="hidden" name="txtIs_Banned" id="txtIs_Banned" value="$!{Is_Banned}" />
+    
+    <!-- 默认值 -->
+    <input type="hidden" name="txtIs_Default" id="txtIs_Default" value="$!{Is_Default}" /><!-- 允许自动计算 -->
+    
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">体征词名称：</td>
+                <td class="inputtext"><input class="width300" name="txtSymptomName" id="txtSymptomName" maxlength="50" value="$!{SymptomName}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">病症级别：</td>
+                <td class="inputtext"><input name="txtDiseaseLevel" id="txtDiseaseLevel" maxlength="50" value="$!{DiseaseLevel}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">结论词：</td>
+
+                
+                <td> <input type="hidden" name="idSelectConclusion" id="idSelectConclusion" value="$!{ID_Conclusion}" />
+                    <input type="hidden" name="nameSelectConclusion" id="nameSelectConclusion" value="$!{ConclusionName}" />
+                    <span id="spanConclusion"><input name="txtConclusionInputCode" id="txtConclusionInputCode" onkeyup="QuickQueryConclusionTableData_Ajax();" onchange="QuickQueryConclusionTableData_Ajax();"  onfocus="QuickQueryConclusionTableData_Ajax();" maxlength="50" value="" /></span>
+                    <span id="spanSelectConclusion" style="display:none;"> XXXX <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectConclusion').hide();"> × </a> </span> 
+
+                    <div>
+                            <input type="hidden" name="idSelectConclusion" id="idSelectConclusion" value="" />
+                            <input type="hidden" name="nameSelectConclusion" id="nameSelectConclusion" value="" />
+                            <div id="QuickQueryConclusionTable" class="QuickQueryList" style="margin-top: 24px; width: 300px; display:none;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                结论词名称
+                                            </th>
+                                            <th nowrap="nowrap" style="display:none;">
+                                                输入码
+                                            </th>
+                                            <th nowrap="nowrap" style="display:none;">
+                                                结论词分类
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="height: 160px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryConclusionTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到结论词，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnsure" id="btnsave001" onclick="SelectConclusionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                                    <input type="button" class="btnclose" id="btncolse001" onclick="ShowHideQuickQueryConclusionTable(false,'');" value=" 取  消 " /> 
+                                </div>
+                            </div>
+                        </div>
+                </td>
+
+
+<!--
+                <td>
+                    
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryConclusionTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;width:300px;overflow:scroll;">
+                        <table style="width:360px;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>结论词名称</td>
+                                <td>输入码</td>
+                                <td>结论词分类</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryConclusionTableData">
+                            <tr>
+                                <td colspan="4" style="text-align:center;">未找到相关结论词，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave002" onclick="SelectConclusionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse002" onclick="ShowHideQuickQueryConclusionTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+
+-->
+            </tr>
+            <tr>
+                <td class="inputtitle">排序编号：</td>
+                <td class="inputtext"><input name="txtDispOrder" id="txtDispOrder" maxlength="50" value="$!{DispOrder}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">运算操作符号：</td>
+                <td class="inputtext"><input name="txtNumOperSign" id="txtNumOperSign" maxlength="2" value="$!{NumOperSign}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">男操作数：</td>
+                <td class="inputtext"><input name="txtNumMale" id="txtNumMale" maxlength="50" value="$!{NumMale}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">女操作数：</td>
+                <td class="inputtext"><input name="txtNumFemale" id="txtNumFemale" maxlength="50" value="$!{NumFemale}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">是否默认：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Default" id="radioIs_Default01" value="0" checked="checked" /> <label for="radioIs_Default01">否 </label>  
+                    <input type="radio" name="radioIs_Default" id="radioIs_Default02" value="1" /> <label for="radioIs_Default02">是 </label>  
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">体征词备注：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtSymptomDescribe" id="txtSymptomDescribe">$!{SymptomDescribe}</textarea>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">是否禁用：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /> <label for="radioIs_Banned01">正常 </label>  
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /> <label for="radioIs_Banned02">禁用 </label>  
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+                
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveSymptomInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveSymptomInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+
+        <tbody id="ConclusionQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkConclusionQueryList" id="chkConclusion_@ID_Conclusion" 
+                    value="@ID_Conclusion"
+                    ConclusionName="@ConclusionName"  />
+                </td>
+                <td>@ConclusionName</td>
+                <td style="display:none;">@InputCode</td>
+                <td style="display:none;">@ConclusionTypeName</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptyConclusionQuickQueryDataTemplete">
+            <tr>
+                <td colspan="4" style="text-align:center;">未找到相关结论词，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+      </table>
+      
+      <div id="UserSelectedConclusionItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedConclusion();"> × </a> @ConclusionName 
+        
+      </div>
+      
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    jQuery(document).ready(function () {
+        // 检查项目编辑操作时，初始化页面数据
+        InitSymptomEditData();
+    });
+
+</script>
+
+

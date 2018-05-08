@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="../../js/Commom.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="operTool">
+        <input type="button" class="button80" id="btnPrint" value=" 打  印 " onclick="DoPrint('divForPrint');" />
+    </div>
+    <div style="width: 550px; height: 260px;" id="divForPrint">
+        <div style="margin-left: 10px;">
+            <center>
+                <h3>
+                    四川省医学科学院.四川省人民医院</h3>
+                <h2>
+                    健康管理中心@feeTypeName通知</h2>
+            </center>
+            <h3>
+                财务处：</h3>
+        </div>
+        <div style="margin-left: 20px;" id="divShowInfo">
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;请收<label style="text-decoration: underline;
+                text-align: center;">
+                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;@customerName &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;</label>同志健康体检费<label style="text-decoration: underline; text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;@totalCustFee &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;</label>元(大写<label
+                        style="text-decoration: underline; padding-top: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;<label
+                        style="text-decoration: underline; ">@upperWrite
+                    </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                    </label>
+            整)。
+            <br />
+            <br />
+            特此通知。
+            <br />
+            <div style="float: right; margin-top: 30px; margin-right: 20px;">
+                <label>
+                    @departmentName</label><br />
+                <br />
+                </label>
+                <label>
+                    @Date</label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+    var ID_Customer = GetQueryString("ID_Customer");
+    var operType = GetQueryString("operType");
+    if (operType.toLowerCase() == "view") {
+        document.getElementById("btnPrint").style.visibility = "none";
+    }
+    var feeTypeName = GetQueryString("feeTypeName");
+    var customerName = GetQueryString("customerName");
+    var totalCustFee = GetQueryString("totalCustFee");
+    var upperWrite = GetQueryString("upperWrite");
+    var departmentName = GetQueryString("departmentName");
+    var Date = GetQueryString("Date");
+    var html = document.getElementById("divForPrint").innerHTML;
+    html = html.replace(/@feeTypeName/gi, feeTypeName)
+        .replace(/@customerName/gi, customerName)
+        .replace(/@totalCustFee/gi, totalCustFee)
+        .replace(/@upperWrite/gi, upperWrite)
+        .replace(/@departmentName/gi, departmentName)
+        .replace(/@Date/gi, Date)
+    document.getElementById("divForPrint").innerHTML = html;
+
+    function DoPrint(containerId) {
+        var html = document.getElementById(containerId).innerHTML;
+        window.document.body.innerHTML = html;
+        window.print();
+    }
+</script>

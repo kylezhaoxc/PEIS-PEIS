@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script src="$!{templatepath}/js/JS_SectionSearchWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="SectionSearchWorkLoadTemplate">
+                <tbody>
+                    <tr>
+                        <td>
+                            @index
+                        </td>
+                        <td class="project-align-left">
+                            @ID_Customer
+                        </td>
+                        <td>
+                            @CustomerName
+                        </td>
+                        <td>
+                            @GenderName
+                        </td>
+                        <td>
+                            @Age
+                        </td>
+                        <td class="project-align-left" class="project-align-left">
+                            @SectionName
+                        </td>
+                        <td onmouseover="ShowMeTitle(this);" class="project-align-left">
+                            <label name="lblContent">
+                                @SectionSummary</label><label name="lblTitle" style="display: none;">@SummaryTitle</label>
+                        </td>
+                        <td>
+                            @SectionSummaryDate
+                        </td>
+                        <td>
+                            @SummaryDoctorName
+                        </td>
+                        <td>
+                            @TypistName
+                        </td>
+                        <td>
+                            @TypistDate
+                        </td>
+                        <td>
+                            @CheckDate
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--检查数量统计模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>  <div class="oper-right">
+            </div><div class="oper-bg1">
+                  <span>科室名称：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slSection" name="slSection" style="width: 250px;">
+                            <option code="qzz" value="-1" selected="selected">-请选择科室--</option>
+                            #foreach($info in $!{SectionDT.Rows})
+                            <option code="${info.InputCode}" value="${info.ID_Section}">${info.SectionName}</option>
+                            #end
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;日期：</span>
+                
+                 <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                                style="width: 75px;" />
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                                style="width: 75px;" />
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span>
+            </div>
+            <div class="oper-bg">
+              <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);"
+                    id="btnExport" name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="GetSectionSearchWorkLoad();">
+                            查询</a></span> <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+          
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width:11%" />
+                            <col style="width: 6%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 7%" />
+                            <col style="width:25%" />
+                            <col style="width: 9%" />
+                            <col style="width: 6%" />
+                            <col style="width: 6%" />
+                            <col style="width: 9%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                年龄
+                            </th>
+                            <th>
+                                科室
+                            </th>
+                            <th>
+                                小结内容
+                            </th>
+                            <th>
+                                检查时间
+                            </th>
+                            <th>
+                                检查人
+                            </th>
+                            <th>
+                                录入人
+                            </th>
+                            <th>
+                                录入时间
+                            </th>
+                            <th>
+                                提交时间
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330" data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width:11%" />
+                            <col style="width: 6%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 7%" />
+                            <col style="width:25%" />
+                            <col style="width: 9%" />
+                            <col style="width: 6%" />
+                            <col style="width: 6%" />
+                            <col style="width: 9%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <title>数据字典-用户维护</title>
+</head>
+<body >
+
+  	<div class="center">
+
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-bg">
+                <span>科室：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input class="input-3" name="txtSectionInputCode" id="txtSectionInputCode" onkeyup="QuickQueryTableData_Ajax();" onchange="QuickQueryTableData_Ajax();"  onfocus="this.select();QuickQueryTableData_Ajax();"  maxlength="50" value="$!{Section}" />
+                    </div>
+                    <div class="Editor-r"></div>
+                    
+                    <input type="hidden" name="idSelectSection" id="idSelectSection" value="" />
+                    <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="" />
+
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQuerySectionTable" style="min-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:24px; display:none; ">
+                        <div style="max-height:180px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>科室名称</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQuerySectionTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQuerySectionTable(false,'');" value=" 关  闭 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+
+                </span>
+                <span> <label class="query-label SelectedItem" id="SelectedSectionLable">
+                       &nbsp;
+                    </label></span>
+                <span>&nbsp;姓名/登录名：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input type="text" name="textfield" id="textfield" class="input-3" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"
+                id="btnSearch"  onclick="UserKeywordsSearch();ShowHideQuickQuerySectionTable(false,'');" >查询</a></span>
+
+                <span class="buttom-qccwcs float-right" title="清除错误次数"><a href="javascript:void(0);" onclick="OpenUserLoginCountClearWindow();" >清除错误次数</a></span>
+<!--
+                <span class="buttom-mxgl float-right" title="权限分配"><a href="#">权限分配</a></span>
+                <span class="buttom-cshmm float-right" title="初始化密码"><a href="#">初始化密码</a></span>
+                <span class="buttom-sq float-right" title="修改"><a href="#">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"><a href="#">新增</a></span>
+-->
+            </div>
+        	<div class="oper-right"></div>
+   	    </div>
+
+        <div class="project">
+            <div class="project-center">
+              <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:35px" />
+                    	<col style="width:35px" />
+                    	<col style="width:80px" />
+                    	<col style="width:55px" />
+                    	<col style="width:75px" />
+                    	<col style="width:50px" />
+                    	<col style="width:35px" />
+                    	<col style="width:60px" />
+                    	<col style="width:58px" />
+                    	<col style="width:150px" />
+                    	<col style="width:90px" />
+                    	<col style="width:150px" />
+                      </colgroup>
+                          <tr id="project-center-lb1-list">
+                            <th></th>
+                            <th>序号</th>
+                            <th>姓名</th>
+                            <th>登录名</th>
+                            <th>职业类型</th>
+                            <th>折扣率</th>
+                            <th>性别</th>
+                            <th>操作密级</th>
+                            <th>登录次数</th>
+                            <th>登录时间</th>
+                            <th>登录错误次数</th>
+                            <th>科室</th>
+                            <th>禁用</th>
+                          </tr>
+                </table>
+                </div>
+                <div class="j-autoHeight" data-left="330" data-min="200" style="overflow:auto;">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:35px" />
+                    	<col style="width:35px" />
+                    	<col style="width:80px" />
+                    	<col style="width:55px" />
+                    	<col style="width:75px" />
+                    	<col style="width:50px" />
+                    	<col style="width:35px" />
+                    	<col style="width:60px" />
+                    	<col style="width:58px" />
+                    	<col style="width:150px" />
+                    	<col style="width:90px" />
+                    	<col style="width:150px" />
+                      </colgroup>
+                          <tbody >
+                          </tbody>
+                         </table>
+                       </div>
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                          <tr>
+                            <td>                            	
+                              <div class="paging">
+                                	<div class="paging-left"></div>
+                                	<div class="paging-center">
+                                        <ul>
+                                           
+                                        </ul>
+                                    </div>
+                                	<div class="paging-right"></div>
+                                </div>
+                            </td>
+                          </tr>
+                        </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    
+    <table style="display:none;">
+        <tbody id="UserListItemTemplete">
+            <tr onclick="SetQueryListUserChecked('@ID_User');ShowHideQuickQuerySectionTable(false,'');"
+             ondblclick="OpenUserLoginCountClearWindow();" >
+                <td>
+                    <input id="rdiUser_@ID_User" title="" type="radio" name='UserRadio' username="@UserName" value="@ID_User" />
+                </td>
+                <td>@RowNum</td>
+                <td class="project-align-left">@UserName</td>
+                <td class="project-align-left">@LoginName</td>
+                <td class="project-align-left">@VocationType</td>
+                <td>@DisCountRate</td>
+                <td>@GenderName</td>
+                <td>@OperateLevel</td>
+                <td>@LoginTotalNum</td>
+                <td>@LastLoginTime</td>
+                <td>@LoginFailCount</td>
+                <td>@Is_Del</td>
+                <td class="project-align-left">@SectionName</td>
+                <td>@Signature</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="display:none;">
+    <tbody id="SectionQuickQueryTableTemplete">
+        <tr onclick="SetSectionChecked('@ID_Section')">
+            <td>
+            <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                value="@ID_Section"
+                SectionName="@SectionName"  />
+            </td>
+            <td>@SectionName</td>
+            <td>@InputCode</td>
+        </tr>
+    </tbody>
+    <tbody id="EmptySectionQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+        </tr>
+    </tbody>
+        
+        
+    </table>
+
+    <div id="SecectedSectionLableTemplete" style="display:none;">
+    <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedSection();"> × </a> @SectionName 
+    </div>
+
+
+</body>
+
+
+
+    <script type="text/javascript">
+        
+
+        jQuery(document).ready(function () {
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary> 
+        /// 点击选中对应科室的单选按钮（快速选择列表）
+        /// </summary>
+        function SetSectionChecked(ID_Section) {
+            jQuery("#chkSection_" + ID_Section).attr("checked", true);
+            SelectQuerySection(ID_Section);
+        }
+
+        /// <summary> 
+        /// 移除选择的科室
+        /// </summary>
+        function RemoveSelectedSection() {
+            // 清除显示的科室名称
+            jQuery('#SelectedSectionLable').html("");
+
+            // 清除单项框的选中值
+            jQuery("input[name='chkSectionQueryList']:radio").each(function () {
+                jQuery(this).attr("checked", false);
+            });
+
+            jQuery('#idSelectSection').val("");         // 清空选择的科室ID
+            jQuery('#nameSelectSection').val("");       // 清空选择的科室名称
+
+            // 重新查询数据
+            UserKeywordsSearch();
+        }
+
+        /// <summary> 
+        /// 选择科室（快速选择）
+        /// </summary>
+        function SelectQuerySection(ID_Section) {
+
+            // 从模版中读取数据加载列表
+            var templateContent = jQuery('#SecectedSectionLableTemplete').html();
+            if (templateContent == undefined) { return; }
+            var tempSectionName = jQuery("#chkSection_" + ID_Section).attr("SectionName");
+
+            var newcontent = templateContent.replace(/@SectionName/gi, tempSectionName); // 替换模版中的关键字
+
+            jQuery('#SelectedSectionLable').html(newcontent);   // 显示到页面
+            jQuery('#idSelectSection').val(ID_Section);         // 选择的科室ID
+            jQuery('#nameSelectSection').val(tempSectionName);  // 选择的科室名称
+
+            // 重新查询数据
+            UserKeywordsSearch();
+        }
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        /// <summary>
+        /// 按照用户名称关键字搜索
+        /// </summary>
+        function UserKeywordsSearch() {
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+            var SearchUserKeyword = jQuery('#txtSearchUserKeyword').val();      // 用户关键字
+            var SelectedSectionID = jQuery('#idSelectSection').val();      // 已选择的科室
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxUser.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchUserKeyword: SearchUserKeyword,
+                    SelectedSectionID: SelectedSectionID,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'GetSectionUserLoginCountList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#UserItemCount").html(" 【共有 " + msg.totalCount + " 个用户】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#UserListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        var userState = "";
+                        jQuery(msg.dataList).each(function (i, item) {
+                            if (item.Is_Del == 0) {
+                                userState = "--";
+                            } else if (item.Is_Del == 2) {
+                                userState = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else if (item.Is_Del == 1) {
+                                userState = '<span title="已删除" style="color:red;">√</span>';
+                            }
+                            newcontent +=
+                             templateContent.replace(/@UserName/gi, item.UserName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@LoginName/gi, item.LoginName)
+                            .replace(/@ID_User/gi, item.ID_User)
+                            .replace(/@SectionName/gi, item.SectionName)
+                            .replace(/@VocationType/gi, item.VocationType == "1" ? "医生" : item.VocationType == "2" ? "护士" : "其他")
+                            .replace(/@DisCountRate/gi, item.DisCountRate == "0" ? " " : item.DisCountRate)
+                            .replace(/@GenderName/gi, item.GenderName == "1" ? "男" : "女")
+                            .replace(/@OperateLevel/gi, item.OperateLevel)
+                            .replace(/@LoginTotalNum/gi, item.LoginTotalNum)
+
+                            .replace(/@LastLoginTime/gi, item.LastLoginTime)
+                            .replace(/@LoginFailCount/gi, item.LoginFailCount)
+                            .replace(/@Signature/gi, item.SignatureCodeBase64 == "" ? "" : '<img src="data:image/gif;base64,' + item.SignatureCodeBase64 + '" alt="" height="26" />')
+                            .replace(/@Is_Del/gi, userState)
+                            ;
+
+                            RowNum ++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#UserItemCount").html(" 【共有 0 个用户】");
+                    }
+                }
+            });
+
+        }
+
+    </script>
+
+
+</html>

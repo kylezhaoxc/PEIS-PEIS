@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName}-$!{pageTitle}</title>
+    <link rel="stylesheet" href="/template/blue/css/common.css" />
+    <link rel="stylesheet" href="/template/blue/css/right.css" />
+    <link rel="stylesheet" href="/template/blue/css/dialogcss.css" />
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="/template/blue/js/artDialog4.1.7/artDialog.source.js?skin=default"></script>
+    <script type="text/javascript" language="javascript">
+        var CreateDate = "$!{CreateDate}"; //创建日期
+        var Creator = "$!{Creator}"; //创建者
+        var ID_Creator = "$!{ID_Creator}"; //创建者
+        var ID_Team = "$!{ID_TeaM}"; //当前团体ID
+
+        /// <summary>
+        /// 关闭弹出窗口
+        /// </summary>
+        function CloseDialogWindow() {
+            parent.art.dialog.get('OperWindowFrame').close();
+            return false;
+            parent.art.dialog.confirm("您确认不保存编辑项目就关闭本页面吗？", function () {
+                //这里执行关闭
+                parent.art.dialog.get('OperWindowFrame').close();
+            }, function () {
+                //这里执行保存后关闭
+                SaveTeam(0);
+                parent.art.dialog.get('OperWindowFrame').close();
+            });
+        }
+    </script>
+    <script src="$!{templatepath}/js/JS_TeamOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <!--页面模版 Begin-->
+    <div id="divTemplate" style="display: none;">
+        <!--团体新增模版 Begin-->
+        <table id="TeamTemplate_Add">
+            <tbody>
+                <tr>
+                    <td class="inputtitle">
+                        团体ID：
+                    </td>
+                    <td class="inputtext">
+                        <label name="txtID_TeaM">
+                            ******</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        团体名称：
+                    </td>
+                    <td class="inputtext">
+                        <input type="text" name="txtTeamName" maxlength="25" /><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;备注：
+                    </td>
+                    <td class="inputtext">
+                        <input type="text" name="txtNote" maxlength="150" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;创建人：
+                    </td>
+                    <td class="inputtext">
+                        <label id="txtCreator">
+                            $!{Creator}</label><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;创建时间：
+                    </td>
+                    <td class="inputtext">
+                        <label id="txtCreateDate">
+                            $!{CreateDate}</label><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <!--<input id="Button1" name="btnAdd" type="button" class="button80" value=" 新  增 " onclick="AddNewTeam();" />-->
+                        <input id="Button1" name="btnSave" type="button" class="button80" value=" 保存&关闭 "
+                            onclick="SaveTeam(1);" />
+                        <input id="Button2" name="btnSave" type="button" class="button80" value=" 保存&继续 "
+                            onclick="SaveTeam(0);" />
+                        <input id="Button3" name="btnClose" type="button" class="button80" value=" 关  闭 "
+                            onclick="CloseDialogWindow();" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--团体新增模版 End-->
+        <!--团体编辑模版 Begin-->
+        <table id="TeamTemplate_Edit">
+            <tbody>
+                <tr>
+                    <td class="inputtitle">
+                        团体ID：
+                    </td>
+                    <td class="inputtext">
+                        <label name="txtID_TeaM">
+                            $!{ID_TeaM}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        团体名称：
+                    </td>
+                    <td class="inputtext">
+                        <label name="txtTeamName" />
+                        $!{TeamName}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;输入码：
+                    </td>
+                    <td class="inputtext">
+                        <label name="txtInputCode">
+                            $!{InputCode}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;创建人：
+                    </td>
+                    <td class="inputtext">
+                        <label id="lblCreator">
+                            $!{CreatorX}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;创建时间：
+                    </td>
+                    <td class="inputtext">
+                        <label id="lblCreateDate">
+                            $!{CreateDate}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="inputtitle">
+                        &nbsp;备注：
+                    </td>
+                    <td class="inputtext">
+                        <input type="text" name="txtNote" maxlength="150" oldvalue="$!{Note}" value="$!{Note}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <!--<input id="btnAdd" name="btnAdd" type="button" class="button80" value=" 新  增 " onclick="AddNewTeam();" />-->
+                        <input id="btnSave" name="btnSave" type="button" class="button80" value=" 保  存 "
+                            onclick="SaveTeam(2);" />
+                        <input id="btnClose" name="btnClose" type="button" class="button80" value=" 关  闭 "
+                            onclick="CloseDialogWindow();" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--团体编辑模版 End-->
+    </div>
+    <!--页面模版 End-->
+    <div class="content" style="width: 300px; margin: 0px auto;">
+        <table id="TeamTaskEditList">
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id='hidDiv'>
+        $!{HiddenInputQueryString}
+    </div>
+</body>
+</html>

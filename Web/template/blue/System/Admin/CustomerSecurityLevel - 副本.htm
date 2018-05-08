@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <script src="$!{templatepath}/js/JS_CustomerSecurityLevelList.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;$!{pageTitle}</div>
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        日期：</label>
+                    <div class="query-controls">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onclick="WdatePicker({minDate:'%y-%M-#{%d-10}', maxDate:'%y-%M-#{%d}'})"
+                            class="Wdate span120" />
+                        至
+                        <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onclick="WdatePicker({minDate:'%y-%M-#{%d-10}', maxDate:'%y-%M-#{%d}'})"
+                            class="Wdate span120" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        客户体检号：&nbsp; <span style="display: none;">
+                            <select id="QueryType" name="QueryType">
+                                <option value="IDCustomer">客户体检号</option>
+                                <option value="IDCard">身份证号码</option>
+                                <option value="CustomerName">客户姓名</option>
+                            </select>：&nbsp; </span>
+                    </label>
+                    <div class="query-controls">
+                        <input type="text" class="span160" id='txtSFZ' placeholder=" " onchange="RegistListSearch();"
+                            onkeyup="RegistListSearch();" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <div class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询 " onclick='RegistListSearch();' />
+                        <input id="btnEncode" type="button" class="button80" value=" 加  密 " onclick="EncodeCustomerSecurityLevel();" />
+                        <input id="btnDecode" type="button" class="button80" value=" 解  密 " onclick="DecodeCustomerSecurityLevel();" />
+                    </div>
+                </div>
+            </div>
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td>
+                            <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                        </td>
+                        <td>
+                            体检号
+                        </td>
+                        <td>
+                            姓名
+                        </td>
+                        <td style="text-align: center;">
+                            性别
+                        </td>
+                        <td style="text-align: center;">
+                            年龄
+                        </td>
+                        <td>
+                            身份证号码
+                        </td>
+                        <td style="text-align: center;">
+                            婚姻状况
+                        </td>
+                        <td>
+                            联系方式
+                        </td>
+                        <td style="text-align: center;">
+                            团队
+                        </td>
+                        <td style="text-align: center;">
+                            已缴费
+                        </td>
+                        <td style="text-align: center;">
+                            预约
+                        </td>
+                        <td style="text-align: center;">
+                            已加密
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id='Searchresult'>
+                </tbody>
+            </table>
+            <div class="pagination" id="PaginationOld">
+                <ul id="Pagination">
+                </ul>
+            </div>
+        </div>
+        $!{HiddenInputQueryString}
+    </div>
+    <table style="display: none;">
+        <tbody id="RegistListTemplate">
+            <tr id="@ID_ArcCustomer" id_customer="@ID_Customer">
+                <td>
+                    <input arccustomer="@ID_ArcCustomer" id="@ID_Customer" title="" type="checkbox" name="ItemCheckbox" />
+                </td>
+                <td>
+                    <label>
+                        @ID_Customer</label>
+                </td>
+                <td>
+                    <lable>@CustomerName</lable>
+                </td>
+                <td style="text-align: center;" id="GenderName_@ID_Customer">
+                    --
+                </td>
+                <td style="text-align: center;" id="Age_@ID_Customer">
+                    --
+                </td>
+                <td id="IDCard_@ID_Customer">
+                    --
+                </td>
+                <td style="text-align: center;" id="MarriageName_@ID_Customer">
+                    --
+                </td>
+                <td id="MobileNo_@ID_Customer">
+                    --
+                </td>
+                <td style="text-align: center;">
+                    @Is_Team
+                </td>
+                <td style="text-align: center;">
+                    @Is_FeeSettled
+                </td>
+                <td style="text-align: center;">
+                    @Is_Subscribed
+                </td>
+                <td style="text-align: center;">
+                    @SecurityLevel
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

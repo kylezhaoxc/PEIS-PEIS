@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script src="$!{templatepath}/js/JS_CustFeeDetailWorkLoad.js" type="text/javascript"></script>
+    <style type="text/css">
+        .style1
+        {
+            width: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center" style="position: relative;">
+        <form id="form1" onkeyup="OnFormKeyUp();">
+        <div style="display: none;">
+            $!{HiddenInputQueryString}
+            <!--收费项目明细模板 Begin-->
+            <table id="TemplateCustFeeDetail">
+                <tbody>
+                    <tr>
+                        <td>
+                            @FeeItemNum
+                        </td>
+                        <td class="project-align-left">
+                            @SectionName
+                        </td>
+                        <td class="project-align-left">
+                            @FeeItemName
+                        </td>
+                        <td>
+                            @FeeChargeStaute
+                        </td>
+                        <td class="project-align-right">
+                            @FactPrice
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--收费项目明细模板 End-->
+        </div>
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检号：</span> <span class="search">
+                    <input id="txtCustomerID" name="txtCustomerID" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                    <a href="javascript:void(0);" title="查询(F4)" onclick="ClickBtnSearchCustFeeDetail();">
+                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearchCustFeeDetail"
+                    name="btnSearchCustFeeDetail" onclick="ClickBtnSearchCustFeeDetail();">查询</a></span>
+                <span class="buttom-dc" title="导出"><a id="loadExcel" style="display: none;" target="_blank">
+                    导出</a><a href="javascript:void(0);" id="btnExport" name="btnExport" onclick="OutToExcel();">
+                        导出</a></span> <span class="buttom-bd floatleft" style="margin-left: 5px; margin-right: 0px"
+                            title="打印"><a href="javascript:void(0);" id="btnPrintCustFeeDetailReport" name="btnPrintCustFeeDetailReport"
+                                onclick="PrintCustFeeDetailReport();">打印</a></span>
+                <div class="Information-s">
+                    <div class="Information-s-l">
+                    </div>
+                    <div class="Information-s-c">
+                        <a id="bcc" onclick="OpenOrClose(this,'bzz');" style="cursor: pointer">
+                            <label id="lblCustomerName" name="lblCustomerName">
+                            </label>
+                        </a>
+                    </div>
+                    <div class="Information-s-r">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--客户浮动个人信息-->
+        <div class="Iperso" id="bzz" style="display: none; top: auto; margin-top:-6px;">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td rowspan="4" class="Iperso-tx">
+                        <img width="70" height="82" id="HeadImg" name="HeadImg" src="$!{templatepath}/images/avatar.jpg" />
+                    </td>
+                    <td colspan="2" align="left">
+                        <span class="Iperso-name">
+                            <label name="lblCustomerName">
+                            </label>
+                        </span><span>
+                            <label id="lblSex">
+                            </label>
+                        </span><span>
+                            <label id="lblAge">
+                            </label>
+                        </span><span>
+                            <label id="lblMarriedName">
+                            </label>
+                        </span>
+                    </td>
+                    <td colspan="2" align="left" class="Iperso-Thm">
+                        <label id="lblID_Customer" name="lblID_Customer">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        电话：
+                    </td>
+                    <td align="left">
+                        <label id="lblTel" name="lblTel">
+                        </label>
+                    </td>
+                    <td width="80" align="right">
+                        体检日期：
+                    </td>
+                    <td align="left">
+                        <label id="lblRegisterDate" name="lblRegisterDate">
+                        </label>
+                        <label style="display: none;" id="lblHideRegisterDate" name="lblHideRegisterDate">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        证件：
+                    </td>
+                    <td align="left">
+                        <label id="lblIDCard" name="lblIDCard">
+                        </label>
+                    </td>
+                    <td width="80" align="right">
+                        体检类型：
+                    </td>
+                    <td align="left">
+                        <label id="lblExamType" name="lblExamType">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        单位：
+                    </td>
+                    <td colspan="3" align="left">
+                        <label id="lblTeamName" name="lblTeamName">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--客户浮动个人信息 End-->
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 20%" />
+                            <col style="width: 50%" />
+                            <col style="width: 15%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                科室名称
+                            </th>
+                            <th>
+                                项目名称
+                            </th>
+                            <th>
+                                收费状态
+                            </th>
+                            <th>
+                                价格
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330"
+                    data-min="100" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 20%" />
+                            <col style="width: 50%" />
+                            <col style="width: 15%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        </form>
+    </div>
+</body>
+</html>

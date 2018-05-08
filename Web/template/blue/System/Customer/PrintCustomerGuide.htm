@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        function OnFormKeyUp(e) {
+            var curEvent = window.event || e;
+            var id = document.activeElement.id;
+            if (curEvent.keyCode == 13)//回车事件
+            {
+                //如果是在搜索中
+                if (id == "txtID_Customer") {
+                    DoPrintCustomerGuide();
+                }
+            }
+            return false;
+        }
+
+        function DoPrintCustomerGuide() {
+            var ID_Customer = jQuery.trim(jQuery("#txtID_Customer").val());
+            if (isCustomerExamNo(ID_Customer)) {
+                FastReport.GenerateCustomerGuide("", "", ID_Customer, "guidesheet.frx", 2, 0);
+            }
+            else {
+                art.dialog({
+                    lock: true, fixed: true, opacity: 0.3,
+                    content: '对不起，请您输入正确的体检号！',
+                    icon: 'info',
+                    ok: function () {
+                        jQuery("#txtID_Customer").focus();
+                        jQuery("#txtID_Customer").select();
+                        return true;
+                    }
+                });
+
+                return false;
+            }
+        }
+
+        jQuery(document).ready(function () {
+            jQuery("#txtID_Customer").focus();
+        });
+    </script>
+</head>
+<body>
+    <form onkeyup="OnFormKeyUp();">
+    <div class="content">
+        <!-- 快速导航区域 根据不同权限显示不同科室 -->
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                扫描区
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <table class="tblRegistTableEdit" id="tblRegistTableEdit">
+                <tr>
+                    <td class="text_left">
+                        体检号：
+                        <input id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                        <input type="button" class="button80" id="btnSearchCustomer" name="btnSearchCustomer"
+                            value=" 补  打 " onclick="DoPrintCustomerGuide();" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</form></html>

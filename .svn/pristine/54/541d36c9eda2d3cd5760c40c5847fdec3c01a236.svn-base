@@ -1,0 +1,203 @@
+using PEIS.DALFactory;
+using PEIS.IDAL;
+using PEIS.Model;
+using Maticsoft.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
+namespace PEIS.BLL
+{
+	public class BusFee
+	{
+		private static readonly BusFee _instance = new BusFee();
+
+		private readonly IBusFee dal = DataAccess.CreateBusFee();
+
+		public static BusFee Instance
+		{
+			get
+			{
+				return BusFee._instance;
+			}
+		}
+
+		public int GetMaxId()
+		{
+			return this.dal.GetMaxId();
+		}
+
+		public bool Exists(int ID_Fee)
+		{
+			return this.dal.Exists(ID_Fee);
+		}
+
+		public int Add(PEIS.Model.BusFee model)
+		{
+			return this.dal.Add(model);
+		}
+
+		public bool Update(PEIS.Model.BusFee model)
+		{
+			return this.dal.Update(model);
+		}
+
+		public bool Delete(int ID_Fee)
+		{
+			return this.dal.Delete(ID_Fee);
+		}
+
+		public bool DeleteList(string ID_Feelist)
+		{
+			return this.dal.DeleteList(ID_Feelist);
+		}
+
+		public PEIS.Model.BusFee GetModel(int ID_Fee)
+		{
+			return this.dal.GetModel(ID_Fee);
+		}
+
+		public PEIS.Model.BusFee GetModelByCache(int ID_Fee)
+		{
+			string cacheKey = "BusFeeModel-" + ID_Fee;
+			object obj = Maticsoft.Common.DataCache.GetCache(cacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					obj = this.dal.GetModel(ID_Fee);
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						Maticsoft.Common.DataCache.SetCache(cacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (PEIS.Model.BusFee)obj;
+		}
+
+		public DataSet GetList(string strWhere)
+		{
+			return this.dal.GetList(strWhere);
+		}
+
+		public DataSet GetList(int Top, string strWhere, string filedOrder)
+		{
+			return this.dal.GetList(Top, strWhere, filedOrder);
+		}
+
+		public List<PEIS.Model.BusFee> GetModelList(string strWhere)
+		{
+			DataSet list = this.dal.GetList(strWhere);
+			return this.DataTableToList(list.Tables[0]);
+		}
+
+		public List<PEIS.Model.BusFee> DataTableToList(DataTable dt)
+		{
+			List<PEIS.Model.BusFee> list = new List<PEIS.Model.BusFee>();
+			int count = dt.Rows.Count;
+			if (count > 0)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					PEIS.Model.BusFee busFee = new PEIS.Model.BusFee();
+					if (dt.Rows[i]["ID_Fee"].ToString() != "")
+					{
+						busFee.ID_Fee = int.Parse(dt.Rows[i]["ID_Fee"].ToString());
+					}
+					if (dt.Rows[i]["ID_Section"].ToString() != "")
+					{
+						busFee.ID_Section = new int?(int.Parse(dt.Rows[i]["ID_Section"].ToString()));
+					}
+					if (dt.Rows[i]["ID_Specimen"].ToString() != "")
+					{
+						busFee.ID_Specimen = new int?(int.Parse(dt.Rows[i]["ID_Specimen"].ToString()));
+					}
+					busFee.FeeName = dt.Rows[i]["FeeName"].ToString();
+					if (dt.Rows[i]["Forsex"].ToString() != "")
+					{
+						busFee.ForGender = new int?(int.Parse(dt.Rows[i]["ForGender"].ToString()));
+					}
+					busFee.ReportFeeName = dt.Rows[i]["ReportFeeName"].ToString();
+					busFee.FeeCode = dt.Rows[i]["FeeCode"].ToString();
+					if (dt.Rows[i]["Price"].ToString() != "")
+					{
+						busFee.Price = new decimal?(decimal.Parse(dt.Rows[i]["Price"].ToString()));
+					}
+					busFee.InputCode = dt.Rows[i]["InputCode"].ToString();
+					busFee.SectionName = dt.Rows[i]["SectionName"].ToString();
+					busFee.SpecimenName = dt.Rows[i]["SpecimenName"].ToString();
+					busFee.WorkGroupCode = dt.Rows[i]["WorkGroupCode"].ToString();
+					busFee.WorkStationCode = dt.Rows[i]["WorkStationCode"].ToString();
+					busFee.WorkBenchCode = dt.Rows[i]["WorkBenchCode"].ToString();
+					if (dt.Rows[i]["CreateDate"].ToString() != "")
+					{
+						busFee.CreateDate = new DateTime?(DateTime.Parse(dt.Rows[i]["CreateDate"].ToString()));
+					}
+					if (dt.Rows[i]["Is_Banned"].ToString() != "")
+					{
+						if (dt.Rows[i]["Is_Banned"].ToString() == "1" || dt.Rows[i]["Is_Banned"].ToString().ToLower() == "true")
+						{
+							busFee.Is_Banned = new bool?(true);
+						}
+						else
+						{
+							busFee.Is_Banned = new bool?(false);
+						}
+					}
+					if (dt.Rows[i]["ID_BanOpr"].ToString() != "")
+					{
+						busFee.ID_BanOpr = new int?(int.Parse(dt.Rows[i]["ID_BanOpr"].ToString()));
+					}
+					busFee.BanDescribe = dt.Rows[i]["BanDescribe"].ToString();
+					if (dt.Rows[i]["DispOrder"].ToString() != "")
+					{
+						busFee.DispOrder = new int?(int.Parse(dt.Rows[i]["DispOrder"].ToString()));
+					}
+					busFee.Note = dt.Rows[i]["Note"].ToString();
+					if (dt.Rows[i]["BreakfastOrder"].ToString() != "")
+					{
+						busFee.BreakfastOrder = new int?(int.Parse(dt.Rows[i]["BreakfastOrder"].ToString()));
+					}
+					if (dt.Rows[i]["Is_FeeNonPrintInReport"].ToString() != "")
+					{
+						if (dt.Rows[i]["Is_FeeNonPrintInReport"].ToString() == "1" || dt.Rows[i]["Is_FeeNonPrintInReport"].ToString().ToLower() == "true")
+						{
+							busFee.Is_FeeNonPrintInReport = new bool?(true);
+						}
+						else
+						{
+							busFee.Is_FeeNonPrintInReport = new bool?(false);
+						}
+					}
+					busFee.InterfaceName = dt.Rows[i]["InterfaceName"].ToString();
+					if (dt.Rows[i]["IS_FeeReportMerger"].ToString() != "")
+					{
+						if (dt.Rows[i]["IS_FeeReportMerger"].ToString() == "1" || dt.Rows[i]["IS_FeeReportMerger"].ToString().ToLower() == "true")
+						{
+							busFee.IS_FeeReportMerger = new bool?(true);
+						}
+						else
+						{
+							busFee.IS_FeeReportMerger = new bool?(false);
+						}
+					}
+					if (dt.Rows[i]["ID_FeeReportMerger"].ToString() != "")
+					{
+						busFee.ID_FeeReportMerger = new int?(int.Parse(dt.Rows[i]["ID_FeeReportMerger"].ToString()));
+					}
+					list.Add(busFee);
+				}
+			}
+			return list;
+		}
+
+		public DataSet GetAllList()
+		{
+			return this.GetList("");
+		}
+	}
+}

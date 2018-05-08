@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .Yellow, .TeamYellow
+        {
+            color: Gray;
+        }
+        .Green, .TeamGreen
+        {
+            color: Green;
+        }
+        .TeamYellow td input[type='checkbox'], .TeamRed td input[type='checkbox'], .TeamGreen td input[type='checkbox'], .Yellow td input[type='checkbox']
+        {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+    </script>
+    <script src="$!{templatepath}/js/JS_UnlockReportState.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <form id="form1" onkeyup="OnFormKeyUp();">
+        <div style="display: none;">
+            <!--收费项目模版 Begin-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检号：</span> <span class="search">
+                    <input type="text" id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                        style="ime-mode: Disabled" />
+                    <a href="javascript:void(0);" title="查询(F4)" id="btnSearchCustomer" name="btnSearchCustomer"
+                        onclick="DoSearchCustomerInfoAndCustFeeInfo();">
+                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-jclq" title="解除领取"><a href="javascript:void(0);" id="btnUnLock"
+                    name="btnUnLock" onclick="DoUnlockReportState();" style="display: none;">解除领取</a></span>
+            </div>
+        </div>
+        <div class="basic-sf basic-sf-zsy" style="width: 100%; position: static">
+            <div class="basic-sf-zsy-left">
+            </div>
+            <div class="basic-sf-zsy-center">
+                <div class="basic-sf-charge-1">
+                    <div class="basic-sf-charge-1-s">
+                        <img src="/template/blue/images/icons/nohead.gif" width="80" height="96" /></div>
+                    <div class="basic-sf-charge-1-x">
+                    </div>
+                </div>
+                <div class="basic-sf-charge-2">
+                    <p>
+                        <span class="basic-sf-charge-2-bm">
+                            <label id="lblCustomerName" name="lblCustomerName">
+                                &nbsp;</label></span><span class="basic-sf-charge-2-bx">
+                                    <label id="lblSex" name="lblSex">
+                                        &nbsp;</label></span><span class="basic-sf-charge-2-bx">
+                                            <label id="lblAge" name="lblAge">
+                                                &nbsp;</label>
+                                        </span>
+                    </p>
+                    <p class="basic-sf-charge-2-qt">
+                        婚姻状况：
+                        <label id="lblMarriedName" name="lblMarriedName">
+                            &nbsp;</label><br />
+                        联系电话：<label id="lblTel" name="lblTel">
+                            &nbsp;</label><br />
+                        证件号：<label id="lblIDCard" name="lblIDCard">
+                            &nbsp;</label></p>
+                </div>
+                <div class="basic-sf-charge-3">
+                    <div class="basic-sf-charge-3-bg">
+                        <div class="basic-sf-charge-3-arr-xg">
+                        </div>
+                        <div class="basic-sf-charge-3-if">
+                            <span>体检号：
+                                <label id="lblID_Customer" name="lblID_Customer">
+                                    &nbsp;</label></span><br />
+                            <span>体检类型：<label id="lblExamType" name="lblExamType">
+                                &nbsp;</label>
+                                <label id="lblOperateDate" style="display: none;">
+                                </label>
+                                <label id="lblOperator" style="display: none;">
+                                </label>
+                            </span>
+                            <br />
+                            <span><strong>体检日期：</strong><label id="hidlblRegisterDate">
+                            </label>
+                            </span>
+                            <br />
+                            <span>单位名称：<label id="lblTeamName" name="lblTeamName">
+                                &nbsp;</label></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="basic-sf-zsy-right">
+            </div>
+        </div>
+        <div class="recover">
+            <table width="100%;" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="12px">
+                        <div class="recover-left">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="recover-qj-center">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr bgcolor="#cbe0ff" height="28">
+                                    <td>
+                                        体检号
+                                    </td>
+                                    <td rowspan="2" width="2" bgcolor="#FFFFFF">
+                                    </td>
+                                    <td>
+                                        姓名
+                                    </td>
+                                    <td rowspan="2" width="2" bgcolor="#FFFFFF">
+                                    </td>
+                                    <td>
+                                        领取人
+                                    </td>
+                                    <td rowspan="2" width="2" bgcolor="#FFFFFF">
+                                    </td>
+                                    <td>
+                                        领取时间
+                                    </td>
+                                    <td rowspan="2" width="2" bgcolor="#FFFFFF">
+                                    </td>
+                                    <td>
+                                        领取状态
+                                    </td>
+                                </tr>
+                                <tr bgcolor="#e3eeff" height="28">
+                                    <th>
+                                        <label id="lblID_CustomerX" name="lblID_Customer">
+                                            &nbsp;</label>
+                                    </th>
+                                    <th>
+                                        <label id="lblCustomerNameX" name="lblCustomerName">
+                                            &nbsp;</label>
+                                    </th>
+                                    <th>
+                                        <label id="lblReportReceiptor" name="lblReportReceiptor">
+                                            &nbsp;</label>
+                                    </th>
+                                    <th>
+                                        <label id="lblReportReceiptedDate" name="lblReportReceiptedDate">
+                                            &nbsp;</label>
+                                    </th>
+                                    <th class="red-x">
+                                        <label id="lblIs_ReportReceipted">
+                                        </label>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td width="12px">
+                        <div class="recover-qj-right">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </form>
+    </div>
+</body>
+</html>

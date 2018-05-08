@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" language="javascript">
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+        var pagerData = null; //记录当前分页数据源
+        function pageselectCallback(page_index, jq) {
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+            return false;
+        }
+        /// <summary>
+        /// 页面初始化
+        /// </summary>
+        jQuery(document).ready(function () {
+            jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+            ResetSearchInfo("");
+        });
+        //        var dataConfig = { "预约人员": "SubScriber", "预约时间": "SubScribDate"
+        //                            , "登记人员": "Operator", "登记时间": "OperateDate"
+        //                            , "登记人员": "Operator", "登记时间": "OperateDate"
+
+        //        };
+        /// <summary>
+        /// 重置检索无结果显示的信息
+        /// </summary>
+        function ResetSearchInfo(msgInfo) {
+            if (msgInfo == "" || msgInfo == undefined) {
+                msgInfo = "在您查询的范围内，没有找到任何信息！";
+            }
+            var html = "<tr><td class='msg' colSpan='160'>" + msgInfo + "</td></tr>";
+            jQuery('#Searchresult').html(html); //设置无数据检索时显示提示信息
+        }
+
+        function QueryPagesData(pageIndex) {
+            if (pagerData != null) {
+                if (pagerData.length == 0) {
+                    ResetSearchInfo("");
+                    jQuery("#Pagination").hide();
+                    return false;
+                }
+                var dataLength = pagerData.length;
+                var flag = jQuery.trim(jQuery('#flag').val());
+                var curPageSize = pagePagination.items_per_page;
+                var optInit = getOptionsFromForm();                   //获取分页配置参数
+                jQuery("#Pagination").show();
+                if (tempOperPageCount == 0) {
+                    jQuery("#Pagination ul").pagination(dataLength, optInit);
+                }
+                else if (tempOldtotalCount != dataLength) {
+                    jQuery("#Pagination ul").pagination(dataLength, optInit);
+                }
+                tempOldtotalCount = dataLength;
+                var item;
+                var rowNum = curPageSize * pageIndex; //计算
+                var newcontent = '';
+                var templateContent = jQuery("#BackLogWorkLoadTemplate tbody").html();
+                if (templateContent == undefined) { return false; }
+                for (var c = 0; c < curPageSize; c++) {
+                    if (rowNum + c > dataLength) {
+                        break;
+                    }
+                    item = pagerData[rowNum + c];
+                    if (item != undefined) {
+                        if (templateContent != null) {
+                            if (item.ID_Customer == undefined) item.ID_Customer = "";
+                            if (item.CustomerName == undefined) item.CustomerName = "";
+                            if (item.GenderName == undefined) item.GenderName = "";
+                            if (item.BirthDay == undefined) item.BirthDay = "";
+                            if (item.MobileNo == undefined) item.MobileNo = "";
+                            if (item.PrevOper == undefined) item.PrevOper = "";
+                            if (item.PrevOperDate == undefined) item.PrevOperDate = "";
+                            if (item.NextOper == undefined) item.NextOper = "";
+                            if (item.NextOperDate == undefined) item.NextOperDate = "";
+
+                            newcontent += templateContent.replace(/@Index/gi, rowNum + c + 1)
+                            .replace(/@ID_Customer/gi, item.ID_Customer)
+                            .replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@GenderName/gi, item.GenderName)
+                            .replace(/@MarriageName/gi, item.MarriageName)
+                            .replace(/@BirthDay/gi, item.BirthDay)
+                            .replace(/@MobileNo/gi, item.MobileNo)
+                            .replace(/@PrevOperName/gi, item.PrevOper)
+                            .replace(/@PrevOperDate/gi, item.PrevOperDate)
+                            .replace(/@NextOperName/gi, item.NextOper)
+                            .replace(/@NextOperDate/gi, item.NextOperDate)
+                        }
+                    }
+                }
+
+                if (newcontent != '') {
+                    jQuery('#Searchresult').html(newcontent); //将值填充到Searchresult中显示
+                    SetTableRowStyle();
+                } else {
+                    ResetSearchInfo("");
+                }
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+                //设置固定表头 xmhuang 2014-04-02
+                //$('#tbDiseaseLevel').tablefix({ height: 600, width: 900, fixRows: 1, fixCols: 8 });
+            }
+        }
+
+        function SearchBackLog() {
+            //获取前置流程key
+            var prevWorkFlow = document.getElementById("slPrevFlow").options[document.getElementById("slPrevFlow").selectedIndex].value;
+            var prevWorkFlowText = document.getElementById("slPrevFlow").options[document.getElementById("slPrevFlow").selectedIndex].text;
+            //获取延期时长（天数）
+            var delayDays = document.getElementById("txtDelayDays").value;
+            //前置流程和后止流程必须选择其一
+            if (prevWorkFlow == -1) {
+                ShowSystemDialog("对不起， 请选择流程！");
+                return false;
+            }
+
+            //延期时长验证
+            //            if (delayDays == "" || parseInt(delayDays) <= 0) {
+            //                ShowSystemDialog("对不起， 延期时长不允许为空，且必须大于0！");
+            //                return false;
+            //            }
+            if (!IsNum(delayDays)) {
+                ShowCallBackSystemDialog("对不起， 请输入正整数！", function () {
+                    document.getElementById("txtDelayDays").focus();
+                    document.getElementById("txtDelayDays").select();
+                });
+                return false;
+            }
+            //创建待提交数据
+            var data = { action: "SearchBackLog", "prevWorkFlow": prevWorkFlow, prevWorkFlowText: prevWorkFlowText, "delayDays": delayDays };
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxStatistics.aspx",
+                data: data,
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (msg != undefined) {
+                        //设置显示列名
+                        var clomnsArr = "";
+                        if (msg.dataList2 != undefined) {
+                            if (msg.dataList2 != null) {
+                                clomnsArr = msg.dataList2[0].columns.split(',');
+                                for (var c = 0; c < clomnsArr.length; c++) {
+                                    jQuery(".tdHead" + (c + 1)).text(clomnsArr[c]);
+                                }
+                            }
+                        }
+                        pagerData = msg.dataList0;
+                        tempOperPageCount = 0;
+                        QueryPagesData(0);
+                        jQuery(msg.dataList1).each(function (i, item) {
+                            jQuery("#loadExcel").attr("href", item.FilePath);
+                        });
+                        return false;
+                    }
+                    else {
+                        ResetSearchInfo("");
+                    }
+                }
+            });
+        }      
+    </script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="BackLogWorkLoadTemplate">
+                <tbody>
+                    <tr>
+                        <td>
+                            @index
+                        </td>
+                        <td>
+                            @ID_Customer
+                        </td>
+                        <td class="project-align-left" title="@CustomerName">
+                            <div class="nowrap" style="width: 100%;">
+                                @CustomerName</div>
+                        </td>
+                        <td>
+                            @GenderName
+                        </td>
+                        <td>
+                            @MarriageName
+                        </td>
+                        <td>
+                            @BirthDay
+                        </td>
+                        <td class="project-align-left">
+                            @PrevOperName
+                        </td>
+                        <td>
+                            @PrevOperDate
+                        </td>
+                        <td class="project-align-left">
+                            @NextOperName
+                        </td>
+                        <td>
+                            @NextOperDate
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--检查数量统计模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>&nbsp;流程：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slPrevFlow" name="slPrevFlow" style="width: 200px;">
+                            <option value="-1" selected="selected">--请选择-</option>
+                            #foreach($info in $!{BackWorkDT.Rows})
+                            <option code="${info.ID}" value="${info.ID}">${info.TEXT}</option>
+                            #end
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span class="search-4"></span><span>&nbsp;延迟时长(天)：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="txtDelayDays" name="txtDelayDays" value="5" maxlength="3"
+                            style="width: 30px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);" id="A1"
+                    name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="SearchBackLog();">
+                            查询</a></span> <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center" id="bzz">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 10%" />
+                            <col style="width: 9%" />
+                            <col style="width: 5%" />
+                            <col style="width: 11%" />
+                            <col style="width: 11%" />
+                            <col style="width: 9%" />
+                            <col style="width: 13%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                婚姻
+                            </th>
+                            <th>
+                                出生日期
+                            </th>
+                            <th class="tdHead1">
+                                操作人1
+                            </th>
+                            <th class="tdHead2">
+                                操作时间1
+                            </th>
+                            <th class="tdHead3">
+                                操作人2
+                            </th>
+                            <th class="tdHead4">
+                                操作时间2
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330"
+                    data-min="200" style="overflow: auto;">
+                    <table id="tbDiseaseLevel" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                          <col style="width: 35px" />
+                            <col style="width: 10%" />
+                            <col style="width: 9%" />
+                            <col style="width: 5%" />
+                            <col style="width: 11%" />
+                            <col style="width: 11%" />
+                            <col style="width: 9%" />
+                            <col style="width: 13%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="divLoadCustomerReport" style="display: none;">
+        </div>
+    </div>
+</body>
+</html>

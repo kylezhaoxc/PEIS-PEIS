@@ -1,0 +1,954 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$!{webName} $!{pageTitle}</title>
+    <style type="text/css">
+        .TeamRed {
+            color: Black;
+        }
+
+        .Red {
+            color: Blue;
+        }
+
+        .Yellow {
+            color: Gray;
+        }
+
+        .Green {
+            color: Green;
+        }
+
+            .Yellow td input[type='checkbox'], .Green td input[type='checkbox'], .TeamRed td input[type='checkbox'] {
+                display: none;
+            }
+
+        .lblHid {
+            /*display: none;*/
+        }
+
+        .OperationalDate {
+            background-color: Red;
+            color: Red !important;
+        }
+
+        .NewXM {
+            color: Black;
+        }
+
+        .dbclick {
+            /*color: Green;*/
+            /*font-size: 12px;*/
+        }
+        /*新增禁用项目样式*/
+        .Banned {
+            background-color: Red;
+            color: Red !important;
+        }
+        /*不符合的客户性别*/
+        .CustomerSex {
+            background-color: Red;
+            color: Red !important;
+        }
+    </style>
+
+    <script src="/template/blue2/js/skin05/config/base.js"></script>
+    <script type="text/javascript" language="javascript">
+        var CurWeek = "${CurWeek}";        //星期
+        var data = { Is_GuideSheetPrinted: "${Is_GuideSheetPrinted}", Is_Subscribed: "${Is_Subscribed}" };
+        var selectedGender = "${GenderID}";        //性别
+        var selectedMarriage = "${MarriageID}";    //婚姻
+        var selectedReportWay = "${ReportWayID}";  //报告领取方式
+        var selectedSet = "$!{PEPackageID}";              //套餐ID
+        var selectedPEPackageName = "${PEPackageName}";         //套餐
+        var selectedExamType = "${ExamTypeID}";    //体检类型ID
+        var selectedExamTypeName = "${ExamTypeName}";   //体检类型名称
+        var selectedFeeWay = "${FeeWayID}";            //付费方式
+        var selectedSecurityLevel = "${SecurityLevel}"; //操作密级
+        var selectedGuideNurse = "${GuideNurseID}";    //导检护士ID
+        var selectedGuideNurseName = "${GuideNurse}";   //导检护士姓名
+        var selectedNation = "${NationID}";            //名族ID
+        var selectedNationName = "${NationName}";       //名族
+        var selectedCultrul = "${CultrulID}";          //文化
+        var selectedExamPlace = "${ExamPlaceID}";      //体检地点
+        var selectedOperateLevel = "${SecurityLevel}";  //操作密级
+        var CurDate = "${CurDate}";                 //当前服务器时间
+        var RegisteDate = "$!{RegisteDate}";        //登记日期
+        var RegisteDateX = "$!{RegisteDate}";       //登记日期，只用于缴费单、预约凭证、指引单打印使用
+        var Register = "$!{Register}";              //登记人
+        var OldDisCountRate = "$!{DisCountRate}";     //折扣为0表示没有折扣 xmhuang 20140504
+        OldDisCountRate = (OldDisCountRate == "" || OldDisCountRate == 0) ? 10 : OldDisCountRate;
+        var DisCountRate = "$!{DisCountRate}";      //折扣为0表示没有折扣
+        DisCountRate = (DisCountRate == "" || DisCountRate == 0) ? 10 : DisCountRate;
+        var imagePath = "$!{templatepath}/Image/";
+        var teamID = "$!{ID_Team}";
+        var Base64PhtoStr = "$!{Base64Photo}";
+        var Code128c = "\$!{Code128c}";
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var DisUserID = UserID; //折扣人ID
+        var DisUserName = UserName; //折扣人
+        var Is_Checked = "$!{Is_Checked}"; //是否完成总检
+        var Is_Paused = "$!{Is_Paused}"; //是否禁检　
+    </script>
+    <script src="$!{templatepath}/js/skin05/RegistrationSystem/tuanTiDengJi.js"></script>
+    <script src="$!{templatepath}/js/JS_RegistOper.js" ></script>
+    
+</head>
+<body>
+    <div class="panel admin-panel" style="margin-bottom:0">
+        <div class="panel-head"><strong><span class="icon-address-book" aria-hidden="true"></span> 个人信息</strong></div>
+        <div class="body-content">
+
+            <div id="headimg"><img id="HeadImg" alt="140x140" src="/template/blue2/LoginSkin/Skin04/images/avtar.png"  style="position: absolute;" />
+            <button id="paizhao" class="btn btn-primary button-little" data-toggle="modal" data-target="#myModal" onclick="takePictureButton()" style="float:left;position:relative;margin:125px 0 -10px 20px">拍照</button></div>
+
+            <form onkeyup="OnFormKeyUp();" method="post" class="form-x" action="" style="position: relative; margin-left: 10%;margin-right: 30%">
+
+                
+                    <!--模版区域 Begin-->
+                    <div style="display: none;">
+                        <select id="hidslFeeWay" name="hidslFeeWay">
+                            #foreach($info in $!{DictFeeWayDT.Rows}) #if('True'==${info.Default})
+                            <option code="${info.InputCode}" value="${info.FeeWayID}" is_default="${info.Default}">
+                                ${info.FeeWayName}
+                            </option>
+                            #else
+                            <option code="${info.InputCode}" value="${info.FeeWayID}" is_default="${info.Default}">
+                                ${info.FeeWayName}
+                            </option>
+                            #end #end
+                        </select>
+                        <!-- 存档ID -->
+                        <input type="hidden" id="ID_ArcCustomer" name="ID_ArcCustomer" value="$!{ID_ArcCustomer}" />
+                        <!--引入身份证插件 Begin-->
+                        <div>
+                            <object id="CVR_IDCard" height="0" width="0" classid="clsid:3C39D5DB-4DA5-4061-81CF-3F8ADD48B950"
+                                    name="CVR_IDCard"></object>
+                        </div>
+                        <!--引入身份证插件 End-->
+                        
+                        <!--收费项目模版 Begin-->
+                        <table id="TemplateRegistCustFee">
+                            <thead>
+                                <tr>
+                                    <th width="auto" style="text-align:left; padding-left:20px;"><input id="chcAll" type="checkbox" onclick="checkAll(this);" /></th>
+                                    <th style="width: 4%">排序</th>
+                                    <th style="width: 14%">项目名称</th>
+                                    <th style="width: 8%">原价</th>
+                                    <th style="width: 8%">折扣</th>
+                                    <th style="width: 8%">折扣人</th>
+                                    <th width="8%">实价</th>
+                                    <th width="8%">付款方式</th>
+                                    <th style="width: 8%">已收</th>
+                                    <th width="8%">已退</th>
+                                    <th width="8%">执行科室</th>
+                                    <th style="width: 8%">登记人</th>
+                                    <th width="12%">登记时间</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr title="@tilte" class="@CustCssStyle" is_banned="@Is_Banned" operationaldate="@OperationalDate"
+                                    id_discounter="@ID_Discounter" discountername="@XDiscounterName" exist="@exist"
+                                    id_custfee="@ID_CustFee" id_section="@ID_Section" sectionname="@SectionName"
+                                    is_org="@Is_Org" id_customer="@ID_Customer" feename="@FeeName" name="busList"
+                                    id_fee="@ID_Fee" is_printed="@Is_Printed" feechargestaute="@FeeChargeStaute"
+                                    custfeechargestate="@CustFeeChargeState" is_feecharged="@Is_FeeCharged" is_feerefund="@Is_FeeRefund"
+                                    id_teamtaskgroup="@ID_TeamTaskGroup" style="mystyle">
+                                    <td>
+                                        <input name="@ItemCheckbox" type="checkbox" onclick="checkself(this)">
+                                    </td>
+                                    <td style="width: 30px;">
+                                        <label style="font-weight:normal" name="lblRowNum">
+                                            @RowNum
+                                        </label>
+                                    </td>
+                                    <td class="project-align-left">
+                                        <label style="font-weight:normal" name="xmmc" title="@FeeName" oldtitle="@FeeName">
+                                            @FeeName
+                                        </label>
+                                    </td>
+                                    <td class="project-align-right">
+                                        <label style="font-weight:normal" name="yj" class="zkx">
+                                            @Price
+                                        </label>
+                                    </td>
+                                    <td class="project-align-right">
+                                        <label style="font-weight:normal" class="zkx" name="zk">
+                                            @Discount
+                                        </label>
+                                    </td>
+                                    <td class="project-align-left">
+                                        <label style="font-weight:normal" name="zkr">
+                                            @XDiscounterName
+                                        </label>
+                                    </td>
+                                    <td class="project-align-right">
+                                        <label style="font-weight:normal" class="zkx" name="sj">
+                                            @FactPrice
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label style="font-weight:normal" class="sffs" feetype="@FeeType" name="sffs">
+                                            @FeeWayName
+                                        </label>
+                                    </td>
+                                    <td style="text-align: center; font-size: 18px;">
+                                        <label style="font-weight:normal" name="sfzt">
+                                            @FeeChargeStaute
+                                        </label>
+                                    </td>
+                                    <td style="text-align: center; font-size: 18px;">
+                                        <label style="font-weight:normal" name="sfzt">
+                                            @XFeeChargeStaute
+                                        </label>
+                                    </td>
+                                    <td class="project-align-left">
+                                        <label style="font-weight:normal" name="ksmc">
+                                            @SectionName
+                                        </label>
+                                    </td>
+                                    <td class="project-align-left">
+                                        <label style="font-weight:normal" name="czr">
+                                            @RegisterName
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label style="font-weight:normal" name="czr">
+                                            @RegistDate
+                                        </label>
+                                    </td>
+                                    <!-- <td>
+                            <label name="OperationalDate">
+                                @OperationalDate</label>
+                        </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--收费项目模版 End-->
+                    </div>
+                    <!--模版区域 End-->
+                    <!-- 导检护士相关模版  -->
+                    <table style="display: none;">
+                        <tbody id="UserQuickQueryTableTemplete">
+                            <tr style="cursor: pointer;" id="trUser_@UserID" ondblclick="SetUserChecked('@UserID');"
+                                onkeydown="if(IsEnterKeyDown() == true) { SetUserChecked('@UserID'); }">
+                                <td>
+                                    <input type="radio" onfocus="UserClickBackground('@UserID')" name="@chkUserQueryList"
+                                           style="clear: none; border: 0px; width: auto; height: auto;" id="chkUser_@UserID"
+                                           value="@UserID" username="@UserName" />
+                                </td>
+                                <td onclick="UserClick('@UserID');">
+                                    @UserName
+                                </td>
+                                <td onclick="UserClick('@UserID');">
+                                    @InputCode
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="EmptyUserQuickQueryDataTemplete">
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    未找到护士，请重新输入...&nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="SecectedUserLableTemplete" style="display: none;">
+                        <a title="删除" style="display: none;" href="javascript:void(0);" onclick="RemoveSelectedUser();">
+                            ×
+                        </a>
+                        <label class="dbclick" title="双击编辑@UserName" ondblclick="RemoveSelectedUser();jQuery('#txtUserInputCode').focus();">
+                            @UserName
+                        </label>
+                    </div>
+                    <!-- 民族相关模版 Begin -->
+                    <table style="display: none;">
+                        <tbody id="NationQuickQueryTableTemplete">
+                            <tr style="cursor: pointer;" id="trNation_@NationID" ondblclick="SetNationChecked('@NationID');"
+                                onkeydown="if (IsEnterKeyDown() == true) { SetNationChecked('@NationID'); }">
+                                <td style="text-align: center;">
+                                    <input type="radio" onfocus="NationClickBackground('@NationID')" name="@chkNationQueryList"
+                                           style="clear: none; border: 0px; width: auto; height: auto;" id="chkNation_@NationID"
+                                           value="@ID_Nation" nationname="@NationName" />
+                                </td>
+                                <td onclick="NationClick('@NationID');">
+                                    @NationName
+                                </td>
+                                <td onclick="NationClick('@NationID');">
+                                    @InputCode
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="EmptyNationQuickQueryDataTemplete">
+                            <tr>
+                                <td colspan="3" style="text-align: left;">
+                                    未找到民族，请重新输入...&nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="SecectedNationLableTemplete" style="display: none;">
+                        <a style="display: none;" title="删除" href="javascript:void(0);" onclick="RemoveSelectedNation();">
+                            ×
+                        </a>
+                        <label class="dbclick" title="双击编辑@NationName" ondblclick="RemoveSelectedNation();jQuery('#txtNationInputCode').focus();">
+                            @NationName
+                        </label>
+                    </div>
+                    <!-- 民族相关模版 End -->
+                    <!-- 体检类型相关模版 -->
+                    <table style="display: none;">
+                        <tbody id="ExamTypeQuickQueryTableTemplete">
+                            <tr style="cursor: pointer;" id="trExamType_@ExamTypeID" ondblclick="SetExamTypeChecked('@ExamTypeID');"
+                                onkeydown="if(IsEnterKeyDown() == true) { SetExamTypeChecked('@ID_ExamType'); }">
+                                <td>
+                                    <input type="radio" onfocus="ExamTypeClickBackground('@ExamTypeID')" name="@chkExamTypeQueryList"
+                                           style="clear: none; border: 0px; width: auto; height: auto;" id="chkExamType_@ExamTypeID"
+                                           value="@ExamTypeID" examtypename="@ExamTypeName" />
+                                </td>
+                                <td onclick="ExamTypeClick('@ExamTypeID');">
+                                    @ExamTypeName
+                                </td>
+                                <td onclick="ExamTypeClick('@ExamTypeID');">
+                                    @InputCode
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="EmptyExamTypeQuickQueryDataTemplete">
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    未找到体检类型，请重新输入...&nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="SecectedExamTypeLableTemplete" style="display: none;">
+                        <a style="display: none;" title="删除" href="javascript:void(0);" onclick="RemoveSelectedExamType();">
+                            ×
+                        </a>
+                        <label class="dbclick" title="双击编辑@ExamTypeName" ondblclick="RemoveSelectedExamType();jQuery('#txtExamTypeInputCode').focus();">
+                            @ExamTypeName
+                        </label>
+                    </div>
+                    <!-- 套餐类型相关模版 -->
+                    <table style="display: none;">
+                        <tbody id="SetQuickQueryTableTemplete">
+                            <tr style="cursor: pointer;" id="trSet_@PEPackageID" ondblclick="SetSetChecked('@PEPackageID');"
+                                onkeydown="if (IsEnterKeyDown() == true) { SetSetChecked('@PEPackageID'); }">
+                                <td>
+                                    <input type="radio" onfocus="SetClickBackground('@PEPackageID')" name="@chkSetQueryList"
+                                           style="clear: none; border: 0px; width: auto; height: auto;" id="chkSet_@PEPackageID"
+                                           value="@PEPackageID" setname="@PEPackageName" PEPackageName="@PEPackageName" />
+                                </td>
+                                <td onclick="SetClick('@PEPackageID');">
+                                    @PEPackageName
+                                </td>
+                                <td onclick="SetClick('@PEPackageID');">
+                                    @InputCode
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody id="EmptySetQuickQueryDataTemplete">
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    未找到套餐类型，请重新输入...&nbsp;
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="SecectedSetLableTemplete" style="display: none;">
+                        <a style="display: none;" title="删除@FullSetName" href="javascript:void(0);" onclick="RemoveSelectedSet();jQuery('#txtSetInputCode').focus();">
+                            ×
+                        </a>
+                        <label class="dbclick" title="双击编辑@FullSetName" ondblclick="RemoveSelectedSet();jQuery('#txtSetInputCode').focus();">
+                            @PEPackageName
+                        </label>
+                    </div>
+                    <!--后台输出值 Begin-->
+                    <div id="hidDiv" style="display: none;">
+                        <!--用户是否打印指引单 Begin-->
+                        <label id="lblIs_GuideSheetPrinted">
+                            $!{Is_GuideSheetPrinted}
+                        </label>
+                        <!--用户是否打印指引单 Begin-->
+                        $!{HiddenInputQueryString}
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>姓  名:</label>
+                        </div>
+                        <div class="field">
+                            <label style="line-height:33px;" title="客户姓名"><input class="input "  id="spanCustomerName" style="line-height:17px;display:inline-block;" value="$!{CustomerName}" readonly="readonly"/></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="label">
+                        <label class="biTianXiang">婚  姻:</label>
+                    </div>
+                    <div class="field">
+                        <select class="input select-1 " id="slMarried" name="slMarried" required="Required" emptymessage="请选择婚姻状态" errormessage="请选择婚姻状态">
+                            <option value="-1">请选择婚姻状态</option>
+                            #foreach($info in $!{DictMarriageDT.Rows}) #if('0'==${info.IsMarried})
+                            <option code="${info.InputCode}" forgender="${info.IsMarried}" value="${info.MarriageID}">
+                                ${info.MarriageName}
+                            </option>
+                            #else
+                            <option code="${info.InputCode}" forgender="${info.IsMarried}" value="${info.MarriageID}">
+                                ${info.MarriageName}
+                            </option>
+                            #end #end
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="label">
+                            <label>民  族:</label>
+                        </div>
+                        <div class="field">
+                            <!--<select name="s_ishome" class="input selectMinZu" style="width:auto; line-height:17px; display:inline-block"></select>-->
+                            <span id="spanNation">
+                                <input class="input" style="line-height:17px; display:inline-block" type="hidden" name="tempSelectedNationID" id="tempSelectedNationID" value="" />
+                                <input type="text" class="QuickQueryShowBox input" style="line-height:17px; display:inline-block" name="txtNationInputCode" id="txtNationInputCode"
+                                       onkeyup="QuickQueryNationTableData_Ajax();" onchange="QuickQueryNationTableData_Ajax();"
+                                       onfocus="this.select();HideAllQuickTable();QuickQueryNationTableData_Ajax();"
+                                       maxlength="50" value="" />
+                            </span> <span id="spanSelectNation" style="display: none;">
+                                -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectNation').hide();">
+                                    ×
+                                </a>
+                            </span>
+                            <div>
+                                <input type="hidden" name="idSelectNation" id="idSelectNation" value="" />
+                                <input type="hidden" name="nameSelectNation" id="nameSelectNation" value="" />
+                                <div id="QuickQueryNationTable" class="QuickQueryList selectBox" >
+                                    <div>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader bg-blue">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tr>
+                                                <th nowrap="nowrap">
+                                                    &nbsp;
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    民族
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    输入码
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="max-height: 150px; width: 200px; overflow: auto">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tbody id="QuickQueryNationTableData">
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">
+                                                        未找到民族，请重新输入...&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="QuickQueryListButton">
+                                        <input type="button" class="btnclose bg-red button button-little" id="btnNationColse" onclick="ShowHideQuickQueryNationTable(false,'');"
+                                               value="关 闭" />
+                                        <input type="button" class="btnsure bg-green button button-little" id="btnNationSure" onclick="SelectNationDataList();"
+                                               value="确 定" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="label">
+                        <label> 体检地址:</label>
+                    </div>
+                    <div class="field">
+                        <select id="slExamPlace" name="slExamPlace" required="Required" emptymessage="请选择体检地址！"
+                                errormessage="请选择体检地址！" class="input" style=" line-height:17px; display:inline-block">
+                            <option value="-1">请选择体检地址</option>
+                            $!{info.Is_Default} #foreach($info in $!{DictExamPlaceDT.Rows}) #if("True"==$!{info.Default})
+                            <option code="${info.InputCode}" value="${info.ExamPlaceID}" selected="selected">${info.ExamPlaceName}</option>
+                            #else
+                            <option code="${info.InputCode}" value="${info.ExamPlaceID}">${info.ExamPlaceName}</option>
+                            #end #end
+                        </select>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                     <div class="label">
+                        <label name="lblHidSex" id="lblHidSex">性  别:</label>
+                    </div>
+                    <div class="field">
+                        <select class="input select-1" id="slSex" name="slSex" required="Required" emptymessage="客户性别不允许为空！" errormessage="客户性别不允许为空！" readonly="readonly" disabled="disabled">
+                            <option value="-1">--请选择性别--</option>
+                            #foreach($info in $!{DictGenderDT.Rows})
+                            <option code="${info.InputCode}" forgender="${info.GenderID}" value="${info.GenderID}">
+                                ${info.GenderName}
+                            </option>
+                            #end
+                        </select>
+                    </div>
+                </div>
+                    
+                    <div class="form-group">
+                    <div class="label">
+                        <label> 套  餐:</label>
+                    </div>
+                    <div class="field">
+                        <!--<input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />-->
+                        <span id="spanSet">
+                            <input class="input" type="hidden" name="tempSelectedSetID" id="tempSelectedSetID" value="" />
+                            <input type="text" class="QuickQueryShowBox input" name="txtSetInputCode" id="txtSetInputCode"
+                                   onkeyup="QuickQuerySetTableData_Ajax();" onchange="QuickQuerySetTableData_Ajax();"
+                                   onfocus="this.select();HideAllQuickTable();QuickQuerySetTableData_Ajax();" maxlength="50"
+                                   value="" />
+                        </span> <span id="spanSelectSet" style="display: none;">
+                            -- <a title="删除"
+                                  href="javascript:void(0);" onclick="jQuery('#spanSelectSet').hide();">×</a>
+                        </span>
+                        <div>
+                            <input type="hidden" name="idSelectSet" id="idSelectSet" value="" />
+                            <input type="hidden" name="nameSelectSet" id="nameSelectSet" value="" />
+                            <div id="QuickQuerySetTable" class="QuickQueryList selectBox" style="width:400px">
+                                <!--style="margin-top: 0px; width: 400px;"-->
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader bg-blue">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                套餐
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: 400px; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tbody id="QuickQuerySetTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到套餐，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose bg-red button button-little" id="btnSetColse" onclick="ShowHideQuickQuerySetTable(false,'');"
+                                           value="关 闭" />
+                                    <input type="button" class="btnsure bg-green button button-little" id="btnSetSure" onclick="SelectSetDataList();"
+                                           value="确 定" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>电  话:</label>
+                        </div>
+                        <div class="field">
+                            <input id="txtMobil" value="$!{MobileNo}" type="text" placeholder="电话" emptymessage="电话不允许为空!" errormessage="电话不允许为空！" class="input" style="line-height:17px;display:inline-block;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label class="biTianXiang">类  型</label>
+                        </div>
+                        <div class="field">
+                            <span id="spanExamType">
+                                <input type="hidden" name="tempSelectedExamTypeID" id="tempSelectedExamTypeID" value="" />
+                                <input type="text" class="QuickQueryShowBox" name="txtExamTypeInputCode" id="txtExamTypeInputCode"
+                                       onkeyup="QuickQueryExamTypeTableData_Ajax();" onchange="QuickQueryExamTypeTableData_Ajax();"
+                                       onfocus="this.select();HideAllQuickTable();QuickQueryExamTypeTableData_Ajax();"
+                                       maxlength="50" value="" />
+                            </span> <span id="spanSelectExamType" style="display: none;">
+                                -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectExamType').hide();">
+                                    ×
+                                </a>
+                            </span>
+                            <div>
+                                <div style="display: none;">
+                                    <input type="text" name="idSelectExamType" id="idSelectExamType" value="" required="Required"
+                                           emptymessage="体检类型不允许为空！" errormessage="体检类型不允许为空！" />
+                                </div>
+                                <input type="hidden" name="nameSelectExamType" id="nameSelectExamType" value="" />
+                                <!--体检类型快速选择 Begin-->
+                                <div id="QuickQueryExamTypeTable" class="QuickQueryList selectBox" >
+                                    <div>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader bg-blue">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tr>
+                                                <th nowrap="nowrap">
+                                                    &nbsp;
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    体检类型
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    输入码
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="max-height: 150px; width: 200px; overflow: auto">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tbody id="QuickQueryExamTypeTableData">
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">
+                                                        未找到体检类型，请重新输入...&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="QuickQueryListButton">
+                                        <input type="button" class="btnclose bg-red button button-little" id="Button1" onclick="ShowHideQuickQueryExamTypeTable(false,'');"
+                                               value="关 闭" />
+                                        <input type="button" class="btnsure bg-green button button-little" id="Button2" onclick="SelectExamTypeDataList();"
+                                               value="确 定" />
+                                    </div>
+                                </div>
+                                <!--体检类型快速选择 End-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="label">
+                        <label>证件号:</label>
+                    </div>
+                    <div class="field">
+                        <label id="lblSFZ" title="客户证件号" style="line-height:33px;"><input id='txtSFZ' class="input " style=" line-height:17px;display:inline-block;" value="$!{IDCard}" readonly="readonly"/></label>
+                        <input style="display: none;" type="text" value="$!{IDCard}" required="Required" vailtype="IDCard" errormessage="证件号格式不正确,请您核对!" readonly="readonly" />
+                    </div>
+                </div>
+                    
+                    <div class="form-group">
+                        <div class="label">
+                            <label> 出生日期:</label>
+                        </div>
+                        <div class="field">
+                            <label name="lblHidOperateDate" id="lblHidOperateDate" style="display: none;"> $!{OperateDate}</label>
+                            <label class="lblHid" name="lblHidBirthDay" id="lblHidBirthDay" style="display: none;">$!{BirthDay}</label>
+                            
+                            <input id="txtBirthDay" name="txtBirthDay" value="$!{BirthDay}" required="Required" emptymessage="出生日期不允许为空！" errormessage="出生日期不允许为空！" onchange="CaltAgeByBirthDay()" onblur="CaltAgeByBirthDay()"
+                                                    onkeyup="CaltAgeByBirthDay()" type="text" placeholder="出生日期" class="txtShow input " style="line-height:17px;display:inline-block;width:68%" />
+                            <span class="badge pull-right bg-blue" id="lblAge">$!{Age}岁</span>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label class="biTianXiang"> 预定日期</label>
+                        </div>
+                        <div class="field">
+                            <input id="txtSubScribDate" name="txtSubScribDate" value="$!{RegisteDate}" required="Required" emptymessage="预定日期不允许为空！" errormessage="预定日期不允许为空！" type="text" placeholder="预定日期" class="input dateselect" style="line-height:17px;display:inline-block;" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label> 导检人员</label>
+                        </div>
+                        <div class="field">
+                            <input type="hidden" name="tempSelectedUserID" id="tempSelectedUserID" value="" class="input" style="line-height:17px; display:inline-block" />
+                            <span id="spanUser">
+                                <input type="text" class="QuickQueryShowBox input" style="line-height:17px; display:inline-block" name="txtUserInputCode" id="txtUserInputCode"
+                                       onkeyup="QuickQueryUserTableData_Ajax(0);" onchange="QuickQueryUserTableData_Ajax(0);"
+                                       onfocus="this.select();HideAllQuickTable();QuickQueryUserTableData_Ajax(0);"
+                                       maxlength="50" value="" />
+                            </span> <span id="spanSelectUser" style="display: none;">
+                                --
+                                <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectUser').hide();">
+                                    ×
+                                </a>
+                            </span>
+                            <div>
+                                <input type="hidden" name="idSelectUser" id="idSelectUser" value="" />
+                                <input type="hidden" name="nameSelectUser" id="nameSelectUser" value="" />
+                                <!--导检护士快速选择 Begin-->
+                                <div id="QuickQueryUserTable" class="QuickQueryList selectBox" ><!--style="margin-top: 0px; width: 260px;"-->
+                                    <div>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader bg-blue">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tr>
+                                                <th nowrap="nowrap">
+                                                    &nbsp;
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    姓名
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    输入码
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="max-height: 150px; width: 200px; overflow: auto">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 90px" />
+                                            </colgroup>
+                                            <tbody id="QuickQueryUserTableData">
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">
+                                                        未找到导检人员，请重新输入...&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="QuickQueryListButton">
+                                        <input type="button" class="btnclose bg-red button button-little" id="Button3" onclick="ShowHideQuickQueryUserTable(false,'');"
+                                               value="关 闭" />
+                                        <input type="button" class="btnsure bg-green button button-little" id="Button4" onclick="SelectUserDataList();"
+                                               value="确 定" />
+                                    </div>
+                                </div>
+                                
+                                <!--导检护士快速选择 End-->
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <div class="label">
+                            <label>体检号:</label>
+                        </div>
+                        <div class="field">
+                            <label style="line-height:33px;" name="cloneCustomerID" id="cloneCustomerID">
+                                <input class="input " style="line-height:17px;display:inline-block;" value="$!{ID_Customer}" readonly="readonly"  />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <div class="label">
+                        <label> 付费方式:</label>
+                    </div>
+                    <div class="field">
+                        <select id="slFeeWay" name="slFeeWay" required="Required" emportmessage="付费方式不允许为空！" errormessage="付费方式不允许为空" class="input" style=" line-height:17px; display:inline-block">
+                            #foreach($info in $!{DictFeeWayDT.Rows}) #if('True'==${info.Default})
+                            <option code="${info.InputCode}" value="${info.FeeWayID}" is_default="${info.Default}"
+                                    selected="selected">
+                                ${info.FeeWayName}
+                            </option>
+                            #else
+                            <option code="${info.InputCode}" value="${info.FeeWayID}" is_default="${info.Default}">
+                                ${info.FeeWayName}
+                            </option>
+                            #end #end
+                        </select>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label> 领取方式:</label>
+                        </div>
+                        <div class="field">
+                            <select id="slReportWay" name="slReportWay" required="Required" emptymessage="报告领取方式不允许为空！" errormessage="报告领取方式不允许为空！"  onchange="changesearch()" class="input" style=" line-height:17px; display:inline-block">
+                                #foreach($info in $!{BusReportWayDT.Rows}) #if('自取' == ${info.ReportWayName})
+                                <option code="${info.InputCode}" value="${info.ReportWayID}" selected="selected">${info.ReportWayName}</option>
+                                #else
+                                <option code="${info.InputCode}" value="${info.ReportWayID}">${info.ReportWayName}</option>
+                                #end #end
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <div class="label">
+                            <label> 一卡通号</label>
+                        </div>
+                        <div class="field">
+                            <input type="text" disabled="disabled" id="lblYKT" name="lblHid" value="$!{ExamCard}" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                            <input type="text" class="txtShow InputNoBorder"  value="$!{ExamCard}"
+                                   maxlength="19" id="txtYKT" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                                   title="点击扫描一卡通" />
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                    <div class="label">
+                        <label> 备注信息:</label>
+                    </div>
+                    <div class="field">
+                        <input id="txtNote" value="$!{Note}" type="text" class="input" style="width:400px; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                  
+</form>
+        </div>
+    </div>
+    
+    <div class="body-content ">
+        <div class="panel admin-panel">
+            <div class="panel-head"><strong class="icon-reorder">项目明细 </strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+            <div class="padding border-bottom">
+            </div>
+            <table class="table table-hover text-center"  style="font-size:12px">
+               <thead> 
+                <tr>
+                    <th>
+                        <input style="width:auto;text-align:left; padding-left:20px;" type="checkbox" onclick="checkAll(this);" />
+                    </th>
+                    <th style="width: 4%">排序</th>
+                    <th style="width: 14%">项目名称</th>
+                    <th style="width: 8%">原价</th>
+                    <th style="width: 8%">折扣</th>
+                    <th style="width: 8%">折扣人</th>
+                    <th width="8%">实价</th>
+                    <th width="8%">付款方式</th>
+                    <th style="width: 8%">已收</th>
+                    <th width="8%">已退</th>
+                    <th width="8%">执行科室</th>
+                    <th style="width: 8%">登记人</th>
+                    <th width="12%">登记时间</th>
+
+
+                </tr>
+                   </thead>
+                </table>
+            <div class="gudingheight">
+            <table class="table table-hover text-center" style="font-size:14px" id="tblList">   
+            
+                 <colgroup>
+                     <col style="width:auto;text-align:left; padding-left:20px;">
+                     <col style="width: 4%" />
+                     <col style="width: 14%" />
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+                     <col style="width: 8%" />
+
+                     <col style="width: 8%" />
+                     <col style="width: 12%" />
+                 </colgroup>
+                <tbody style="font-weight:normal !important"></tbody>
+                </table>
+                </div>
+            <table  class="table table-hover text-center" style="font-size:12px">
+                <tfoot>
+                    <tr>
+                        <td colspan="12" style="text-align:left;padding-left:20px;">
+                            <a id="btnBatchAdd" onclick="return DoAddX(this);" href="javascript:void(0)" class="button border-main icon-plus-square-o"> 添加</a>
+                            <a onclick="return DoDel();" href="javascript:void(0)" class="button border-red icon-trash-o" > 删除</a>
+                            <a onclick="OpenChangeUser();" href="javascript:void(0)" class="button border-green icon-edit" > 折扣&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-right: -13px;" class="badge pull-right bg-red" name="textfield2" id="txtXMZK" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                                            onblur="ChangeDiscount();">10</span></a>
+                            <!--<input type="text" name="textfield2" id="txtXMZK" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                                            onblur="ChangeDiscount();" value="10" />-->
+                            <!--<a onclick="OpenCustomerCloneDialog();" href="javascript:void(0)" class="button border-green icon-edit"> 克隆</a>-->
+                        </td>
+                        <td colspan="1">
+                            <a id="lblWaitCharge"  class="button border-red icon-jpy"> 待收：￥0.00</a>
+                        </td>
+                        <!--<td colspan="10"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>-->
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+    <div id="showBusFee" class="CustfeeSearch">
+        <table id="externTBlList" class="table table-hover text-center" width="100%" style="font-size:12px" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td>
+                        <input id="chbAll1" name="checkAllX" onkeydown="keyMove(this, event)" onclick="checkAllChildren(this);"type="checkbox" style="background-color:white"/>
+                    </td>
+                    <td style="text-align:left; width:260px;">
+                        <input type="text" id="txtSearch" onkeyup="OnKeyUp();" style="width: 230px; margin-left: 10px;background-color:white" />
+                    </td>
+                    <td colspan="2">
+                        <input id="btnSure" name="btnSure" onclick="SureAdd();" type="button" class="btn btn-primary"style="width: 60px;" value="确 定" />
+                        <input id="btnClose" name="btnClose" onclick="DoClose();" type="button" class="btn btn-default" style="width: 60px;" value="关 闭" />
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="showBusFeeItem">
+                <tr name="busList" exist="1">
+                    <td colspan="4">
+                        正在加载，请稍候...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    <!--隐藏控件区域 Begin-->
+    <div id="hidControl" style="display: none;">
+        <input id="btnAdd" name="btnAdd" type="button" class="button80" value="新 增" onclick="AddNewRegistOrSign(1);" />
+        <select id="slCountry" name="slCountry">
+            #foreach($info in $!{DictCountryDT.Rows})
+            <option code="${info.InputCode}" value="${info.CountryID}">${info.CountryName}</option>
+            #end
+        </select>
+        <select id="slCultrul" name="slCultrul">
+            #foreach($info in $!{DctCultrulDT.Rows})
+            <option code="${info.InputCode}" value="${info.CultrulID}">${info.CultrulName}</option>
+            #end
+        </select>
+        <input class="txtShow InputNoBorder" type="text" readonly="readonly" value="$!{ID_Customer}"
+               id="txtTJH" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+        <input type="text" vailtype="Email" id="txtEmail" value="$!{Email}" />
+    </div>
+ 
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+            
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary"  onclick="completePhoto()" data-dismiss="modal">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+   
+</body>
+</html>

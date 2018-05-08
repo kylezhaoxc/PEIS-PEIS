@@ -1,0 +1,24 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>视频采集卡 </title>
+</head>
+
+<script type="text/javascript" language="javascript">
+    function VideoFrameUnload() {
+        try {
+            window.parent.FrameVideoCapture();
+        } catch (e) { 
+            
+        }
+    }
+</script>
+
+<body onunload="VideoFrameUnload();">
+
+<div class="VideoCapture" id="FrameVideoCapture">
+    <object id="VideoCapture" classid="clsid:4eaebae5-ce21-480c-91a0-e4e334d1d89c" width="768" height="576" style="z-index:100;" ></object>
+</div>
+
+</body>
+</html>

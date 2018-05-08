@@ -1,0 +1,1379 @@
+using PEIS.Common;
+using PEIS.BLL;
+using PEIS.Model;
+using Maticsoft.Common;
+using Microsoft.Win32;
+using NVelocity;
+using NVelocity.App;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data;
+using System.IO;
+using System.Web;
+using System.Web.UI;
+
+namespace PEIS.Base
+{
+	public class BasePage : Page
+	{
+		private const string _ServerPath = "SOFTWARE\\PEIS";
+
+		private const string _ServerName = "ServerName";
+
+		private const string _ServerState = "ServerState";
+
+		private const string _MachineCodeValue = "MachineCodeValue";
+
+		protected static string root = HttpContext.Current.Request.ApplicationPath;
+
+		protected string CookieDomain = string.Empty;
+
+		protected string SiteName = string.Empty;
+
+		protected string CurrTemplateFileName = string.Empty;
+
+		protected string TemplateName = "blue";
+
+		protected string CurrSkinStyle = string.Empty;
+
+		protected PEIS.Model.SYSOpUser LoginUserModel = null;
+
+		protected int UserID = 0;
+
+		protected string UserLoginName;
+
+		protected string UserName;
+
+		protected string JsonErrorMessage = "{success:false}";
+
+		protected string JsonSuccessMessage = "{success:'true'}";
+
+		private string FilePath = HttpContext.Current.Request.PhysicalApplicationPath;
+
+		private string LicenceMsg = string.Empty;
+
+		private string LicenceCache = "LicenceCache";
+
+		private double LicenceOutCache = 30.0;
+
+		private string IPAddress = string.Empty;
+
+		protected int ConnectCount = 0;
+
+		private string CacheKey = "AllSumRegistCache";
+
+		private object obj = "0";
+
+		public new bool IsReusable
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		public BasePage()
+		{
+            this.CookieDomain = UiConfig.CookieDomain;
+            this.SiteName = UiConfig.SiteName;
+            if (BasePage.root == "/")
+            {
+                BasePage.root = string.Empty;
+            }
+        }
+
+		~BasePage()
+		{
+		}
+
+        //private void CheckServerAndClientCredence()
+        //{
+        //    int num = 1;
+        //    this.IPAddress = Public.GetClientIP();
+        //    object cache = DataCache.GetCache(this.LicenceCache);
+        //    if (cache != null)
+        //    {
+        //        LicenceModel licenceModel = cache as LicenceModel;
+        //        if (licenceModel.IsCanUse == 1)
+        //        {
+        //            int.TryParse(licenceModel.ConnectCount.ToString(), out this.ConnectCount);
+        //        }
+        //        else
+        //        {
+        //            num = licenceModel.IsCanUse;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        string regesiterMachineCode = string.Empty;
+        //        Microsoft.Win32.RegistryKey registryKey = null;
+        //        try
+        //        {
+        //            if (Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\FYH") == null)
+        //            {
+        //                num = -2;
+        //            }
+        //            else
+        //            {
+        //                registryKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\FYH", false);
+        //                regesiterMachineCode = registryKey.GetValue("MachineCodeValue", string.Empty).ToString();
+        //                int num2 = (registryKey.GetValue("ServerState", string.Empty).ToString() == "1") ? 1 : 0;
+        //                if (num2 == 1)
+        //                {
+        //                    LicenceModel licenceModel = LicenceConfig.ReadLicence(this.FilePath + "\\Licence.Licence", regesiterMachineCode, ref this.LicenceMsg);
+        //                    if (this.LicenceMsg == string.Empty)
+        //                    {
+        //                        licenceModel.IsCanUse = 1;
+        //                        int.TryParse(licenceModel.ConnectCount.ToString(), out this.ConnectCount);
+        //                    }
+        //                    else
+        //                    {
+        //                        num = -1;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    num = -2;
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            base.Response.Write(ex.Message.ToString());
+        //        }
+        //        if (registryKey != null)
+        //        {
+        //            registryKey.Close();
+        //            registryKey.Dispose();
+        //        }
+        //        LicenceModel licenceModel2 = new LicenceModel();
+        //        licenceModel2.ConnectCount = this.ConnectCount;
+        //        licenceModel2.IsCanUse = num;
+        //        DataCache.SetCache(this.LicenceCache, licenceModel2, DateTime.Now.AddMinutes(this.LicenceOutCache), System.TimeSpan.Zero);
+        //    }
+        //    if (num == 1)
+        //    {
+        //        if (!LicenceServer.IsCanUseIP(this.IPAddress, this.FilePath + "\\IPSetting.xml"))
+        //        {
+        //            num = -3;
+        //        }
+        //        if (ClientListManagement.Instance().ClientList.Count + 1 > this.ConnectCount && !ClientListManagement.Instance().ClientList.ContainsKey(this.Session.SessionID))
+        //        {
+        //            num = -4;
+        //        }
+        //        if (num != 1)
+        //        {
+        //            LicenceModel licenceModel = new LicenceModel();
+        //            licenceModel.IsCanUse = num;
+        //            licenceModel.ConnectCount = this.ConnectCount;
+        //            DataCache.SetCache(this.LicenceCache, licenceModel, DateTime.Now.AddMinutes(this.LicenceOutCache), System.TimeSpan.Zero);
+        //        }
+        //    }
+        //    if (num != 1)
+        //    {
+        //        base.Response.Write("<script>location.href='/error.htm?c=" + num + "'</script>");
+        //        base.Response.End();
+        //    }
+        //    else
+        //    {
+        //        this.GetUserID();
+        //        if (this.LoginUserModel != null)
+        //        {
+        //            if (!ClientListManagement.Instance().ClientList.ContainsKey(this.Session.SessionID))
+        //            {
+        //                ClientInfo clientInfo = new ClientInfo();
+        //                clientInfo.GUID = this.LoginUserModel.LoginName;
+        //                clientInfo.IpAddress = this.IPAddress;
+        //                clientInfo.UserName = this.LoginUserModel.UserName;
+        //                clientInfo.LoginUserName = this.LoginUserModel.LoginName;
+        //                clientInfo.UserID = this.LoginUserModel.UserID.ToString();
+        //                clientInfo.LoginState = LoginState.已成功登陆;
+        //                clientInfo.LoginDate = DateTime.Now;
+        //                ClientListManagement.Instance().AddClientInfo(clientInfo);
+        //            }
+        //            else if (ClientListManagement.Instance().ClientList[this.Session.SessionID].LoginState != LoginState.已被迫下线 && ClientListManagement.Instance().ClientList[this.Session.SessionID].LoginState != LoginState.已下线 && ClientListManagement.Instance().ClientList[this.Session.SessionID].LoginState != LoginState.已成功登陆)
+        //            {
+        //                ClientInfo clientInfo = ClientListManagement.Instance().ClientList[this.Session.SessionID];
+        //                clientInfo.LoginState = LoginState.已成功登陆;
+        //                ClientListManagement.Instance().ClientList[this.Session.SessionID] = clientInfo;
+        //            }
+        //        }
+        //    }
+        //}
+
+        public virtual void Page_Load(ref VelocityContext context)
+		{
+			base.Response.Cache.SetNoStore();
+		}
+
+		protected void Page_Init(object sender, System.EventArgs e)
+		{
+			this.GetUserID();
+            //if (base.Cache["ServerStart"] == null || base.Cache["ServerStart"].ToString() != "1")
+            //{
+            //    base.Response.Write("<script>location.href='/error.htm?c=-6'</script>");
+            //    base.Response.End();
+            //}
+            //if (base.Cache["ServerAuth"] == null || base.Cache["ServerAuth"].ToString() != "1")
+            //{
+            //    base.Response.Write("<script>location.href='/error.htm?c=-1'</script>");
+            //    base.Response.End();
+            //}
+		}
+
+		public virtual void Page_Loadno(ref VelocityContext context)
+		{
+		}
+
+		public virtual void Page_PostBack(ref VelocityContext context)
+		{
+		}
+
+		protected void Redirect(string url)
+		{
+			if (!string.IsNullOrEmpty(url))
+			{
+				HttpContext.Current.Response.Redirect(url, true);
+			}
+		}
+
+		public string GetImageFileUploadUrl()
+		{
+			long @int = this.GetInt64("txtCustomerID", 0L);
+			int int2 = this.GetInt("txtSectionID", 0);
+			string isFileUploadMulitUrl = BaseConfig.IsFileUploadMulitUrl;
+			string text = BaseConfig.ImageFileUploadUrl;
+			string text2 = "";
+			string result;
+			try
+			{
+				if (string.IsNullOrEmpty(isFileUploadMulitUrl))
+				{
+					result = "";
+					return result;
+				}
+				if (string.IsNullOrEmpty(text))
+				{
+					result = "";
+					return result;
+				}
+				if (isFileUploadMulitUrl.ToUpper() == "FALSE")
+				{
+					result = text;
+					return result;
+				}
+				string b = @int.ToString().Substring(6, 4);
+				text = text.Replace('；', ';').Replace('｜', '|');
+				string[] array = text.Split(new char[]
+				{
+					';'
+				});
+				if (array.Length > 0)
+				{
+					for (int i = 0; i < array.Length; i++)
+					{
+						if (!string.IsNullOrEmpty(array[i].ToString()))
+						{
+							string[] array2 = array[i].Split(new char[]
+							{
+								'|'
+							});
+							if (array2.Length > 0)
+							{
+								if (array2[0].ToString().Trim() == b)
+								{
+									text2 = array2[1].ToString().Trim();
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			catch (System.Exception ex)
+			{
+                
+			}
+			result = text2;
+			return result;
+		}
+
+		public virtual void ReplaceContent(ref VelocityContext vltContext)
+		{
+		}
+
+        private string GetAllExamType()
+        {
+            string empty = string.Empty;
+            DataSet cacheExamType = CommonOnArcCust.Instance.GetCacheExamType();
+            if (cacheExamType != null)
+            {
+                if (cacheExamType.Tables.Count > 0)
+                {
+                    foreach (DataRow row in cacheExamType.Tables[0].Rows)
+                    {
+                        empty = string.Concat(empty, row["ExamTypeName"].ToString(), "|");
+                    }
+                }
+            }
+            return empty.TrimEnd(new char[] { '|' });
+        }
+
+        public virtual void ProcessRequest()
+        {
+            HttpContext current = HttpContext.Current;
+            string physicalApplicationPath = current.Request.PhysicalApplicationPath;
+            string physicalPath = current.Request.PhysicalPath;
+            string text = physicalPath.Replace(physicalApplicationPath, string.Empty);
+            string text2 = text.ToLower().Replace("/", ".").Replace("\\", ".").Replace(".aspx", string.Empty).Replace(".html", string.Empty);
+            string name = text2.Replace(".", "/") + ".htm";
+            string text3 = "template";
+            string text4 = (!string.IsNullOrEmpty(this.TemplateName)) ? this.TemplateName : UiConfig.SkinStyle;
+            string contentType = "text/html";
+            if (!string.IsNullOrEmpty(this.CurrTemplateFileName))
+            {
+                name = this.CurrTemplateFileName;
+            }
+            string text5 = current.Request.ServerVariables["HTTP_ACCEPT"];
+            VelocityEngine velocityEngine = new VelocityEngine();
+            velocityEngine.SetProperty("resource.loader", "file");
+            velocityEngine.SetProperty("file.resource.loader.path", physicalApplicationPath + text3 + "\\" + text4);
+            velocityEngine.Init();
+            VelocityContext velocityContext = new VelocityContext();
+            string text6 = HttpContext.Current.Request.ApplicationPath;
+            if (text6 == "/")
+            {
+                text6 = string.Empty;
+            }
+            velocityContext.Put("webpath", text6);
+            velocityContext.Put("pagetitle", UiConfig.SiteName);
+            velocityContext.Put("sitename", UiConfig.SiteName);
+            velocityContext.Put("templatepath", string.Concat(new string[]
+            {
+                text6,
+                "/",
+                text3,
+                "/",
+                text4
+            }));
+            velocityContext.Put("VersionInfo", UiConfig.VersionInfo);
+            velocityContext.Put("CopyRight", UiConfig.CopyRight);
+            velocityContext.Put("SystemName", UiConfig.SystemName);
+            velocityContext.Put("BottomInfo", UiConfig.BottomInfo);
+            velocityContext.Put("LOGO", UiConfig.LOGO);
+            velocityContext.Put("version", UiConfig.Version);
+            velocityContext.Put("rooturl", UiConfig.RootUrl);
+            velocityContext.Put("LoginSkin", UiConfig.LoginSkin);
+            velocityContext.Put("today", DateTime.Now.ToString("yyyy-MM-dd"));
+            velocityContext.Put("CurrentTime", DateTime.Now.ToString("yyyy年MM月dd HH:mm"));
+            velocityContext.Put("ExamPreviewReport", ReportConfig.ExamPreviewReport);
+            velocityContext.Put("ExamReport", ReportConfig.ExamReport);
+            velocityContext.Put("MaleColorReport", ReportConfig.MaleColorReport);
+            velocityContext.Put("MaleColorPreviewReport", ReportConfig.MaleColorPreviewReport);
+            velocityContext.Put("FeMaleColorReport", ReportConfig.FeMaleColorReport);
+            velocityContext.Put("FeMaleColorPreviewReport", ReportConfig.FeMaleColorPreviewReport);
+            if (ReportConfig.UseColorPrintPaperExamType.ToUpper() == "ALL")
+            {
+                velocityContext.Put("UseColorPrintPaperExamType", this.GetAllExamType());
+            }
+            else
+            {
+                velocityContext.Put("UseColorPrintPaperExamType", ReportConfig.UseColorPrintPaperExamType);
+            }
+
+            velocityContext.Put("HiddenInputQueryString", this.OutHiddenInputQueryString());
+            if (this.LoginUserModel != null)
+            {
+                velocityContext.Put("LoginUserModel", this.LoginUserModel);
+            }
+            this.ReplaceContent(ref velocityContext);
+            try
+            {
+                if (current.Request.HttpMethod == "POST" && !this.IsReSubmit(ref current, ref velocityContext))
+                {
+                    this.Page_PostBack(ref velocityContext);
+                }
+                else
+                {
+                    this.Page_Load(ref velocityContext);
+                }
+            }
+            catch (System.InvalidCastException ex)
+            {
+                string xMLBaseValue = Public.GetXMLBaseValue("errorlogs");
+                name = "500.html";
+                velocityContext.Put("errorMessage", ex.Message);
+                if (xMLBaseValue == "1")
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(current.Request.PhysicalApplicationPath + "logs\\" + DateTime.Now.ToString("yyyyMMdd") + ".logs", true))
+                    {
+                        streamWriter.WriteLine("-----------------ICeX----------------");
+                        streamWriter.WriteLine(ex.ToString());
+                    }
+                }
+            }
+            catch (System.Exception ex2)
+            {
+                string xMLBaseValue = Public.GetXMLBaseValue("errorlogs");
+                name = "500.html";
+                velocityContext.Put("errorMessage", ex2.Message);
+                if (xMLBaseValue == "1")
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(current.Request.PhysicalApplicationPath + "logs\\" + DateTime.Now.ToString("yyyyMMdd") + ".logs", true))
+                    {
+                        streamWriter.WriteLine("-----------------EX----------------");
+                        streamWriter.WriteLine(ex2.ToString());
+                    }
+                }
+            }
+            if (velocityContext.Get("redirecturl") != null)
+            {
+                string url = velocityContext.Get("redirecturl").ToString();
+                current.Response.Redirect(url);
+            }
+            Template template = velocityEngine.GetTemplate(name);
+            StringWriter stringWriter = new StringWriter();
+            template.Merge(velocityContext, stringWriter);
+            current.Response.ContentType = contentType;
+            current.Response.Write(stringWriter.GetStringBuilder().ToString());
+        }
+
+		protected string OutHiddenInputQueryString()
+		{
+			string result;
+			try
+			{
+				string text = "";
+				NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+				for (int i = 0; i < queryString.Count; i++)
+				{
+					if (queryString.Keys[i].ToLower() != "page")
+					{
+						string text2 = text;
+						text = string.Concat(new string[]
+						{
+							text2,
+							"<input type=\"hidden\" id=\"",
+							queryString.Keys[i],
+							"\" name=\"",
+							queryString.Keys[i],
+							"\" value=\"",
+							HttpContext.Current.Server.UrlEncode(queryString[i]),
+							"\" />"
+						});
+					}
+				}
+				result = text;
+			}
+			catch (System.Exception ex)
+			{
+				result = ex.Message;
+			}
+			return result;
+		}
+
+		public bool IsReSubmit(ref HttpContext context, ref VelocityContext ctx)
+		{
+			string a = (context.Request.Cookies["token"] == null) ? string.Empty : context.Request.Cookies["token"].Value;
+			string text = Secret.MD5.Encrypt((context.Request.Form == null) ? string.Empty : context.Request.Form.ToString());
+			bool result;
+			if (a != text)
+			{
+				context.Response.Cookies["token"].Value = text;
+				result = false;
+			}
+			else
+			{
+				ctx.Put("errors", "不允许重复提交数据");
+				result = true;
+			}
+			return result;
+		}
+
+		protected string GetQueryString(string key)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			string result;
+			if (null == text)
+			{
+				result = string.Empty;
+			}
+			else
+			{
+				result = text;
+			}
+			return result;
+		}
+
+		protected int GetQueryInt(string key, int defValue)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			int result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsInteger(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				int.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected long GetQueryInt64(string key, long defValue)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			long result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsInteger(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				long.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected float GetQueryFloat(string key, float defValue)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			float result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsFloat(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				float.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected decimal GetQueryDecimal(string key, decimal defValue)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			decimal result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsDecimal(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				decimal.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected DateTime GetQueryDateTime(string key, DateTime defValue)
+		{
+			string text = HttpContext.Current.Request.QueryString[key];
+			DateTime result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsDate(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				DateTime.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected string GetFormString(string key)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			string result;
+			if (null == text)
+			{
+				result = string.Empty;
+			}
+			else
+			{
+				result = text;
+			}
+			return result;
+		}
+
+		protected long GetFormInt64(string key, long defValue)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			long result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsInteger(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				long.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected int GetFormInt(string key, int defValue)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			int result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsInteger(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				int.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected float GetFormFloat(string key, float defValue)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			float result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsFloat(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				float.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected decimal GetFormDecimal(string key, decimal defValue)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			decimal result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsDecimal(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				decimal.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected DateTime GetFormDateTime(string key, DateTime defValue)
+		{
+			string text = HttpContext.Current.Request.Form[key];
+			DateTime result;
+			if (null == text)
+			{
+				result = defValue;
+			}
+			else if (!Input.IsDate(text))
+			{
+				result = defValue;
+			}
+			else
+			{
+				DateTime.TryParse(text, out defValue);
+				result = defValue;
+			}
+			return result;
+		}
+
+		protected string GetString(string key)
+		{
+			string text = this.GetQueryString(key);
+			if (string.IsNullOrEmpty(text))
+			{
+				text = this.GetFormString(key);
+			}
+			return Input.FilterHtmlObject(text);
+		}
+
+		protected string GetStringNoSql(string key)
+		{
+			string @string = this.GetString(key);
+			return Input.loseSqlScript(@string);
+		}
+
+		protected string GetHtmlEncode(string key)
+		{
+			string text = this.GetQueryString(key);
+			if (string.IsNullOrEmpty(text))
+			{
+				text = this.GetFormString(key);
+			}
+			if (!string.IsNullOrEmpty(text))
+			{
+				text = Input.loseScript(text);
+				text = base.Server.HtmlEncode(text);
+			}
+			return text;
+		}
+
+		protected string GetUrlEncode(string key)
+		{
+			string text = this.GetQueryString(key);
+			if (string.IsNullOrEmpty(text))
+			{
+				text = this.GetFormString(key);
+			}
+			if (!string.IsNullOrEmpty(text))
+			{
+				text = Input.loseScript(text);
+				text = base.Server.UrlDecode(text);
+			}
+			return text;
+		}
+
+		protected long GetInt64(string key, long defValue)
+		{
+			long num = this.GetQueryInt64(key, defValue);
+			if (num == defValue)
+			{
+				num = this.GetFormInt64(key, defValue);
+			}
+			return num;
+		}
+
+		protected int GetInt(string key, int defValue)
+		{
+			int num = this.GetQueryInt(key, defValue);
+			if (num == defValue)
+			{
+				num = this.GetFormInt(key, defValue);
+			}
+			return num;
+		}
+
+		protected decimal GetDecimal(string key, decimal defValue)
+		{
+			decimal num = this.GetQueryDecimal(key, defValue);
+			if (num == defValue)
+			{
+				num = this.GetFormDecimal(key, defValue);
+			}
+			return num;
+		}
+
+		protected float GetFloat(string key, float defValue)
+		{
+			float num = this.GetQueryFloat(key, defValue);
+			if (num == defValue)
+			{
+				num = this.GetFormFloat(key, defValue);
+			}
+			return num;
+		}
+
+		protected DateTime GetDateTime(string key, DateTime defValue)
+		{
+			DateTime dateTime = this.GetQueryDateTime(key, defValue);
+			if (dateTime == defValue)
+			{
+				dateTime = this.GetFormDateTime(key, defValue);
+			}
+			return dateTime;
+		}
+
+		protected string GetQueryToUrlString(string filterkey)
+		{
+			filterkey = string.Format(",{0},", filterkey);
+			string text = string.Empty;
+			NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+			string[] allKeys = queryString.AllKeys;
+			for (int i = 0; i < allKeys.Length; i++)
+			{
+				string text2 = allKeys[i];
+				if (!filterkey.Contains(string.Format(",{0},", text2.ToLower())))
+				{
+					text += string.Format("&amp;{0}={1}", text2, HttpContext.Current.Server.UrlEncode(queryString[text2]));
+				}
+			}
+			return text.Substring(5);
+		}
+
+		public static void SetCookie(int userId, string userLoginName, string Password, string userName, bool isAlways)
+		{
+			BasePage.SetCookie(userId, userLoginName, userName, Password, isAlways, UiConfig.CookieDomain);
+		}
+
+		public static void SetCookie(int userId, string userLoginName, string userName, string Password, bool isAlways, string cookiesdomain)
+		{
+			HttpCookie httpCookie = new HttpCookie("PEISUserPass");
+			string text = string.Concat(new string[]
+			{
+				userId.ToString(),
+				SecretConfig.UserSeparator.ToString(),
+				Password,
+				SecretConfig.UserSeparator.ToString(),
+				Public.GetClientIP(),
+				SecretConfig.UserSeparator.ToString(),
+				Secret.MD5.Encrypt(UiConfig.CookieVerifyCode, false)
+			});
+			httpCookie["token"] = Secret.DES.Encrypt(text);
+			httpCookie["userloginname"] = Input.URLEncode(userLoginName);
+			httpCookie["username"] = Input.URLEncode(userName);
+			httpCookie.Domain = cookiesdomain;
+			httpCookie.Secure = false;
+			if (isAlways)
+			{
+				httpCookie.Expires = DateTime.Now.AddHours(12.0);
+			}
+			HttpContext.Current.Response.AppendCookie(httpCookie);
+		}
+
+		public static void SetCookie(PEIS.Model.SYSOpUser _LoginUserModel, bool isAlways, string cookiesdomain)
+		{
+			HttpCookie httpCookie = new HttpCookie("PEISUserPass");
+			string text = string.Concat(new string[]
+			{
+				_LoginUserModel.UserID.ToString(),
+				SecretConfig.UserSeparator.ToString(),
+				_LoginUserModel.LoginName,
+				SecretConfig.UserSeparator.ToString(),
+				Public.GetClientIP(),
+				SecretConfig.UserSeparator.ToString(),
+				Secret.MD5.Encrypt(UiConfig.CookieVerifyCode, false)
+			});
+			httpCookie["token"] = Secret.DES.Encrypt(text);
+			httpCookie["UserID"] = Secret.DES.Encrypt(_LoginUserModel.UserID.ToString());
+			httpCookie["DisCountRate"] = Secret.DES.Encrypt(_LoginUserModel.DisCountRate.ToString());
+			httpCookie["Sex"] = Secret.DES.Encrypt(_LoginUserModel.Sex.ToString());
+			httpCookie["SectionID"] = Secret.DES.Encrypt(_LoginUserModel.SectionID.ToString());
+			httpCookie["LastLoginTime"] = Secret.DES.Encrypt(_LoginUserModel.LastLoginTime.ToString());
+			httpCookie["LoginName"] = Secret.DES.Encrypt(_LoginUserModel.LoginName.ToString());
+			httpCookie["TotalNum"] = Secret.DES.Encrypt(_LoginUserModel.TotalNum.ToString());
+			httpCookie["OperateLevel"] = Secret.DES.Encrypt(_LoginUserModel.OperateLevel.ToString());
+			httpCookie["UserName"] = Secret.DES.Encrypt(_LoginUserModel.UserName.ToString());
+			httpCookie.Domain = cookiesdomain;
+			httpCookie.Secure = false;
+			if (isAlways)
+			{
+				httpCookie.Expires = DateTime.Now.AddHours(12.0);
+			}
+			HttpContext.Current.Response.AppendCookie(httpCookie);
+		}
+
+		public static void ClearCookie(string cookiesdomain)
+		{
+			HttpCookie httpCookie = new HttpCookie("PEISUserPass");
+			if (httpCookie["UserName"] != null && httpCookie["UserName"].ToString() != "")
+			{
+				Log4J.Instance.Error("清除Cookie用户：" + httpCookie["UserName"].ToString());
+			}
+			httpCookie["token"] = "";
+			httpCookie["ID_User"] = "";
+			httpCookie["DisCountRate"] = "";
+			httpCookie["GenderName"] = "";
+			httpCookie["ID_Section"] = "";
+			httpCookie["LastLoginTime"] = "";
+			httpCookie["LoginName"] = "";
+			httpCookie["LoginTotalNum"] = "";
+			httpCookie["OperateLevel"] = "";
+			httpCookie["RoleIDArray"] = "";
+			httpCookie["UserName"] = "";
+			httpCookie.Domain = cookiesdomain;
+			httpCookie.Secure = false;
+			HttpContext.Current.Response.AppendCookie(httpCookie);
+		}
+
+		public int GetUserID()
+		{
+			int num = 0;
+			if (this.Session["UserID"] != null)
+			{
+				num = int.Parse(this.Session["UserID"].ToString());
+			}
+			if (this.LoginUserModel == null && num > 0)
+			{
+				try
+				{
+					this.LoginUserModel = PEIS.BLL.SYSOpUser.Instance.GetModelByCache(num);
+				}
+				catch (System.Exception ex)
+				{
+					num = 0;
+					Log4J.Instance.Error("Cookie用户登录： Exception：" + ex.Message);
+				}
+			}
+			if (num <= 0)
+			{
+				if (HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("/system/index.aspx") > 0)
+				{
+					base.Response.Write("<script>location.replace('/error.htm?c=-7');</script>");
+					base.Response.End();
+				}
+				else if (HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("/ajax/ajaxuser.aspx") < 0 && HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("/system/") > 0)
+				{
+					Log4J.Instance.Error("用户未登录，跳转到登录页面，" + Public.GetClientIP());
+					base.Response.Clear();
+					base.Response.Write("<script> jQuery(document).ready(function () { ReLoginConfirm();}); </script>");
+					base.Response.End();
+				}
+				else if (HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("/ajax/ajaxuser.aspx") < 0 && HttpContext.Current.Request.Url.ToString().ToLower().IndexOf("/ajax/") > 0)
+				{
+					Log4J.Instance.Error("用户未登录，跳转到登录页面，" + Public.GetClientIP());
+					base.Response.Clear();
+					base.Response.Write("-9999");
+					base.Response.End();
+				}
+			}
+			return num;
+		}
+
+		protected void ClearCache_Section(int ID_Section)
+		{
+			string cacheKey = "SectionModel-" + ID_Section;
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+			this.ClearCache_User(ID_Section);
+			this.ClearCache_AllSection();
+		}
+
+		protected void ClearCache_AllTeam()
+		{
+			string cacheKey = "AllTeamList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllTeamTask()
+		{
+			string cacheKey = "AllTeamTaskList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllSection()
+		{
+			string cacheKey = "AllSectionList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_User(int ID_Section)
+		{
+			string cacheKey = "SectionDoctorList-" + ID_Section;
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+			this.ClearCache_AllUser();
+		}
+
+		protected void ClearCache_AllStatsUserInfo()
+		{
+			string cacheKey = "UserInfo";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllUser()
+		{
+			string cacheKey = "AllUser";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllSpecimen()
+		{
+			string cacheKey = "AllSpecimenList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllFeeReportMerger()
+		{
+			string cacheKey = "AllFeeReportMergerList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllExamType()
+		{
+			string cacheKey = "AllExamTypeList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllConclusionType()
+		{
+			string cacheKey = "AllConclusionTypeList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllFinalConclusionType()
+		{
+			string cacheKey = "AllFinalConclusionTypeList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllExamItem()
+		{
+			string cacheKey = "AllExamItemList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllFee()
+		{
+			string cacheKey = "AllFeeList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllSet()
+		{
+			string cacheKey = "AllSetList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllConclusion()
+		{
+			string cacheKey = "AllConclusionList";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_AllExamPlace()
+		{
+			string cacheKey = "AllDct";
+			object cache = DataCache.GetCache(cacheKey);
+			if (cache != null)
+			{
+				int configInt = ConfigHelper.GetConfigInt("ModelCache");
+				DataCache.DeleteCache(cacheKey);
+			}
+		}
+
+		protected void ClearCache_CustRelationCustPEInfo(object ID_Customer)
+		{
+			this.ClearCache_CustRelationCustPEInfo(ID_Customer, "", "");
+		}
+
+		protected void ClearCache_CustRelationCustPEInfo(object ID_Customer, string IDCardNo, string ExamCardNo)
+		{
+			if (ID_Customer != null)
+			{
+				string cacheKey = "CommonCustExam-CustRelationCustPEInfo-" + ID_Customer.ToString() + IDCardNo.ToString() + ExamCardNo.ToString();
+				object cache = DataCache.GetCache(cacheKey);
+				if (cache != null)
+				{
+					int configInt = ConfigHelper.GetConfigInt("ModelCache");
+					DataCache.DeleteCache(cacheKey);
+				}
+			}
+		}
+
+		protected List<PEIS.Model.SYSOpUser> GetSectionDoctorListByCache(int SectionID)
+		{
+			string cacheKey = "SectionDoctorList-" + SectionID.ToString();
+			object obj = DataCache.GetCache(cacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					string querySqlCode = "QuerySectionExamDoctorList_Param";
+					SqlConditionInfo[] conditions = new SqlConditionInfo[]
+					{
+						new SqlConditionInfo("@SectionID", SectionID, System.TypeCode.Int32)
+					};
+					obj = PEIS.BLL.SYSOpUser.Instance.DataTableToList(CommonUser.Instance.ExcuteQuerySql(querySqlCode, conditions).Tables[0]);
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						DataCache.SetCache(cacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (List<PEIS.Model.SYSOpUser>)obj;
+		}
+
+		protected List<PEIS.Model.SYSOpUser> GetAllUserModelListByCache()
+		{
+			string cacheKey = "AllUser";
+			object obj = DataCache.GetCache(cacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					obj = PEIS.BLL.SYSOpUser.Instance.DataTableToList(PEIS.BLL.SYSOpUser.Instance.GetAllList().Tables[0]);
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						DataCache.SetCache(cacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (List<PEIS.Model.SYSOpUser>)obj;
+		}
+
+		protected DataTable GetAllSumRegistCache()
+		{
+			string sql = string.Format("SELECT SubScribDate,Is_Subscribed,COUNT(0) Num,Is_Team FROM OnCustPhysicalExamInfo WHERE  SubScribDate>=GETDATE() GROUP BY SubScribDate,Is_Subscribed,Is_Team", new object[0]);
+			object obj = DataCache.GetCache(this.CacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					obj = CommonExcuteSql.Instance.ExcuteSql(sql).Tables[0];
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						DataCache.SetCache(this.CacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (DataTable)obj;
+		}
+
+		protected void SetAllSumRegistCache(DataTable dt)
+		{
+			int configInt = ConfigHelper.GetConfigInt("ModelCache");
+			DataCache.SetCache(this.CacheKey, dt, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+		}
+
+		protected void AddRegistCache(DateTime date, int Is_Subscribed, int Is_Team)
+		{
+			lock (this.obj)
+			{
+				DataTable allSumRegistCache = this.GetAllSumRegistCache();
+				DataRow[] array = allSumRegistCache.Select(string.Concat(new object[]
+				{
+					"SubScribDate='",
+					date.ToString("yyyy-MM-dd"),
+					"' AND Is_Subscribed='",
+					Is_Subscribed,
+					"' AND Is_Team=",
+					Is_Team
+				}));
+				if (array.Length > 0)
+				{
+					DataRow dataRow = array[0];
+					dataRow.BeginEdit();
+					dataRow["Num"] = int.Parse(dataRow["Num"].ToString()) + 1;
+					dataRow.EndEdit();
+				}
+				else
+				{
+					DataRow dataRow = allSumRegistCache.NewRow();
+					dataRow["SubScribDate"] = date.ToString("yyyy-MM-dd");
+					dataRow["Is_Subscribed"] = Is_Subscribed;
+					dataRow["Is_Team"] = Is_Team;
+					dataRow["Num"] = 1;
+					allSumRegistCache.Rows.Add(dataRow);
+				}
+				this.SetAllSumRegistCache(allSumRegistCache);
+			}
+		}
+
+		public int AddOrUpdateByBackLogType(long ID_Customer, EnumBusBackLogType enumBusBackLogType, bool Is_Finished, ExternByUpdateRegisteType ExternByUpdateRegisteTypeModel = null)
+		{
+			int result = 0;
+			string text = "";
+			try
+			{
+				PEIS.Model.OnCustBackLog onCustBackLog = new PEIS.Model.OnCustBackLog();
+				onCustBackLog.ID_Customer = long.Parse(ID_Customer.ToString());
+				onCustBackLog.ID_BackLogType = (int)enumBusBackLogType;
+				onCustBackLog.CreateDate = DateTime.Now;
+				onCustBackLog.OperateDate = onCustBackLog.CreateDate;
+				onCustBackLog.Is_Finished = new bool?(Is_Finished);
+				onCustBackLog.ID_Operator = this.GetUserID();
+				onCustBackLog.Operator = this.LoginUserModel.UserName;
+				onCustBackLog.ExternByUpdateRegisteType = ExternByUpdateRegisteTypeModel;
+				text = enumBusBackLogType.ToString();
+				result = new PEIS.BLL.OnCustBackLog().AddOrUpdateByBackLogType(onCustBackLog);
+				Log4J.Instance.Info(string.Concat(new object[]
+				{
+					Public.GetClientIP(),
+					",体检号：",
+					ID_Customer,
+					",类型：【",
+					text.ToString(),
+					"】，操作人：",
+					this.LoginUserModel.UserName,
+					",成功写入积案日志记录"
+				}));
+			}
+			catch (System.Exception ex)
+			{
+				Log4J.Instance.Info(string.Concat(new object[]
+				{
+					Public.GetClientIP(),
+					",体检号：",
+					ID_Customer,
+					",类型：【",
+					text.ToString(),
+					"】，操作人：",
+					this.LoginUserModel.UserName,
+					",写入积案日志记录失败,失败原因:",
+					ex.Message
+				}));
+			}
+			return result;
+		}
+
+		public int AddOrUpdateByBackLogTypeOfRegiste(long ID_Customer, EnumBusBackLogType enumBusBackLogType, bool Is_Finished, DateTime RegeisteDate)
+		{
+			int result = 0;
+			string text = "";
+			try
+			{
+				PEIS.Model.OnCustBackLog onCustBackLog = new PEIS.Model.OnCustBackLog();
+				onCustBackLog.ID_Customer = long.Parse(ID_Customer.ToString());
+				onCustBackLog.ID_BackLogType = (int)enumBusBackLogType;
+				onCustBackLog.CreateDate = DateTime.Now;
+				onCustBackLog.OperateDate = RegeisteDate;
+				onCustBackLog.Is_Finished = new bool?(Is_Finished);
+				onCustBackLog.ID_Operator = this.GetUserID();
+				onCustBackLog.Operator = this.LoginUserModel.UserName;
+				text = enumBusBackLogType.ToString();
+				result = new PEIS.BLL.OnCustBackLog().AddOrUpdateByBackLogType(onCustBackLog);
+				Log4J.Instance.Info(string.Concat(new object[]
+				{
+					Public.GetClientIP(),
+					",体检号：",
+					ID_Customer,
+					",类型：【",
+					text.ToString(),
+					"】，操作人：",
+					this.LoginUserModel.UserName,
+					",成功写入积案日志记录"
+				}));
+			}
+			catch (System.Exception ex)
+			{
+				Log4J.Instance.Info(string.Concat(new object[]
+				{
+					Public.GetClientIP(),
+					",体检号：",
+					ID_Customer,
+					",类型：【",
+					text.ToString(),
+					"】，操作人：",
+					this.LoginUserModel.UserName,
+					",写入积案日志记录失败,失败原因:",
+					ex.Message
+				}));
+			}
+			return result;
+		}
+	}
+}

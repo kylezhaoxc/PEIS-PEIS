@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+    <script src="$!{templatepath}/js/JS_DiscountSearchWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="divHidTemplate" style="display: none;">
+        <!--检查数量统计模板 Begin-->
+        <table id="DiscountSearchWorkLoadTemplate0">
+            <tbody>
+                <tr>
+                    <td>
+                        @Index
+                    </td>
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td>
+                        @FeeItemName
+                    </td>
+                    <td>
+                        @RegisterName
+                    </td>
+                    <td>
+                        @FeeChargeDate
+                    </td>
+                    <td>
+                        @OriginalPrice
+                    </td>
+                    <td>
+                        @Discount
+                    </td>
+                    <td>
+                        @FactPrice
+                    </td>
+                    <td>
+                        @DisterName
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="DiscountSearchWorkLoadTemplate1">
+            <tbody>
+                <tr>
+                    <td>
+                        @Index
+                    </td>
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td>
+                        @FeeItemName
+                    </td>
+                    <td>
+                        @RegisterName
+                    </td>
+                    <td>
+                        @FeeChargeDate
+                    </td>
+                    <td>
+                        @OriginalPrice
+                    </td>
+                    <td>
+                        @Discount
+                    </td>
+                    <td>
+                        @FactPrice
+                    </td>
+                    <td>
+                        @DisterName
+                    </td>
+                    <td>
+                        @FeeWayName
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--检查数量统计模板 End-->
+    </div>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;$!{pageTitle}</div>
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        日期：</label>
+                    <div class="query-controls">
+                        <input id="BeginExamDate" class="Wdate span100" name="BeginExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                            type="text" value="${today}" />
+                        至
+                        <input id="EndExamDate" class="Wdate span100" name="EndExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                            type="text" value="${today}" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" name="btnSearch" type="button" class="button80" value=" 查  询(F4) "
+                            onclick="GetDiscountSearchWorkLoad();" />
+                        <input id="btnExport" name="btnExport" type="button" class="button80" value=" 导  出 "
+                            onclick="OutToExcel();" />
+                        <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <div style="overflow: scroll;">
+                    <div style="height: 600px;">
+                        <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                            <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                                <tr>
+                                    <td style="min-width: 40px;">
+                                        序号
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        体检号
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        收费项目
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        登记人
+                                    </td>
+                                    <td style="min-width: 120px;">
+                                        收费时间
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        原价
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        折扣率
+                                    </td>
+                                    <td style="min-width: 50px;">
+                                        折扣价
+                                    </td>
+                                    <td style="min-width: 60px;">
+                                        折扣人
+                                    </td>
+                                    <td id="tdFeeWayName" style="min-width: 60px; display: none;">
+                                        收费类型
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="Searchresult">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="pagination" id="PaginationOld">
+                    <ul id="Pagination">
+                    </ul>
+                </div>
+            </div>
+            <div id="divLoadCustomerReport" style="display: none;">
+            </div>
+        </div>
+        $!{HiddenInputQueryString}
+    </div>
+</body>
+</html>

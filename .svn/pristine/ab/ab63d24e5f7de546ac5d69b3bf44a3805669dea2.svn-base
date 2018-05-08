@@ -1,0 +1,143 @@
+﻿
+#tblTeamTaskGroupCustomer tbody tr td input
+{
+    width: 60px;
+}
+div span
+{
+    float: right;
+}
+
+.showQueryTeamClass .QueryTeamClass
+{
+    display: block;
+}
+
+.hideQueryTeamClass .QueryTeamClass, #hidDiv
+{
+    display: none;
+}
+
+#tblTeamTaskGroupX tbody tr .dafultSelect
+{
+    width: 60px;
+}
+#tblTeamTaskGroupX tbody tr td .select
+{
+    width: 120px;
+}
+#tblTeamTaskGroupX tbody tr td .select_max
+{
+    width: 150px;
+}
+
+#tblTeamTaskGroupX tbody tr td .input_middle
+{
+    width: 100px;
+}
+#tblTeamTaskGroupX tbody tr td .input_min
+{
+    width: 50px;
+}
+
+#tblTeamTaskGroupCustomerX tbody tr td .input_defalut
+{
+    width: 50px;
+}
+#tblTeamTaskGroupCustomerX tbody tr td .input_middle
+{
+    width: 100px;
+}
+#tblTeamTaskGroupCustomerX tbody tr td .input_min
+{
+    width: 20px;
+}
+
+#hidDiv
+{
+    display: none;
+}
+.NewXM
+{
+    background-color: #e3e3e3;
+}
+.DefaultXM
+{
+    color: Black;
+}
+.tblExtern
+{
+    text-align: right;
+    height: 15px;
+    width: 100%;
+    background-color: Gray;
+}
+.divOperate
+{
+    text-align: center;
+    padding: 8px;
+    float: right;
+    height: 30px;
+}
+#hidDiv
+{
+    display: none;
+}
+.NewXM
+{
+    background-color: #e3e3e3;
+}
+/*被搜索到的样式*/
+.externSearch
+{
+    background-color: Aqua; /*background-color: #27a9e3;*/
+    color: Red;
+}
+/*被选中的样式*/
+.externSelect
+{
+    background-color: Green; /*background-color: #27a9e3;*/
+    color: Blue;
+}
+
+/*****付费项目样式********/
+.CustFeeChargeState
+{
+    background-color: #999999; /*background-color: #27a9e3;*/
+    color: red;
+}
+#lblSumHeaderX
+{
+    font-size: 18px;
+    color: Red;
+}
+.ErrorMessageX
+{
+    background-color: Yellow;
+}
+.ErrorMessage
+{
+    color: Red;
+}
+.NoErrorMessage
+{
+    color: Black;
+}
+.headPic
+{
+    width: 100px;
+    height: 120px;
+}
+.select_max
+{
+    width: 150px;
+}
+
+.ExamStarted
+{
+    color: Blue;
+}
+.NotExamStarted
+{
+    color: Black;
+}

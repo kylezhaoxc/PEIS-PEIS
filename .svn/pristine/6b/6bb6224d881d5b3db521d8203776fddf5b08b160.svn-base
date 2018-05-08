@@ -1,0 +1,325 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link rel="stylesheet" href="/template/blue/css/common.css" />
+    <link rel="stylesheet" href="/template/blue/css/right.css" />
+    <link rel="stylesheet" href="/template/blue/css/dialogcss.css" />
+    <script src="/template/blue/js/jquery.min.js"></script>
+    <script src="/template/blue/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="/template/blue/js/artDialog4.1.7/artDialog.source.js?skin=default"></script>
+    <script src="/template/blue/js/Commom.js" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript">
+        var CreateDate = "$!{CreateDate}"; //创建日期
+        var Creator = "$!{Creator}"; //创建者
+        var ID_Creator = "$!{ID_Creator}"; //创建者
+        var ID_Team = "$!{ID_TeaM}"; //创建者
+
+        /// <summary>
+        /// 关闭弹出窗口
+        /// </summary>
+        function CloseDialogWindow() {
+            parent.art.dialog.get('OperWindowFrame').close(); return false;
+            parent.art.dialog.confirm("您确认不保存编辑项目就关闭本页面吗？", function () {
+                //这里执行关闭
+                parent.art.dialog.get('OperWindowFrame').close();
+            }, function () {
+                this.focus();
+                //这里执行保存后关闭
+                SaveTeamTask(0);
+                parent.art.dialog.get('OperWindowFrame').close();
+            });
+        }
+    </script>
+    <script src="$!{templatepath}/js/JS_TeamOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <!--页面模版 Begin-->
+    <div id="divTemplate" style="display: none;">
+        <table id="TeamTaskTemplate_Add">
+            <tbody>
+                <tr>
+                    <td class="text_right width100">
+                        &nbsp;&nbsp;&nbsp;&nbsp;任务ID：
+                    </td>
+                    <td class="width200">
+                        <label id="lblID_TeamTask" name="lblID_TeamTask">
+                            &nbsp;******</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;任务名称：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtMyTeamTaskName" id='txtMyTeamTaskName' maxlength="25"
+                            value="$!{TeamTaskName}" required="Required" emptymessage="团体任务名称不允许为空！" errormessage="团体任务名称不允许为空！" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;开始日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" id="txtTaskExamStartDate" name="txtTaskExamStartDate"
+                            value="$!{TaskExamStartDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;结束日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" id="txtTaskExamEndDate" name="txtTaskExamEndDate" value="$!{TaskExamEndDate}"
+                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" type="text" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;体检人数：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" maxlength="4" name="txtTaskNumCount" id="txtTaskNumCount"
+                            value="$!{TaskNumCount}" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;&nbsp;&nbsp;&nbsp;联系人：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" maxlength="15" name="txtContact" id="txtContact" value="$!{Contact}" /><label
+                            class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;联系电话：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" maxlength="15" name="txtTel" id="txtTel" value="$!{Tel}" /><label
+                            class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;&nbsp;&nbsp;&nbsp;创建人：
+                    </td>
+                    <td>
+                        &nbsp;<label id="lblCreator">$!{Creator}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;创建时间：
+                    </td>
+                    <td>
+                        &nbsp;<label id="lblCreateDate">$!{CreateDate}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <!-- <input id="btnAdd" name="btnAdd" type="button" class="button80" value=" 新  增 " onclick="AddNewTeamTask();" />-->
+                        <input id="Button1" name="btnSave" type="button" class="button80" value=" 保存&关闭 "
+                            onclick="SaveTeamTask(1);" />
+                        <input id="btnSave" name="btnSave" type="button" class="button80" value=" 保存&继续 "
+                            onclick="SaveTeamTask(0);" />
+                        <input id="btnClose" name="btnClose" type="button" class="button80" value=" 关  闭 "
+                            onclick="CloseDialogWindow();" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table id="TeamTaskTemplate_Edit">
+            <tbody>
+                <tr>
+                    <td class="text_right width100">
+                        &nbsp;&nbsp;任务ID：
+                    </td>
+                    <td class="width200">
+                        <label id="lblID_TeamTask" name="lblID_TeamTask">
+                            &nbsp;$!{ID_TeamTask}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;任务名称：
+                    </td>
+                    <td>
+                        &nbsp;<label name='txtMyTeamTaskName'>$!{TeamTaskName}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;开始日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" name="txtTaskExamStartDate" name="TaskExamStartDate"
+                            value="$!{TaskExamStartDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;结束日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" name="txtTaskExamEndDate" name="TaskExamEndDate" value="$!{TaskExamEndDate}"
+                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" type="text" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;体检人数：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtTaskNumCount" value="$!{TaskNumCount}" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" /><label
+                            class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;&nbsp;联系人：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtContact" value="$!{Contact}" /><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;联系电话：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtTel" value="$!{Tel}" /><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;&nbsp;创建人：
+                    </td>
+                    <td>
+                        &nbsp;<label name="lblCreator">$!{Subscriber}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_right">
+                        &nbsp;创建时间：
+                    </td>
+                    <td>
+                        &nbsp;<label name="lblCreateDate">$!{CreateDate}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <!--<input name="btnAdd" type="button" class="button80" value=" 新增任务 " onclick="AddNewTeamTask();" />-->
+                        <input name="btnSave" type="button" class="button80" value=" 保   存 " onclick="SaveTeamTask(2);" />
+                        <input name="btnClose" type="button" class="button80" value=" 关  闭 " onclick="CloseDialogWindow();" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--页面模版 End-->
+    <div class="content">
+        <table id="TeamTaskEditList">
+            <tbody>
+                <tr>
+                    <td class="text_Left width100">
+                        &nbsp;&nbsp;&nbsp;任务ID：
+                    </td>
+                    <td class="width200">
+                        <label id="lblID_TeamTask" name="lblID_TeamTask">
+                            &nbsp;$!{ID_TeamTask}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;任务名称：
+                    </td>
+                    <td>
+                        &nbsp;<label name='txtMyTeamTaskName'>$!{TeamTaskName}</label>
+                        <label class="lblRequired">
+                            *</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;开始日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" name="txtTaskExamStartDate" name="TaskExamStartDate"
+                            value="$!{TaskExamStartDate}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_left">
+                        &nbsp;结束日期：
+                    </td>
+                    <td>
+                        &nbsp;<input class="default" name="txtTaskExamEndDate" name="TaskExamEndDate" value="$!{TaskExamEndDate}"
+                            onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate" type="text" /><label
+                                class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;体检人数：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtTaskNumCount" value="$!{TaskNumCount}" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" /><label
+                            class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;&nbsp;&nbsp;&nbsp;联系人：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtContact" value="$!{Contact}" /><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;联系电话：
+                    </td>
+                    <td>
+                        &nbsp;<input type="text" name="txtTel" value="$!{Tel}" /><label class="lblRequired">*</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;&nbsp;&nbsp;&nbsp;创建人：
+                    </td>
+                    <td>
+                        &nbsp;<label name="lblCreator">$!{Creator}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text_Left">
+                        &nbsp;创建时间：
+                    </td>
+                    <td>
+                        &nbsp;<label name="lblCreateDate">$!{CreateDate}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <input name="btnAdd" type="button" class="button80" value=" 新  增 " onclick="AddNewTeamTask();" />
+                        <input name="btnSave" type="button" class="button80" value=" 保  存 " onclick="SaveTeamTask(0);" />
+                        <input name="btnClose" type="button" class="button80" value=" 关  闭 " onclick="SureColse();" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id='hidDiv'>
+            $!{HiddenInputQueryString}
+        </div>
+    </div>
+</body>
+</html>

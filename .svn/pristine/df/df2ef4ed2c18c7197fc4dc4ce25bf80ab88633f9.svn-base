@@ -1,0 +1,309 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 科室ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Section" id="ID_Section" value="$!{ID_Section}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+
+    <input type="hidden" name="txtIs_NonFunction" id="txtIs_NonFunction" value="$!{Is_NonFunction}" /><!-- 非功能科室 -->
+    <input type="hidden" name="txtIs_AutoApprove" id="txtIs_AutoApprove" value="$!{Is_AutoApprove}" /><!-- 自动审核 -->
+    <input type="hidden" name="txtIs_OwnInterface" id="txtIs_OwnInterface" value="$!{Is_OwnInterface}" /><!-- 有接口 -->
+    <input type="hidden" name="txtInterfaceType" id="txtInterfaceType" value="$!{InterfaceType}" /><!-- 接口类型 -->
+    <input type="hidden" name="txtImageType" id="txtImageType" value="$!{ImageType}" /><!-- 影像类型 -->
+    <input type="hidden" name="txtIs_NonPrintSectSummary" id="txtIs_NonPrintSectSummary" value="$!{Is_NonPrintSectSummary}" /><!-- 小结是否打印 -->
+    <input type="hidden" name="txtIs_NotSamePage" id="txtIs_NotSamePage" value="$!{Is_NotSamePage}" /><!-- 报告打印方式 -->
+    <input type="hidden" name="txtPicPrintSetup" id="txtPicPrintSetup" value="$!{PicPrintSetup}" /><!-- 图片打印设置 -->
+    <input type="hidden" name="txtIs_NoEntryFinalSummary" id="txtIs_NoEntryFinalSummary" value="$!{Is_NoEntryFinalSummary}" /><!-- 不进入总检综述 -->
+    <input type="hidden" name="txtIs_NonPrintInReport" id="txtIs_NonPrintInReport" value="$!{Is_NonPrintInReport}" /><!-- 不打报告 -->
+            
+    <input type="hidden" name="txtIs_Banned" id="txtIs_Banned" value="$!{Is_Banned}" />
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">科室名称：</td>
+                <td class="inputtext"><input class="width300" name="txtSectionName" id="txtSectionName" maxlength="50" value="$!{SectionName}" /> </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">非功能科室：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_NonFunction" id="radioIs_NonFunction00" value="0"  checked="checked"/> <label for="radioIs_NonFunction00">不是 </label> 
+                    <input type="radio" name="radioIs_NonFunction" id="radioIs_NonFunction01" value="1" /> <label for="radioIs_NonFunction01">是 </label> 
+
+                </td>
+            </tr>
+           
+            <tr>
+                <td class="inputtitle">自动审核：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_AutoApprove" id="radioIs_AutoApprove00" value="0"  checked="checked"/> <label for="radioIs_AutoApprove00">不是 </label> 
+                    <input type="radio" name="radioIs_AutoApprove" id="radioIs_AutoApprove01" value="1" /> <label for="radioIs_AutoApprove01">自动 </label> 
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">有接口：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input type="radio" name="radioIs_OwnInterface" id="radioIs_OwnInterface00" value="0" /> <label for="radioIs_OwnInterface00">没有 </label> 
+                    <input type="radio" name="radioIs_OwnInterface" id="radioIs_OwnInterface01" value="1"  checked="checked"/> <label for="radioIs_OwnInterface01">有 </label> 
+                    </span>
+                    <span id="isShowInterfaceType" style="float:left; padding-left:45px; ">
+                    接口类型：<select name="selInterfaceType" class="width100" id="selInterfaceType" maxlength="50" >
+                        <option selected="selected" value="">请选择</option>
+                        <option value="FEE">FEE</option>
+                        <option value="LAB">LAB</option>
+                        <option value="PACS">PACS</option>
+                        <option value="IFYH">IFYH</option>
+                    </select>
+                    
+                    </span>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">接口标志：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtPacsInterfaceFlag" class="width100" id="txtPacsInterfaceFlag" maxlength="8" value="$!{PacsInterfaceFlag}" /> 
+                    </span>
+                    <span style="float:left; padding-left:39px; ">
+                    影像类型：<select name="selImageType" class="width100" id="selImageType">
+                        <option value="">无</option>
+                        <option value="CT">CT</option>
+                        <option value="US">US</option>
+                        <option value="XR">XR</option>
+                    </select>
+                     
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">小结是否打印：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_NonPrintSectSummary" id="radioIs_NonPrintSectSummary00" value="0"  checked="checked"/> <label for="radioIs_NonPrintSectSummary00">打印 </label> 
+                    <input type="radio" name="radioIs_NonPrintSectSummary" id="radioIs_NonPrintSectSummary01" value="1" /> <label for="radioIs_NonPrintSectSummary01">不打印 </label> 
+                </td>
+            </tr>
+             
+            <tr>
+                <td class="inputtitle">报告打印方式：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_NotSamePage" id="radioIs_NotSamePage00" value="0"  checked="checked"/> <label for="radioIs_NotSamePage00">默认 </label> 
+                    <input type="radio" name="radioIs_NotSamePage" id="radioIs_NotSamePage01" value="1" /> <label for="radioIs_NotSamePage01">独立页面 </label> 
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">图片打印设置：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioPicPrintSetup" id="radioPicPrintSetup00" value="FullPage"  checked="checked"/> <label for="radioPicPrintSetup00">整页 </label> 
+                    <input type="radio" name="radioPicPrintSetup" id="radioPicPrintSetup01" value="HalfPage" /> <label for="radioPicPrintSetup01">半页 </label> 
+                    <input type="radio" name="radioPicPrintSetup" id="radioPicPrintSetup02" value="" /> <label for="radioPicPrintSetup02">默认 </label> 
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">小结命名：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtSummaryName" class="width100" id="txtSummaryName" maxlength="50" value="$!{SummaryName}" />  
+                    </span>
+                    <span style="float:left; padding-left:39px; ">
+                    排列顺序：<input name="txtDispOrder" class="width100" id="txtDispOrder" maxlength="50" value="$!{DispOrder}" /> 
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="inputtitle">缺省小结：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35" name="txtDefaultSummary" id="txtDefaultSummary">$!{DefaultSummary}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">项目分隔符：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtSepBetweenExamItems" class="width100"  id="txtSepBetweenExamItems" maxlength="50" value="$!{SepBetweenExamItems}" /> 
+                    </span>
+                    <span style="float:left; padding-left:16px; ">
+                    体征词分隔符：<input name="txtSepBetweenSymptoms" class="width100"  id="txtSepBetweenSymptoms" maxlength="50" value="$!{SepBetweenSymptoms}" /> 
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">项目终结符：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtTerminalSymbol" class="width100"  id="txtTerminalSymbol" maxlength="50" value="$!{TerminalSymbol}" />  
+                    </span>
+                    <span style="float:left; padding-left:28px; ">
+                    小结分隔符：<input name="txtSepExamAndValue" class="width100"  id="txtSepExamAndValue" maxlength="50" value="$!{SepExamAndValue}" />
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">项目序号：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtNoBetweenExamItems" class="width100"  id="txtNoBetweenExamItems" maxlength="50" value="$!{NoBetweenExamItems}" /> 
+                    </span>
+                    <span style="float:left; padding-left:28px; ">
+                    体征词序号：<input name="txtNoBetweenSympotms" class="width100"  id="txtNoBetweenSympotms" maxlength="50" value="$!{NoBetweenSympotms}" /> 
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">不进入总检综述：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input type="radio" name="radioIs_NoEntryFinalSummary" id="radioIs_NoEntryFinalSummary00" value="1"/> <label for="radioIs_NoEntryFinalSummary00">不进入 </label> 
+                    <input type="radio" name="radioIs_NoEntryFinalSummary" id="radioIs_NoEntryFinalSummary01" value="0" checked="checked"/> <label for="radioIs_NoEntryFinalSummary01">进入 </label> 
+                    </span>
+                    <span style="float:left; padding-left:20px; ">
+                    所属菜单：<input name="txtDisplayMenu" class="width100"  id="txtDisplayMenu" maxlength="40" value="$!{DisplayMenu}" /> 
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">不打报告：</td>
+                <td class="inputtext">
+                
+                    <span style="float:left;">
+                    <input type="radio" name="radioIs_NonPrintInReport" id="radioIs_NonPrintInReport00" value="1"/> <label for="radioIs_NonPrintInReport00">不打印 </label> 
+                    <input type="radio" name="radioIs_NonPrintInReport" id="radioIs_NonPrintInReport01" value="0"  checked="checked" /> <label for="radioIs_NonPrintInReport01">打印 </label> 
+                    </span>
+                    <span style="float:left; padding-left:20px; ">
+                    是否禁用：<input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /><label for="radioIs_Banned01">正常</label>
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /><label for="radioIs_Banned02">禁用</label>  
+                    </span>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">备注：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtNote" id="txtNote">$!{Note}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+
+                
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveSectionInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveSectionInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+        <tbody id="SectionQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                    value="@ID_Section"
+                    SectionName="@SectionName"  />
+                </td>
+                <td>@SectionName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySectionQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="SpecimenQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkSpecimenQueryList" id="chkSpecimen_@ID_Specimen" 
+                    value="@ID_Specimen"
+                    SpecimenName="@SpecimenName"  />
+                </td>
+                <td>@SpecimenName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySpecimenQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关标本，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+      </table>
+      
+      <div id="UserSelectedSectionItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSection();"> × </a> @SectionName 
+        
+      </div>
+      
+      <div id="UserSelectedSpecimenItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSpecimen();"> × </a> @SpecimenName 
+        
+      </div>
+      
+</body>
+
+</html>
+
+<script>
+
+
+    jQuery(document).ready(function () {
+
+        // 是否允许自动计算
+        jQuery("input[name='radioIs_OwnInterface']").change(function () {
+            jQuery("input[name='radioIs_OwnInterface']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#isShowInterfaceType").hide();
+                } else {
+                    jQuery("#isShowInterfaceType").show();
+                }
+            });
+        });
+
+        // 科室编辑操作时，初始化页面数据
+        InitSectionEditData();
+    });
+
+</script>
+
+

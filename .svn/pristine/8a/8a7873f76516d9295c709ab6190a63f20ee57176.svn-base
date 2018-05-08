@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_TeamWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="AllConclusionWorkLoadTemplate">
+                <tbody>
+                    <tr>
+                        <td>
+                            @index
+                        </td>
+                        <td class="project-align-left" title="@DiagnoseType">
+                            <div class="nowrap" style="width: 100%;">
+                                @DiagnoseType</div>
+                        </td>
+                        <td class="project-align-left" title="@TeamConclusionName">
+                            <div class="nowrap" style="width: 100%;">
+                                @TeamConclusionName</div>
+                        </td>
+                        <td class="project-align-left" title="@ConclusionName">
+                            <div class="nowrap" style="width: 100%;">
+                                @ConclusionName</div>
+                        </td>
+                        <td>
+                            @ID_Customer
+                        </td>
+                        <td class="project-align-left">
+                            @CustomerName
+                        </td>
+                        <td>
+                            @GenderName
+                        </td>
+                        <td>
+                            @Age
+                        </td>
+                        <td class="project-align-left" title="@Department">
+                            <div class="nowrap" style="width: 100%;">
+                                @Department</div>
+                        </td>
+                        <td class="project-align-left" title="@DepartSubA">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubA</div>
+                        </td>
+                        <td class="project-align-left" title="@DepartSubB">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubB</div>
+                        </td>
+                        <td class="project-align-left" title="@DepartSubC">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubC</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--检查数量统计模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>     <div class="oper-right">
+            </div><div class="oper-bg1">
+                <span>团体名称：</span> <span class="search-ttmc" style="width: 310px">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 270px;">
+                        <span id="spanTeam">
+                            <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border: 0px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span><span>任务名称：</span> <span class="search-ttmc">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 180px;">
+                        <span id="spanTeamTask">
+                            <input type="hidden" name="tempSelectedTeamTaskID" id="tempSelectedTeamTaskID" value="" />
+                            <input type="text" class="QuickQueryShowBox" name="txtTeamTaskInputCode" id="txtTeamTaskInputCode"
+                                onkeyup="QuickQueryTeamTaskTableData_Ajax();" onchange="QuickQueryTeamTaskTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTaskTableData_Ajax();"
+                                maxlength="50" value="" style="border: 0px;" /></span> <span id="spanSelectTeamTask"
+                                    style="display: none;">-- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeamTask').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeamTask" id="idSelectTeamTask" value="" />
+                            <input type="hidden" name="nameSelectTeamTask" id="nameSelectTeamTask" value="" />
+                            <div id="QuickQueryTeamTaskTable" class="QuickQueryList" style="margin-left: -5px;
+                                margin-top: 23px; width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体任务
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTaskTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体任务，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamTaskColse" onclick="ShowHideQuickQueryTeamTaskTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamTaskSure" onclick="SelectTeamTaskDataList();TeamTaskCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span>
+                <div style="display: none;">
+                    <span class="search-4"></span><span>&nbsp;日期：</span> <span class="search-3">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" class="datemaxselect"
+                            value="${today}" />
+                    </span><span>&nbsp;至&nbsp;</span> <span class="search-3">
+                        <input type="text" id="EndExamDate" name="EndExamDate" class="datemaxselect"
+                            value="${today}" />
+                    </span>
+                </div>
+            </div>
+            <div class="oper-bg">
+                
+                <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);" id="btnExport"
+                    name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="GetAllConclusionWorkLoad();">
+                            查询</a></span><a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+       
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                             <col style="width: 35px" />
+                            <col style="width: 12%" />
+                            <col style="width: 12%" />
+                            <col style="width: 12%" />
+                            <col style="width: 11%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 12%" />
+                            <col style="width: 8%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                结论类型
+                            </th>
+                            <th>
+                                团体结论词
+                            </th>
+                            <th>
+                                结论词
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                年龄
+                            </th>
+                            <th>
+                                部门
+                            </th>
+                            <th>
+                                二级部门
+                            </th>
+                            <th>
+                                三级部门
+                            </th>
+                            <th>
+                                四级部门
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330"
+                    data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                                  <col style="width: 35px" />
+                            <col style="width: 12%" />
+                            <col style="width: 12%" />
+                            <col style="width: 12%" />
+                            <col style="width: 11%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 12%" />
+                            <col style="width: 8%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+   
+</script>

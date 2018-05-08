@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{9D28201B-34CD-4A3E-BEAE-20318CBF3D5C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>PEIS.DBUtility</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>C:\Users\xjjw\Desktop\web\bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PEIS.Common">
+      <HintPath>..\Web\bin\PEIS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>C:\Users\xjjw\Desktop\web\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="log4net">
+      <HintPath>C:\Users\xjjw\Desktop\web\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PEIS.DBUtility\CommandInfo.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperMySQL.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperOleDb.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperOra.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperSQL.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperSQLite.cs" />
+    <Compile Include="PEIS.DBUtility\DbHelperSQLP.cs" />
+    <Compile Include="PEIS.DBUtility\DESEncrypt.cs" />
+    <Compile Include="PEIS.DBUtility\EffentNextType.cs" />
+    <Compile Include="PEIS.DBUtility\OracleHelper.cs" />
+    <Compile Include="PEIS.DBUtility\PubConstant.cs" />
+    <Compile Include="PEIS.DBUtility\SqlHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

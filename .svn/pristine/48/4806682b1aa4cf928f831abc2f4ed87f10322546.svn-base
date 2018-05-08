@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>数据字典-ICD10维护</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>ICD：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" class="input-3" onfocus="this.select();" onkeydown="if(IsEnterKeyDown() == true) { ICDKeywordsSearch();}"
+                            id="txtSearchICDKeyword" name="txtSearchICDKeyword" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg"><span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" onclick="ICDKeywordsSearch();">
+                    查询</a></span> <span class="buttom-sq float-right" title="修改"><a href="javascript:void(0);"
+                        onclick="OpenEditICDWindow();">修改</a></span> <span class="buttom-tj-s float-right"
+                            title="新增"><a href="javascript:void(0);" onclick="OpenICDOperWindow();">新增</a></span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 13%" />
+                            <col style="width: 13%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 4%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                ICD中文名称
+                            </th>
+                            <th>
+                                ICD英文名称
+                            </th>
+                            <th>
+                                ICD编码
+                            </th>
+                            <th>
+                                ICDa编码
+                            </th>
+                            <th>
+                                级别A
+                            </th>
+                            <th>
+                                树级别
+                            </th>
+                            <th>
+                                类型
+                            </th>
+                            <th>
+                                标签
+                            </th>
+                            <th>
+                                隶属科室
+                            </th>
+                            <th>
+                                禁用
+                            </th>
+                            <th>
+                                禁用人
+                            </th>
+                            <th>
+                                禁用时间
+                            </th>
+                            <th>
+                                禁用说明
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330" data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 13%" />
+                            <col style="width: 13%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 4%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <table style="display: none;">
+
+        <script type="text/plain" id="ICDListItemTemplete">
+            <tr onclick="SetICDChecked('@ID_ICD')" ondblclick="OpenEditICDWindow();" >
+            <td><input id="rdiICD_@ID_ICD" title="" type="radio" name='ICDRadio' value="@ID_ICD" /></td>
+            <td class="project-align-left" id="ICDCNName_@ID_ICD" title="@ICDCNName"><div class="nowrap" style="width:100%;">@ICDCNName&nbsp;</div></td>
+            <td class="project-align-left" id="ICDENName_@ID_ICD" title="@ICDENName"><div class="nowrap" style="width:100%;">@ICDENName&nbsp;</div></td>
+            <td class="project-align-left" id="Code_@ID_ICD" title="@CodeBase"><div class="nowrap" style="width:100%;">@CodeBase&nbsp;</div></td>
+            <td class="project-align-left" id="Codea_@ID_ICD" title="@Codea"><div class="nowrap" style="width:100%;">@Codea&nbsp;</div></td>
+            <td class="project-align-left" id="LevelA_@ID_ICD" title="@LevelA"><div class="nowrap" style="width:100%;">@LevelA&nbsp;</div></td>
+            <td class="project-align-left" id="LevelTree_@ID_ICD" title="@LevelTree"><div class="nowrap" style="width:100%;">@LevelTree&nbsp;</div></td>
+            <td class="project-align-left" id="Class_@ID_ICD" title="@Class"><div class="nowrap" style="width:100%;">@Class&nbsp;</div></td>
+            <td class="project-align-left" id="Tag_@ID_ICD" title="@Tag"><div class="nowrap" style="width:100%;">@Tag&nbsp;</div></td>
+            <td class="project-align-left" id="ICDtoSection_@ID_ICD" title="@ICDtoSection"><div class="nowrap" style="width:100%;">@ICDtoSection&nbsp;</div></td>
+            <td class="project-align-left" id="Is_Banned_@ID_ICD">@Is_Banned</td>
+            <td class="project-align-left" id="BanOperator_@ID_ICD" title="@BanOperator"><div class="nowrap" style="width:100%;">@BanOperator&nbsp;</div></td>
+            <td class="project-align-left" id="BanDate_@ID_ICD" title="@BanDate"><div class="nowrap" style="width:100%;">@BanDate&nbsp;</div></td>
+            <td class="project-align-left" id="BanDescribe_@ID_ICD" title="@BanDescribe"><div class="nowrap" style="width:100%;">@BanDescribe&nbsp;</div></td>
+            </tr>
+        </script>
+    </table>
+</body>
+<script type="text/javascript">
+
+    // 记录读取分页数据操作的次数，用于判断是否进行回调
+    // 1、只有第1次才调用 jQuery("#Pagination").pagination
+    // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+    var tempOperPageCount = 0;
+    var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+    function pageselectCallback(page_index, jq) {
+
+        if (tempOperPageCount > 0) {
+            QueryPagesData(page_index);
+        }
+        tempOperPageCount++;
+
+        return false;
+    }
+
+    jQuery(document).ready(function () {
+        jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+        // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+    });
+
+
+    /// <summary>
+    /// 按照科室关键字搜索
+    /// </summary>
+    function ICDKeywordsSearch() {
+
+        tempOperPageCount = 0;
+        QueryPagesData(0); //重新按照新输入的条件进行查询
+
+    }
+
+
+    /// <summary>
+    /// 按条件进行分页查询
+    /// </summary>
+    function QueryPagesData(pageIndex) {
+        var optInit;
+        optInit = getOptionsFromForm();
+        var totalCount = 0;
+
+        jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+        var SearchICDKeyword = jQuery('#txtSearchICDKeyword').val();      // 结论词分类关键字
+
+        jQuery.ajax({
+            type: "GET",
+            url: "/Ajax/AjaxConfig.aspx",
+            data: { pageIndex: pageIndex,
+                SearchICDKeyword: SearchICDKeyword,
+                pageSize: pagePagination.items_per_page,
+                action: 'SearchICDList',
+                date: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (parseInt(msg.totalCount) > 0) {
+
+                    jQuery("#ICDItemCount").html(" 【共有 " + msg.totalCount + " 个ICD10】");
+
+                    jQuery("#Pagination").show();
+                    if (tempOperPageCount == 0) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        tempOldtotalCount = msg.totalCount;
+                    }
+                    else if (tempOldtotalCount != msg.totalCount) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                    }
+
+                    var newcontent = "";
+                    // 从模版中读取数据加载列表
+                    var templateContent = jQuery('#ICDListItemTemplete').html();
+                    if (templateContent == undefined) { return; }
+                    jQuery(msg.dataList).each(function (i, item) {
+
+                        newcontent +=
+                             templateContent.replace(/@ID_ICD/gi, item.ID_ICD)
+                            .replace(/@RowNum/gi, "&nbsp;")
+                            .replace(/@ICDCNName/gi, item.ICDCNName)
+                            .replace(/@ICDENName/gi, item.ICDENName)
+                            .replace(/@CodeBase/gi, item.Code)
+                            .replace(/@Codea/gi, item.Codea)
+                            .replace(/@LevelA/gi, item.LevelA)
+                            .replace(/@LevelTree/gi, item.LevelTree)
+                            .replace(/@Class/gi, item.Class)
+                            .replace(/@Tag/gi, item.Tag)
+                            .replace(/@ICDtoSection/gi, item.ICDtoSection)
+                            .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ')
+
+                            .replace(/@BanOperator/gi, item.BanOperator)
+                            .replace(/@BanDate/gi, item.BanDate)
+                            .replace(/@BanDescribe/gi, item.BanDescribe)
+                            ;
+                    });
+
+                    if (newcontent != '') {
+                        jQuery("#Searchresult").html(newcontent);
+                        // 如果是总审页面，则先设置背景， 设置Table的基数偶数项背景
+                        SetTableEvenOddRowStyle();
+                    }
+
+                } else {
+                    jQuery("#Pagination").hide();
+                    jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                    jQuery("#ICDItemCount").html(" 【共有 0 个ICD10】");
+                }
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+            }
+        });
+
+    }
+
+
+
+    /// <summary>
+    /// 查询单个样本信息，用户更新修改后的样本列表中的数据
+    /// </summary>
+    function GetSingleICDInfo(ID_ICD, type) {
+
+        jQuery.ajax({
+            type: "GET",
+            url: "/Ajax/AjaxConfig.aspx",
+            data: { ID_ICD: ID_ICD,
+                action: 'GetSingleICDInfo',
+                date: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+
+
+                if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                    var newcontent = "";
+                    // 从模版中读取数据加载列表
+                    var templateContent = jQuery('#ICDListItemTemplete').html();
+                    if (templateContent == undefined) { return; }
+
+                    var userState = "";
+                    jQuery(msg.dataList0).each(function (i, item) {
+
+                        if (type == "edit") {
+
+                            ShowModifyTableListInfo("ICDCNName_" + item.ID_ICD, item.ICDCNName);
+                            ShowModifyTableListInfo("ICDENName_" + item.ID_ICD, item.ICDENName);
+                            ShowModifyTableListInfo("Code_" + item.ID_ICD, item.Code);
+                            ShowModifyTableListInfo("Codea_" + item.ID_ICD, item.Codea);
+                            ShowModifyTableListInfo("LevelA_" + item.ID_ICD, item.LevelA);
+                            ShowModifyTableListInfo("LevelTree_" + item.ID_ICD, item.LevelTree);
+                            ShowModifyTableListInfo("Class_" + item.ID_ICD, item.Class);
+                            ShowModifyTableListInfo("Tag_" + item.ID_ICD, item.Tag);
+                            ShowModifyTableListInfo("ICDtoSection_" + item.ID_ICD, item.ICDtoSection);
+                            ShowModifyTableListInfo("Is_Banned_" + item.ID_ICD, item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ');
+                            ShowModifyTableListInfo("BanOperator_" + item.ID_ICD, item.BanOperator);
+                            ShowModifyTableListInfo("BanDate_" + item.ID_ICD, item.BanDate);
+                            ShowModifyTableListInfo("BanDescribe_" + item.ID_ICD, item.BanDescribe);
+
+
+                        } else {
+
+                            newcontent +=
+                                 templateContent.replace(/@ID_ICD/gi, item.ID_ICD)
+                                .replace(/@ICDCNName/gi, item.ICDCNName)
+                                .replace(/@ICDENName/gi, item.ICDENName)
+                                .replace(/@CodeBase/gi, item.Code)
+                                .replace(/@Codea/gi, item.Codea)
+                                .replace(/@LevelA/gi, item.LevelA)
+                                .replace(/@LevelTree/gi, item.LevelTree)
+                                .replace(/@Class/gi, item.Class)
+                                .replace(/@Tag/gi, item.Tag)
+                                .replace(/@ICDtoSection/gi, item.ICDtoSection)
+                                .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '<a title="' + item.BanOperator + ':' + item.BanDate + ':' + item.BanDescribe + '">√</a>' : ' ')
+                                .replace(/@BanOperator/gi, item.BanOperator)
+                                .replace(/@BanDate/gi, item.BanDate)
+                                .replace(/@BanDescribe/gi, item.BanDescribe)
+                                ;
+
+                            // 将新增加的数据，追加到列表的第一行位置
+                            jQuery("#Searchresult").prepend(newcontent);
+                        }
+
+                    });
+                }
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+            }
+        });
+    }
+
+
+</script>
+</html>

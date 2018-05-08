@@ -1,0 +1,180 @@
+using PEIS.DALFactory;
+using PEIS.IDAL;
+using PEIS.Model;
+using Maticsoft.Common;
+using System;
+using System.Collections.Generic;
+using System.Data;
+
+namespace PEIS.BLL
+{
+	public class BusConclusion
+	{
+		private static readonly BusConclusion _instance = new BusConclusion();
+
+		private readonly IBusConclusion dal = DataAccess.CreateBusConclusion();
+
+		public static BusConclusion Instance
+		{
+			get
+			{
+				return BusConclusion._instance;
+			}
+		}
+
+		public int GetMaxId()
+		{
+			return this.dal.GetMaxId();
+		}
+
+		public bool Exists(int ID_Conclusion)
+		{
+			return this.dal.Exists(ID_Conclusion);
+		}
+
+		public int Add(PEIS.Model.BusConclusion model)
+		{
+			return this.dal.Add(model);
+		}
+
+		public bool Update(PEIS.Model.BusConclusion model)
+		{
+			return this.dal.Update(model);
+		}
+
+		public bool Delete(int ID_Conclusion)
+		{
+			return this.dal.Delete(ID_Conclusion);
+		}
+
+		public bool DeleteList(string ID_Conclusionlist)
+		{
+			return this.dal.DeleteList(ID_Conclusionlist);
+		}
+
+		public PEIS.Model.BusConclusion GetModel(int ID_Conclusion)
+		{
+			return this.dal.GetModel(ID_Conclusion);
+		}
+
+		public PEIS.Model.BusConclusion GetModelByCache(int ID_Conclusion)
+		{
+			string cacheKey = "BusConclusionModel-" + ID_Conclusion;
+			object obj = Maticsoft.Common.DataCache.GetCache(cacheKey);
+			if (obj == null)
+			{
+				try
+				{
+					obj = this.dal.GetModel(ID_Conclusion);
+					if (obj != null)
+					{
+						int configInt = ConfigHelper.GetConfigInt("ModelCache");
+						Maticsoft.Common.DataCache.SetCache(cacheKey, obj, DateTime.Now.AddMinutes((double)configInt), System.TimeSpan.Zero);
+					}
+				}
+				catch
+				{
+				}
+			}
+			return (PEIS.Model.BusConclusion)obj;
+		}
+
+		public DataSet GetList(string strWhere)
+		{
+			return this.dal.GetList(strWhere);
+		}
+
+		public DataSet GetList(int Top, string strWhere, string filedOrder)
+		{
+			return this.dal.GetList(Top, strWhere, filedOrder);
+		}
+
+		public List<PEIS.Model.BusConclusion> GetModelList(string strWhere)
+		{
+			DataSet list = this.dal.GetList(strWhere);
+			return this.DataTableToList(list.Tables[0]);
+		}
+
+		public List<PEIS.Model.BusConclusion> DataTableToList(DataTable dt)
+		{
+			List<PEIS.Model.BusConclusion> list = new List<PEIS.Model.BusConclusion>();
+			int count = dt.Rows.Count;
+			if (count > 0)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					PEIS.Model.BusConclusion busConclusion = new PEIS.Model.BusConclusion();
+					if (dt.Rows[i]["ID_Conclusion"].ToString() != "")
+					{
+						busConclusion.ID_Conclusion = int.Parse(dt.Rows[i]["ID_Conclusion"].ToString());
+					}
+					if (dt.Rows[i]["ID_ConclusionType"].ToString() != "")
+					{
+						busConclusion.ID_ConclusionType = new int?(int.Parse(dt.Rows[i]["ID_ConclusionType"].ToString()));
+					}
+					busConclusion.ConclusionName = dt.Rows[i]["ConclusionName"].ToString();
+					busConclusion.Explanation = dt.Rows[i]["Explanation"].ToString();
+					busConclusion.Suggestion = dt.Rows[i]["Suggestion"].ToString();
+					busConclusion.DietGuide = dt.Rows[i]["DietGuide"].ToString();
+					busConclusion.SportsGuide = dt.Rows[i]["SportsGuide"].ToString();
+					busConclusion.HealthKnowledge = dt.Rows[i]["HealthKnowledge"].ToString();
+					if (dt.Rows[i]["Forsex"].ToString() != "")
+					{
+						busConclusion.Forsex = new int?(int.Parse(dt.Rows[i]["Forsex"].ToString()));
+					}
+					busConclusion.InputCode = dt.Rows[i]["InputCode"].ToString();
+					if (dt.Rows[i]["DispOrder"].ToString() != "")
+					{
+						busConclusion.DispOrder = new int?(int.Parse(dt.Rows[i]["DispOrder"].ToString()));
+					}
+					busConclusion.TeamConclusionName = dt.Rows[i]["TeamConclusionName"].ToString();
+					if (dt.Rows[i]["ID_Createopr"].ToString() != "")
+					{
+						busConclusion.ID_Createopr = new int?(int.Parse(dt.Rows[i]["ID_Createopr"].ToString()));
+					}
+					busConclusion.CreateOperator = dt.Rows[i]["CreateOperator"].ToString();
+					if (dt.Rows[i]["CreateDate"].ToString() != "")
+					{
+						busConclusion.CreateDate = new DateTime?(DateTime.Parse(dt.Rows[i]["CreateDate"].ToString()));
+					}
+					if (dt.Rows[i]["Is_Banned"].ToString() != "")
+					{
+						if (dt.Rows[i]["Is_Banned"].ToString() == "1" || dt.Rows[i]["Is_Banned"].ToString().ToLower() == "true")
+						{
+							busConclusion.Is_Banned = new bool?(true);
+						}
+						else
+						{
+							busConclusion.Is_Banned = new bool?(false);
+						}
+					}
+					if (dt.Rows[i]["ID_BanOpr"].ToString() != "")
+					{
+						busConclusion.ID_BanOpr = new int?(int.Parse(dt.Rows[i]["ID_BanOpr"].ToString()));
+					}
+					busConclusion.BanOperator = dt.Rows[i]["BanOperator"].ToString();
+					if (dt.Rows[i]["BanDate"].ToString() != "")
+					{
+						busConclusion.BanDate = new DateTime?(DateTime.Parse(dt.Rows[i]["BanDate"].ToString()));
+					}
+					busConclusion.BanDescribe = dt.Rows[i]["BanDescribe"].ToString();
+					if (dt.Rows[i]["ID_ICD"].ToString() != "")
+					{
+						busConclusion.ID_ICD = new int?(int.Parse(dt.Rows[i]["ID_ICD"].ToString()));
+					}
+					if (dt.Rows[i]["ID_FinalConclusionType"].ToString() != "")
+					{
+						busConclusion.ID_FinalConclusionType = new int?(int.Parse(dt.Rows[i]["ID_FinalConclusionType"].ToString()));
+					}
+					list.Add(busConclusion);
+				}
+			}
+			return list;
+		}
+
+		public DataSet GetAllList()
+		{
+			return this.GetList("");
+		}
+	}
+}

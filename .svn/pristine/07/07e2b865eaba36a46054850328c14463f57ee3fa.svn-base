@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script src="$!{templatepath}/js/JS_InvoiceSearchWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="divHidTemplate" style="display: none;">
+        <!--检查数量统计模板 Begin-->
+        <table id="InvoiceSearchWorkLoadTemplate">
+            <tbody>
+                <tr>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td class="project-align-left">
+                        @Invoice
+                    </td>
+                    <td>
+                        @CustomerName
+                    </td>
+                    <td>
+                        @GenderName
+                    </td>
+                    <td>
+                        @MarriageName
+                    </td>
+                    <td>
+                        @IDCard
+                    </td>
+                    <td>
+                        @MobileNo
+                    </td>
+                    <td class="project-align-left">
+                        @TeamName
+                    </td>
+                    <td>
+                        @OperateDate
+                    </td>
+                    <td>
+                        @ExamTypeName
+                    </td>
+                    <td class="project-align-left">
+                        @ExamPlaceName
+                    </td>
+                    <td>
+                        @GuideNurse
+                    </td>
+                    <td>
+                        @FeeWayName
+                    </td>
+                    <td>
+                        @FeeCharger
+                    </td>
+                    <td>
+                        @FeeChargeDate
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--检查数量统计模板 End-->
+        $!{HiddenInputQueryString}
+    </div>
+    <div class="operarea">
+        <div class="oper-left">
+        </div>
+        <div class="oper-bg">
+            <span>&nbsp;发票号111：</span> <span class="span-margin-top">
+                <div class="Editor-l">
+                </div>
+                <div class="Editor-c">
+                    <input type="text" name="textfield" id="txtInvoice" class="input-3" />
+                </div>
+                <div class="Editor-r">
+                </div>
+            </span><span>&nbsp;体检号：</span><span class="span-margin-top">
+                <div class="Editor-l">
+                </div>
+                <div class="Editor-c">
+                    <input type="text" name="textfield" id="txtID_Customer" class="input-3" />
+                </div>
+                <div class="Editor-r">
+                </div>
+            </span><span class="search-4"></span>
+            <div id="divHidDate" style="display: none;">
+                <span>&nbsp;日期：</span> <span class="search-3">
+                    <input type="text" id="BeginExamDate" name="BeginExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                        value="${today}" />
+                </span><span>&nbsp;至&nbsp;</span> <span class="search-3">
+                    <input type="text" id="EndExamDate" name="EndExamDate" onfocus="WdatePicker({maxDate:'%y-%M-#{%d}'})"
+                        value="${today}" />
+                </span>
+            </div>
+            <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);" id="btnExport"
+                name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                    title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="GetInvoiceSearchWorkLoad();">
+                        查询</a></span><a id="loadExcel" style="display: none;" target="_blank">导出</a>
+        </div>
+        <div class="oper-right">
+        </div>
+    </div>
+    <div class="project">
+        <div class="project-center ovoverflow-x QueryListNoDataTips" id="bzz" style="overflow: hidden;">
+            <table id="tbCustomerList" name="tbCustomerList" width="2085" border="0" cellspacing="0"
+                cellpadding="0" class="stripe">
+                <thead>
+                    <tr class="project-center-lb1-list">
+                        <th width="35">
+                            序号
+                        </th>
+                        <th width="120">
+                            体检号
+                        </th>
+                        <th width="80">
+                            发票号
+                        </th>
+                        <th width="90">
+                            姓名
+                        </th>
+                        <th width="50">
+                            性别
+                        </th>
+                        <th width="50">
+                            婚姻
+                        </th>
+                        <th width="140">
+                            证件号
+                        </th>
+                        <th width="90">
+                            联系电话
+                        </th>
+                        <th width="180">
+                            单位名称
+                        </th>
+                        <th width="90">
+                            体检日期
+                        </th>
+                        <th width="150">
+                            体检类型
+                        </th>
+                        <th width="200">
+                            体检地点
+                        </th>
+                        <th width="90">
+                            导检护士
+                        </th>
+                        <th width="90">
+                            收费方式
+                        </th>
+                        <th width="90">
+                            收费人
+                        </th>
+                        <th width="90">
+                            收费时间
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="Searchresult">
+                </tbody>
+            </table>
+            <!--分页区域　Begin-->
+            <table width="958" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                <tr>
+                    <td colspan="10">
+                        <div class="pagination" id="PaginationOld">
+                            <ul id="Pagination">
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--分页区域 End-->
+        </div>
+    </div>
+</body>
+</html>

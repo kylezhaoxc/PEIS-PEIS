@@ -1,0 +1,254 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 用户ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_User" id="ID_User" value="$!{ID_User}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+
+    <!-- 用户签名图片（64位数据） -->
+    <input type="hidden" name="txtSignatureCodeBase64" id="txtSignatureCodeBase64" value="" />
+    
+    <input type="hidden" name="txtOperateLevel" id="txtOperateLevel" value="$!{OperateLevel}" /><!-- 操作密级 -->
+    <input type="hidden" name="txtDisCountRate" id="txtDisCountRate" value="$!{DisCountRate}" /><!-- 折扣率 -->
+    <input type="hidden" name="txtVocationType" id="txtVocationType" value="$!{VocationType}" /><!-- 分类 -->
+    <input type="hidden" name="txtGenderName" id="txtGenderName" value="$!{GenderName}" /><!-- 性别 -->
+    <input type="hidden" name="txtIs_Del" id="txtIs_Del" value="$!{Is_Del}" /><!-- 状态 -->
+
+
+    <div style="display:none;">
+        <textarea id="UpdateTRFeeDataInfo" rows="3" cols="90"></textarea>
+        
+    </div>
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">姓名：</td>
+                <td class="inputtext"><input class="width300" name="txtUserName" id="txtUserName" maxlength="50" value="$!{UserName}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">所属科室：</td>
+                <td>
+                    <input type="hidden" name="idSelectSection" id="idSelectSection" value="$!{ID_Section}" />
+                    <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="$!{SectionName}" />
+                    <span id="spanSection"><input  name="txtSectionInputCode" id="txtSectionInputCode" onkeyup="QuickQueryTableData_Ajax();" onchange="QuickQueryTableData_Ajax();"  onfocus="QuickQueryTableData_Ajax();"  maxlength="50" value="$!{Section}" /></span>
+                    <span id="spanSelectSection" style="display:none;"> 妇科 <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectSection').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQuerySectionTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:180px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>科室名称</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQuerySectionTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave001" onclick="SelectSectionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQuerySectionTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr> 
+
+            <tr>
+                <td class="inputtitle">操作密级：</td>
+                <td class="inputtext">
+                    <select name="selOperateLevel" class="width100" id="selOperateLevel">
+                        <option value="1">一级</option>
+                        <option value="2">二级</option>
+                        <option value="3">三级</option>
+                        <option value="4">四级</option>
+                        <option value="5">五级</option>
+                        <option value="6">六级</option>
+                        <option value="7">七级</option>
+                        <option value="8">八级</option>
+                        <option value="9">九级</option>
+                        <option value="10">十级</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">折扣率：</td>
+                <td class="inputtext">
+                    <select name="selDisCountRate" class="width100" id="selDisCountRate">
+                        <option value="0">无折扣</option>
+                        <option value="6">六折</option>
+                        <option value="7">七折</option>
+                        <option value="8">八折</option>
+                        <option value="9">九折</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">分类：</td> 
+                <td class="inputtext">
+                    <select name="selVocationType" class="width100" id="selVocationType">
+                        <option value="1">医生</option>
+                        <option value="2">护士</option>
+                        <option value="3">其他工作人员</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">性别：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioGenderName" id="radioGenderName00" value="0" /> <label for="radioGenderName00">女 </label> 
+                    <input type="radio" name="radioGenderName" id="radioGenderName01" value="1" /> <label for="radioGenderName01">男 </label> 
+                    
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">状态：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Del" id="radioIs_Del00" value="0" checked="checked" /> <label for="radioIs_Del00">正常 </label> 
+                    <input type="radio" name="radioIs_Del" id="radioIs_Del02" value="2" /> <label for="radioIs_Del02">禁用 </label>   
+                    <input type="radio" name="radioIs_Del" id="radioIs_Del01" value="1" /> <label for="radioIs_Del01">删除 </label>  
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">用户签名：</td>
+                <td class="inputtext">
+                    <span style="float:left;"><input onchange="GetSignatureImage();" name="fileSignature" id="fileSignature" style="width:165px;" type="file" /> &nbsp;&nbsp;</span>
+                    <span style="float:left;"><img src="" alt="" height="26" style="display:none;" name="showSignatureImage" id="showSignatureImage" /></span>
+                    <span style="display:none;float:left; cursor:pointer;" id="spanShowSignatureImage" onclick="clearSignatureImage()">×</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">备注：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtNote" id="txtNote">$!{Note}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveUserInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveUserInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+
+      <table style="display:none;">
+        <tbody id="SectionQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                    value="@ID_Section"
+                    SectionName="@SectionName"  />
+                </td>
+                <td>@SectionName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySectionQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        
+      </table>
+      
+      <div id="UserSelectedSectionItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSection();"> × </a> @SectionName 
+        
+      </div>
+      
+      
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+    /// <summary>
+    /// 选择图片后，先读取图片的64位数据，并回显到页面上
+    /// <summary>
+    function GetSignatureImage() {
+        try {
+
+            var filePathSignature = jQuery("#fileSignature").val();             // 签名图片路径
+            var SignatureCodeBase64 = parent.GetImageCodeBase64(filePathSignature);
+            if (txtSignatureCodeBase64 == "0") {
+                parent.ShowSystemDialog("未找到你选择的图片，请确定图片是否存在!");
+                return;
+            }
+            if (txtSignatureCodeBase64 == "-1") {
+                parent.ShowSystemDialog("你选择的不是图片文件，请重新选择!");
+                return;
+            }
+            jQuery("#showSignatureImage").data("imagedata", SignatureCodeBase64);
+            //jQuery("#txtSignatureCodeBase64").val(SignatureCodeBase64);
+            document.getElementById("showSignatureImage").src = "data:image/gif;base64," + SignatureCodeBase64;
+
+            jQuery("#showSignatureImage").css("height", "26");
+            jQuery("#showSignatureImage").show();
+            // jQuery("#spanShowSignatureImage").show(); 暂时不做删除的功能
+        } catch (e) { }
+    }
+
+    /// <summary>
+    /// 清除选择的图片
+    /// <summary>
+    function clearSignatureImage() {
+        jQuery("#spanShowSignatureImage").hide();
+        jQuery("#showSignatureImage").hide();
+        var fileObj = jQuery("#fileSignature");
+        fileObj.outerHTML = "";
+        jQuery("#txtSignatureCodeBase64").val("");
+    }
+
+    jQuery(document).ready(function () {
+
+        // 用户编辑操作时，初始化页面数据
+        InitUserEditData();
+
+    });
+
+
+</script>
+
+

@@ -1,0 +1,2475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C04D520E-EE59-4091-BC28-7B687C049BC6}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PEIS.Web</RootNamespace>
+    <AssemblyName>PEIS.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FastReport.Web, Version=2013.2.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BaiduYunDownload\FastReport.Net4.0_Full\FastReport.Net+V2013.2.5+For+.Net4.0\FastReport.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Gma.QrCodeNet.Encoding.Net35">
+      <HintPath>..\..\fyh - 副本\web\bin\Gma.QrCodeNet.Encoding.Net35.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\fyh - 副本\web\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Maticsoft.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\fyh - 副本\web\bin\Maticsoft.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.UI.WebControls">
+      <HintPath>..\..\fyh - 副本\web\bin\Microsoft.Web.UI.WebControls.dll</HintPath>
+    </Reference>
+    <Reference Include="NVelocity">
+      <HintPath>..\..\fyh - 副本\web\bin\NVelocity.dll</HintPath>
+    </Reference>
+    <Reference Include="PEIS.Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PEIS.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PEIS.BLL, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PEIS.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="PEIS.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PEIS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ajax\AjaxBase.aspx" />
+    <Content Include="Ajax\AjaxClientList.aspx" />
+    <Content Include="Ajax\AjaxConclusion.aspx" />
+    <Content Include="Ajax\AjaxConfig.aspx" />
+    <Content Include="Ajax\AjaxCustDiseaseLevel.aspx" />
+    <Content Include="Ajax\AjaxCustExam.aspx" />
+    <Content Include="Ajax\AjaxCustomerManage.aspx" />
+    <Content Include="Ajax\AjaxCustomerSecurityLevel.aspx" />
+    <Content Include="Ajax\AjaxRegiste.aspx" />
+    <Content Include="Ajax\AjaxReportPreview.aspx" />
+    <Content Include="Ajax\AjaxRight.aspx" />
+    <Content Include="Ajax\AjaxSection.aspx" />
+    <Content Include="Ajax\AjaxStatistics.aspx" />
+    <Content Include="Ajax\AjaxSubScribe.aspx" />
+    <Content Include="Ajax\AjaxTeamOper.aspx" />
+    <Content Include="Ajax\AjaxUser.aspx" />
+    <Content Include="Config\Base\BackLogSetting.xml" />
+    <Content Include="Global.asax" />
+    <Content Include="Login.aspx" />
+    <Content Include="Logout.aspx" />
+    <Content Include="pubdll\Base.dll" />
+    <Content Include="pubdll\Base.pdb" />
+    <Content Include="pubdll\Common.dll" />
+    <Content Include="pubdll\Common.pdb" />
+    <Content Include="pubdll\CommonTool.dll" />
+    <Content Include="pubdll\Data.dll" />
+    <Content Include="pubdll\FastReport.Bars.dll" />
+    <Content Include="pubdll\FastReport.dll" />
+    <Content Include="pubdll\FastReport.Editor.dll" />
+    <Content Include="pubdll\Gma.QrCodeNet.Encoding.Net35.dll" />
+    <Content Include="pubdll\log4net.dll" />
+    <Content Include="pubdll\Maticsoft.Common.dll" />
+    <Content Include="pubdll\Microsoft.Web.UI.WebControls.dll" />
+    <Content Include="pubdll\MySql.Data.dll" />
+    <Content Include="pubdll\Newtonsoft.Json.dll" />
+    <Content Include="pubdll\NVelocity.dll" />
+    <Content Include="pubdll\PhotoAndReport.dll" />
+    <Content Include="pubdll\System.Data.SQLite.dll" />
+    <Content Include="System\Admin\ClientList.aspx" />
+    <Content Include="System\Admin\CustomerManage.aspx" />
+    <Content Include="System\Admin\CustomerManageOper.aspx" />
+    <Content Include="System\Admin\CustomerSecurityLevel.aspx" />
+    <Content Include="System\Admin\CustomerSubScribDateOper.aspx" />
+    <Content Include="System\Admin\CustPhysicalExamMerge.aspx" />
+    <Content Include="System\Admin\CustPhysicalExamMergeOper.aspx" />
+    <Content Include="System\Admin\InternetDataImport.aspx" />
+    <Content Include="System\Admin\InternetDataImportList.aspx" />
+    <Content Include="System\Admin\IPSetting.aspx" />
+    <Content Include="System\Admin\IPSettingOper.aspx" />
+    <Content Include="System\Admin\RepeatCustomerLisProject.aspx" />
+    <Content Include="System\Admin\UnlockReportState.aspx" />
+    <Content Include="System\ConclusionEx\ConclusionCheck.aspx" />
+    <Content Include="System\ConclusionEx\ConclusionCheckList.aspx" />
+    <Content Include="System\ConclusionEx\ConclusionList.aspx" />
+    <Content Include="System\ConclusionEx\ConclusionOper.aspx" />
+    <Content Include="System\Conclusion\ConclusionCheck.aspx" />
+    <Content Include="System\Conclusion\ConclusionCheckList.aspx" />
+    <Content Include="System\Conclusion\ConclusionList.aspx" />
+    <Content Include="System\Conclusion\ConclusionOper.aspx" />
+    <Content Include="System\Conclusion\ConclusionUnCheck.aspx" />
+    <Content Include="System\Conclusion\ConclusionUnFinished.aspx" />
+    <Content Include="System\Config\COM\config.aspx" />
+    <Content Include="System\Config\Conclusion\ConclusionList.aspx" />
+    <Content Include="System\Config\Conclusion\ConclusionOper.aspx" />
+    <Content Include="System\Config\Conclusion\ConclusionTypeList.aspx" />
+    <Content Include="System\Config\Conclusion\ConclusionTypeOper.aspx" />
+    <Content Include="System\Config\Conclusion\FeeReportList.aspx" />
+    <Content Include="System\Config\Conclusion\FeeReportOper.aspx" />
+    <Content Include="System\Config\Conclusion\FinalConclusionTypeList.aspx" />
+    <Content Include="System\Config\Conclusion\FinalConclusionTypeOper.aspx" />
+    <Content Include="System\Config\ExamPlace\ExamPlaceList.aspx" />
+    <Content Include="System\Config\ExamPlace\ExamPlaceOper.aspx" />
+    <Content Include="System\Config\ExamType\ExamTypeList.aspx" />
+    <Content Include="System\Config\ExamType\ExamTypeOper.aspx" />
+    <Content Include="System\Config\Exam\ExamItemGroupList.aspx" />
+    <Content Include="System\Config\Exam\ExamItemGroupOper.aspx" />
+    <Content Include="System\Config\Exam\ExamItemGroupRelOper.aspx" />
+    <Content Include="System\Config\Exam\ExamOper.aspx" />
+    <Content Include="System\Config\Exam\ExamSymptomRel.aspx" />
+    <Content Include="System\Config\Exam\SymptomOper.aspx" />
+    <Content Include="System\Config\Fee\FeeExamRel.aspx" />
+    <Content Include="System\Config\Fee\FeeExamRelOper.aspx" />
+    <Content Include="System\Config\Fee\FeeOper.aspx" />
+    <Content Include="System\Config\ICDTen\ICDTenList.aspx" />
+    <Content Include="System\Config\ICDTen\ICDTenOper.aspx" />
+    <Content Include="System\Config\LoginCount\UserList.aspx" />
+    <Content Include="System\Config\Password\UserList.aspx" />
+    <Content Include="System\Config\Section\SectionList.aspx" />
+    <Content Include="System\Config\Section\SectionOper.aspx" />
+    <Content Include="System\Config\Set\SetDetail.aspx" />
+    <Content Include="System\Config\Set\SetFeeRel.aspx" />
+    <Content Include="System\Config\Set\SetOper.aspx" />
+    <Content Include="System\Config\Specimen\SpecimenList.aspx" />
+    <Content Include="System\Config\Specimen\SpecimenOper.aspx" />
+    <Content Include="System\Config\User\UserList.aspx" />
+    <Content Include="System\Config\User\UserOper.aspx" />
+    <Content Include="System\Config\User\UserRightSet.aspx" />
+    <Content Include="System\Customer\CustomerCharges.aspx" />
+    <Content Include="System\Customer\ImportExcel.aspx" />
+    <Content Include="System\Customer\OCXTestForm.aspx" />
+    <Content Include="System\Customer\PrintCustomerGuide.aspx" />
+    <Content Include="System\Customer\RegistList.aspx" />
+    <Content Include="System\Customer\RegistOper.aspx" />
+    <Content Include="System\Customer\SelectExcelInfo.aspx" />
+    <Content Include="System\Customer\ShowDialog.aspx" />
+    <Content Include="System\Customer\SignImport.aspx" />
+    <Content Include="System\Customer\TeamBatchOper.aspx" />
+    <Content Include="System\Customer\TeamBatch_BusFeeOper.aspx" />
+    <Content Include="System\Customer\TeamCustomerManageOper.aspx" />
+    <Content Include="System\Customer\TeamList.aspx" />
+    <Content Include="System\Customer\TeamListOper.aspx" />
+    <Content Include="System\Customer\TeamOper.aspx" />
+    <Content Include="System\Customer\TeamTaskList.aspx" />
+    <Content Include="System\Customer\TeamTaskOper.aspx" />
+    <Content Include="System\Exam\ExamList.aspx" />
+    <Content Include="System\Exam\ExamOper.aspx" />
+    <Content Include="System\Exam\ExamView.aspx" />
+    <Content Include="System\Exam\LabExamOper.aspx" />
+    <Content Include="System\Exam\LabExamOperSingle.aspx" />
+    <Content Include="System\Exam\VideoCapture.aspx" />
+    <Content Include="System\GiveUpManage\GiveUpManageList.aspx" />
+    <Content Include="System\GiveUpManage\GiveUpManageOper.aspx" />
+    <Content Include="System\GuideSheet\GuideSheetReturnList.aspx" />
+    <Content Include="System\GuideSheet\GuideSheetReturnOper.aspx" />
+    <Content Include="System\Index.aspx" />
+    <Content Include="System\right\RightList.aspx" />
+    <Content Include="System\right\RightViewList.aspx" />
+    <Content Include="System\right\RoleList.aspx" />
+    <Content Include="System\right\RoleOper.aspx" />
+    <Content Include="System\right\RoleRightRel.aspx" />
+    <Content Include="System\right\UserList.aspx" />
+    <Content Include="System\Statistics\AgeWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\AllConclusionWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\BackLogWorkLoad.aspx" />
+    <Content Include="System\Statistics\BusSetWorkLoad.aspx" />
+    <Content Include="System\Statistics\CompeleteWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\ConclusionWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\CustFeeDetailWorkLoad.aspx" />
+    <Content Include="System\Statistics\CustFeeOfDayWorkLoad.aspx" />
+    <Content Include="System\Statistics\CustFeeOfMonthWorkLoad.aspx" />
+    <Content Include="System\Statistics\CustFeeWorkLoad.aspx" />
+    <Content Include="System\Statistics\CustFeeWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\CustomerFormOfTeam.aspx" />
+    <Content Include="System\Statistics\CustomerOfEveryDayWorkLoad.aspx" />
+    <Content Include="System\Statistics\CustomerWorkLoad.aspx" />
+    <Content Include="System\Statistics\DiscountSearchWorkLoad.aspx" />
+    <Content Include="System\Statistics\DiseaseLevelWorkLoad.aspx" />
+    <Content Include="System\Statistics\DoctorWorkLoad.aspx" />
+    <Content Include="System\Statistics\FeeNameWorkLoad.aspx" />
+    <Content Include="System\Statistics\GuideNurseSearchWorkLoad.aspx" />
+    <Content Include="System\Statistics\GuideNurseWorkLoad.aspx" />
+    <Content Include="System\Statistics\GuideSheetReturnedSearchWorkLoad.aspx" />
+    <Content Include="System\Statistics\GuideSheetReturnedWorkLoad.aspx" />
+    <Content Include="System\Statistics\InvoiceSearchWorkLoad.aspx" />
+    <Content Include="System\Statistics\InvoiceWorkLoad.aspx" />
+    <Content Include="System\Statistics\PositiveSummaryWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\RegisterWorkLoad.aspx" />
+    <Content Include="System\Statistics\SearchCustomerPhysiclExamInfo.aspx" />
+    <Content Include="System\Statistics\SectionOncustFeeWorkLoad.aspx" />
+    <Content Include="System\Statistics\SectionSearchWorkLoad.aspx" />
+    <Content Include="System\Statistics\SpecimenWorkLoad.aspx" />
+    <Content Include="System\Statistics\SubScribDateWorkLoadOfTeam.aspx" />
+    <Content Include="System\Statistics\TeamWorkLoad.aspx" />
+    <Content Include="System\test\test.aspx" />
+    <Content Include="System\Welcome.aspx" />
+    <Content Include="template\blue2\css\common.css" />
+    <Content Include="template\blue2\css\css.css" />
+    <Content Include="template\blue2\css\exam.css" />
+    <Content Include="template\blue2\css\new.css" />
+    <Content Include="template\blue2\css\right.css" />
+    <Content Include="template\blue2\css\select2.css" />
+    <Content Include="template\blue2\css\skin05\common.css" />
+    <Content Include="template\blue2\css\skin05\fonts\fontawesome-webfont.svg" />
+    <Content Include="template\blue2\css\skin05\lib\bootstrap.min.css" />
+    <Content Include="template\blue2\css\skin05\lib\flatpickr.min.css" />
+    <Content Include="template\blue2\css\skin05\lib\font-awesome.min.css" />
+    <Content Include="template\blue2\css\skin05\pages\admin.css" />
+    <Content Include="template\blue2\css\skin05\pages\pintuer.css" />
+    <Content Include="template\blue2\css\style - 副本.css" />
+    <Content Include="template\blue2\css\style.css" />
+    <Content Include="template\blue2\css\style99.css" />
+    <Content Include="template\blue2\css\style[调整弹出框的宽度].css" />
+    <Content Include="template\blue2\css\thickbox.css" />
+    <Content Include="template\blue2\css\uniform.css" />
+    <Content Include="template\blue2\css\复件 style.css" />
+    <Content Include="template\blue2\css\弹出层样式备份.css" />
+    <Content Include="template\blue2\css\弹出层样式通用.css" />
+    <Content Include="template\blue2\images\anniu-bg-bak.gif" />
+    <Content Include="template\blue2\images\anniu-bg.gif" />
+    <Content Include="template\blue2\images\anniu-bg.png" />
+    <Content Include="template\blue2\images\arrow-bottom.jpg" />
+    <Content Include="template\blue2\images\arrow-bottom.png" />
+    <Content Include="template\blue2\images\arrow-top.jpg" />
+    <Content Include="template\blue2\images\arrow-top.png" />
+    <Content Include="template\blue2\images\avatar-bg.jpg" />
+    <Content Include="template\blue2\images\avatar-bgbak.jpg" />
+    <Content Include="template\blue2\images\avatar-s-yy.png" />
+    <Content Include="template\blue2\images\avatar-s.jpg" />
+    <Content Include="template\blue2\images\avatar-sm.jpg" />
+    <Content Include="template\blue2\images\avatar.jpg" />
+    <Content Include="template\blue2\images\bar-button-over.gif" />
+    <Content Include="template\blue2\images\basic-bg-bak.jpg" />
+    <Content Include="template\blue2\images\basic-bg.jpg" />
+    <Content Include="template\blue2\images\basic-sf-zsy-center.jpg" />
+    <Content Include="template\blue2\images\basic-sf-zsy-left.jpg" />
+    <Content Include="template\blue2\images\basic-sf-zsy-right.jpg" />
+    <Content Include="template\blue2\images\basic-title-bg.jpg" />
+    <Content Include="template\blue2\images\body-bg-02.jpg" />
+    <Content Include="template\blue2\images\body-bg.jpg" />
+    <Content Include="template\blue2\images\button_icon.png" />
+    <Content Include="template\blue2\images\caiji-bcsc.png" />
+    <Content Include="template\blue2\images\caiji-cjtp.png" />
+    <Content Include="template\blue2\images\caiji-ct.jpg" />
+    <Content Include="template\blue2\images\caiji-tu.jpg" />
+    <Content Include="template\blue2\images\caiji-yxtp-tu.jpg" />
+    <Content Include="template\blue2\images\caiji-yxtp.jpg" />
+    <Content Include="template\blue2\images\Clone_new.png" />
+    <Content Include="template\blue2\images\come_loose_center.png" />
+    <Content Include="template\blue2\images\come_loose_left.png" />
+    <Content Include="template\blue2\images\come_loose_right.png" />
+    <Content Include="template\blue2\images\cross.png" />
+    <Content Include="template\blue2\images\delete.png" />
+    <Content Include="template\blue2\images\dialog-b-b.png" />
+    <Content Include="template\blue2\images\dialog-b-l.png" />
+    <Content Include="template\blue2\images\dialog-b-r.png" />
+    <Content Include="template\blue2\images\dialog-c-l.png" />
+    <Content Include="template\blue2\images\dialog-c-r.png" />
+    <Content Include="template\blue2\images\dialog-t-b-bak.png" />
+    <Content Include="template\blue2\images\dialog-t-b.png" />
+    <Content Include="template\blue2\images\dialog-t-l-bak.png" />
+    <Content Include="template\blue2\images\dialog-t-l.png" />
+    <Content Include="template\blue2\images\dialog-t-r-bak.png" />
+    <Content Include="template\blue2\images\dialog-t-r.png" />
+    <Content Include="template\blue2\images\DSC_3165.JPG" />
+    <Content Include="template\blue2\images\DSC_3177.JPG" />
+    <Content Include="template\blue2\images\DSC_3182.JPG" />
+    <Content Include="template\blue2\images\edit.png" />
+    <Content Include="template\blue2\images\error-404.png" />
+    <Content Include="template\blue2\images\Error_bg.png" />
+    <Content Include="template\blue2\images\fengexian.jpg" />
+    <Content Include="template\blue2\images\fenk-bs-tips-jt-bottom.png" />
+    <Content Include="template\blue2\images\fenk-bs-tips-jt.png" />
+    <Content Include="template\blue2\images\fenk-bs-tips-xx.jpg" />
+    <Content Include="template\blue2\images\FenTo-bg-old.jpg" />
+    <Content Include="template\blue2\images\FenTo-bg.jpg" />
+    <Content Include="template\blue2\images\FenTo-fx.jpg" />
+    <Content Include="template\blue2\images\FenTo-hover.png" />
+    <Content Include="template\blue2\images\field-arrow.png" />
+    <Content Include="template\blue2\images\field-bg-1-bak.jpg" />
+    <Content Include="template\blue2\images\field-bg-1.jpg" />
+    <Content Include="template\blue2\images\field-bg-2-bak.jpg" />
+    <Content Include="template\blue2\images\field-bg-2.jpg" />
+    <Content Include="template\blue2\images\field-bg.jpg" />
+    <Content Include="template\blue2\images\field-fen.jpg" />
+    <Content Include="template\blue2\images\Filediv-xx.jpg" />
+    <Content Include="template\blue2\images\fk-title-bg.png" />
+    <Content Include="template\blue2\images\fk-title-bg2.png" />
+    <Content Include="template\blue2\images\fk-tjjl-aro.png" />
+    <Content Include="template\blue2\images\Fkduibi-ico.png" />
+    <Content Include="template\blue2\images\Fkfs-ti-c.png" />
+    <Content Include="template\blue2\images\Fkfs-ti-l.png" />
+    <Content Include="template\blue2\images\Fkfs-ti-r.png" />
+    <Content Include="template\blue2\images\Fktabbg.jpg" />
+    <Content Include="template\blue2\images\footer-bg.png" />
+    <Content Include="template\blue2\images\fuwuqi-ar.png" />
+    <Content Include="template\blue2\images\FYH_back.png" />
+    <Content Include="template\blue2\images\FYH_consle.png" />
+    <Content Include="template\blue2\images\FYH_list.png" />
+    <Content Include="template\blue2\images\FYH_logo.png" />
+    <Content Include="template\blue2\images\get-t-hover.gif" />
+    <Content Include="template\blue2\images\get-t.gif" />
+    <Content Include="template\blue2\images\gj-bg.jpg" />
+    <Content Include="template\blue2\images\gj-left.jpg" />
+    <Content Include="template\blue2\images\gj-right.jpg" />
+    <Content Include="template\blue2\images\gj-to-bg.jpg" />
+    <Content Include="template\blue2\images\gj-to-left.jpg" />
+    <Content Include="template\blue2\images\gj-to-right.jpg" />
+    <Content Include="template\blue2\images\grid-detail-close.gif" />
+    <Content Include="template\blue2\images\header_bg.jpg" />
+    <Content Include="template\blue2\images\help_zj.png" />
+    <Content Include="template\blue2\images\Homepage-bg-small-660.jpg" />
+    <Content Include="template\blue2\images\Homepage-bg-small.jpg" />
+    <Content Include="template\blue2\images\Homepage-bg.jpg" />
+    <Content Include="template\blue2\images\Icddiv-xx.jpg" />
+    <Content Include="template\blue2\images\ico080426_close.gif" />
+    <Content Include="template\blue2\images\ico080426_dot.gif" />
+    <Content Include="template\blue2\images\ico080426_open.gif" />
+    <Content Include="template\blue2\images\icon-an.png" />
+    <Content Include="template\blue2\images\icon-dy.png" />
+    <Content Include="template\blue2\images\icon-dz.png" />
+    <Content Include="template\blue2\images\icon-first.gif" />
+    <Content Include="template\blue2\images\icon-last.gif" />
+    <Content Include="template\blue2\images\icon-next.gif" />
+    <Content Include="template\blue2\images\icon-prev.gif" />
+    <Content Include="template\blue2\images\iconter.png" />
+    <Content Include="template\blue2\images\icon_bbxt.png" />
+    <Content Include="template\blue2\images\icon_bggl.png" />
+    <Content Include="template\blue2\images\icon_cgjc.png" />
+    <Content Include="template\blue2\images\icon_cwxt.png" />
+    <Content Include="template\blue2\images\icon_djxt.png" />
+    <Content Include="template\blue2\images\icon_gb.png" />
+    <Content Include="template\blue2\images\icon_jyjc.png" />
+    <Content Include="template\blue2\images\icon_sx.png" />
+    <Content Include="template\blue2\images\icon_xgmm.png" />
+    <Content Include="template\blue2\images\icon_xtsz.png" />
+    <Content Include="template\blue2\images\icon_yxjc.png" />
+    <Content Include="template\blue2\images\icon_zjxt.png" />
+    <Content Include="template\blue2\images\icon_zx.png" />
+    <Content Include="template\blue2\images\icon_zxh.png" />
+    <Content Include="template\blue2\images\img-Check.png" />
+    <Content Include="template\blue2\images\Income_atop.png" />
+    <Content Include="template\blue2\images\Income_center.png" />
+    <Content Include="template\blue2\images\Income_left.png" />
+    <Content Include="template\blue2\images\Income_right.png" />
+    <Content Include="template\blue2\images\index_bg.png" />
+    <Content Include="template\blue2\images\infor-bg-center.jpg" />
+    <Content Include="template\blue2\images\infor-bg-left.jpg" />
+    <Content Include="template\blue2\images\infor-bg-right.jpg" />
+    <Content Include="template\blue2\images\infor-bg.png" />
+    <Content Include="template\blue2\images\infor-i.png" />
+    <Content Include="template\blue2\images\infor-yl-bg.png" />
+    <Content Include="template\blue2\images\Information-1.png" />
+    <Content Include="template\blue2\images\Information-2.png" />
+    <Content Include="template\blue2\images\Information-3.png" />
+    <Content Include="template\blue2\images\input-bg-c.png" />
+    <Content Include="template\blue2\images\input-bg-l.png" />
+    <Content Include="template\blue2\images\input-bg-r.png" />
+    <Content Include="template\blue2\images\IP-Setup-right-fen-bg.jpg" />
+    <Content Include="template\blue2\images\Iperso-bg-bak.png" />
+    <Content Include="template\blue2\images\Iperso-bg.png" />
+    <Content Include="template\blue2\images\jlc-tit-bg.jpg" />
+    <Content Include="template\blue2\images\kelo-an-bg.png" />
+    <Content Include="template\blue2\images\KscenBac.jpg" />
+    <Content Include="template\blue2\images\KscenDc.png" />
+    <Content Include="template\blue2\images\KscenJa.png" />
+    <Content Include="template\blue2\images\KscenSx.png" />
+    <Content Include="template\blue2\images\ksqh-arow-b.png" />
+    <Content Include="template\blue2\images\Layer-icobg.png" />
+    <Content Include="template\blue2\images\letool-bg.jpg" />
+    <Content Include="template\blue2\images\lisdb-1-fen.png" />
+    <Content Include="template\blue2\images\list-icon.png" />
+    <Content Include="template\blue2\images\listbottom-bg.jpg" />
+    <Content Include="template\blue2\images\listth-bg-bak.jpg" />
+    <Content Include="template\blue2\images\listth-bg.jpg" />
+    <Content Include="template\blue2\images\loading.gif" />
+    <Content Include="template\blue2\images\loading_1.gif" />
+    <Content Include="template\blue2\images\loading_2.gif" />
+    <Content Include="template\blue2\images\loading_3.gif" />
+    <Content Include="template\blue2\images\loading_4.gif" />
+    <Content Include="template\blue2\images\loading_bg.jpg" />
+    <Content Include="template\blue2\images\loading_bg.png" />
+    <Content Include="template\blue2\images\loading_bg2.png" />
+    <Content Include="template\blue2\images\login-bg.jpg" />
+    <Content Include="template\blue2\images\login-icon.jpg" />
+    <Content Include="template\blue2\images\login-logo.png" />
+    <Content Include="template\blue2\images\loginbg_03.png" />
+    <Content Include="template\blue2\images\logo-fyh-common.png" />
+    <Content Include="template\blue2\images\logo-png.png" />
+    <Content Include="template\blue2\images\logo.jpg" />
+    <Content Include="template\blue2\images\MaleFemale.png" />
+    <Content Include="template\blue2\images\menu-bg.jpg" />
+    <Content Include="template\blue2\images\menu_down_03.png" />
+    <Content Include="template\blue2\images\menu_ho.gif" />
+    <Content Include="template\blue2\images\menu_line.gif" />
+    <Content Include="template\blue2\images\menu_line2.gif" />
+    <Content Include="template\blue2\images\menu_mo.gif" />
+    <Content Include="template\blue2\images\menu_on_bg.gif" />
+    <Content Include="template\blue2\images\menu_on_left.gif" />
+    <Content Include="template\blue2\images\menu_on_left2.gif" />
+    <Content Include="template\blue2\images\menu_on_right.gif" />
+    <Content Include="template\blue2\images\menu_on_right2.gif" />
+    <Content Include="template\blue2\images\NameBg.png" />
+    <Content Include="template\blue2\images\navarrow-bottom.jpg" />
+    <Content Include="template\blue2\images\navarrow-bottom.png" />
+    <Content Include="template\blue2\images\navarrow-top.jpg" />
+    <Content Include="template\blue2\images\navarrow-top.png" />
+    <Content Include="template\blue2\images\nav_bg.gif" />
+    <Content Include="template\blue2\images\nav_left.gif" />
+    <Content Include="template\blue2\images\nav_on_bg.gif" />
+    <Content Include="template\blue2\images\nav_on_left.gif" />
+    <Content Include="template\blue2\images\nav_on_right.gif" />
+    <Content Include="template\blue2\images\nav_right.gif" />
+    <Content Include="template\blue2\images\NoDataBg.jpg" />
+    <Content Include="template\blue2\images\NoDataIcon.png" />
+    <Content Include="template\blue2\images\Notice.png" />
+    <Content Include="template\blue2\images\off-g.png" />
+    <Content Include="template\blue2\images\oper-bg.jpg" />
+    <Content Include="template\blue2\images\Package-titile-bg.jpg" />
+    <Content Include="template\blue2\images\paging-bg-center.png" />
+    <Content Include="template\blue2\images\paging-bg-fenge.png" />
+    <Content Include="template\blue2\images\paging-bg-left.png" />
+    <Content Include="template\blue2\images\paging-bg-right.png" />
+    <Content Include="template\blue2\images\plus.png" />
+    <Content Include="template\blue2\images\preview-jt.png" />
+    <Content Include="template\blue2\images\preview-kbg.jpg" />
+    <Content Include="template\blue2\images\purview-row.png" />
+    <Content Include="template\blue2\images\qmtp.png" />
+    <Content Include="template\blue2\images\Query.png" />
+    <Content Include="template\blue2\images\QueryBg.png" />
+    <Content Include="template\blue2\images\QueryGo.png" />
+    <Content Include="template\blue2\images\recover-anbr.png" />
+    <Content Include="template\blue2\images\recover-bg-center.png" />
+    <Content Include="template\blue2\images\recover-bg-left.png" />
+    <Content Include="template\blue2\images\recover-bg-qj-right.png" />
+    <Content Include="template\blue2\images\recover-bg-right.png" />
+    <Content Include="template\blue2\images\recover-sy-ber.png" />
+    <Content Include="template\blue2\images\recover-sy-bg.png" />
+    <Content Include="template\blue2\images\search.jpg" />
+    <Content Include="template\blue2\images\seized-cancel.png" />
+    <Content Include="template\blue2\images\Setup-h4-tt.png" />
+    <Content Include="template\blue2\images\skin05\11.jpg" />
+    <Content Include="template\blue2\images\skin05\abc.ico" />
+    <Content Include="template\blue2\images\skin05\adm.png" />
+    <Content Include="template\blue2\images\skin05\admin.css" />
+    <Content Include="template\blue2\images\skin05\bg.jpg" />
+    <Content Include="template\blue2\images\skin05\bg1.jpg" />
+    <Content Include="template\blue2\images\skin05\close.png" />
+    <Content Include="template\blue2\images\skin05\img2.jpg" />
+    <Content Include="template\blue2\images\skin05\img7.jpg" />
+    <Content Include="template\blue2\images\skin05\jian.png" />
+    <Content Include="template\blue2\images\skin05\key.png" />
+    <Content Include="template\blue2\images\skin05\pass.png" />
+    <Content Include="template\blue2\images\skin05\passcode.jpg" />
+    <Content Include="template\blue2\images\skin05\password.png" />
+    <Content Include="template\blue2\images\skin05\pintuer.css" />
+    <Content Include="template\blue2\images\skin05\tmbg-white.png" />
+    <Content Include="template\blue2\images\skin05\usename.png" />
+    <Content Include="template\blue2\images\skin05\y.jpg" />
+    <Content Include="template\blue2\images\sosuobg.jpg" />
+    <Content Include="template\blue2\images\sosuobg.png" />
+    <Content Include="template\blue2\images\stripe-th-bg-lh-s.jpg" />
+    <Content Include="template\blue2\images\stripe-th-bg-lh-x.jpg" />
+    <Content Include="template\blue2\images\stripe-th-bg-lh.jpg" />
+    <Content Include="template\blue2\images\stripe-th-bg.jpg" />
+    <Content Include="template\blue2\images\Switching-bg.png" />
+    <Content Include="template\blue2\images\Switching-fen.jpg" />
+    <Content Include="template\blue2\images\TheCalendar.jpg" />
+    <Content Include="template\blue2\images\time-bg.png" />
+    <Content Include="template\blue2\images\Tit_BG.jpg" />
+    <Content Include="template\blue2\images\tjjl-aro-hov.png" />
+    <Content Include="template\blue2\images\tjjl-aro.png" />
+    <Content Include="template\blue2\images\tool-1.jpg" />
+    <Content Include="template\blue2\images\tool-2.jpg" />
+    <Content Include="template\blue2\images\tool-3.jpg" />
+    <Content Include="template\blue2\images\tuxcj-list-bottom.jpg" />
+    <Content Include="template\blue2\images\tuxcj-list-top.jpg" />
+    <Content Include="template\blue2\images\wanc-bg.jpg" />
+    <Content Include="template\blue2\images\Warning.png" />
+    <Content Include="template\blue2\images\Watermark.png" />
+    <Content Include="template\blue2\images\yl-title-bg.png" />
+    <Content Include="template\blue2\images\yylf-ar.png" />
+    <Content Include="template\blue2\images\zjxz-jlc-nr-fenx.jpg" />
+    <Content Include="template\blue2\images\zjxz-jlc-nr-left-table-bg.jpg" />
+    <Content Include="template\blue2\images\zjzs-tab-bg-bak.png" />
+    <Content Include="template\blue2\images\zjzs-tab-bg-hov.png" />
+    <Content Include="template\blue2\images\zjzs-tab-bg.png" />
+    <Content Include="template\blue2\images\zjzs-tab-bg1.png" />
+    <Content Include="template\blue2\images\zjzs-tab-bg_01.png" />
+    <Content Include="template\blue2\images\zk-bg.jpg" />
+    <Content Include="template\blue2\js\ajax\ajaxUser.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\artDialog.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\artDialog.source.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\index.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\jquery.artDialog.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\jquery.artDialog.source.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\license.txt" />
+    <Content Include="template\blue2\js\artDialog4.1.7\plugins\iframeTools.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\plugins\iframeTools.source.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\aero_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\aero_s2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_title_icon.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\aero\ie6\aui_w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\bg.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\bg2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\bg_css3.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\bg_css3_2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\black\ie6\w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\bg.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\bg2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\bg_css3.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\bg_css3_2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\blue\ie6\w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\chrome.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\chrome\border.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\chrome\chrome_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\default.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\bg.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\bg2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\bg_css3.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\bg_css3_2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\color_bg.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\green\ie6\w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\error.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\face-sad.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\face-smile.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\loading.gif" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\question.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\succeed.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\icons\warning.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\idialog_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\idialog_s2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\idialog\ie6\aui_w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_close.hover.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_close.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_e.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_n.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_ne.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_nw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_s.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_se.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_sw.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\ie6\aui_w.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\list-icon.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\s1.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\opera\s2.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\simple.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\skins\twitter.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\ajaxContent\content.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\ajaxContent\googleMaps.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\ajaxContent\login.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\API.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\demo.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\demo.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\down.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\frameset.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\googleMaps.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\helloWorld.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\AUTHORS.en.txt" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\export.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\highlight.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\highlight.pack.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\languages\javascript.js" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\readme.eng.txt" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\styles\magula.css" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\test.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\iframe.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\iframeA.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\iframeB.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\iframeTop.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\iframe_frameset.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\alipay.jpg" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\bg.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\bottom.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\doc.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\lixiaolong.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\logo.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\opensource.gif" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\photo.jpg" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\images\text.png" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\labs.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\license.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\log.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\login_iframe.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\login_iframe_2.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\new.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\plugin.iframe.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\topFrame.html" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\upd.txt" />
+    <Content Include="template\blue2\js\bootstrap-wysihtml5.js" />
+    <Content Include="template\blue2\js\bootstrap.js" />
+    <Content Include="template\blue2\js\Clouds-float.js" />
+    <Content Include="template\blue2\js\Commom.js" />
+    <Content Include="template\blue2\js\dragDrop.min.js" />
+    <Content Include="template\blue2\js\Enlarge-Editor.js" />
+    <Content Include="template\blue2\js\Jq-common.js" />
+    <Content Include="template\blue2\js\Jq-common.min.js" />
+    <Content Include="template\blue2\js\Jq-moveTree.js" />
+    <Content Include="template\blue2\js\jquery-1.10.1.min.js" />
+    <Content Include="template\blue2\js\jquery-1.3.2.min.js" />
+    <Content Include="template\blue2\js\jquery.md5.js" />
+    <Content Include="template\blue2\js\jquery.min.js" />
+    <Content Include="template\blue2\js\jquery.pagination.js" />
+    <Content Include="template\blue2\js\jquery.poshytip.js" />
+    <Content Include="template\blue2\js\jquery.poshytip.min.js" />
+    <Content Include="template\blue2\js\jquery.tablefix_1.0.1.js" />
+    <Content Include="template\blue2\js\jquery.uniform.js" />
+    <Content Include="template\blue2\js\jquerys-1.5.1.js" />
+    <Content Include="template\blue2\js\jsTree\jstree.js" />
+    <Content Include="template\blue2\js\jsTree\jstree.min.js" />
+    <Content Include="template\blue2\js\jsTree\themes\default\32px.png" />
+    <Content Include="template\blue2\js\jsTree\themes\default\40px.png" />
+    <Content Include="template\blue2\js\jsTree\themes\default\style.css" />
+    <Content Include="template\blue2\js\jsTree\themes\default\style.min.css" />
+    <Content Include="template\blue2\js\jsTree\themes\default\throbber.gif" />
+    <Content Include="template\blue2\js\JS_BusSetWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_Conclusion.js" />
+    <Content Include="template\blue2\js\JS_Config.js" />
+    <Content Include="template\blue2\js\JS_CustFeeDetailWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_CustFeeOfDayWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_CustFeeWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_CustomerCharges.js" />
+    <Content Include="template\blue2\js\JS_CustomerManage.js" />
+    <Content Include="template\blue2\js\JS_CustomerManageOper.js" />
+    <Content Include="template\blue2\js\JS_CustomerSecurityLevelList.js" />
+    <Content Include="template\blue2\js\JS_CustomerSubScribDateOper.js" />
+    <Content Include="template\blue2\js\JS_CustomerWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_DiscountSearchWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_DiseaseLevelInform.js" />
+    <Content Include="template\blue2\js\JS_DiseaseLevelWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_DoctorWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_ExamList.js" />
+    <Content Include="template\blue2\js\JS_ExamOper.js" />
+    <Content Include="template\blue2\js\JS_FeeNameWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_FloatRight.js" />
+    <Content Include="template\blue2\js\JS_GetCustomerOfEveryDayWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_GiveUpManageList.js" />
+    <Content Include="template\blue2\js\JS_GiveUpManageOper.js" />
+    <Content Include="template\blue2\js\JS_GuideNurseSearchWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_GuideSheetReturnedWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_GuideSheetReturnList.js" />
+    <Content Include="template\blue2\js\JS_GuideSheetReturnOper.js" />
+    <Content Include="template\blue2\js\JS_Index.js" />
+    <Content Include="template\blue2\js\JS_InternetDataImportList.js" />
+    <Content Include="template\blue2\js\JS_InvoiceSearchWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_InvoiceWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_IPSetting.js" />
+    <Content Include="template\blue2\js\JS_LabExamOper.js" />
+    <Content Include="template\blue2\js\JS_LabExamOperSingle - 副本 %282%29.js" />
+    <Content Include="template\blue2\js\JS_LabExamOperSingle - 副本 %283%29.js" />
+    <Content Include="template\blue2\js\JS_LabExamOperSingle - 副本.js" />
+    <Content Include="template\blue2\js\JS_LabExamOperSingle.js" />
+    <Content Include="template\blue2\js\JS_RegisterWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_RegistList.js" />
+    <Content Include="template\blue2\js\JS_RegistOper.js" />
+    <Content Include="template\blue2\js\JS_ReportInformerAndReceipt.js" />
+    <Content Include="template\blue2\js\JS_ReportPreview.js" />
+    <Content Include="template\blue2\js\JS_ReportPrint.js" />
+    <Content Include="template\blue2\js\JS_Right.js" />
+    <Content Include="template\blue2\js\JS_SectionOncustFeeWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_SectionSearchWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_TeamBatch.js" />
+    <Content Include="template\blue2\js\JS_TeamCustomerManageOper - 副本.js" />
+    <Content Include="template\blue2\js\JS_TeamCustomerManageOper.js" />
+    <Content Include="template\blue2\js\JS_TeamList.js" />
+    <Content Include="template\blue2\js\JS_TeamOper - 副本.js" />
+    <Content Include="template\blue2\js\JS_TeamOper.js" />
+    <Content Include="template\blue2\js\JS_TeamSearch.js" />
+    <Content Include="template\blue2\js\JS_TeamWorkLoad.js" />
+    <Content Include="template\blue2\js\JS_UnlockReportState.js" />
+    <Content Include="template\blue2\js\Layer.js" />
+    <Content Include="template\blue2\js\My97DatePicker\calendar.js" />
+    <Content Include="template\blue2\js\My97DatePicker\lang\en.js" />
+    <Content Include="template\blue2\js\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="template\blue2\js\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\default\img.gif" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="template\blue2\js\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="template\blue2\js\My97DatePicker\WdatePicker.js" />
+    <Content Include="template\blue2\js\purview-nav.js" />
+    <Content Include="template\blue2\js\purview-Permissions.js" />
+    <Content Include="template\blue2\js\role-purview-nav.js" />
+    <Content Include="template\blue2\js\select2.min.js" />
+    <Content Include="template\blue2\js\skin05\common\check.js" />
+    <Content Include="template\blue2\js\skin05\common\tools.js" />
+    <Content Include="template\blue2\js\skin05\config\base.js" />
+    <Content Include="template\blue2\js\skin05\config\base1.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\faPiaoChaXun.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\jiZhangChaXun.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\keHuShouFeiMingXi.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\shouFeiCaoZuo.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\shouFeiMingXiDay.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\shouFeiMingXiMonth.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\shouFeiXiangMuTongJi.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\tuiFeiCaoZuo.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\xiangMuLeiXingChaXun.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\xiangMuMingXiChaXun.js" />
+    <Content Include="template\blue2\js\skin05\financialManagement\zheKouChaXun.js" />
+    <Content Include="template\blue2\js\skin05\GeneralInspectionSystem\jieChuZongJian.js" />
+    <Content Include="template\blue2\js\skin05\GeneralInspectionSystem\jieChuZongShen.js" />
+    <Content Include="template\blue2\js\skin05\GeneralInspectionSystem\zongJianYeWu.js" />
+    <Content Include="template\blue2\js\skin05\GeneralInspectionSystem\zongShenYeWu.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\bingLiKe.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\changJingShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\chaoShengGuMiDuShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\CTshi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\DongMaiYingHuaJianChaShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\dongTaiXinDianTuJianChaShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\dongTaiXueTangJianCeShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\dongTaiXueYaJianChaShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\ECT.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fangSheXian-x.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\feiGongNengJianChaKe.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuBuCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuBuDaXueGuanCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuGuGouLinBaJieCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuKeCaiChaoYinDao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuQiangCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\fuZhuDongMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\guMiDuCeLiangShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\heCiGongZhen.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\houJingShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\jiaZhuangXianCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\jingBuDongMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\naoDianTuShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\PET-CTzhongXin.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\qianLieXianCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\ruXianCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\ruXianMuBa.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\ruXianQuanRongJiChaoSheng.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shenShangXianJiShenDongMaiCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangShangZhiDongMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangShangZhiJingMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangShenXueGuan.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangXiaZhiDongMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangXiaZhiJingMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\shuangXiaZhiShenJingMai.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\suoGuShangLinBAJieCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\TcdShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\tiBiaoBaoKuaiCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\weiChangCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\weiJingShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\xinDianTuShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\xinZangChangGui.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\xueGuanNeiPiJiNengCeShi.js" />
+    <Content Include="template\blue2\js\skin05\ImagingExamination\yinNangCaiChao.js" />
+    <Content Include="template\blue2\js\skin05\Inspection\heYiXueKe.js" />
+    <Content Include="template\blue2\js\skin05\Inspection\jianYanKe.js" />
+    <Content Include="template\blue2\js\skin05\Inspection\yiQuanTuoQingMeiJiYinJianCe.js" />
+    <Content Include="template\blue2\js\skin05\Inspection\yiuChuanFenZiZhongXin.js" />
+    <Content Include="template\blue2\js\skin05\Inspection\zhongXinShiYanShi.js" />
+    <Content Include="template\blue2\js\skin05\lib\bootstrap.min.js" />
+    <Content Include="template\blue2\js\skin05\lib\jquery-3.1.1.min.js" />
+    <Content Include="template\blue2\js\skin05\pages\ajaxdata.js" />
+    <Content Include="template\blue2\js\skin05\pages\common.js" />
+    <Content Include="template\blue2\js\skin05\pages\editPass.js" />
+    <Content Include="template\blue2\js\skin05\pages\index.js" />
+    <Content Include="template\blue2\js\skin05\pages\indexListModule.js" />
+    <Content Include="template\blue2\js\skin05\pages\login.js" />
+    <Content Include="template\blue2\js\skin05\pages\pintuer.js" />
+    <Content Include="template\blue2\js\skin05\pages\sonPageCommon.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\dangAnGuanLi.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\huiShouCaoZuo.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\jieKouChongFa.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\keHuGuanLian.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\piLiangCaoZuo.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\qiJianGuanLi.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\renWuFenZu.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\tiJianGaiQian.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\tongYongChaXun.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\tuanTiDengJi.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\tuanTiRenWu.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\tuanTiXinXi.js" />
+    <Content Include="template\blue2\js\skin05\RegistrationSystem\yuYueDengJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\baoGaoDaYin.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\baoGaoFengMianDaYin.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\baoGaoLingQu.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\baoGaoTongZhi.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\baoGaoYuLan.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\bingZhengJiBieTongZhi.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\bingZhengTongZhi.js" />
+    <Content Include="template\blue2\js\skin05\ReportManagement\jieChuLingQu.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\bingZhengChaXun.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\daoJianTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\dengJiTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\fenKeChaXun.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\fenKeTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\huiShouChaXun.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\huiShouTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\JiAnChuLi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\luRuTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\taoCanTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\TuanbTiRiQiFenBuTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiCanJianFenXiTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiJianChuTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiJieLunHuiZongTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiNianLingFenBuTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiRenYuanGouChengTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\TuanTiWanChengFenXiTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiYangXingJieGuoTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\tuanTiZongTiFenXiTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\yuYueShuJuChaXun.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\YuYueShuJuDaoRu.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\zongHeTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\zongJianTongJi.js" />
+    <Content Include="template\blue2\js\skin05\ReportSystem\zongShenTongJi.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\bingShiJiShengHuoShi.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\dianCeTingShi.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\erBiHouKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\fuKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\gongJingShiShiShaiCha.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\kouQiangKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\neiKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\neiZangZhiFangFenXi.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\renTiChengFenFenXi.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\shengZhiZhongXin.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\shenTu.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\waiKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\yanKe.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\YiBanJianCha.js" />
+    <Content Include="template\blue2\js\skin05\RoutineExamination\youMenLuoXuanGanJunJianCe.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\biaoBenWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\ceShi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\chaunKouCanShuWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\ICD10WeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\IPDiZhiSheZhi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\jianChaXiangMuMingXi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\jianChaXiangMuMuBanFenZu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\jieLunCiLeiXingWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\jueSeGuanLi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\keHuDuanKongZhi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\keHuJiaMi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\keShiWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\kouQiangKe.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\quanXianYuLan.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\ShouFeiXiangMuMingXi.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\shouFeiXiangMuMuBan.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\taoCanWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\tiJianDiZhiWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\tiJianLeiXingWeiHu.js" />
+    <Content Include="template\blue2\js\skin05\SystemSettings\yongHuWeiHu.js" />
+    <Content Include="template\blue2\js\stripe.js" />
+    <Content Include="template\blue2\js\table-scroll-x.js" />
+    <Content Include="template\blue2\js\tip-skyblue\tip-skyblue.css" />
+    <Content Include="template\blue2\js\tip-skyblue\tip-skyblue.png" />
+    <Content Include="template\blue2\js\tip-skyblue\tip-skyblue_arrows.png" />
+    <Content Include="template\blue2\js\Total-seizure.js" />
+    <Content Include="template\blue2\js\WebIm - 副本 %282%29.js" />
+    <Content Include="template\blue2\js\WebIm - 副本.js" />
+    <Content Include="template\blue2\js\WebIm.js" />
+    <Content Include="template\blue2\js\wp-auto-top.js" />
+    <Content Include="template\blue2\js\复件 JS_CustomerCharges.js" />
+    <Content Include="template\blue2\js\复件 JS_ReportPreview.js" />
+    <Content Include="template\blue2\js\复件 JS_ReportPrint.js" />
+    <Content Include="template\blue2\LoginSkin\Skin02\css\login.css" />
+    <Content Include="template\blue2\LoginSkin\Skin02\images\btn_07.png" />
+    <Content Include="template\blue2\LoginSkin\Skin02\images\indx_03.png" />
+    <Content Include="template\blue2\LoginSkin\Skin02\images\inpt_bg_03.png" />
+    <Content Include="template\blue2\LoginSkin\Skin02\images\loginbg_03.png" />
+    <Content Include="template\blue2\LoginSkin\Skin02\images\mainpic_05.png" />
+    <Content Include="template\blue2\LoginSkin\Skin02\login.htm" />
+    <Content Include="template\blue2\LoginSkin\Skin03\css\login.css" />
+    <Content Include="template\blue2\LoginSkin\Skin03\images\login-bg.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin03\images\login-icon.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin03\images\login-logo.png" />
+    <Content Include="template\blue2\LoginSkin\Skin03\login.htm" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\css\login.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\css\style.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\adm.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\avtar.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\close.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\cloud.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\img2.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\key.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\login-bg.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\login-icon.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\login-inputbg.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\login-logo.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\images\pass.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04 - 复制\login.htm" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\css\login.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\css\style.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\adm.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\avtar.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\close.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\cloud.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\img2.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\key.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\login-bg.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\login-icon.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\login-inputbg.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\login-logo.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\images\pass.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04-new\login.htm" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\css\reset.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\css\style.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\css\supersized.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\backgrounds\1.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\backgrounds\2.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\backgrounds\2222.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\backgrounds\3.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\facebook.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\progress.gif" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\img\twitter.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\js\jquery-1.8.2.min.js" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\js\scripts.js" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\js\supersized-init.js" />
+    <Content Include="template\blue2\LoginSkin\Skin04\assets\js\supersized.3.2.7.min.js" />
+    <Content Include="template\blue2\LoginSkin\Skin04\css\login.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04\css\style.css" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\adm.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\avtar.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\close.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\cloud.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img2.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img3.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img4.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img5.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img6.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img7.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img8.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\img9.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\key.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\login-bg.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\login-icon.jpg" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\login-inputbg.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\login-logo.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\images\pass.png" />
+    <Content Include="template\blue2\LoginSkin\Skin04\login.htm" />
+    <Content Include="template\blue2\System\Admin\ClientList.htm" />
+    <Content Include="template\blue2\System\Admin\CustomerManage.htm" />
+    <Content Include="template\blue2\System\Admin\CustomerManageOper.htm" />
+    <Content Include="template\blue2\System\Admin\CustomerSecurityLevel.htm" />
+    <Content Include="template\blue2\System\Admin\CustomerSubScribDateOper.htm" />
+    <Content Include="template\blue2\System\Admin\CustPhysicalExamMerge.htm" />
+    <Content Include="template\blue2\System\Admin\CustPhysicalExamMergeOper.htm" />
+    <Content Include="template\blue2\System\Admin\InternetDataImport.htm" />
+    <Content Include="template\blue2\System\Admin\InternetDataImportList.htm" />
+    <Content Include="template\blue2\System\Admin\IPSetting.htm" />
+    <Content Include="template\blue2\System\Admin\RepeatCustomerLisProject.htm" />
+    <Content Include="template\blue2\System\Admin\UnlockReportState.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionCheck.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionCheckList.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionList.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionOper.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionOper_old.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionOper_old2.htm" />
+    <Content Include="template\blue2\System\ConclusionEx\ConclusionOper_old3.htm" />
+    <Content Include="template\blue2\System\Conclusion\ConclusionCheckList.htm" />
+    <Content Include="template\blue2\System\Conclusion\ConclusionList.htm" />
+    <Content Include="template\blue2\System\Conclusion\ConclusionUnCheck.htm" />
+    <Content Include="template\blue2\System\Conclusion\ConclusionUnFinished.htm" />
+    <Content Include="template\blue2\System\Config\COM\config.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\ConclusionList.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\ConclusionOper.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\ConclusionTypeList.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\ConclusionTypeOper.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\FeeReportList.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\FeeReportOper.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\FinalConclusionTypeList.htm" />
+    <Content Include="template\blue2\System\Config\Conclusion\FinalConclusionTypeOper.htm" />
+    <Content Include="template\blue2\System\Config\ExamPlace\ExamPlaceList.htm" />
+    <Content Include="template\blue2\System\Config\ExamPlace\ExamPlaceOper.htm" />
+    <Content Include="template\blue2\System\Config\ExamType\ExamTypeList.htm" />
+    <Content Include="template\blue2\System\Config\ExamType\ExamTypeOper.htm" />
+    <Content Include="template\blue2\System\Config\Exam\ExamItemGroupList.htm" />
+    <Content Include="template\blue2\System\Config\Exam\ExamItemGroupOper.htm" />
+    <Content Include="template\blue2\System\Config\Exam\ExamSymptomRel.htm" />
+    <Content Include="template\blue2\System\Config\Fee\FeeExamRel.htm" />
+    <Content Include="template\blue2\System\Config\ICDTen\ICDTenList.htm" />
+    <Content Include="template\blue2\System\Config\LoginCount\UserList.htm" />
+    <Content Include="template\blue2\System\Config\Section\SectionList.htm" />
+    <Content Include="template\blue2\System\Config\Set\SetFeeRel.htm" />
+    <Content Include="template\blue2\System\Config\Specimen\SpecimenList.htm" />
+    <Content Include="template\blue2\System\Config\Specimen\SpecimenOper.htm" />
+    <Content Include="template\blue2\System\Config\User\UserList.htm" />
+    <Content Include="template\blue2\System\Config\User\UserRightSet.htm" />
+    <Content Include="template\blue2\System\Customer\CustomerCharges.htm" />
+    <Content Include="template\blue2\System\Customer\RegistList.htm" />
+    <Content Include="template\blue2\System\Customer\RegistOper.htm" />
+    <Content Include="template\blue2\System\Customer\TeamBatchOper.htm" />
+    <Content Include="template\blue2\System\Customer\TeamBatch_BusFeeOper.htm" />
+    <Content Include="template\blue2\System\Customer\TeamList.htm" />
+    <Content Include="template\blue2\System\Customer\TeamListOper.htm" />
+    <Content Include="template\blue2\System\Customer\TeamOper.htm" />
+    <Content Include="template\blue2\System\Customer\TeamTaskList.htm" />
+    <Content Include="template\blue2\System\Customer\复件 RegistList.htm" />
+    <Content Include="template\blue2\System\DiseaseLevel\DiseaseLevelInform.htm" />
+    <Content Include="template\blue2\System\DiseaseLevel\InformOper.htm" />
+    <Content Include="template\blue2\System\Exam\ExamList.htm" />
+    <Content Include="template\blue2\System\Exam\ExamOper - 副本 %283%29.htm" />
+    <Content Include="template\blue2\System\Exam\ExamOper.htm" />
+    <Content Include="template\blue2\System\Exam\LabExamOper.htm" />
+    <Content Include="template\blue2\System\Exam\LabExamOperSingle.htm" />
+    <Content Include="template\blue2\System\GiveUpManage\GiveUpManageList.htm" />
+    <Content Include="template\blue2\System\GiveUpManage\GiveUpManageOper.htm" />
+    <Content Include="template\blue2\System\GuideSheet\GuideSheetReturnList.htm" />
+    <Content Include="template\blue2\System\GuideSheet\GuideSheetReturnOper.htm" />
+    <Content Include="template\blue2\System\index.htm" />
+    <Content Include="template\blue2\System\ReportManage\PrintReport.htm" />
+    <Content Include="template\blue2\System\ReportManage\PrintReport_Old.htm" />
+    <Content Include="template\blue2\System\ReportManage\ReportInform.htm" />
+    <Content Include="template\blue2\System\ReportManage\ReportInformerAndReceipt.htm" />
+    <Content Include="template\blue2\System\ReportManage\ReportPreview.htm" />
+    <Content Include="template\blue2\System\ReportManage\ReportReceipt.htm" />
+    <Content Include="template\blue2\System\right\RightViewList.htm" />
+    <Content Include="template\blue2\System\right\RoleList.htm" />
+    <Content Include="template\blue2\System\right\RoleOper.htm" />
+    <Content Include="template\blue2\System\right\RoleRightRel.htm" />
+    <Content Include="template\blue2\System\skin05\add.html" />
+    <Content Include="template\blue2\System\skin05\adv.html" />
+    <Content Include="template\blue2\System\skin05\book.html" />
+    <Content Include="template\blue2\System\skin05\cate.html" />
+    <Content Include="template\blue2\System\skin05\cateedit.html" />
+    <Content Include="template\blue2\System\skin05\column.html" />
+    <Content Include="template\blue2\System\skin05\common\kongList.html" />
+    <Content Include="template\blue2\System\skin05\cs.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\faPiaoChaXun.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\jiZhangChaXun.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\keHuShouFeiMingXi.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\shouFeiCaoZuo.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\shouFeiMingXiDay.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\shouFeiMingXiMonth.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\shouFeiXiangMuTongJi.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\tuiFeiCaoZuo.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\xiangMuLeiXingChaXun.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\xiangMuMingXiChaXun.html" />
+    <Content Include="template\blue2\System\skin05\financialManagement\zheKouChaXun.html" />
+    <Content Include="template\blue2\System\skin05\GeneralInspectionSystem\jieChuZongJian.html" />
+    <Content Include="template\blue2\System\skin05\GeneralInspectionSystem\jieChuZongShen.html" />
+    <Content Include="template\blue2\System\skin05\GeneralInspectionSystem\zongJianYeWu.html" />
+    <Content Include="template\blue2\System\skin05\GeneralInspectionSystem\zongShenYeWu.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\bingLiKe.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\changJingShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\chaoShengGuMiDuShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\CTshi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\DongMaiYingHuaJianChaShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\dongTaiXinDianTuJianChaShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\dongTaiXueTangJianCeShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\dongTaiXueYaJianChaShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\ECT.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fangSheXian-x.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\feiGongNengJianChaKe.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuBuCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuBuDaXueGuanCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuGuGouLinBaJieCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuKeCaiChaoYinDao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuQiangCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\fuZhuDongMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\guMiDuCeLiangShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\heCiGongZhen.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\houJingShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\jiaZhuangXianCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\jingBuDongMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\naoDianTuShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\PET-CTzhongXin.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\qianLieXianCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\ruXianCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\ruXianMuBa.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\ruXianQuanRongJiChaoSheng.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shenShangXianJiShenDongMaiCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangShangZhiDongMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangShangZhiJingMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangShenXueGuan.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangXiaZhiDongMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangXiaZhiJingMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\shuangXiaZhiShenJingMai.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\suoGuShangLinBAJieCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\TcdShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\tiBiaoBaoKuaiCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\weiChangCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\weiJingShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\xinDianTuShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\xinZangChangGui.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\xueGuanNeiPiJiNengCeShi.html" />
+    <Content Include="template\blue2\System\skin05\ImagingExamination\yinNangCaiChao.html" />
+    <Content Include="template\blue2\System\skin05\index.htm" />
+    <Content Include="template\blue2\System\skin05\info.html" />
+    <Content Include="template\blue2\System\skin05\Inspection\heYiXueKe.html" />
+    <Content Include="template\blue2\System\skin05\Inspection\jianYanKe.html" />
+    <Content Include="template\blue2\System\skin05\Inspection\yiQuanTuoQingMeiJiYinJianCe.html" />
+    <Content Include="template\blue2\System\skin05\Inspection\yiuChuanFenZiZhongXin.html" />
+    <Content Include="template\blue2\System\skin05\Inspection\zhongXinShiYanShi.html" />
+    <Content Include="template\blue2\System\skin05\list.html" />
+    <Content Include="template\blue2\System\skin05\page.html" />
+    <Content Include="template\blue2\System\skin05\pass.html" />
+    <Content Include="template\blue2\System\skin05\Registration system\tiJianGaiQian.html" />
+    <Content Include="template\blue2\System\skin05\Registration system\tuanTiDengJi.html" />
+    <Content Include="template\blue2\System\skin05\Registration system\yuYueDengJi.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\dangAnGuanLi.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\huiShouCaoZuo.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\jieKouChongFa.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\keHuGuanLian.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\piLiangCaoZuo.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\qiJianGuanLi.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\renWuFenZu.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\tiJianGaiQian.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\tongYongChaXun.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\tuanTiDengJi.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\tuanTiRenWu.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\tuanTiXinXi.html" />
+    <Content Include="template\blue2\System\skin05\RegistrationSystem\yuYueDengJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\baoGaoDaYin.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\baoGaoFengMianDaYin.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\baoGaoLingQu.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\baoGaoTongZhi.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\baoGaoYuLan.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\bingZhengJiBieTongZhi.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\bingZhengTongZhi.html" />
+    <Content Include="template\blue2\System\skin05\ReportManagement\jieChuLingQu.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\bingZhengChaXun.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\daoJianTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\dengJiTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\fenKeChaXun.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\fenKeTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\huiShouChaXun.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\huiShouTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\JiAnChuLi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\luRuTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\taoCanTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\TuanbTiRiQiFenBuTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiCanJianFenXiTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiJianChuTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiJieLunHuiZongTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiNianLingFenBuTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiRenYuanGouChengTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\TuanTiWanChengFenXiTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiYangXingJieGuoTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\tuanTiZongTiFenXiTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\yuYueShuJuChaXun.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\YuYueShuJuDaoRu.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\zongHeTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\zongJianTongJi.html" />
+    <Content Include="template\blue2\System\skin05\ReportSystem\zongShenTongJi.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\bingShiJiShengHuoShi.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\dianCeTingShi.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\erBiHouKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\fuKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\gongJingShiShiShaiCha.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\kouQiangKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\neiKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\neiZangZhiFangFenXi.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\renTiChengFenFenXi.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\shengZhiZhongXin.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\shenTu.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\waiKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\yanKe.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\YiBanJianCha.html" />
+    <Content Include="template\blue2\System\skin05\RoutineExamination\youMenLuoXuanGanJunJianCe.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\biaoBenWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\ceShi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\chaunKouCanShuWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\ICD10WeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\IPDiZhiSheZhi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\jianChaXiangMuMingXi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\jianChaXiangMuMuBanFenZu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\jieLunCiLeiXingWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\jueSeGuanLi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\keHuDuanKongZhi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\keHuJiaMi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\keShiWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\kouQiangKe.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\quanXianYuLan.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\ShouFeiXiangMuMingXi.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\shouFeiXiangMuMuBan.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\taoCanWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\tiJianDiZhiWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\tiJianLeiXingWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\SystemSettings\yongHuWeiHu.html" />
+    <Content Include="template\blue2\System\skin05\tips.html" />
+    <Content Include="template\blue2\System\Statistics\AgeWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\AllConclusionWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\BackLogWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\BusSetWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CompeleteWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\ConclusionWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\CustFeeDetailWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CustFeeOfDayWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CustFeeOfMonthWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CustFeeWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CustFeeWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\CustomerFormOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\CustomerOfEveryDayWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\CustomerWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\DiscountSearchWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\DiseaseLevelWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\DoctorWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\FeeNameWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\GuideNurseSearchWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\GuideSheetReturnedSearchWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\GuideSheetReturnedWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\InvoiceSearchWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\InvoiceWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\PositiveSummaryWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\RegisterWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\SectionOncustFeeWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\SectionSearchWorkLoad.htm" />
+    <Content Include="template\blue2\System\Statistics\SubScribDateWorkLoadOfTeam.htm" />
+    <Content Include="template\blue2\System\Statistics\TeamWorkLoad.htm" />
+    <Content Include="template\blue2\System\test\test.htm" />
+    <Content Include="template\blue2\System\Welcome.htm" />
+    <Content Include="template\blue\css\common.css" />
+    <Content Include="template\blue\css\css.css" />
+    <Content Include="template\blue\css\Css_RegistOper.css" />
+    <Content Include="template\blue\css\Css_TeamOper.css" />
+    <Content Include="template\blue\css\dialogcss.css" />
+    <Content Include="template\blue\css\exam.css" />
+    <Content Include="template\blue\css\invalid.css" />
+    <Content Include="template\blue\css\reset.css" />
+    <Content Include="template\blue\css\right.css" />
+    <Content Include="template\blue\css\select2.css" />
+    <Content Include="template\blue\css\style.css" />
+    <Content Include="template\blue\css\uniform.css" />
+    <Content Include="template\blue\images\anniu-bg.gif" />
+    <Content Include="template\blue\images\b.png" />
+    <Content Include="template\blue\images\bg-body.gif" />
+    <Content Include="template\blue\images\bg-button-green.gif" />
+    <Content Include="template\blue\images\bg-content-box.gif" />
+    <Content Include="template\blue\images\bg-form-field.gif" />
+    <Content Include="template\blue\images\bg-login-top.png" />
+    <Content Include="template\blue\images\bg-login.gif" />
+    <Content Include="template\blue\images\bg-menu-item-current.gif" />
+    <Content Include="template\blue\images\bg-menu-item-green.gif" />
+    <Content Include="template\blue\images\bg-menu-item-White.gif" />
+    <Content Include="template\blue\images\bg-radial-gradient.gif" />
+    <Content Include="template\blue\images\bg-sidebar.gif" />
+    <Content Include="template\blue\images\bl.png" />
+    <Content Include="template\blue\images\bottom.png" />
+    <Content Include="template\blue\images\br.png" />
+    <Content Include="template\blue\images\breadcrumb.png" />
+    <Content Include="template\blue\images\btn_07.png" />
+    <Content Include="template\blue\images\fangdajing.png" />
+    <Content Include="template\blue\images\flag01.png" />
+    <Content Include="template\blue\images\glyphicons-halflings-white.png" />
+    <Content Include="template\blue\images\head.jpg" />
+    <Content Include="template\blue\images\icons\ajax-loader.gif" />
+    <Content Include="template\blue\images\icons\bullet_black.png" />
+    <Content Include="template\blue\images\icons\clock_48.png" />
+    <Content Include="template\blue\images\icons\comment_48.png" />
+    <Content Include="template\blue\images\icons\cross.png" />
+    <Content Include="template\blue\images\icons\cross_circle.png" />
+    <Content Include="template\blue\images\icons\cross_grey_small.png" />
+    <Content Include="template\blue\images\icons\exclamation.png" />
+    <Content Include="template\blue\images\icons\hammer_screwdriver.png" />
+    <Content Include="template\blue\images\icons\image_add_48.png" />
+    <Content Include="template\blue\images\icons\information.png" />
+    <Content Include="template\blue\images\icons\jquery.wysiwyg.gif" />
+    <Content Include="template\blue\images\icons\nohead.gif" />
+    <Content Include="template\blue\images\icons\nopic.jpg" />
+    <Content Include="template\blue\images\icons\paper_content_pencil_48.png" />
+    <Content Include="template\blue\images\icons\pencil.png" />
+    <Content Include="template\blue\images\icons\pencil_48.png" />
+    <Content Include="template\blue\images\icons\tick_circle.png" />
+    <Content Include="template\blue\images\icon_close.jpg" />
+    <Content Include="template\blue\images\icon_crumb.jpg" />
+    <Content Include="template\blue\images\icon_home.jpg" />
+    <Content Include="template\blue\images\icon_logout.jpg" />
+    <Content Include="template\blue\images\icon_refush.jpg" />
+    <Content Include="template\blue\images\icon_set.jpg" />
+    <Content Include="template\blue\images\idx_01.jpg" />
+    <Content Include="template\blue\images\idx_01.png" />
+    <Content Include="template\blue\images\idx_02.png" />
+    <Content Include="template\blue\images\idx_03.png" />
+    <Content Include="template\blue\images\idx_09.jpg" />
+    <Content Include="template\blue\images\idx_11.png" />
+    <Content Include="template\blue\images\indx_03.png" />
+    <Content Include="template\blue\images\inpt_bg_03.png" />
+    <Content Include="template\blue\images\late_left.gif" />
+    <Content Include="template\blue\images\late_right.gif" />
+    <Content Include="template\blue\images\Layer-icobg.png" />
+    <Content Include="template\blue\images\loading.gif" />
+    <Content Include="template\blue\images\loading_1.gif" />
+    <Content Include="template\blue\images\loading_2.gif" />
+    <Content Include="template\blue\images\loading_3.gif" />
+    <Content Include="template\blue\images\loading_4.gif" />
+    <Content Include="template\blue\images\loading_bg.jpg" />
+    <Content Include="template\blue\images\loading_bg.png" />
+    <Content Include="template\blue\images\loading_bg2.png" />
+    <Content Include="template\blue\images\loginbg_03.png" />
+    <Content Include="template\blue\images\logo.png" />
+    <Content Include="template\blue\images\mainpic_05.png" />
+    <Content Include="template\blue\images\menu-current-arrow.gif" />
+    <Content Include="template\blue\images\shortcut-button-bg.gif" />
+    <Content Include="template\blue\images\tl.png" />
+    <Content Include="template\blue\images\top.png" />
+    <Content Include="template\blue\images\tr.png" />
+    <Content Include="template\blue\images\zjxz-jlc-nr-left-table-bg.jpg" />
+    <Content Include="template\blue\js\ajax\ajaxUser.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\artDialog.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\artDialog.source.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\index.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\jquery.artDialog.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\jquery.artDialog.source.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\license.txt" />
+    <Content Include="template\blue\js\artDialog4.1.7\plugins\iframeTools.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\plugins\iframeTools.source.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\aero_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\aero_s2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_title_icon.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\aero\ie6\aui_w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\bg.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\bg2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\bg_css3.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\bg_css3_2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\black\ie6\w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\bg.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\bg2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\bg_css3.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\bg_css3_2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\blue\ie6\w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\chrome.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\chrome\border.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\chrome\chrome_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\default.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\bg.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\bg2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\bg_css3.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\bg_css3_2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\color_bg.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\green\ie6\w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\error.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\face-sad.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\face-smile.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\loading.gif" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\question.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\succeed.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\icons\warning.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\idialog_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\idialog_s2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\idialog\ie6\aui_w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_close.hover.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_close.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_e.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_n.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_ne.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_nw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_s.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_se.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_sw.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\ie6\aui_w.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\s1.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\opera\s2.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\simple.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\skins\twitter.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\ajaxContent\content.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\ajaxContent\googleMaps.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\ajaxContent\login.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\API.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\demo.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\demo.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\down.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\frameset.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\googleMaps.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\helloWorld.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\AUTHORS.en.txt" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\export.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\highlight.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\highlight.pack.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\languages\javascript.js" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\readme.eng.txt" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\styles\magula.css" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\test.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\iframe.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\iframeA.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\iframeB.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\iframeTop.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\iframe_frameset.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\alipay.jpg" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\bg.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\bottom.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\doc.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\lixiaolong.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\logo.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\opensource.gif" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\photo.jpg" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\images\text.png" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\labs.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\license.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\log.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\login_iframe.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\login_iframe_2.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\new.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\plugin.iframe.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\topFrame.html" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\upd.txt" />
+    <Content Include="template\blue\js\bootstrap-wysihtml5.js" />
+    <Content Include="template\blue\js\Commom.js" />
+    <Content Include="template\blue\js\error.js" />
+    <Content Include="template\blue\js\jquery.corner.js" />
+    <Content Include="template\blue\js\jquery.min.js" />
+    <Content Include="template\blue\js\jquery.pagination.js" />
+    <Content Include="template\blue\js\jquery.uniform.js" />
+    <Content Include="template\blue\js\JS_BusSetWorkLoad.js" />
+    <Content Include="template\blue\js\JS_Conclusion.js" />
+    <Content Include="template\blue\js\JS_Config.js" />
+    <Content Include="template\blue\js\JS_CustFeeDetailWorkLoad.js" />
+    <Content Include="template\blue\js\JS_CustFeeOfDayWorkLoad.js" />
+    <Content Include="template\blue\js\JS_CustFeeWorkLoad.js" />
+    <Content Include="template\blue\js\JS_CustomerCharges.js" />
+    <Content Include="template\blue\js\JS_CustomerManage.js" />
+    <Content Include="template\blue\js\JS_CustomerManageOper.js" />
+    <Content Include="template\blue\js\JS_CustomerPhysicalExamInfo.js" />
+    <Content Include="template\blue\js\JS_CustomerSecurityLevelList.js" />
+    <Content Include="template\blue\js\JS_CustomerSubScribDateOper.js" />
+    <Content Include="template\blue\js\JS_CustomerWorkLoad.js" />
+    <Content Include="template\blue\js\JS_DiscountSearchWorkLoad.js" />
+    <Content Include="template\blue\js\JS_DiseaseLevelWorkLoad.js" />
+    <Content Include="template\blue\js\JS_DoctorWorkLoad.js" />
+    <Content Include="template\blue\js\JS_FeeNameWorkLoad.js" />
+    <Content Include="template\blue\js\JS_FloatRight.js" />
+    <Content Include="template\blue\js\JS_GetCustomerOfEveryDayWorkLoad.js" />
+    <Content Include="template\blue\js\JS_GuideNurseSearchWorkLoad.js" />
+    <Content Include="template\blue\js\JS_GuideSheetReturnedWorkLoad.js" />
+    <Content Include="template\blue\js\JS_InvoiceSearchWorkLoad.js" />
+    <Content Include="template\blue\js\JS_InvoiceWorkLoad.js" />
+    <Content Include="template\blue\js\JS_RegisterWorkLoad.js" />
+    <Content Include="template\blue\js\JS_RegistList.js" />
+    <Content Include="template\blue\js\JS_RegistOper - 副本.js" />
+    <Content Include="template\blue\js\JS_RegistOper.js" />
+    <Content Include="template\blue\js\JS_RegistOper_输入法由fastreport引发错误无法使用.js" />
+    <Content Include="template\blue\js\JS_ReportInformerAndReceipt.js" />
+    <Content Include="template\blue\js\JS_ReportPreview.js" />
+    <Content Include="template\blue\js\JS_ReportPrint.js" />
+    <Content Include="template\blue\js\JS_Right.js" />
+    <Content Include="template\blue\js\JS_SectionOncustFeeWorkLoad.js" />
+    <Content Include="template\blue\js\JS_SectionSearchWorkLoad.js" />
+    <Content Include="template\blue\js\JS_SignList.js" />
+    <Content Include="template\blue\js\JS_TeamBatch.js" />
+    <Content Include="template\blue\js\JS_TeamCustomerManageOper.js" />
+    <Content Include="template\blue\js\JS_TeamList.js" />
+    <Content Include="template\blue\js\JS_TeamOper.js" />
+    <Content Include="template\blue\js\JS_TeamSearch.js" />
+    <Content Include="template\blue\js\JS_TeamWorkLoad.js" />
+    <Content Include="template\blue\js\JS_UnlockReportState.js" />
+    <Content Include="template\blue\js\My97DatePicker\calendar.js" />
+    <Content Include="template\blue\js\My97DatePicker\lang\en.js" />
+    <Content Include="template\blue\js\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="template\blue\js\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="template\blue\js\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="template\blue\js\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="template\blue\js\My97DatePicker\skin\default\img.gif" />
+    <Content Include="template\blue\js\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="template\blue\js\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="template\blue\js\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="template\blue\js\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="template\blue\js\My97DatePicker\WdatePicker.js" />
+    <Content Include="template\blue\js\select2.min.js" />
+    <Content Include="template\blue\js\WebIm.js" />
+    <Content Include="template\blue\login.htm" />
+    <Content Include="template\blue\LoginSkin\Skin02\css\login.css" />
+    <Content Include="template\blue\LoginSkin\Skin02\images\btn_07.png" />
+    <Content Include="template\blue\LoginSkin\Skin02\images\indx_03.png" />
+    <Content Include="template\blue\LoginSkin\Skin02\images\inpt_bg_03.png" />
+    <Content Include="template\blue\LoginSkin\Skin02\images\loginbg_03.png" />
+    <Content Include="template\blue\LoginSkin\Skin02\images\mainpic_05.png" />
+    <Content Include="template\blue\LoginSkin\Skin02\login.htm" />
+    <Content Include="template\blue\System\Admin\ClientList.htm" />
+    <Content Include="template\blue\System\Admin\CustomerManage.htm" />
+    <Content Include="template\blue\System\Admin\CustomerManageOper.htm" />
+    <Content Include="template\blue\System\Admin\CustomerSecurityLevel - 副本.htm" />
+    <Content Include="template\blue\System\Admin\CustomerSecurityLevel.htm" />
+    <Content Include="template\blue\System\Admin\CustomerSubScribDateOper.htm" />
+    <Content Include="template\blue\System\Admin\CustPhysicalExamMerge.htm" />
+    <Content Include="template\blue\System\Admin\CustPhysicalExamMergeOper.htm" />
+    <Content Include="template\blue\System\Admin\IPSetting.htm" />
+    <Content Include="template\blue\System\Admin\IPSettingOper.htm" />
+    <Content Include="template\blue\System\Admin\RepeatCustomerLisProject.htm" />
+    <Content Include="template\blue\System\Admin\UnlockReportState.htm" />
+    <Content Include="template\blue\System\ConclusionEx\ConclusionCheck.htm" />
+    <Content Include="template\blue\System\ConclusionEx\ConclusionCheckList.htm" />
+    <Content Include="template\blue\System\ConclusionEx\ConclusionList.htm" />
+    <Content Include="template\blue\System\ConclusionEx\ConclusionOper.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionCheck.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionCheckList.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionList.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionOper.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionUnCheck.htm" />
+    <Content Include="template\blue\System\Conclusion\ConclusionUnFinished.htm" />
+    <Content Include="template\blue\System\Config\COM\config.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\ConclusionList.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\ConclusionOper.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\ConclusionTypeList.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\ConclusionTypeOper.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\FinalConclusionTypeList.htm" />
+    <Content Include="template\blue\System\Config\Conclusion\FinalConclusionTypeOper.htm" />
+    <Content Include="template\blue\System\Config\ExamType\ExamTypeList.htm" />
+    <Content Include="template\blue\System\Config\ExamType\ExamTypeOper.htm" />
+    <Content Include="template\blue\System\Config\Exam\ExamItemGroupRelOper.htm" />
+    <Content Include="template\blue\System\Config\Exam\ExamOper.htm" />
+    <Content Include="template\blue\System\Config\Exam\ExamSymptomRel.htm" />
+    <Content Include="template\blue\System\Config\Exam\SymptomOper.htm" />
+    <Content Include="template\blue\System\Config\Fee\FeeExamRel.htm" />
+    <Content Include="template\blue\System\Config\Fee\FeeExamRelOper.htm" />
+    <Content Include="template\blue\System\Config\Fee\FeeOper.htm" />
+    <Content Include="template\blue\System\Config\ICDTen\ICDTenList.htm" />
+    <Content Include="template\blue\System\Config\ICDTen\ICDTenOper.htm" />
+    <Content Include="template\blue\System\Config\LoginCount\UserList.htm" />
+    <Content Include="template\blue\System\Config\Password\UserList.htm" />
+    <Content Include="template\blue\System\Config\Section\SectionList.htm" />
+    <Content Include="template\blue\System\Config\Section\SectionOper.htm" />
+    <Content Include="template\blue\System\Config\Set\SetDetail.htm" />
+    <Content Include="template\blue\System\Config\Set\SetFeeRel.htm" />
+    <Content Include="template\blue\System\Config\Set\SetOper.htm" />
+    <Content Include="template\blue\System\Config\Specimen\SpecimenList.htm" />
+    <Content Include="template\blue\System\Config\Specimen\SpecimenOper.htm" />
+    <Content Include="template\blue\System\Config\User\UserList.htm" />
+    <Content Include="template\blue\System\Config\User\UserOper.htm" />
+    <Content Include="template\blue\System\Customer\CustomerCharges.htm" />
+    <Content Include="template\blue\System\Customer\PrintCustomerGuide.htm" />
+    <Content Include="template\blue\System\Customer\RegistList.htm" />
+    <Content Include="template\blue\System\Customer\RegistOper - 副本.htm" />
+    <Content Include="template\blue\System\Customer\RegistOper.htm" />
+    <Content Include="template\blue\System\Customer\SignImport.htm" />
+    <Content Include="template\blue\System\Customer\TeamBatchOper.htm" />
+    <Content Include="template\blue\System\Customer\TeamBatch_BusFeeOper.htm" />
+    <Content Include="template\blue\System\Customer\TeamCustomerManageOper.htm" />
+    <Content Include="template\blue\System\Customer\TeamList.htm" />
+    <Content Include="template\blue\System\Customer\TeamListOper.htm" />
+    <Content Include="template\blue\System\Customer\TeamOper - 副本.htm" />
+    <Content Include="template\blue\System\Customer\TeamOper.htm" />
+    <Content Include="template\blue\System\Customer\TeamTaskList.htm" />
+    <Content Include="template\blue\System\Customer\TeamTaskOper.htm" />
+    <Content Include="template\blue\System\Customer\Test.htm" />
+    <Content Include="template\blue\System\Exam\ExamImageOper.htm" />
+    <Content Include="template\blue\System\Exam\ExamList.htm" />
+    <Content Include="template\blue\System\Exam\ExamOper - 副本.htm" />
+    <Content Include="template\blue\System\Exam\ExamOper.htm" />
+    <Content Include="template\blue\System\Exam\ExamView.htm" />
+    <Content Include="template\blue\System\Exam\LabExamOper - 副本.htm" />
+    <Content Include="template\blue\System\Exam\LabExamOper.htm" />
+    <Content Include="template\blue\System\Exam\VideoCapture.htm" />
+    <Content Include="template\blue\System\GiveUpManage\GiveUpManageList.htm" />
+    <Content Include="template\blue\System\GiveUpManage\GiveUpManageOper.htm" />
+    <Content Include="template\blue\System\GuideSheet\GuideSheetReturnList.htm" />
+    <Content Include="template\blue\System\GuideSheet\GuideSheetReturnOper.htm" />
+    <Content Include="template\blue\System\Index.htm" />
+    <Content Include="template\blue\System\ReportManage\PrintReport.htm" />
+    <Content Include="template\blue\System\ReportManage\ReportInformerAndReceipt.htm" />
+    <Content Include="template\blue\System\ReportManage\ReportPreview.htm" />
+    <Content Include="template\blue\System\Report\RP_Registe_CustFee.htm" />
+    <Content Include="template\blue\System\right\RightList.htm" />
+    <Content Include="template\blue\System\right\RightList_btn.htm" />
+    <Content Include="template\blue\System\right\RoleList.htm" />
+    <Content Include="template\blue\System\right\UserList.htm" />
+    <Content Include="template\blue\System\Statistics\AgeWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\AllConclusionWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\BusSetWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CompeleteWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\ConclusionWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\CustFeeDetailWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CustFeeOfDayWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CustFeeOfMonthWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CustFeeWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CustFeeWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\CustomerFormOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\CustomerOfEveryDayWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\CustomerWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\DiscountSearchWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\DiseaseLevelWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\DoctorWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\FeeNameWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\GuideNurseSearchWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\GuideNurseWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\GuideSheetReturnedSearchWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\GuideSheetReturnedWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\InvoiceSearchWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\InvoiceWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\PositiveSummaryWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\RegisterWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\SearchCustomerPhysiclExamInfo.htm" />
+    <Content Include="template\blue\System\Statistics\SectionOncustFeeWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\SectionSearchWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\SpecimenWorkLoad.htm" />
+    <Content Include="template\blue\System\Statistics\SubScribDateWorkLoadOfTeam.htm" />
+    <Content Include="template\blue\System\Statistics\TeamWorkLoad.htm" />
+    <Content Include="template\green\css\invalid.css" />
+    <Content Include="template\green\css\reset.css" />
+    <Content Include="template\green\css\style.css" />
+    <Content Include="template\green\images\b.png" />
+    <Content Include="template\green\images\bg-body.gif" />
+    <Content Include="template\green\images\bg-button-green.gif" />
+    <Content Include="template\green\images\bg-content-box.gif" />
+    <Content Include="template\green\images\bg-form-field.gif" />
+    <Content Include="template\green\images\bg-login-top.png" />
+    <Content Include="template\green\images\bg-login.gif" />
+    <Content Include="template\green\images\bg-menu-item-current.gif" />
+    <Content Include="template\green\images\bg-menu-item-green.gif" />
+    <Content Include="template\green\images\bg-radial-gradient.gif" />
+    <Content Include="template\green\images\bg-sidebar.gif" />
+    <Content Include="template\green\images\bl.png" />
+    <Content Include="template\green\images\br.png" />
+    <Content Include="template\green\images\icons\bullet_black.png" />
+    <Content Include="template\green\images\icons\clock_48.png" />
+    <Content Include="template\green\images\icons\comment_48.png" />
+    <Content Include="template\green\images\icons\cross.png" />
+    <Content Include="template\green\images\icons\cross_circle.png" />
+    <Content Include="template\green\images\icons\cross_grey_small.png" />
+    <Content Include="template\green\images\icons\exclamation.png" />
+    <Content Include="template\green\images\icons\hammer_screwdriver.png" />
+    <Content Include="template\green\images\icons\image_add_48.png" />
+    <Content Include="template\green\images\icons\information.png" />
+    <Content Include="template\green\images\icons\jquery.wysiwyg.gif" />
+    <Content Include="template\green\images\icons\paper_content_pencil_48.png" />
+    <Content Include="template\green\images\icons\pencil.png" />
+    <Content Include="template\green\images\icons\pencil_48.png" />
+    <Content Include="template\green\images\icons\tick_circle.png" />
+    <Content Include="template\green\images\logo.png" />
+    <Content Include="template\green\images\menu-current-arrow.gif" />
+    <Content Include="template\green\images\shortcut-button-bg.gif" />
+    <Content Include="template\green\images\tl.png" />
+    <Content Include="template\green\images\tr.png" />
+    <Content Include="template\green\login.htm" />
+    <Content Include="template\green\scripts\ajax\ajaxUser.js" />
+    <Content Include="template\green\scripts\facebox.js" />
+    <Content Include="template\green\scripts\jquery-1.3.2.min.js" />
+    <Content Include="template\green\scripts\jquery.date.js" />
+    <Content Include="template\green\scripts\jquery.datePicker.js" />
+    <Content Include="template\green\scripts\jquery.wysiwyg.js" />
+    <Content Include="template\green\scripts\simpla.jquery.configuration.js" />
+    <Content Include="template\green\System\Index.htm" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ajax\AjaxBase.aspx.cs">
+      <DependentUpon>AjaxBase.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxClientList.aspx.cs">
+      <DependentUpon>AjaxClientList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxConclusion.aspx.cs">
+      <DependentUpon>AjaxConclusion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxConfig.aspx.cs">
+      <DependentUpon>AjaxConfig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxCustDiseaseLevel.aspx.cs">
+      <DependentUpon>AjaxCustDiseaseLevel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxCustExam.aspx.cs">
+      <DependentUpon>AjaxCustExam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxCustomerManage.aspx.cs">
+      <DependentUpon>AjaxCustomerManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxCustomerSecurityLevel.aspx.cs">
+      <DependentUpon>AjaxCustomerSecurityLevel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxRegiste.aspx.cs">
+      <DependentUpon>AjaxRegiste.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxReportPreview.aspx.cs">
+      <DependentUpon>AjaxReportPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxRight.aspx.cs">
+      <DependentUpon>AjaxRight.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxSection.aspx.cs">
+      <DependentUpon>AjaxSection.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxStatistics.aspx.cs">
+      <DependentUpon>AjaxStatistics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxSubScribe.aspx.cs">
+      <DependentUpon>AjaxSubScribe.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxTeamOper.aspx.cs">
+      <DependentUpon>AjaxTeamOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\AjaxUser.aspx.cs">
+      <DependentUpon>AjaxUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\ServerUtils.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Admin\ClientList.aspx.cs">
+      <DependentUpon>ClientList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustomerManage.aspx.cs">
+      <DependentUpon>CustomerManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustomerManageOper.aspx.cs">
+      <DependentUpon>CustomerManageOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustomerSecurityLevel.aspx.cs">
+      <DependentUpon>CustomerSecurityLevel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustomerSubScribDateOper.aspx.cs">
+      <DependentUpon>CustomerSubScribDateOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustPhysicalExamMerge.aspx.cs">
+      <DependentUpon>CustPhysicalExamMerge.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\CustPhysicalExamMergeOper.aspx.cs">
+      <DependentUpon>CustPhysicalExamMergeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\InternetDataImport.aspx.cs">
+      <DependentUpon>InternetDataImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\InternetDataImportList.aspx.cs">
+      <DependentUpon>InternetDataImportList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\IPSetting.aspx.cs">
+      <DependentUpon>IPSetting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\IPSettingOper.aspx.cs">
+      <DependentUpon>IPSettingOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\RepeatCustomerLisProject.aspx.cs">
+      <DependentUpon>RepeatCustomerLisProject.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Admin\UnlockReportState.aspx.cs">
+      <DependentUpon>UnlockReportState.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\ConclusionEx\ConclusionCheck.aspx.cs">
+      <DependentUpon>ConclusionCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\ConclusionEx\ConclusionCheckList.aspx.cs">
+      <DependentUpon>ConclusionCheckList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\ConclusionEx\ConclusionList.aspx.cs">
+      <DependentUpon>ConclusionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\ConclusionEx\ConclusionOper.aspx.cs">
+      <DependentUpon>ConclusionOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionCheck.aspx.cs">
+      <DependentUpon>ConclusionCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionCheckList.aspx.cs">
+      <DependentUpon>ConclusionCheckList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionList.aspx.cs">
+      <DependentUpon>ConclusionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionOper.aspx.cs">
+      <DependentUpon>ConclusionOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionUnCheck.aspx.cs">
+      <DependentUpon>ConclusionUnCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Conclusion\ConclusionUnFinished.aspx.cs">
+      <DependentUpon>ConclusionUnFinished.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\COM\config.aspx.cs">
+      <DependentUpon>config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\ConclusionList.aspx.cs">
+      <DependentUpon>ConclusionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\ConclusionOper.aspx.cs">
+      <DependentUpon>ConclusionOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\ConclusionTypeList.aspx.cs">
+      <DependentUpon>ConclusionTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\ConclusionTypeOper.aspx.cs">
+      <DependentUpon>ConclusionTypeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\FeeReportList.aspx.cs">
+      <DependentUpon>FeeReportList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\FeeReportOper.aspx.cs">
+      <DependentUpon>FeeReportOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\FinalConclusionTypeList.aspx.cs">
+      <DependentUpon>FinalConclusionTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Conclusion\FinalConclusionTypeOper.aspx.cs">
+      <DependentUpon>FinalConclusionTypeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ExamPlace\ExamPlaceList.aspx.cs">
+      <DependentUpon>ExamPlaceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ExamPlace\ExamPlaceOper.aspx.cs">
+      <DependentUpon>ExamPlaceOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ExamType\ExamTypeList.aspx.cs">
+      <DependentUpon>ExamTypeList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ExamType\ExamTypeOper.aspx.cs">
+      <DependentUpon>ExamTypeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\ExamItemGroupList.aspx.cs">
+      <DependentUpon>ExamItemGroupList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\ExamItemGroupOper.aspx.cs">
+      <DependentUpon>ExamItemGroupOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\ExamItemGroupRelOper.aspx.cs">
+      <DependentUpon>ExamItemGroupRelOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\ExamOper.aspx.cs">
+      <DependentUpon>ExamOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\ExamSymptomRel.aspx.cs">
+      <DependentUpon>ExamSymptomRel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Exam\SymptomOper.aspx.cs">
+      <DependentUpon>SymptomOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Fee\FeeExamRel.aspx.cs">
+      <DependentUpon>FeeExamRel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Fee\FeeExamRelOper.aspx.cs">
+      <DependentUpon>FeeExamRelOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Fee\FeeOper.aspx.cs">
+      <DependentUpon>FeeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ICDTen\ICDTenList.aspx.cs">
+      <DependentUpon>ICDTenList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\ICDTen\ICDTenOper.aspx.cs">
+      <DependentUpon>ICDTenOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\LoginCount\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Password\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Section\SectionList.aspx.cs">
+      <DependentUpon>SectionList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Section\SectionOper.aspx.cs">
+      <DependentUpon>SectionOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Set\SetDetail.aspx.cs">
+      <DependentUpon>SetDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Set\SetFeeRel.aspx.cs">
+      <DependentUpon>SetFeeRel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Set\SetOper.aspx.cs">
+      <DependentUpon>SetOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Specimen\SpecimenList.aspx.cs">
+      <DependentUpon>SpecimenList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\Specimen\SpecimenOper.aspx.cs">
+      <DependentUpon>SpecimenOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\User\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\User\UserOper.aspx.cs">
+      <DependentUpon>UserOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Config\User\UserRightSet.aspx.cs">
+      <DependentUpon>UserRightSet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\CustomerCharges.aspx.cs">
+      <DependentUpon>CustomerCharges.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\ImportExcel.aspx.cs">
+      <DependentUpon>ImportExcel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\OCXTestForm.aspx.cs">
+      <DependentUpon>OCXTestForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\PrintCustomerGuide.aspx.cs">
+      <DependentUpon>PrintCustomerGuide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\RegistList.aspx.cs">
+      <DependentUpon>RegistList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\RegistOper.aspx.cs">
+      <DependentUpon>RegistOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\SelectExcelInfo.aspx.cs">
+      <DependentUpon>SelectExcelInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\ShowDialog.aspx.cs">
+      <DependentUpon>ShowDialog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\SignImport.aspx.cs">
+      <DependentUpon>SignImport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamBatchOper.aspx.cs">
+      <DependentUpon>TeamBatchOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamBatch_BusFeeOper.aspx.cs">
+      <DependentUpon>TeamBatch_BusFeeOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamCustomerManageOper.aspx.cs">
+      <DependentUpon>TeamCustomerManageOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamList.aspx.cs">
+      <DependentUpon>TeamList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamListOper.aspx.cs">
+      <DependentUpon>TeamListOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamOper.aspx.cs">
+      <DependentUpon>TeamOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamTaskList.aspx.cs">
+      <DependentUpon>TeamTaskList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Customer\TeamTaskOper.aspx.cs">
+      <DependentUpon>TeamTaskOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\ExamList.aspx.cs">
+      <DependentUpon>ExamList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\ExamOper.aspx.cs">
+      <DependentUpon>ExamOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\ExamView.aspx.cs">
+      <DependentUpon>ExamView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\LabExamOper.aspx.cs">
+      <DependentUpon>LabExamOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\LabExamOperSingle.aspx.cs">
+      <DependentUpon>LabExamOperSingle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Exam\VideoCapture.aspx.cs">
+      <DependentUpon>VideoCapture.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\GiveUpManage\GiveUpManageList.aspx.cs">
+      <DependentUpon>GiveUpManageList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\GiveUpManage\GiveUpManageOper.aspx.cs">
+      <DependentUpon>GiveUpManageOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\GuideSheet\GuideSheetReturnList.aspx.cs">
+      <DependentUpon>GuideSheetReturnList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\GuideSheet\GuideSheetReturnOper.aspx.cs">
+      <DependentUpon>GuideSheetReturnOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\RightList.aspx.cs">
+      <DependentUpon>RightList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\RightViewList.aspx.cs">
+      <DependentUpon>RightViewList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\RoleList.aspx.cs">
+      <DependentUpon>RoleList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\RoleOper.aspx.cs">
+      <DependentUpon>RoleOper.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\RoleRightRel.aspx.cs">
+      <DependentUpon>RoleRightRel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\right\UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\AgeWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>AgeWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\AllConclusionWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>AllConclusionWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\BackLogWorkLoad.aspx.cs">
+      <DependentUpon>BackLogWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\BusSetWorkLoad.aspx.cs">
+      <DependentUpon>BusSetWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CompeleteWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>CompeleteWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\ConclusionWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>ConclusionWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustFeeDetailWorkLoad.aspx.cs">
+      <DependentUpon>CustFeeDetailWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustFeeOfDayWorkLoad.aspx.cs">
+      <DependentUpon>CustFeeOfDayWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustFeeOfMonthWorkLoad.aspx.cs">
+      <DependentUpon>CustFeeOfMonthWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustFeeWorkLoad.aspx.cs">
+      <DependentUpon>CustFeeWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustFeeWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>CustFeeWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustomerFormOfTeam.aspx.cs">
+      <DependentUpon>CustomerFormOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustomerOfEveryDayWorkLoad.aspx.cs">
+      <DependentUpon>CustomerOfEveryDayWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\CustomerWorkLoad.aspx.cs">
+      <DependentUpon>CustomerWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\DiscountSearchWorkLoad.aspx.cs">
+      <DependentUpon>DiscountSearchWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\DiseaseLevelWorkLoad.aspx.cs">
+      <DependentUpon>DiseaseLevelWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\DoctorWorkLoad.aspx.cs">
+      <DependentUpon>DoctorWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\FeeNameWorkLoad.aspx.cs">
+      <DependentUpon>FeeNameWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\GuideNurseSearchWorkLoad.aspx.cs">
+      <DependentUpon>GuideNurseSearchWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\GuideNurseWorkLoad.aspx.cs">
+      <DependentUpon>GuideNurseWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\GuideSheetReturnedSearchWorkLoad.aspx.cs">
+      <DependentUpon>GuideSheetReturnedSearchWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\GuideSheetReturnedWorkLoad.aspx.cs">
+      <DependentUpon>GuideSheetReturnedWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\InvoiceSearchWorkLoad.aspx.cs">
+      <DependentUpon>InvoiceSearchWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\InvoiceWorkLoad.aspx.cs">
+      <DependentUpon>InvoiceWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\PositiveSummaryWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>PositiveSummaryWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\RegisterWorkLoad.aspx.cs">
+      <DependentUpon>RegisterWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\SearchCustomerPhysiclExamInfo.aspx.cs">
+      <DependentUpon>SearchCustomerPhysiclExamInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\SectionOncustFeeWorkLoad.aspx.cs">
+      <DependentUpon>SectionOncustFeeWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\SectionSearchWorkLoad.aspx.cs">
+      <DependentUpon>SectionSearchWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\SpecimenWorkLoad.aspx.cs">
+      <DependentUpon>SpecimenWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\SubScribDateWorkLoadOfTeam.aspx.cs">
+      <DependentUpon>SubScribDateWorkLoadOfTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Statistics\TeamWorkLoad.aspx.cs">
+      <DependentUpon>TeamWorkLoad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\test\test.aspx.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="System\Welcome.aspx.cs">
+      <DependentUpon>Welcome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Web.Core.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Base\base %282%29.config" />
+    <Content Include="Config\Base\base - 副本 %282%29.config" />
+    <Content Include="Config\Base\base - 副本 %283%29.config" />
+    <Content Include="Config\Base\base - 副本 %284%29.config" />
+    <Content Include="Config\Base\base - 副本 %285%29.config" />
+    <Content Include="Config\Base\base - 副本 %286%29.config" />
+    <Content Include="Config\Base\base - 副本 %28不包含二部设置%29.config" />
+    <Content Include="Config\Base\base - 副本.config" />
+    <Content Include="Config\Base\base.config" />
+    <Content Include="Config\Base\base.config.bak" />
+    <Content Include="Config\Base\base2.config" />
+    <Content Include="Config\Base\base21132313.config" />
+    <Content Include="template\blue2\css\skin05\fonts\fontawesome-webfont.eot" />
+    <Content Include="template\blue2\css\skin05\fonts\fontawesome-webfont.ttf" />
+    <Content Include="template\blue2\css\skin05\fonts\fontawesome-webfont.woff" />
+    <Content Include="template\blue2\css\skin05\fonts\fontawesome-webfont.woff2" />
+    <Content Include="template\blue2\css\skin05\fonts\FontAwesome.otf" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\ajaxContent\content.json" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\commercial_license.doc" />
+    <Content Include="template\blue2\js\artDialog4.1.7\_doc\highlight\LICENSE" />
+    <Content Include="template\blue2\js\jsTree\jstree.js.mine" />
+    <Content Include="template\blue2\js\jsTree\jstree.js.r3082" />
+    <Content Include="template\blue2\js\jsTree\jstree.js.r3093" />
+    <Content Include="template\blue2\js\My97DatePicker\WdatePicker.js.bak" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\ajaxContent\content.json" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\commercial_license.doc" />
+    <Content Include="template\blue\js\artDialog4.1.7\_doc\highlight\LICENSE" />
+    <Content Include="template\blue\js\My97DatePicker\WdatePicker.js.bak" />
+    <Content Include="System\Customer\TempFile\4262.xls" />
+    <Content Include="System\Customer\TempFile\4776.xls" />
+    <Content Include="pubdll\Data.dll.refresh" />
+    <Content Include="pubdll\FastReport.Bars.dll.refresh" />
+    <Content Include="pubdll\FastReport.dll.refresh" />
+    <Content Include="pubdll\FastReport.Editor.dll.refresh" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PEIS.Factory\PEIS.DALFactory.csproj">
+      <Project>{580ce94d-674c-4c9d-b90a-28ffb7c94855}</Project>
+      <Name>PEIS.DALFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.Model\PEIS.Model.csproj">
+      <Project>{a79d351e-fab1-4c76-80be-54f437a0281b}</Project>
+      <Name>PEIS.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.Service\PEIS.SQLServerDAL.csproj">
+      <Project>{079a0b3b-27a1-4925-af77-16de44c89b0f}</Project>
+      <Name>PEIS.SQLServerDAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="System\Customer\ImportExcel.resources" />
+    <EmbeddedResource Include="System\Customer\SelectExcelInfo.resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="System\TempFile\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4976</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4976/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

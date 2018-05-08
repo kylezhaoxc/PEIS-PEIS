@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+</head>
+<body>
+    <!-- 体检号 -->
+    <input type="hidden" name="CustomerIDs" id="CustomerIDs" value="$!{CustomerIDs}" />
+
+    <input type="hidden" name="ID_ArcCustomer_01" id="ID_ArcCustomer_01" value="" />
+    <input type="hidden" name="ID_ArcCustomer_02" id="ID_ArcCustomer_02" value="" />
+
+    <div class="content" style="width:630px; padding-top:30px; ">
+
+    <div class="ArcCustMergeLeft">
+
+        <div class="CustInfoLeft">
+        
+        <div class="custinfo">
+            <div class="cleft"> 客户姓名：</div>
+            <div class="cright custname"><strong id="CustomerName_01">&nbsp;</strong> </div>
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 性别：</div>
+            <div class="cright"  id="GenderName_01"> </div>
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 出生日期：</div>
+            <div class="cright" id="BirthDay_01"> </div>
+        </div>
+        </div>
+        
+        <div class="CustInfoRight">
+            <img alt="" id="Photo_01" name="Photo_01" style="width: 50px; " src="/template/blue/images/icons/nohead.gif" />
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 证件号：</div>
+            <div class="cright" id="IDCard_01">  </div>
+        </div>
+        <div class="CustomerIDListHead">
+           客户体检记录
+        </div>
+        <div class="CustomerIDList" id="CustomerIDList_01">
+           
+        </div>
+    </div>
+    
+    <div class="ArcCustMergeCenter">
+        <br/>
+        <br/>
+        <br/>
+        
+        <input type="button" class="button100" name="btnMergeLeft" id="btnMergeLeft" onclick="MergeCustExamInfo(1);" value=" << 关联到左边 " />&nbsp;&nbsp;
+        <br/>
+        <br/>
+        <input type="button" class="button100" name="btnMergeRight" id="btnMergeRight" onclick="MergeCustExamInfo(2);" value=" 关联到右边 >> " />&nbsp;&nbsp;
+
+        <br/>
+        <br/>
+        
+        <input type="button" class="button100" name="btnClose" id="btnClose" onclick="CloseDialogWindow();" value=" 关  闭 " />&nbsp;&nbsp;
+    </div>
+    
+    <div class="ArcCustMergeRight">
+
+
+        <div class="CustInfoLeft">
+        
+        <div class="custinfo">
+            <div class="cleft"> 客户姓名：</div>
+            <div class="cright custname"><strong id="CustomerName_02">&nbsp;</strong> </div>
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 性别：</div>
+            <div class="cright"  id="GenderName_02"> </div>
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 出生日期：</div>
+            <div class="cright" id="BirthDay_02"> </div>
+        </div>
+        </div>
+        
+        <div class="CustInfoRight">
+        <img alt=""id="Photo_02" name="Photo_02" style="width: 50px; " src="/template/blue/images/icons/nohead.gif" />
+        </div>
+        <div class="custinfo">
+            <div class="cleft"> 证件号：</div>
+            <div class="cright" id="IDCard_02">  </div>
+        </div>
+
+        <div class="CustomerIDListHead">
+           客户体检记录
+        </div>
+
+        <div class="CustomerIDList" id="CustomerIDList_02">
+           
+        </div>
+        
+    </div>
+
+        $!{HiddenInputQueryString}
+    </div>
+
+    <div style="display:none;" id="CustomerIDListTemplete">
+    
+        <div class="one"> <span> @ID_Customer </span> </div>
+    
+    </div>
+
+
+<script language="javascript" type="text/javascript">
+
+
+    // 
+    jQuery(document).ready(function () {
+        
+        GetArcCustomerInfoByIDs();
+
+    });
+
+    /// <summary>
+    /// 查询客户存档列表
+    /// </summary>
+    function GetArcCustomerInfoByIDs() {
+        
+        // jQuery("#CustomerName").html(jQuery("#chkArcCust_" + ID_ArcCustomer).attr("CustomerName"));
+
+        var CustomerIDs = jQuery("#CustomerIDs").val();         // 客户ID 字符串
+        CustomerIDs = encodeURIComponent(CustomerIDs);          // 客户ID 编码处理
+
+        if (CustomerIDs == "") {
+            parent.ShowSystemDialog("参数错误!");
+            return;
+        }
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxConfig.aspx",
+            data: { action: 'GetArcCustomerInfoByIDs',
+                CustomerIDs: CustomerIDs,
+                currenttime: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (jsonmsg) {
+                if (jsonmsg != null && jsonmsg != "") {
+                    // 显示查询到的信息
+                    ShowArcCustomerInfoByIDs(jsonmsg);
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    /// 显示客户存档列表 (显示)
+    /// </summary>
+    function ShowArcCustomerInfoByIDs(ArcCustList) {
+        
+        var defalutImagSrc = "/template/blue/images/icons/nohead.gif";
+        var tempListContent01 = "";  // 临时内容
+        var tempListContent02 = "";  // 临时内容
+
+        // 检查项目显示模版
+        var CustomerIDListTempleteContent = jQuery('#CustomerIDListTemplete').html();
+
+        if (CustomerIDListTempleteContent == undefined) { return; }
+
+        jQuery("#CustomerIDList_01").html("");
+        jQuery("#CustomerIDList_02").html(""); //   先清空列表
+
+        var ArcCustItemCount = 0;
+        // dataList0 循环存档信息
+        jQuery(ArcCustList.dataList0).each(function (j, item) {
+        
+            ArcCustItemCount++;
+
+
+            if (ArcCustItemCount == 1) {
+                jQuery("#ID_ArcCustomer_01").val(item.ID_ArcCustomer);
+                jQuery("#CustomerName_01").html(item.CustomerName);
+                jQuery("#GenderName_01").html(item.GenderName);
+                jQuery("#BirthDay_01").html(item.BirthDay);
+
+                //设置头像
+                if (item.Base64Photo == "") {
+                    jQuery("#Photo_01").attr("src", defalutImagSrc);
+                }
+                else {
+                    jQuery("#Photo_01").attr("src", "data:image/gif;base64," + item.Base64Photo + "");
+                }
+
+                jQuery("#IDCard_01").html(item.IDCard);
+            }
+
+            if (ArcCustItemCount == 2) {
+                jQuery("#ID_ArcCustomer_02").val(item.ID_ArcCustomer);
+                jQuery("#CustomerName_02").html(item.CustomerName);
+                jQuery("#GenderName_02").html(item.GenderName);
+                jQuery("#BirthDay_02").html(item.BirthDay);
+
+                //设置头像
+                if (item.Base64Photo == "") {
+                    jQuery("#Photo_02").attr("src", defalutImagSrc);
+                }
+                else {
+                    jQuery("#Photo_02").attr("src", "data:image/gif;base64," + item.Base64Photo + "");
+                }
+                jQuery("#IDCard_02").html(item.IDCard);
+            }
+            // 循环体检号信息
+            jQuery(ArcCustList.dataList1).each(function (k, examitem) {
+
+                if (item.ID_ArcCustomer == examitem.ID_ArcCustomer) {
+                    if (ArcCustItemCount == 1) {
+                        tempListContent01 += CustomerIDListTempleteContent
+                        .replace(/@ID_Customer/gi, examitem.ID_Customer);
+                    }
+
+                    if (ArcCustItemCount == 2) {
+                        tempListContent02 += CustomerIDListTempleteContent
+                        .replace(/@ID_Customer/gi, examitem.ID_Customer);
+                    }
+                }
+
+            });
+
+        });
+
+        jQuery("#CustomerIDList_01").html(tempListContent01);
+        jQuery("#CustomerIDList_02").html(tempListContent02);
+
+
+    }
+    /// <summary>
+    ///合并客户存档信息 
+    /// <param name="MergeFlag"></param>
+    /// <param name="ID_ArcCustomer_01">合并前存档ID对应的元素ID</param>
+    /// <param name="ID_ArcCustomer_02">合并后存档ID对应的页面元素ID</param>
+    /// </summary>
+    function MergeCustExamInfo(MergeFlag) {
+
+        var ID_ArcCustomer_01 = jQuery("#ID_ArcCustomer_01").val();
+        var ID_ArcCustomer_02 = jQuery("#ID_ArcCustomer_02").val();
+        
+        if (ID_ArcCustomer_01 == "") {
+            parent.ShowSystemDialog("参数错误!");
+            return;
+        }
+        if (ID_ArcCustomer_02 == "") {
+            parent.ShowSystemDialog("参数错误!");
+            return;
+        }
+
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxConfig.aspx",
+            data: { action: 'MergeCustExamInfo',
+                ID_ArcCustomer_01: ID_ArcCustomer_01,
+                ID_ArcCustomer_02: ID_ArcCustomer_02,
+                MergeFlag: MergeFlag,
+                currenttime: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (jsonmsg) {
+                if (jsonmsg != null && jsonmsg != "") {
+
+                    if (parseInt(jsonmsg) == 0) {
+                        parent.ShowSystemDialog("没有客户体检信息需要关联，请核对后再关联!");
+                    }
+                    else if (parseInt(jsonmsg) > 1) {
+
+                        var tempListContent01 = jQuery("#CustomerIDList_01").html();
+                        var tempListContent02 = jQuery("#CustomerIDList_02").html();
+
+                        jQuery("#CustomerIDList_01").html("");
+                        jQuery("#CustomerIDList_02").html("");
+
+                        if (MergeFlag == 1) {
+                            jQuery("#CustomerIDList_01").html(tempListContent01 + tempListContent02);
+                        } else {
+                            jQuery("#CustomerIDList_02").html(tempListContent01 + tempListContent02);
+                        }
+                        parent.ShowSystemDialog("客户信息关联成功!");
+
+                    } else {
+                        parent.ShowSystemDialog("客户信息关联失败，请核对后再关联!");
+                    }
+
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+
+
+</html>

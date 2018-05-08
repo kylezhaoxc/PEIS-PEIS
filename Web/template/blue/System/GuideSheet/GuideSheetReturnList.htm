@@ -1,0 +1,411 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>指引单回收列表 </title>
+    
+    <script type="text/javascript">
+        
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+
+            GetGuideSheetReturnListParams();  // 获取Cookie中存放的指引单查询列表页参数
+            QueryPagesData(0);
+        });
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        function ButtonClickQuery() {
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val()); ;    // 体检号
+
+            if (customerid == "") {
+                tempOperPageCount = 0;
+                QueryPagesData(0);
+                SaveGuideSheetReturnListParams(); // 保存指引单查询列表页参数
+
+            } else {
+                if (!isCustomerExamNo(customerid)) {
+                    ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                    return;
+                } else {
+                    DoLoad('/System/GuideSheet/GuideSheetReturnOper.aspx?txtCustomerID=' + customerid, '');
+                }
+            }
+        }
+
+        var oldQueryCustomerID = ""; // 记录上次查询的体检号
+        /// <summary>
+        /// 自动查询
+        /// </summary>
+        function AutoGuideSheetReturnQuery() {
+
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+                var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+                if (oldQueryCustomerID == customerid) { return; } // 如果与上次一样，则退出
+                if (customerid != "") {
+                    // 如果输入的值满足体检号的条件，则自动跳转到指引单回收页面
+                    if (isCustomerExamNo(customerid)) {
+                        oldQueryCustomerID = customerid;
+                        DoLoad('/System/GuideSheet/GuideSheetReturnOper.aspx?txtCustomerID=' + customerid, '');
+
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+            
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val(); // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未回收
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { pageIndex: pageIndex,
+                    BeginExamDate: BeginExamDate,
+                    EndExamDate: EndExamDate,
+                    pageSize: pagePagination.items_per_page,
+                    OnlyMySelf: OnlyMySelf,
+                    IsNotExam: IsNotExam,
+                    action: 'GetGuideSheetReturnedList'
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    var tmpCustomerIDsStr = ""; // 临时记录体检号（逗号分隔的字符串）
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#QueryDataListTemplete').html();
+
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (tmpCustomerIDsStr == "") {
+                                tmpCustomerIDsStr = item.ID_Customer;
+                            } else {
+                                tmpCustomerIDsStr = tmpCustomerIDsStr + "," + item.ID_Customer;
+                            }
+                            
+                            newcontent +=
+                             templateContent.replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@CustomerID/gi, item.ID_Customer)
+                            .replace(/@GuideSheetReturnedby/gi, item.GuideSheetReturnedby)
+                            .replace(/@GuideSheetReturnedDate/gi, item.GuideSheetReturnedDate == '' ? '--' : item.GuideSheetReturnedDate )
+                            .replace(/@Is_GuideSheetReturned/gi, item.Is_GuideSheetReturned == 'True' ? '√' : '--')
+                            .replace(/@Is_GuideSheetPrinted/gi, item.Is_GuideSheetPrinted == 'True' ? '√' : '--')
+                            .replace(/@bgclass/gi, item.Is_GuideSheetPrinted == 'True' ? '' : 'noprint_bgclass')
+                            .replace(/@trTitle/gi, item.Is_GuideSheetPrinted == 'True' ? '' : "【" + item.CustomerName + '】还未打印指引单！')
+                            ;
+
+
+                        });
+                        if (newcontent != '') {
+                            jQuery('#Searchresult').html(newcontent);
+
+                            // 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+                            GetCustomerExamListArcPhysicalInfo(tmpCustomerIDsStr);
+
+                        }
+                    } else {
+                        jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "在您查询的时间段内，没有找到指引单信息！"));
+                        jQuery("#Pagination").hide(); // 没有数据的时候，隐藏分页信息
+                    }
+                }
+            });
+        }
+
+
+        function Search() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+
+        /// <summary>
+        /// 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+        /// </summary>
+        function GetCustomerExamListArcPhysicalInfo(CustomerIDsStr) {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { CustomerIDsStr: CustomerIDsStr,
+                    action: 'GetCustomerExamListArcPhysicalInfo',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg == null || jsonmsg == "" || parseInt(jsonmsg.totalCount) <= 0)
+                    { return false; }
+
+                    jQuery(jsonmsg.dataList0).each(function (i, onarccustitem) {
+                        jQuery("#GenderName_" + onarccustitem.ID_Customer).html(onarccustitem.GenderName);
+                        jQuery("#Age_" + onarccustitem.ID_Customer).html(onarccustitem.Age);
+                        //jQuery("#IDCard_" + onarccustitem.ID_Customer).html(onarccustitem.IDCard);
+                        jQuery("#ExamCard_" + onarccustitem.ID_Customer).html(onarccustitem.ExamCard);
+                        jQuery("#MobileNo_" + onarccustitem.ID_Customer).html(onarccustitem.MobileNo);
+                    });
+                }
+            });
+
+        }
+
+
+        function ChangeNotExamState() {
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+            if (IsNotExam == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+            } else {
+                jQuery("#chkOnlyMySelf").attr("checked", true);
+            }
+        }
+
+        function ChangeOnlyMySelf() {
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+            if (OnlyMySelf == "0") {
+                jQuery("#chkNotExam").attr("checked", false);
+            }
+        }
+        /// <summary>
+        /// 获取Cookie中存放的指引单查询列表页参数
+        /// </summary>
+        function GetGuideSheetReturnListParams() {
+
+            var ParamsArgArray = GetUserCurrentQueryParams("QParam_GuideSheetReturnList");
+            if (ParamsArgArray == null) { return; }
+            if (ParamsArgArray.length <= 4) { return; }
+            // 注意放入数组的顺序
+            var BeginExamDate = ParamsArgArray[0];  // 开始日期
+            var EndExamDate = ParamsArgArray[1];    // 结束日期
+            var OnlyMySelf = ParamsArgArray[2];     // 仅显示我操作的
+            var IsNotExam = ParamsArgArray[3];      // 未检
+
+            jQuery('#BeginExamDate').val(BeginExamDate); // 开始日期
+            jQuery('#EndExamDate').val(EndExamDate);     // 结束日期
+            // 仅显示我操作的
+            if (OnlyMySelf == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", true);
+            } else {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+            }
+            // 未检
+            if (IsNotExam == "0") {
+                jQuery("#chkNotExam").attr("checked", true);
+            } else {
+                jQuery("#chkNotExam").attr("checked", false);
+            }
+
+
+        }
+        /// <summary>
+        /// 保存指引单查询列表页参数
+        /// </summary>
+        function SaveGuideSheetReturnListParams() {
+
+            var ParamsArgArray = new Array();
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+
+            // 注意放入数组的顺序
+            ParamsArgArray.push(BeginExamDate); // 开始日期
+            ParamsArgArray.push(EndExamDate);   // 结束日期
+            ParamsArgArray.push(OnlyMySelf);    // 仅显示我操作的
+            ParamsArgArray.push(IsNotExam);     // 未检
+
+            // 保存科室分检查询列表的参数
+            SetUserCurrentQueryParams("QParam_GuideSheetReturnList", ParamsArgArray);
+
+        }
+
+
+    </script>
+</head>
+
+<body>
+
+    <table style="display:none;">
+        <tbody id="QueryDataListTemplete">
+        <tr class="@bgclass" title="@trTitle">
+            <td style="display:none;"><input id="@CheckboxID" title="" type="checkbox" value="@CustomerID" name="ItemCheckbox"/></td>
+            <td><a href="javascript:void(0);" onclick="DoLoad('/System/GuideSheet/GuideSheetReturnOper.aspx?txtCustomerID=@CustomerID','');" title="点击进入【@CustomerName】的指引单回收页面">@CustomerID</a></td>
+            <td><lable>@CustomerName</lable></td>
+            <td style="text-align:center;" id="GenderName_@CustomerID">--</td>
+            <td style="text-align:center;" id="Age_@CustomerID">--</td>
+            <td style="display:none;" id="ExamCard_@CustomerID">--</td>
+            <td id="MobileNo_@CustomerID">--</td>
+            <td style="text-align:center;">@Is_GuideSheetReturned</td>
+            <td style="text-align:center;">@GuideSheetReturnedDate</td>
+            <td>@GuideSheetReturnedby</td>
+            <td style="text-align:center;display:none;">@Is_GuideSheetPrinted</td>
+        </tr>
+        </tbody>
+        
+        <tbody id="TipsInfoTemplete">
+        <tr>
+            <td colspan="11" style="text-align:center; line-height:100px; ">@TipsInfo</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;指引单回收</div>
+
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        日期：</label>
+                    <div class="query-controls">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-40}', maxDate:'%y-%M-#{%d}'})" class="Wdate span120" />
+                        至
+                        <input type="text" id="EndExamDate"   name="EndExamDate"   value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-40}', maxDate:'%y-%M-#{%d}'})" class="Wdate span120" />
+                    </div>
+                </div>
+                
+                 <div class="query-group">
+                  <label class="query-label">体检号(F2):</label>
+                  <div class="query-controls">
+                    <input type="text" class="span160" onfocus="this.select();" onkeyup="AutoGuideSheetReturnQuery();" id="txtCustomerID"name="txtCustomerID" />  
+                  </div>
+                 </div>
+                 
+                 <div class="query-group">
+                  <label class="query-label">&nbsp;</label>
+                  <div class="query-controls">
+                    <input type="checkbox"  id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf" onclick="ChangeOnlyMySelf();" onfocus="ChangeOnlyMySelf();" value="0" /><label for="chkOnlyMySelf">&nbsp;仅我的</label>  
+                  </div>
+                </div>
+                           
+                 <div class="query-group">
+                  <label class="query-label">&nbsp;</label>
+                  <div class="query-controls">
+                    <input type="checkbox"  id="chkNotExam" name="chkNotExam" onclick="ChangeNotExamState();" onfocus="ChangeNotExamState();" value="0" /><label for="chkNotExam">&nbsp;未回收</label>  
+                  </div>
+                </div>
+
+                 <div class="query-group">
+                  <label class="query-label">
+                  
+                  <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) "  onclick="ButtonClickQuery();" />
+                  
+
+                  </label>
+                </div>
+
+            </div>
+            
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td style="display:none;">
+                            <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                        </td>
+                        <td>
+                            体检号
+                        </td>
+                        <td style="text-align:center;">
+                            姓名
+                        </td>
+                        <td style="text-align:center;">
+                            性别
+                        </td>
+                        <td style="text-align:center;">
+                            年龄
+                        </td>
+                        <td style="display:none;">
+                            卡号
+                        </td>
+                        <td>
+                            联系方式
+                        </td>
+                        <td style="text-align:center;">
+                            已回收
+                        </td>
+                        <td style="text-align:center;">
+                            回收时间
+                        </td>
+                        <td>
+                            回收人
+                        </td>
+                        <td style="text-align:center;display:none;">
+                            已打印
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id='Searchresult'>
+                    
+                </tbody>
+            </table>
+            <div class="pagination">
+                <ul id="Pagination">
+                    
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>测试页面 </title>
+    <script src="$!{templatepath}/js/JS_TeamList.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="navline" style="margin-bottom: 4px; margin-top: 4px;"></div>
+    <div class="l-form" id="searchbox">
+        <ul>
+            <li style="margin-right: 5px;">
+                科室名称：<input type="text"
+                            class="l-text" id="txtDEP_NAME" />
+                拼音简码：<input type="text" class="l-text" id="txtCHI_SPELL" validate="{required:true,minlength:1,maxlength:50}" />
+
+            </li>
+            <li>
+                <div class="l-dialog-btn" style="float: left;" id="divSearch">
+
+                    <div class="l-dialog-btn-l"></div>
+                    <div class="l-dialog-btn-r">
+                    </div>
+                    <div class="l-dialog-btn-inner">
+                        查询
+                    </div>
+                </div>
+                <div class="l-dialog-btn" id="divEmpty" style="float: left;">
+                    <div class="l-dialog-btn-l"></div>
+                    <div class="l-dialog-btn-r"></div>
+                    <div class="l-dialog-btn-inner">清空</div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="l-clear">
+        </div>
+    </div></body>
+</html>
+<script type="text/javascript" language="javascript">
+
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+
+    //关闭团体编辑窗口
+    function CloseTeamAddDialog() {
+        //设置收费显示内容
+        jQuery("#txtNote").val("");
+        CommonShowHideDialog('teamAddDiv');
+    }
+    //关闭团体编辑窗口
+    function CloseTeamModifyDialog() {
+        //设置收费显示内容
+        jQuery("#txtNote").val("");
+        jQuery("#txtModifyNote").val("");
+        CommonShowHideDialog('teamModifyDiv');
+    }
+    var IsAdd = false;
+    //新增团体信息
+    function AddTeam() {
+        IsAdd = true;
+        jQuery("#lblIDTeam").text("********");
+        jQuery("#txtTeamName").val("");
+        CommonShowHideDialog('teamAddDiv');
+        jQuery("#txtTeamName").focus();
+
+    }
+
+    function ModifyTeam(obj) {
+
+        IsAdd = false;
+        var TeamID = jQuery(obj).attr("id");
+        var title = jQuery(obj).attr("title");
+        var TeamName = jQuery(obj).find("td label[name='lblTeamName']").text();
+        var IDCreator = jQuery(obj).find("td label[name='lblIDCreator']").text();
+        var Creator = jQuery(obj).find("td label[name='lblCreator']").text();
+        var CreateDate = jQuery(obj).find("td label[name='lblCreateDate']").text();
+        var InputCode = jQuery(obj).find("td label[name='lblInputCode']").text();
+        var Note = jQuery(obj).find("td label[name='lblNote']").text();
+
+        //设置值
+        if (TeamName.length > 12) {
+            jQuery("#lblTeamModifyTitle").text(TeamName.substr(0, 12) + "...");
+        }
+        else {
+            jQuery("#lblTeamModifyTitle").text(TeamName);
+        }
+        jQuery("#lblModifyTeamID").text(TeamID);
+        jQuery("#lblModifyTeamName").text(TeamName);
+        jQuery("#txtModifyNote").val(Note);
+        jQuery("#lblModifyIDCreator").text(IDCreator);
+        jQuery("#lblModifyCreator").text(Creator);
+        jQuery("#lblModifyCreateDate").text(CreateDate);
+
+        CommonShowHideDialog('teamModifyDiv');
+        jQuery("#txtModifyNote").focus();
+        jQuery("#txtModifyNote").select();
+
+        jQuery("#txtModifyNote").attr("maxlength", "50"); //设置备注信息最长字符数为50 xmhuang 2014-04-27
+
+    }
+    function AddNewTeam() {
+
+        jQuery("#lblIDTeam").text("********");
+        jQuery("#txtTeamName").val("");
+        jQuery("#txtNote").val("");
+        jQuery("#txtNote").attr("maxlength", "50");       //设置备注信息最长字符数为50 xmhuang 2014-04-27
+        IsAdd = true;
+    }
+    /// <summary>
+    /// 保存团体信息
+    /// </summary>
+    function SaveTeam(IsClose) {
+        var modelName = jQuery("#modelName").val() == undefined ? "" : jQuery("#modelName").val(); //参数：上一页面来源
+        var ID_Team = "", TeamName = "", InputCode = "", Note = "";
+        if (IsAdd)//新增团体信息
+        {
+            if (jQuery.trim(jQuery("#txtTeamName").val()) == "")//判断团体名称不允许为空
+            {
+                IsCanSave = false;
+                ShowSystemDialog("对不起，团体名称不允许为空，请您填写！");
+                jQuery("#txtTeamName").focus();
+                jQuery("#txtTeamName").select();
+                return false;
+            }
+            TeamName = jQuery.trim(jQuery("#txtTeamName").val());  //团体名称
+            Note = jQuery("#txtNote").val();                       //备注信息
+            ID_Creator = jQuery("#txtIDCreator").text();
+            Creator = jQuery("#txtCreator").text();
+            CreateDate = jQuery("#txtCreateDate").text();
+
+        }
+        else//修改团体信息
+        {
+            ID_Team = jQuery("#lblModifyTeamID").text();
+            TeamName = jQuery("#lblModifyTeamName").text();
+            ID_Creator = jQuery("#lblModifyIDCreator").text();
+            Creator = jQuery("#lblModifyCreator").text();
+            CreateDate = jQuery("#lblModifyCreateDate").text();
+            InputCode = jQuery("#txtInputCode").val();
+            Note = jQuery("#txtModifyNote").val();
+        }
+        type = IsAdd ? "Add" : "Modify";
+
+        var qustData = {
+            action: 'SaveData',
+            modelName: modelName,
+            type: type,
+            ID_Team: ID_Team,
+            TeamName: TeamName,
+            ID_Creator: ID_Creator,
+            Creator: Creator,
+            CreateDate: CreateDate,
+            InputCode: InputCode,
+            Note: Note
+        };
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxTeamOper.aspx",
+            data: qustData,
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                ShowSystemDialog(msg.Message);
+                if (msg.success == "1") {
+                    if (IsAdd) {
+                        jQuery("#lblIDTeam").text(msg.ID_Team);
+                        jQuery("#txtInputCode").val(msg.InputCode);
+                    }
+                    else {
+                        jQuery("#lblModifyTeamID").text(msg.ID_Team);
+                        jQuery("#lblModifyInputCode").val(msg.InputCode);
+                    }
+                }
+                else {
+                }
+            },
+            complete: function () {
+                if (IsClose == 1) {
+                    if (IsAdd) {
+                        CloseTeamAddDialog();
+                    }
+                    else {
+                        CloseTeamModifyDialog();
+                    }
+                    RemoveSelectedTeam();
+                    //                    jQuery('#idSelectTeam').val("");            //重置团体ID   xmhuang 2014-04-28
+                    //                    jQuery('#nameSelectTeam').val("");          //重置团体名称  xmhuang 2014-04-28
+                    Search();
+                }
+                else if (IsClose == 0) {
+                    RemoveSelectedTeam();
+                    //                    jQuery('#idSelectTeam').val("");            //重置团体ID   xmhuang 2014-04-28
+                    //                    jQuery('#nameSelectTeam').val("");          //重置团体名称  xmhuang 2014-04-28
+                    Search();
+                    AddNewTeam();
+                }
+            }
+        });
+    }
+</script>

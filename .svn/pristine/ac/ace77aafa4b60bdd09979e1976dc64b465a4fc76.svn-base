@@ -1,0 +1,582 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body style="background-color:#f2f9fd;">
+    <div class="header bg-main">
+        <div class="logo margin-big-left fadein-top">
+            <a target="right" href="/template/blue2/System/skin05/pass.html"><img src="/template/blue2/images/skin05/y.jpg" class="radius-circle rotate-hover" height="50" alt="" /><img height="50" src="/template/blue2/images/skin05/logo-6.png"></a>
+            <div class="logo-txt">
+                <h3 style="font-size: 26px;">健康管理中心·健康体检中心</h3>
+                <h5 style="margin-top: -20px;font-size: 12px;">Health Management Center &amp; Physical Examination Center</h5>
+            </div>
+        </div>
+        <div class="head-l"><a class="button button-little bg-green" href=""><span class="icon-home"></span> </a> &nbsp;&nbsp;<a href="javascript:logout()" class="button button-little bg-blue"><span class="icon-wrench"></span></a> &nbsp;&nbsp;<a class="button button-little bg-red " href="javascript:closeWindows()"><span class="icon-power-off"></span> </a> </div>
+    </div>
+    <!--<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <span>用户名</span><span id="userLoginName"> </span><span>姓名</span><span id="userName"></span><span>科室</span><span id="userVocationType"></span><span>日期</span><span id="loginDate"></span></div>-->
+    <div class="leftnav">
+
+    </div>
+
+    <ul class="bread"> </ul>
+    <div class="admin">
+        <iframe id="iframe" scrolling="auto" rameborder="0" src="" name="right" width="100%" height="100%"></iframe>
+    </div>
+    <div style="text-align:center;">
+    </div>
+
+    <script src="/template/blue2/js/skin05/config/base.js"></script>
+    <script src="/template/blue2/js/skin05/pages/index.js"></script>
+
+ 
+    
+    <div style="display:none">
+       <!--分科检查的头部-->
+    <div id="SysHeaderSection" style="display:none;">
+        <div class="fkx-title">
+            <div id="HeaderSectionTitle" class="fkx-title-bt">&nbsp;</div>
+            <span class="CurrentTime"></span>
+            <div class="fkx-title-fh"><a href="javascript:void(0);" onclick="ShowSectionList();SwitchHeader(1);">返回>></a></div>
+        </div>
+    </div>
+
+    <!--分科检查的头部-->
+    <div id="SysHeaderConclusion" style="display:none;">
+        <div class="fkx-title">
+            <div id="HeaderConclusionTitle" class="fkx-title-bt">总检</div>
+            <span class="CurrentTime"></span>
+            <div class="fkx-title-fh"><a href="javascript:void(0);" onclick="DoLoad('/System/ConclusionEx/ConclusionList.aspx', '');SwitchHeader(1);">返回>></a></div>
+        </div>
+    </div>
+
+    <div id="SysHeaderConclusionCheck" style="display:none;">
+        <div class="fkx-title">
+            <div id="HeaderConclusionCheckTitle" class="fkx-title-bt">总审</div>
+            <span class="CurrentTime"></span>
+            <div class="fkx-title-fh"><a href="javascript:void(0);" onclick="DoLoad('/System/ConclusionEx/ConclusionList.aspx', '');SwitchHeader(1);">返回>></a></div>
+        </div>
+    </div>
+
+    
+
+    <div id="loadForm">
+
+
+    </div>
+
+    <div class="push_to hide">
+        <!-- footer负值DIV -->
+    </div>
+    <div class="tool" id="RightTool">
+
+        <div style="display:none;">
+            <a href="#" class="tool-a2" id="shang" onclick="GotoTop();"></a>
+            <a href="#" class="tool-a3" id="xia" onclick="GotoBottom();"></a>
+        </div>
+    </div>
+
+    <div id="ShowHideDialogbg">
+    </div>
+    <div id="ShowHideDialogbgTwo">
+    </div>
+
+   
+    <div id="SysFooter_index" class="footer_to hide">
+        <p>$!{BottomInfo}</p>
+    </div>
+
+    <!--[if lte IE 6]>
+    <style type="text/css">
+    html {
+    /*这个可以让IE6下滚动时无抖动*/
+    background: url(about:black) no-repeat fixed
+    }
+    .tool {
+    position: absolute;
+    }
+    </style>
+    <![endif]-->
+    <!-- 模版 -->
+    <div style="display: none;">
+        <!-- 浮动层 体检号克隆模板 xmhuang 2013-10-21 Begin -->
+        <!--克隆数据模板 Begin-->
+        <table id="TemplateCloneCustomer">
+
+            <tbody>
+                <tr class="@class" ID_Customer="@ID_Customer" CustomerName="@CustomerName" GenderName="@GenderName" BirthDay="@BirthDay">
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td>
+                        @CustomerName
+                    </td>
+                    <td>
+                        @GenderName
+                    </td>
+                    <td>
+                        @BirthDay
+                    </td>
+                    <td>
+                        <img width="23" height="28" alt="" src="@Base64Photo" />
+                    </td>
+                    <td class="copydiv-center-table-copyan">
+                        <A href="javascript:void(0);" onclick="DoCustomerClone('@ID_Customer');">克隆</A>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--克隆数据模板 End-->
+        <!-- 浮动层 体检号克隆模板 xmhuang 2013-10-21 End -->
+        <!-- 浮动层 分科对比列表模版 -->
+        <table style=" display:none;">
+            <tbody id="HistoryExamCountTemplate">
+                <tr id="tr_@IDCardNo_@ID_ExamItem">
+                    <td class="ExamName" id="ExamName_@IDCardNo_@ID_ExamItem">@ExamItemName</td>
+                    <td id="ExamItem_@IDCardNo_@ID_ExamItem_1">@ExamItemResult01</td>
+                    <td id="ExamItem_@IDCardNo_@ID_ExamItem_2">@ExamItemResult02</td>
+                </tr>
+            </tbody>
+            <tbody id="HistoryResultSummaryTemplate">
+                <tr id="trSummary_@IDCardNo_@ID_ExamItem">
+                    <td class="ExamName" id="ResultSummary_@IDCardNo_@ID_ExamItem">@ExamItemName</td>
+                    <td id="ResultSummary_@IDCardNo_@ID_ExamItem_1">@ExamItemResult01</td>
+                    <td id="ResultSummary_@IDCardNo_@ID_ExamItem_2">@ExamItemResult02</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- 浮动层 总检对比列表模版 -->
+        <table style=" display:none;">
+            <tbody id="HistoryFinalExamTemplate">
+                <tr id="trSection_@IDCardNo_@ID_Section">
+                    <td class="SectionName" id="SectionName_@IDCardNo_@ID_Section">@SectionName</td>
+                    <td id="SectionSummary_@IDCardNo_@ID_Section_1">@SectionSummaryResult01</td>
+                    <td id="SectionSummary_@IDCardNo_@ID_Section_2">@SectionSummaryResult02</td>
+                </tr>
+            </tbody>
+            <tbody id="HistoryFinalResultSummaryTemplate">
+                <tr>
+                    <td colspan="3" style="text-align:center; font-weight:bold;">总检结果</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_1">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_1">总检结论</td>
+                    <td id="FinalResultSummary_@IDCardNo_1_1">@FinalResult_1_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_1_2">@FinalResult_1_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_2">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_2">总检建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_2_1">@FinalResult_2_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_2_2">@FinalResult_2_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_3">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_3">结果对比</td>
+                    <td id="FinalResultSummary_@IDCardNo_3_1">@FinalResult_3_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_3_2">@FinalResult_3_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_4">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_4">饮食建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_4_1">@FinalResult_4_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_4_2">@FinalResult_4_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_5">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_5">运动建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_5_1">@FinalResult_5_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_5_2">@FinalResult_5_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_6">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_6">健康建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_6_1">@FinalResult_6_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_6_2">@FinalResult_6_02</td>
+                </tr>
+            </tbody>
+
+
+
+
+
+
+        </table>
+
+
+        <!-- 浮动层 分科检查预览列表模版 -->
+        <!-- 浮动层 分科检查预览列表模版 -->
+        <table style=" display:none;" id="SectionExamedCountTemplate">
+            <tbody>
+                <tr>
+                    <td class="SectionName"><a href="javascript:void(0);" title="点击查看【@SectionName】检查结果详情" onclick="OpenSectionExamViewWindow('@ID_Section','@CustomerID');">@SectionName</a>：</td>
+                    <td colspan="5">@SectionSummary</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- 右侧科室列表模版（右侧浮动） -->
+        <ul id="ExamSectionTemplate">
+            <li><a href="javascript:void(0);" name="@SectionName" onclick="ReLoadCustomerSection('/System/Exam/ExamOper.aspx?txtSectionID=@ID_Section&txtCustomerID=@CustomerID','@ID_Section');">@Number、@SectionName</a></li>
+        </ul>
+
+        <!-- 菜单项模版 -->
+        <!--
+        <ul id="LoginUserMenuTemplete_old2">
+            <li><a id="menu_@ID_Menu_@ID_Section" menuid="@ID_Menu" sectionid="@ID_Section" targeturl='@MenuUrl' href="javascript:void(0);"><span>@MenuName</span></a>
+            </li>
+            <li class="menu-line2"></li>
+        </ul>
+        -->
+        <!-- 菜单项模版 -->
+        <ul id="LoginUserMenuTemplete">
+            <li id="menu_@ID_Menu_@ID_Section" onfocus="this.blur();" menuid="@ID_Menu" sectionid="@ID_Section" targeturl='@MenuUrl'><span class="nav_line"></span><a href="javascript:void(0);">@MenuName</a> </li>
+        </ul>
+        <!-- 菜单分组显示模版（分组的标题栏） -->
+        <ul id="LoginUserMenuClassTemplete">
+
+            <li onclick="ShowUserMenuClass('@ID_Menu');" style="cursor:pointer;" id="LoginUserMenuClassTitle_@ID_Menu" targeturl='@ParentMenuUrl' @IsSelected>
+                <i class="menu_icon @menu_icon_class"></i>
+                <a href="javascript:void(0);">@MenuClassName</a>
+            </li>
+        </ul>
+
+        <!-- 菜单分组显示模版（分组的标题栏） -->
+        <ul id="LoginUserMenuClassTempleteFlag">
+            <li class="nav-li-arrow" style="display:none;"><a href="#"><img alt="" src="$!{templatepath}/images/navarrow-top.png" width="13" height="13" /></a></li>
+        </ul>
+        <!-- 菜单分组显示模版（分组的详细信息） -->
+        <div id="LoginUserMenuClassSubItemTemplete">
+            <div class="LoginUserMenuClassSubItem" id="LoginUserMenuClassSubItem_@ID_Menu" style="display:none;">
+                <div class="nav" id="LoginUserMenu_@ID_Menu">
+                    <ul class="menu-actions">
+                        @LoginUserMenuClassSubItem
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!--病症级别提示开始值 及 各个等级对应颜色值 1:蓝色 2:黄色 3:橙 4:红色 严重程度依次表示 一般，较重，严重，特别严重 -->
+        <input type="hidden" id="DiseaseLevelWarning" value="$!{DiseaseLevelWarning}" />
+
+        <!-- 病症级别提示模板（整体部分） -->
+        <div id="DiseaseLevelTipsFrameTemplete_old" style="display:none;">
+            <div class="DiseaseLevelTips" id="@DivDiseaseLevel">
+                <span>请注意，该客户本次体检病症级别已经达到</span><span class="number">@DiseaseLevel</span><span>级！</span>
+            </div>
+        </div>
+
+        <!-- 病症级别提示模板（新样式） -->
+        <div id="DiseaseLevelTipsFrameTemplete" style="display:none;">
+            <div class="Diseasediv-center-b">
+                <div class="Diseasediv-div DiseaseLevel_@DiseaseLevel">
+                    <span><img src="$!{templatepath}/images/Warning.png" width="28" height="31" /></span>
+                    <span>请注意，<br />该客户本次体检病症级别已经达到&nbsp;<strong>@DiseaseLevel</strong>&nbsp;级！</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 团体任务相关模版 -->
+        <table style="display: none;">
+            <tbody id="TeamTaskQuickQueryTableTemplete">
+                <tr style="cursor: pointer;" id="trTeamTask_@ID_TeamTask" ondblclick="SetTeamTaskChecked('@ID_TeamTask');"
+                    onkeydown="if(IsEnterKeyDown() == true) { SetTeamTaskChecked('@ID_TeamTask'); }">
+                    <td>
+                        <input type="radio" onfocus="TeamTaskClickBackground('@ID_TeamTask')" name="@chkTeamTaskQueryList"
+                               id="chkTeamTask_@ID_TeamTask" value="@ID_TeamTask" TeamTaskname="@TeamTaskName" style="clear:both; width:auto; height:auto;" />
+                    </td>
+                    <td onclick="TeamTaskClick('@ID_TeamTask');">
+                        @TeamTaskName
+                    </td>
+                    <td onclick="TeamTaskClick('@ID_TeamTask');">
+                        @InputCode
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="EmptyTeamTaskQuickQueryDataTemplete">
+                <tr>
+                    <td colspan="3" style="text-align: left;">
+                        未找到团体任务，请重新输入...&nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="SecectedTeamTaskLableTemplete" style="display: none;">
+            <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedTeamTask();">× </a>
+            <a title="@TitleTeamTaskName">@TeamTaskName</a>
+        </div>
+
+
+        <!-- 团体相关模版 -->
+        <table style="display: none;">
+            <tbody id="TeamQuickQueryTableTemplete">
+                <tr style="cursor: pointer;" id="trTeam_@ID_Team" ondblclick="SetTeamChecked('@ID_Team');"
+                    onkeydown="if(IsEnterKeyDown() == true) { SetTeamChecked('@ID_Team'); }">
+                    <td>
+                        <input type="radio" onfocus="TeamClickBackground('@ID_Team')" name="@chkTeamQueryList"
+                               id="chkTeam_@ID_Team" value="@ID_Team" Teamname="@TeamName" style="clear:both; width:auto; height:auto;" />
+                    </td>
+                    <td onclick="TeamClick('@ID_Team');">
+                        @TeamName
+                    </td>
+                    <td onclick="TeamClick('@ID_Team');">
+                        @InputCode
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="EmptyTeamQuickQueryDataTemplete">
+                <tr>
+                    <td colspan="3" style="text-align: left;">
+                        未找到团体，请重新输入...&nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="SecectedTeamLableTemplete" style="display: none;">
+            <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedTeam();">× </a>
+            <a title="@TitleTeamName">@TeamName</a>
+        </div>
+        <object id="FastReport" classid="clsid:b4d9b4bf-d98d-4748-9018-73688e1fcb99" codebase="/ActiveX/FYHTakePhotoSetup.msi"></object>
+
+    </div>
+
+
+    <div class="loading">
+        <div class="frame" id="ProcessLoading">
+            <div class="title" id="ProcessTitle">
+                提示信息
+            </div>
+            <div class="info" id="ProcessInfo">
+                数据正在处理中，请稍后...
+            </div>
+            <div class="Process">
+                <div class="Bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cover">
+
+    </div>
+
+
+    <!--<script language="javascript" type="text/javascript">
+        function ComReadObject::SendComRecvDataEvent(type, data){
+            ShowComReadData(type, data);
+        }
+    </script>-->
+    <!--  服务器当前日期 -->
+    <input type="hidden" name="CurDate" id="CurDate" value="${CurDate}" />
+    <!--  客户端访问IP -->
+    <input type="hidden" name="ClientIP" id="ClientIP" value="${ClientIP}" />
+    <!-- 操作员职位类别 -->
+    <input type="hidden" name="LoginUserVocationType" id="LoginUserVocationType" value="${LoginUserModel.UserVocationType}" />
+    <!-- 操作员职位类别 -->
+    <input type="hidden" name="CookieUserID" id="CookieUserID" value="${LoginUserModel.ID_User}" />
+    <input type="hidden" name="CookieIsLogin" id="CookieIsLogin" value="${IsLogin}" />
+    <input type="hidden" name="CookieSessionID" id="CookieSessionID" value="${SessionID}" />
+    <input type="hidden" name="CookieLoginName" id="CookieLoginName" value="${LoginUserModel.LoginName}" />
+    <input type="hidden" name="CookieUserName" id="CookieUserName" value="${LoginUserModel.UserName}" />
+
+    <!-- 操作员操作密级，用于判断是否对某客户具有操作权限 -->
+    <input type="hidden" name="OperateLevel" id="OperateLevel" value="${LoginUserModel.OperateLevel}" />
+
+    <input type="hidden" name="IsVerifyCapture" id="IsVerifyCapture" value="-1" />
+    <!-- 记录最近一次加载的子页面地址 -->
+    <input type="hidden" name="LastLoadSubPage" id="LastLoadSubPage" value="" />
+
+    <!--报告预览模板配置-->
+    <input type="hidden" name="ExamPreviewReport" id="ExamPreviewReport" value="$!{ExamPreviewReport}" />
+    <!--报告打印模板配置-->
+    <input type="hidden" name="ExamReport" id="ExamReport" value="$!{ExamReport}" />
+    <!--男性报告模板和报告预览模板-->
+    <input type="hidden" name="MaleColorReport" id="MaleColorReport" value="$!{MaleColorReport}" />
+    <input type="hidden" name="MaleColorPreviewReport" id="MaleColorPreviewReport" value="$!{MaleColorPreviewReport}" />
+    <!--女性报告模板和报告预览模板-->
+    <input type="hidden" name="FeMaleColorReport" id="FeMaleColorReport" value="$!{FeMaleColorReport}" />
+    <input type="hidden" name="FeMaleColorPreviewReport" id="FeMaleColorPreviewReport" value="$!{FeMaleColorPreviewReport}" />
+    <input type="hidden" name="UseColorPrintPaperExamType" id="UseColorPrintPaperExamType" value="$!{UseColorPrintPaperExamType}" />
+    <!--封面报告模板-->
+    <input type="hidden" name="DefaultCoverReport" id="DefaultCoverReport" value="$!{DefaultCoverReport}" />
+    <input type="hidden" name="MaleCoverReport" id="MaleCoverReport" value="$!{MaleCoverReport}" />
+    <input type="hidden" name="FeMaleCoverReport" id="FeMaleCoverReport" value="$!{FeMaleCoverReport}" />
+
+    <!--自定义报告模板-->
+    <input type="hidden" name="IsUseCustReport" id="IsUseCustReport" value="$!{IsUseCustReport}" />
+    <input type="hidden" name="CustExamReport" id="CustExamReport" value="$!{CustExamReport}" />
+    <input type="hidden" name="CustExamPreviewReport" id="CustExamPreviewReport" value="$!{CustExamPreviewReport}" />
+    <input type="hidden" name="CustMaleColorReport" id="CustMaleColorReport" value="$!{CustMaleColorReport}" />
+    <input type="hidden" name="CustMaleColorPreviewReport" id="CustMaleColorPreviewReport" value="$!{CustMaleColorPreviewReport}" />
+    <input type="hidden" name="CustFeMaleColorReport" id="CustFeMaleColorReport" value="$!{CustFeMaleColorReport}" />
+    <input type="hidden" name="CustFeMaleColorPreviewReport" id="CustFeMaleColorPreviewReport" value="$!{CustFeMaleColorPreviewReport}" />
+    <input type="hidden" name="CustDefaultCoverReport" id="CustDefaultCoverReport" value="$!{CustDefaultCoverReport}" />
+    <input type="hidden" name="CustMaleCoverReport" id="CustMaleCoverReport" value="$!{CustMaleCoverReport}" />
+    <input type="hidden" name="CustFeMaleCoverReport" id="CustFeMaleCoverReport" value="$!{CustFeMaleCoverReport}" />
+
+    <!-- 二级菜单的名称 -->
+    <input type="hidden" name="MenuSubTitleName" id="MenuSubTitleName" value="" />
+    <!-- 点击的链接名称 -->
+    <input type="hidden" name="hiddenFYHSubMenuUrl" id="hiddenFYHSubMenuUrl" value="" />
+
+    <!--编辑框弹出层开始-->
+    <div class="Editboxdiv ShowBigEditer texttcc">
+        <div class="Editboxdiv-title">
+            <div class="Editboxdiv-title-l"></div>
+            <div class="Editboxdiv-title-b">
+                <div class="Editboxdiv-title-total">
+                    <div class="Editboxdiv-title-btke">
+                        <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                        <strong>编辑框放大</strong>
+                    </div>
+                    <div class="Editboxdiv-title-off"><a href="#" class="clexit"></a></div>
+                    <div class="Editboxdiv-title-fenge"></div>
+                </div>
+            </div>
+            <div class="Editboxdiv-title-r"></div>
+        </div>
+        <div class="Editboxdiv-center">
+            <div class="Editboxdiv-center-l"></div>
+            <div class="Editboxdiv-center-b">
+                <div class="text-title">
+                    <span>
+                        <a href="#">、</a>
+                        <a href="#">。</a>
+                        <a href="#">《</a>
+                        <a href="#">》</a>
+                        <a href="#">≈</a>
+                        <a href="#">≡</a>
+                        <a href="#">≠</a>
+                        <a href="#">≤</a>
+                        <a href="#">≥</a>
+                        <a href="#">≮</a>
+                        <a href="#">≯</a>
+                        <a href="#">±</a>
+                        <a href="#">×</a>
+                        <a href="#">÷</a>
+                        <a href="#">∞</a>
+                        <a href="#">⊥</a>
+                        <a href="#">∥</a>
+                        <a href="#">∠</a>
+                        <a href="#">⊙</a>
+                        <a href="#">○</a>
+                        <a href="#">①</a>
+                        <a href="#">②</a>
+                        <a href="#">③</a>
+                        <a href="#">④</a>
+                        <a href="#">⑤</a>
+                        <a href="#">⑥</a>
+                        <a href="#">⑦</a>
+                        <a href="#">⑧</a>
+                        <a href="#">⑨</a>
+                        <a href="#">⑩</a>
+                        <a href="#">‘</a>
+                        <a href="#">’</a>
+                        <a href="#">“</a>
+                        <a href="#">”</a>
+                        <a href="#">～</a>
+                        <a href="#">‖</a>
+                        <a href="#">※</a>
+                        <a href="#">「</a>
+                        <a href="#">」</a>
+                        <a href="#">『</a>
+                        <a href="#">』</a>
+                        <a href="#">〖</a>
+                        <a href="#">〗</a>
+                        <a href="#">【</a>
+                        <a href="#">】</a>
+                        <a href="#">…</a>
+                        <a href="#">々</a>
+                        <a href="#">￥</a>
+                        <a href="#">%</a>
+                        <a href="#">℃</a>
+                        <a href="#">$</a>
+                        <a href="#">№</a>
+                        <a href="#">←</a>
+                        <a href="#">→</a>
+                        <a href="#">◎</a>
+                        <a href="#">△</a>
+                        <a href="#">☆</a>
+                        <a href="#">○</a>
+                        <a href="#">◇</a>
+                        <a href="#">□</a>
+                        <a href="#">α</a>
+                        <a href="#">β</a>
+                        <a href="#">γ</a>
+                        <a href="#">δ</a>
+                        <a href="#">ε</a>
+                        <a href="#">ζ</a>
+                        <a href="#">η</a>
+                        <a href="#">θ</a>
+                        <a href="#">λ</a>
+                        <a href="#">μ</a>
+                        <a href="#">ξ</a>
+                        <a href="#">n</a>
+                        <a href="#">ρ</a>
+                        <a href="#">σ</a>
+                        <a href="#">τ</a>
+                        <a href="#">υ</a>
+                        <a href="#">φ</a>
+                        <a href="#">ω</a>
+                        <a href="#">Δ</a>
+                        <a href="#">θ</a>
+                        <a href="#">Σ</a>
+                        <a href="#">Ω</a>
+                        <a href="#">↑</a>
+                        <a href="#">↓</a>
+                        <a href="#">〓</a>
+                        <a href="#">▲</a>
+                        <a href="#">★</a>
+                        <a href="#">●</a>
+                        <a href="#">◆</a>
+                        <a href="#">■</a>
+                    </span>
+                </div>
+                <div class="text-edit"></div>
+                <div class="text-bt">
+                    <input style="height:25px;" class="text-save  btn-bc-s  btn-common button65" name="" type="button" value="保存" />
+                    <input style="height:25px;" class="clexit btn-qx btn-common button65" name="" type="button" value="取消" />
+                </div>
+            </div>
+            <div class="Editboxdiv-center-r"></div>
+        </div>
+        <div class="Editboxdiv-bottom">
+            <div class="Editboxdiv-bottom-l"></div>
+            <div class="Editboxdiv-bottom-b"></div>
+            <div class="Editboxdiv-bottom-r"></div>
+        </div>
+    </div>
+
+    <!--编辑框弹出层结束-->
+
+    <div id="id_titleBar" style="display:none;">
+        <div class="Spediv-title">
+            <div class="Spediv-title-l"></div>
+            <div class="Spediv-title-b">
+                <div class="Spediv-title-total">
+                    <div class="Spediv-title-btke">
+                        <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                        <strong>标本维护</strong>
+                    </div>
+                    <div class="Spediv-title-off" onclick="CloseDialogWindow();"><a href="javascript:void();"></a></div>
+                    <div class="Spediv-title-fenge"></div>
+                </div>
+            </div>
+            <div class="Spediv-title-r"></div>
+        </div>
+    </div>
+
+    <div id="TestErrorMsgOutput" style="position:fixed; left:0px; bottom:0px; max-height:30px; text-align:left; overflow:scroll; display:none;">
+
+    </div>
+    <!--<script type="text/javascript" src="$!{templatepath}/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/jquery.uniform.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/select2.min.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/Commom.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_FloatRight.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/jquery.pagination.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/artDialog4.1.7/artDialog.source.js?skin=opera"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/artDialog4.1.7/plugins/iframeTools.source.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/WebIm.js"></script>-->
+
+   </div>
+</body>
+</html>

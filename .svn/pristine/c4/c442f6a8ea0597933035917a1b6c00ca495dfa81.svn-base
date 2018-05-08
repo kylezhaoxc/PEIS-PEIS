@@ -1,0 +1,267 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>登记预约查询列表 </title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_RegistList.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <!--查询区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检/证件号：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c" style="line-height: 24px;">
+                        <input type="text" id='txtSFZ' placeholder=" " onkeyup="DirectQueryCustomerID();"
+                            class="tjzj-input input-4" maxlength="18" />
+                        <a href="javascript:void(0);" title="查询(F4)">
+                            <img src="$!{templatepath}/images/search.jpg" width="17" height="14" onclick="RegistListSearch();"
+                                style="margin-top: 5px;" /></a>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;姓名：</span> <span class="span-margin-top" style="margin-right: 5px;">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="txtCustomerName" maxlength="10" name="txtCustomerName" placeholder=" "
+                            style="width: 55px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span class="span-margin-top" style="margin-right: 5px;">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slDateType">
+                            <option value="OperateDate">体检时间</option>
+                            <option value="SubScriberOperDate" selected="selected">备单时间</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+                
+                <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onclick="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})"
+                            style="width: 64px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onclick="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})"
+                            style="width: 64px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span class="search-4">
+                    <input type="checkbox" id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf"
+                        value="0" />
+                </span><span>
+                    <label for="chkOnlyMySelf">
+                        仅我的&nbsp;</label>
+                </span><span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slIs_FeeSettled" title="下拉可选择不同的收费状态进行查询">
+                            <option value="-1">全部</option>
+                            <option value="0">未缴费</option>
+                            <option value="1">已缴费</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearch"
+                    onclick="RegistListSearch();">查询</a> </span><span class="buttom-sq" title="申请"><a
+                        href="javascript:void(0);" id="btnAdd" onclick="javascript:DoLoad('/System/Customer/RegistOper.aspx?type=add&IsCommon='+(document.getElementById('IsCommon')!=null?document.getElementById('IsCommon').value:0)+'&modelName='+(document.getElementById('modelName')!=null?document.getElementById('modelName').value:'Regist')+'&IsTeam='+(document.getElementById('IsTeam')!=null?document.getElementById('IsTeam').value:0),'');">
+                        申请</a> </span><span class="buttom-dzj-s" title="读证件(F8)"><a href="javascript:void(0);"
+                            id="btnReadFromMachine" name="btnReadFromMachine" onclick="FindReaderOfList('txtSFZ', 'IDCard', 1); ">
+                            读证件</a> </span>
+            </div>
+        </div>
+        <!--查询区域 End-->
+        <!--查询列表 Begin-->
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 13%" />
+                            <col style="width: 11%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 9%" />
+                            <col style="width: 15%" />
+                            <col style="width: 6%" />
+                            <col style="width: 6%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                体检时间
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                年龄
+                            </th>
+                            <th>
+                                婚姻状况
+                            </th>
+                            <th>
+                                联系方式
+                            </th>
+                            <th>
+                                已缴费
+                            </th>
+                            <th>
+                                预约
+                            </th>
+                            <th>
+                                操作人员
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="325"
+                    data-min="100" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 13%" />
+                            <col style="width: 11%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 9%" />
+                            <col style="width: 15%" />
+                            <col style="width: 6%" />
+                            <col style="width: 6%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--查询列表 End-->
+        <!--参数输出区域 Begin-->
+        $!{HiddenInputQueryString}
+        <!--参数输出区域 End-->
+        <!--模版区域 Begin-->
+        <div style="display: none;">
+            <!--引入身份证插件 Begin-->
+            <div>
+                <object id="CVR_IDCard" height="0" width="0" classid="clsid:3C39D5DB-4DA5-4061-81CF-3F8ADD48B950"
+                    name="CVR_IDCard">
+                </object>
+            </div>
+            <!--引入身份证插件 End-->
+        </div>
+        <table style="display: none;">
+            <script type="text/plain"  id="RegistListTemplate">
+                <tr id="@ID_ArcCustomer">
+                    <td style="display: none;">
+                        <input arccustomer="@ID_ArcCustomer" id="@ID_Customer" title="" type="checkbox" name="ItemCheckbox" />
+                    </td>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="DoLoadX(this);" targeturl="/System/Customer/RegistOper.aspx?type=Edit&modelName=@modelName&ID_Customer=@ID_Customer&IsTeam=@IsTeam&IsCommon=@IsCommon"
+                            title="@editTitle">@ID_Customer</a>
+                    </td>
+                    <td>
+                        <lable>@SubScribDate</lable>
+                    </td>
+                    <td class="box project-align-left DialogPhotoTipsArea" src="@Base64Photo" name="@ID_Customer">
+                        <label name="lblDisplayCustomerName" style="display: none;">
+                            @CustomerName</label>
+                        <img id="HeadImg" name="HeadImg" width="23" height="28" src="@Base64Photo" style="display: none;" />
+                        <div class="nowrap" style="width: 100%; ">
+                            @CustomerName</div>
+                           
+                    </td>
+                    <td id="GenderName_@ID_Customer">
+                        @GenderName
+                    </td>
+                    <td id="Age_@ID_Customer">
+                        @Age
+                    </td>
+                    <td style="display: none;" id="IDCard_@ID_Customer">
+                        @IDCard
+                    </td>
+                    <td id="MarriageName_@ID_Customer">
+                        @MarriageName
+                    </td>
+                    <td id="MobileNo_@ID_Customer" class="project-align-left" title="@MobileNo">
+                        <div class="nowrap" style="width: 100%;">
+                            @MobileNo</div>
+                    </td>
+                    <td>
+                        @Is_FeeSettled
+                    </td>
+                    <td>
+                        @Is_Subscribed
+                    </td>
+                    <td class="project-align-left" title="@Creator">
+                        <div class="nowrap" style="width: 100%;">
+                            @Creator</div>
+                    </td>
+                    <td style="display: none;">
+                        @Operator
+                    </td>
+                    <td style="display: none;">
+                        <label name="tdTeam">
+                            @Is_Team</label>
+                    </td>
+                </tr>
+            </script>
+        </table>
+        <!--模版区域 End-->
+    </div>
+</body>
+</html>

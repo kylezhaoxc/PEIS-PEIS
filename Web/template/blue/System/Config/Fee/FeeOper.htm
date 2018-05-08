@@ -1,0 +1,454 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 收费项目ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Fee" id="ID_Fee" value="$!{ID_Fee}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+
+    
+    <input type="hidden" name="txtBreakfastOrder" id="txtBreakfastOrder" value="$!{BreakfastOrder}" />
+    <input type="hidden" name="txtForsex" id="txtForsex" value="$!{Forsex}" />
+    <input type="hidden" name="txtIs_Banned" id="txtIs_Banned" value="$!{Is_Banned}" />
+    <input type="hidden" name="txtIs_FeeNonPrintInReport" id="txtIs_FeeNonPrintInReport" value="$!{Is_FeeNonPrintInReport}" /><!-- 不打报告 -->
+    <input type="hidden" name="txtIS_FeeReportMerger" id="txtIS_FeeReportMerger" value="$!{IS_FeeReportMerger}" /> <!-- 是否合并报告名称 -->
+
+    <input type="hidden" name="txtOperationalDate" id="txtOperationalDate" value="$!{OperationalDate}" />
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">收费名称：</td>
+                <td class="inputtext"><input class="width300" name="txtFeeName" id="txtFeeName" maxlength="50" value="$!{FeeName}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">报告名称：</td>
+                <td class="inputtext"><input class="width300" name="txtReportFeeName" id="txtReportFeeName" maxlength="50" value="$!{ReportFeeName}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle" title="接口中使用的收费项目名称">接口名称：</td>
+                <td class="inputtext"><input class="width300" name="txtInterfaceName" id="txtInterfaceName" maxlength="50" value="$!{InterfaceName}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">收费项目代码：</td>
+                <td class="inputtext"><input name="txtFeeCode" id="txtFeeCode" maxlength="50" value="$!{FeeCode}" /> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">原始价格：</td>
+                <td class="inputtext"><input name="txtPrice" id="txtPrice" maxlength="10" onkeyup="this.value = this.value.replace(/[^\d\.\d{2}]/g, '')" onafterpaste="this.value = this.value.replace(/[^\d\.\d{2}]/g, '')"  value="$!{Price}" /> 元 </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">隶属科室：</td>
+                <td> <input type="hidden" name="idSelectSection" id="idSelectSection" value="$!{ID_Section}" />
+                    <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="$!{SectionName}" />
+                    <span id="spanSection"><input  name="txtSectionInputCode" id="txtSectionInputCode" onkeyup="QuickQueryTableData_Ajax();" onchange="QuickQueryTableData_Ajax();"  onfocus="QuickQueryTableData_Ajax();"  maxlength="50" value="$!{Section}" /></span>
+                    <span id="spanSelectSection" style="display:none;"> 妇科 <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectSection').hide();"> × </a> </span>
+                    
+                    <div>
+                            <input type="hidden" name="idSelectSection" id="idSelectSection" value="" />
+                            <input type="hidden" name="nameSelectSection" id="nameSelectSection" value="" />
+                            <div id="QuickQuerySectionTable" class="QuickQueryList" style="margin-top: 24px; width: 320px; display:none;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                科室
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tbody id="QuickQuerySectionTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到科室，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnsure" id="btnsave001" onclick="SelectSectionDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                                    <input type="button" class="btnclose" id="btncolse001" onclick="ShowHideQuickQuerySectionTable(false,'');" value=" 取  消 " /> 
+                                </div>
+                            </div>
+                        </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="inputtitle">标本名称：</td>
+                <td>
+                    <input type="hidden" name="idSelectSpecimen" id="idSelectSpecimen" value="$!{ID_Specimen}" />
+                    <input type="hidden" name="nameSelectSpecimen" id="nameSelectSpecimen" value="$!{SpecimenName}" />
+                    <span id="spanSpecimen"><input name="txtSpecimenInputCode" id="txtSpecimenInputCode" onkeyup="QuickQuerySpecimenTableData_Ajax();" onchange="QuickQuerySpecimenTableData_Ajax();"  onfocus="QuickQuerySpecimenTableData_Ajax();" maxlength="50" value="" /></span>
+                    <span id="spanSelectSpecimen" style="display:none;"> 胃蛋白酶原 <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectSpecimen').hide();"> × </a> </span> 
+                   
+                   
+                    <div>
+                            <input type="hidden" name="idSelectSpecimen" id="idSelectSpecimen" value="" />
+                            <input type="hidden" name="nameSelectSpecimen" id="nameSelectSpecimen" value="" />
+                            <div id="QuickQuerySpecimenTable" class="QuickQueryList" style="margin-top: 24px; width: 320px; display:none;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                标本
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 200px" />
+                                        </colgroup>
+                                        <tbody id="QuickQuerySpecimenTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到标本，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnsure" id="btnsave002" onclick="SelectSpecimenDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                                    <input type="button" class="btnclose" id="btncolse002" onclick="ShowHideQuickQuerySpecimenTable(false,'');" value=" 取  消 " /> 
+                                </div>
+                            </div>
+                        </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle" title="在体检报告打印时，是否合并两个收费项目，主要针对LIS收费项目。">报告合并显示：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIS_FeeReportMerger" id="radioIS_FeeReportMerger01" value="0" checked="checked" /> <label for="radioIS_FeeReportMerger01">不合并 </label>  
+                    <input type="radio" name="radioIS_FeeReportMerger" id="radioIS_FeeReportMerger02" value="1" /> <label for="radioIS_FeeReportMerger02">合并 </label>
+                    <input type="radio" name="radioIS_FeeReportMerger" id="radioIS_FeeReportMerger03" value="2" /> <label for="radioIS_FeeReportMerger03">作为合并父级 </label> 
+                </td>
+            </tr>
+            <tr id="trIS_FeeReportMerger" style="display:none;">
+                <td class="inputtitle">隶属收费项目：</td>
+                <td>
+                    <input type="hidden" name="idSelectFeeReportMerger" id="idSelectFeeReportMerger" value="$!{ID_FeeReportMerger}" />
+                    <input type="hidden" name="nameSelectFeeReportMerger" id="nameSelectFeeReportMerger" value="$!{FeeReportMergerName}" />
+                    <span id="spanFeeReportMerger"><input  name="txtFeeReportMergerInputCode" id="txtFeeReportMergerInputCode" onkeyup="QuickQueryFeeReportMergerTableData_Ajax();" onchange="QuickQueryFeeReportMergerTableData_Ajax();"  onfocus="QuickQueryFeeReportMergerTableData_Ajax();"  maxlength="50" value="$!{FeeReportMerger}" /></span>
+                    <span id="spanSelectFeeReportMerger" style="display:none;"> 妇科 <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectFeeReportMerger').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryFeeReportMergerTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>收费项目名称</td>
+                                <td>输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryFeeReportMergerTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关收费项目，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave003" onclick="SelectFeeReportMergerDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse003" onclick="ShowHideQuickQueryFeeReportMergerTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="inputtitle">早餐顺序：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioBreakfastOrder" id="radioBreakfastOrder01" value="1" /> <label for="radioBreakfastOrder01">餐前 </label>
+                    <input type="radio" name="radioBreakfastOrder" id="radioBreakfastOrder02" value="2" /> <label for="radioBreakfastOrder02">早餐 </label>
+                    <input type="radio" name="radioBreakfastOrder" id="radioBreakfastOrder03" checked="checked" value="3" /> <label for="radioBreakfastOrder03">餐前后均可 </label>
+                    <input type="radio" name="radioBreakfastOrder" id="radioBreakfastOrder04" value="4" /> <label for="radioBreakfastOrder04">餐后 </label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="inputtitle">适用性别：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioForsex" id="radioForsex00" value="0" /> <label for="radioForsex00">女士 </label> 
+                    <input type="radio" name="radioForsex" id="radioForsex01" value="1" /> <label for="radioForsex01">男士 </label> 
+                    <input type="radio" name="radioForsex" id="radioForsex02" value="2" checked="checked" /> <label for="radioForsex02">男女均适用 </label> 
+                </td>
+            </tr>
+            
+            
+            <tr>
+                <td class="inputtitle">工作组代码：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtWorkGroupCode" id="txtWorkGroupCode" class="width100"  maxlength="18" value="$!{WorkGroupCode}" /> 
+                    </span>
+                    <span style="float:left; padding-left:27px; ">
+                    工作站代码：<input name="txtWorkStationCode" id="txtWorkStationCode" class="width100"  maxlength="18" value="$!{WorkStationCode}" />
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="inputtitle">工作台代码：</td>
+                <td class="inputtext">
+                    <span style="float:left;">
+                    <input name="txtWorkBenchCode" id="txtWorkBenchCode" class="width100"  maxlength="18" value="$!{WorkBenchCode}" />
+                    </span>
+                    <span style="float:left; padding-left:39px; ">
+                    显示顺序：<input name="txtDispOrder" id="txtDispOrder" class="width100"  maxlength="6" value="$!{DispOrder}" onkeyup="this.value = this.value.replace(/\D/g, '')" onafterpaste="this.value = this.value.replace(/\D/g, '')" />
+                    </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="inputtitle">按照星期管理：</td>
+                <td class="inputtext">
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate00" value="星期天"/> <label for="chkOperationalDate00">星期天 </label> 
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate01" value="星期一"/> <label for="chkOperationalDate01">星期一 </label> 
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate02" value="星期二"/> <label for="chkOperationalDate02">星期二 </label> 
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate03" value="星期三"/> <label for="chkOperationalDate03">星期三 </label> <br/>
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate04" value="星期四"/> <label for="chkOperationalDate04">星期四 </label> 
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate05" value="星期五"/> <label for="chkOperationalDate05">星期五 </label> 
+                    <input type="checkbox" name="chkOperationalDate" id="chkOperationalDate06" value="星期六"/> <label for="chkOperationalDate06">星期六 </label> 
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">不打报告：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_FeeNonPrintInReport" id="radioIs_FeeNonPrintInReport00" value="1"/> <label for="radioIs_FeeNonPrintInReport00">不打印 </label> 
+                    <input type="radio" name="radioIs_FeeNonPrintInReport" id="radioIs_FeeNonPrintInReport01" value="0"  checked="checked" /> <label for="radioIs_FeeNonPrintInReport01">打印 </label> 
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">是否禁用：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /> <label for="radioIs_Banned01">正常 </label>  
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /> <label for="radioIs_Banned02">禁用 </label>  
+                </td>
+            </tr>
+
+            <tr id="trIs_Banned" style="display:none;">
+                <td class="inputtitle">禁用说明：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35" name="txtBanDescribe" id="txtBanDescribe">$!{BanDescribe}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">收费说明：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtNote"  onkeyup="SetTextAreaMaxLength(this,50);" onafterpaste="SetTextAreaMaxLength(this,50);" id="txtNote">$!{Note}</textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveFeeItemInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveFeeItemInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+        <tbody id="SectionQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                    value="@ID_Section"
+                    SectionName="@SectionName"  />
+                </td>
+                <td>@SectionName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySectionQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="SpecimenQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkSpecimenQueryList" id="chkSpecimen_@ID_Specimen" 
+                    value="@ID_Specimen"
+                    SpecimenName="@SpecimenName"  />
+                </td>
+                <td>@SpecimenName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySpecimenQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关标本，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="FeeReportMergerQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkFeeReportMergerQueryList" id="chkFeeReportMerger_@ID_FeeReportMerger" 
+                    value="@ID_FeeReportMerger"
+                    FeeReportMergerName="@FeeReportMergerName"
+                    FeeReportMergerValue="@ID_FeeReportMerger"/>
+                </td>
+                <td>@FeeReportMergerName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptyFeeReportMergerQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到报告合并收费项目，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <div id="UserSelectedSectionItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSection();"> × </a> @SectionName 
+        
+      </div>
+      
+      <div id="UserSelectedSpecimenItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedSpecimen();"> × </a> @SpecimenName 
+        
+      </div>
+
+      <div id="UserSelectedFeeReportMergerItemDataTemplete" style="display:none;">
+        <a title="删除" href="javascript:void(0);" 
+        onclick="RemoveSelectedFeeReportMerger();"> × </a> @FeeReportMergerName 
+        
+      </div>
+</body>
+
+</html>
+
+<script>
+
+
+    function CheckNumber(obj) {
+        if (/d+\.?\d{0,2}$/.test(obj.value)) {
+            obj.value = obj.value;
+        } else {
+            obj.value = obj.value.substring(0,obj.value.length-1);
+        }
+
+    }
+
+    function SetTextAreaMaxLength(obj,cnt) {
+
+        var s = document.getElementById("txtNote").value;
+        if (s.length > cnt) {
+            document.getElementById("txtNote").value = s.substring(0, cnt);
+        }
+    }
+    
+    jQuery(document).ready(function () {
+        // 将体征所在输入框中的值，显示到检查项的结果输入文本框中。
+        jQuery('.inputtext input').focus(function () {
+            //            if (jQuery(this).attr("name") != "txtSectionInputCode"
+            //            && jQuery(this).attr("name") != "txtSpecimenInputCode"
+            //            && jQuery(this).attr("name") != "btnsave001"
+            //            && jQuery(this).attr("name") != "btnsave002") {
+            ShowHideQuickQuerySpecimenTable(false);
+            ShowHideQuickQuerySectionTable(false);
+            //            }
+        });
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+        // 合并时，显示是否合并报告选择项
+        jQuery("input[name='radioIS_FeeReportMerger']").change(function () {
+            jQuery("input[name='radioIS_FeeReportMerger']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "1") {
+                    jQuery("#trIS_FeeReportMerger").show();
+                } else {
+                    jQuery("#trIS_FeeReportMerger").hide();
+                }
+            });
+
+        });
+        // 收费项目编辑操作时，初始化页面数据
+        InitFeeEditData();
+    });
+
+
+
+</script>
+
+

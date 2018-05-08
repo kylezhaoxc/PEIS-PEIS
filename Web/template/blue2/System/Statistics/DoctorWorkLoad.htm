@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var flag = "$!{flag}"; //当前查询内容 0|"":全部; 1:分科体检检查数量; 2:总检检查数量 ;3:总审检查数量
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+        //设置统计项目是否显示，如果flag等于0或者为空则显示全部的统计项目下拉菜单，否则不显示
+        if (flag == 0 || flag == "") {
+            jQuery("#divItem").show();
+        }
+        else {
+            jQuery("#divItem").hide();
+        }
+        
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_DoctorWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="DoctorTemplate">
+                <tr>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td class="project-align-left">
+                        @UserName
+                    </td>
+                    <td class="project-align-left">
+                        @SectionName
+                    </td>
+                    <td>
+                        @SumNotTeamNum
+                    </td>
+                    <td>
+                        @SumTeamNum
+                    </td>
+                    <td>
+                        @Num
+                    </td>
+                </tr>
+            </table>
+            <!--检查数量统计模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div><div class="oper-right">
+            </div> <div class="oper-bg1">
+             <span>&nbsp;姓名：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slDoctor" name="slDoctor" style="width: 120px;">
+                            <option value="-1" selected="selected">--请选择-</option>
+                            #foreach($info in $!{DctDoctorDT.Rows})
+                            <option code="${info.LoginName}" value="${info.UserID}">${info.UserName}</option>
+                            #end
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+                <div id="divItem">
+                    <span>&nbsp;统计项目：</span> <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <select id="slItem" name="slItem">
+                                <option value="4">录入</option>
+                                <option value="1">分检</option>
+                                <option value="2">总检</option>
+                                <option value="3">总审</option>
+                            </select>
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span>
+                </div>
+                <span class="search-4"></span><span>&nbsp;日期：</span>
+                
+                <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" class="datemaxselect"
+                                style="width: 75px;" />
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" class="datemaxselect"
+                                style="width: 75px;" />
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span>
+            </div>
+            <div class="oper-bg">
+               
+                
+                <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);"
+                    id="A1" name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="RegistListSearch();">
+                            查询</a></span> <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+            
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                           <col style="width: 35px" />
+                            <col style="width: 15%" />
+                            <col style="width: 57%" />
+                            <col style="width: 9%" />
+                            <col style="width:9%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list-lh">
+                            <th rowspan="2">
+                                序号
+                            </th>
+                            <th rowspan="2">
+                                医生姓名
+                            </th>
+                            <th rowspan="2">
+                                科室名称
+                            </th>
+                            <th colspan="3" id="project-center-lb1-list-lh-s">
+                                数量
+                            </th>
+                        </tr>
+                        <tr id="project-center-lb1-list-lh-x">
+                            <th height="29">
+                                个人
+                            </th>
+                            <th>
+                                团体
+                            </th>
+                            <th>
+                                合计
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div  id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="360" data-min="200" style="overflow: auto;">
+                    <table id="tbCustomerList" width="100%" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 15%" />
+                            <col style="width: 57%" />
+                            <col style="width: 9%" />
+                            <col style="width:9%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

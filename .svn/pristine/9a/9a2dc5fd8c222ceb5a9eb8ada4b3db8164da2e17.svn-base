@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script src="$!{templatepath}/js/JS_GiveUpManageOper.js" type="text/javascript"></script>
+<title>登记预约-弃检管理-详细</title>
+</head>
+<body >
+
+    <div class="fkx-title">
+        <div class="fkx-title-bt">弃检管理</div>
+            <span class="CurrentTime"></span>
+        <div class="fkx-title-fh"><a href="javascript:void(0);" onclick="LoadDefaultPage();">返回>></a></div>
+	</div>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span>体检号：</span>
+                <span class="search">
+                        <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+                        <input name="txtCustomerID"  id="txtCustomerID"type="text" onfocus="this.select();" onkeyup="AutoGuideSheetReturnQuery();" value="$!{txtCustomerID}"/>
+                        
+                    <a href="javascript:void(0);" title="查询(F4)"  onclick="ButtonClickQuery();" id="btnSearch"><img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"  onclick="ButtonClickQuery();" >查询</a></span>
+            </div>
+        	<div class="oper-bg"></div>
+   	    </div>
+        
+        
+        <div id="TipsArea" class="j-autoHeight" data-left="150" data-min="300" style="overflow-y:auto;">
+            <table id="TipsMessage" border="0" cellspacing="0" cellpadding="0">
+                <tbody style="display:none;">
+                <tr>
+                    <td height="41">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td width="150" height="28"></td>
+                    <td>
+                       <input type="" id="" name="" value="请输入要查询的体检号..." />
+                    </td>
+                    <td width="105" ><a href="#" class="go">&nbsp;</a></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="ErrorMessageInfo">该客户分科检查已被锁定，请解除分科锁定后，再进行分科检查！</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tbody>
+             </table>
+             <table style="display:none;">
+                <!-- 其他提示信息模版 -->
+                <tbody id="TipsMessageTemplete">
+                    <tr style="background:none;  ">
+                        <td colspan="2" style="background:none; padding:50px 0px 50px 0px;">@TipsMessage</td>
+                    </tr>
+                </tbody>
+             </table>
+        </div>
+
+
+
+        <div id="DivGuideSheetReturn" style="display:none;">
+            <div id="GuideSheetReturnTipsInfo" >
+            <table>
+                <tr>
+                    <td class="text_center">
+                        正在加载数据，请稍等...
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
+        <div style="display:none;"id="GuideSheetReturnShowSuccessTemplete">
+            <div class="recover">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+                <tr>
+                    <td style="width:12px"><div class="recover-left"></div></td>
+                    <td>
+        	    <div class="recover-qj-center">
+            	    <table border="0" cellspacing="0" cellpadding="0" style="min-width:936px; width:100%">
+                      <tr bgcolor="#cbe0ff" height="28">
+                        <td>体检号</td>
+                        <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                        <td>姓名</td>
+                        <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                        <td>指引单已打</td>
+                        <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                        <td>已回收</td>
+                        <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                        <td>回收人</td>
+                        <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                        <td>回收时间</td>
+                      </tr>
+                      <tr bgcolor="#e3eeff" height="28">
+                        <th>@ID_Customer</th>
+                        <th>@CustomerName</th>
+                        <th>@Is_GuideSheetPrinted</th>
+                        <th>@Is_GuideSheetReturned</th>
+                        <th>@GuideSheetReturnedby</th>
+                        <th>@GuideSheetReturnedDate</th>
+                      </tr>
+                    </table>
+                </div>
+                    </td>
+                    <td style="width:12px">
+        	        <div class="recover-qj-right"></div>
+                    </td>
+                </tr>
+            </table>
+          </div>
+      </div>
+
+        <div id='QueryExamSectionListArea' style="display:none;">
+            <div class="project">
+            
+            <div class="project-center">
+                <div>
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	    <colgroup>
+                    	    <col style="width:35px" />
+                    	    <col style="width:20%" />
+                    	    <col style="width:5%" />
+                    	    <col style="width:12%" />
+                    	    <col style="width:18%" />
+                    	    <col style="width:5%" />
+                    	    <col style="width:12%" />
+                    	    <col style="width:18%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>序号</th>
+                            <th class="project-align-left">科室名称</th>
+                            <th>已检</th>
+                            <th>检查医生</th>
+                            <th class="project-align-left">检查时间</th>
+                            <th>已提交</th>
+                            <th>提交医生</th>
+                            <th class="project-align-left">提交时间</th>
+                            <th>弃检</th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="QueryExamListData" class="project-center j-autoHeight" data-left="286" data-min="100" style="overflow:auto">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                    	    <col style="width:35px" />
+                    	    <col style="width:20%" />
+                    	    <col style="width:5%" />
+                    	    <col style="width:12%" />
+                    	    <col style="width:18%" />
+                    	    <col style="width:5%" />
+                    	    <col style="width:12%" />
+                    	    <col style="width:18%" />
+                        </colgroup>
+                          
+                    <tbody id='QueryExamSectionList'>
+                    
+                    </tbody>
+                        
+                    </table>
+                </div>
+
+                <div  style="display:none;">
+                <div  id="GiveUpAllSectionArea" style="display:none;">
+                    
+                </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <div style="display:none;" id="GuideSheetReturnMessageTemplete">
+        <table>
+            <tr>
+                <td class="tipsmsg text_center">
+                    @MessageInfo
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <table style="display:none;">
+
+        <tbody id="QueryExamSectionListTemplete">
+            <tr>
+                <td>@RowNum</td>
+                <td class="project-align-left">@SectionName</td>
+                <td>@Examed</td>
+                <td>@SummaryDoctorName</td>
+                <td class="project-align-left">@SectionSummaryDate</td>
+                <td>@Checked</td>
+                <td>@CheckerName</td>
+                <td class="project-align-left">@CheckDate</td>
+                <td id="tdGiveUp_@ID_CustExamSection">@GiveUp</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- 用于保存是否是弃检或恢复弃检的标志 -->
+    <input type="hidden" name="hiddenIsGiveUp" id="hiddenIsGiveUp" value="" />
+
+    <!-- 用于保存当前操作的ID_CustExamSection -->
+    <input type="hidden" name="hiddenID_CustExamSection" id="hiddenID_CustExamSection" value="" />
+    <!-- 用于保存当前操作的hiddenID_Section -->
+    <input type="hidden" name="hiddenID_Section" id="hiddenID_Section" value="" />
+
+    <!-- 用于记录当前体检报告是否已经回收-->
+    <input type="hidden" name="Is_GuideSheetReturned" id="Is_GuideSheetReturned" value="" />
+
+    <!-- 是否是团队体检，用于判断回收指引单后是否打印 报告领取凭证 -->
+    <input type="hidden" name="Is_Team" id="Is_Team" value="" />
+
+    <!-- 128Code 的体检号 -->
+    <input type="hidden" name="ID_CustomerCode128" id="ID_CustomerCode128" value="" />
+
+    <!-- 客户名称 -->
+    <input type="hidden" name="CustomerName" id="CustomerName" value="" />
+
+    <!-- 报告领取时间（默认为体检后10天） -->
+    <input type="hidden" name="DefaultReceliveDate" id="DefaultReceliveDate" value="$!{DefaultReceliveDate}" />
+
+</body>
+
+
+
+</html>
+

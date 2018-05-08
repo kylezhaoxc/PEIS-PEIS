@@ -1,0 +1,1604 @@
+
+.copydiv
+{
+	width:700px;
+	height:400px;
+	position:fixed;
+	top:25%;
+	z-index:110;
+	left:25%;
+	}
+.copydiv-title
+{
+	width:700px;
+	height:62px;
+	float:left;
+	}
+.copydiv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.copydiv-title-b
+{
+	width:682px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.copydiv-title-total
+{
+	width:682px;
+	height:32px;
+	}
+.copydiv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.copydiv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.copydiv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.copydiv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.copydiv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.copydiv-letool-total
+{
+	width:682px;
+	height:30px;
+	}
+.copydiv-letool-total table
+{
+	font-size:12px;
+	color:#00334c;
+	}
+.copydiv-letool-total-input1-l,.copydiv-letool-total-input2-l,.copydiv-letool-total-input3-l,.copydiv-letool-total-input4-l
+{
+	width:5px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-l.png) center no-repeat;
+	}
+.copydiv-letool-total-input1-c
+{
+	width:110px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input1-c input
+{
+	width:110px;
+	height:20px;
+	padding-top:4px\9;
+	*margin-bottom:4px;
+	*padding-bottom:5px;
+	font-size:12px;
+	color:#333;
+	background:none;
+	border:none;
+	}
+
+.copydiv-letool-total-input1-ttmc
+{
+	width:240px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input1-ttmc input
+{
+	width:215px;
+	height:20px;
+	padding-top:4px\9;
+	*margin-bottom:4px;
+	*padding-bottom:5px;
+	font-size:12px;
+	color:#333;
+	float:left;
+	background:none;
+	border:none;
+	}
+.copydiv-letool-total-input1-ttmc-sele
+{
+	width:240px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input1-ttmc-sele select
+{
+	width:240px;
+	height:20px;
+	padding-top:4px;
+	padding-top:4px\9;
+	*margin-bottom:4px;
+	*padding-bottom:5px;
+	font-size:12px;
+	color:#333;
+	float:left;
+	background:none;
+	border:none;
+	}
+.copydiv-letool-total-input2-c
+{
+	width:95px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input2-c input
+{
+	width:95px;
+	height:20px;
+	padding-top:4px\9;
+	*margin-bottom:4px;
+	*padding-bottom:5px;
+	font-size:12px;
+	color:#333;
+	background:none;
+	border:none;
+	}
+.copydiv-letool-total-input3-c
+{
+	width:65px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input3-c select
+{
+	width:65px;
+	height:20px;
+	padding-top:5px;
+	padding-top:3px \9;
+	*margin-bottom:8px;
+	font-size:12px;
+	color:#333;
+	background:none;
+	border:none;
+	}
+.copydiv-letool-total-input4-c
+{
+	width:90px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-c.png) center repeat-x;
+	}
+.copydiv-letool-total-input4-c input
+{
+	width:90px;
+	height:20px;
+	padding-top:4px\9;
+	*margin-bottom:4px;
+	*padding-bottom:5px;
+	font-size:12px;
+	color:#333;
+	background:none;
+	border:none;
+	}
+.copydiv-letool-total-input1-r,.copydiv-letool-total-input2-r,.copydiv-letool-total-input3-r,.copydiv-letool-total-input4-r
+{
+	width:5px;
+	height:24px;
+	float:left;
+	background:url(../images/input-bg-r.png) center no-repeat;
+	}
+.copydiv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.copydiv-center
+{
+	width:700px;
+	height:300px;
+	float:left;
+	}
+.copydiv-center-l
+{
+	width:9px;
+	height:300px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.copydiv-center-b
+{
+	width:682px;
+	height:300px;
+	float:left;
+	background:#f5fbfe;
+	}
+.copydiv-center-table
+{
+	width:681px;
+	font-size:12px;
+	margin-top:5px;
+	border:1px solid #abccff;
+	border-right:none;
+	}
+.copydiv-center-table-table1
+{
+	width:681px;
+	height:31px;
+	}
+.copydiv-center-table-table1 th
+{
+	border-right:1px solid #abccff;
+	border-bottom:1px solid #abccff;
+	}
+.copydiv-center-table-table2
+{
+	width:681px;
+	height:265px;
+	overflow:auto;
+	}
+.copydiv-center-table-table2 table td
+{
+	line-height:35px;
+	}
+.copydiv-center-table-copyan a
+{ 
+	display:block;
+	width:35px;
+	height:19px;
+	line-height:19px;
+	margin-left:22px;
+	*margin-left:6px;
+	text-align:center;
+	text-decoration:none;
+	color:#fff;
+	background:url(../images/kelo-an-bg.png) top left no-repeat;
+	background-position:0px 0px;
+	}
+.copydiv-center-table-copyan a:hover
+{ 
+	background:url(../images/kelo-an-bg.png) top left no-repeat;
+	background-position:0px -19px;
+	}
+.abandoned-seized
+{ 
+	display:block;
+	width:35px;
+	height:19px;
+	line-height:19px;
+	margin-left:20px;
+	*margin-left:6px;
+	text-align:center;
+	text-decoration:none;
+	color:#fff;
+	background:url(../images/kelo-an-bg.png) top left no-repeat;
+	background-position:0px 0px;
+	}
+.abandoned-seized:hover
+{ 
+	background:url(../images/kelo-an-bg.png) top left no-repeat;
+	background-position:0px -19px;
+	}
+.abandoned-seized-cancel
+{ 
+	display:block;
+	width:35px;
+	height:19px;
+	line-height:19px;
+	margin-left:20px;
+	*margin-left:6px;
+	text-align:center;
+	text-decoration:none;
+	color:#333;
+	background:url(../images/seized-cancel.png) top left no-repeat;
+	background-position:0px 0px;
+	}
+.abandoned-seized-cancel:hover
+{ 
+	background:url(../images/seized-cancel.png) top left no-repeat;
+	background-position:0px -19px;
+	}
+.copydiv-center-r
+{
+	width:9px;
+	height:300px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.copydiv-bottom
+{
+	width:700px;
+	height:12px;
+	float:left;
+	}
+.copydiv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.copydiv-bottom-b
+{
+	width:682px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.copydiv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+/*--------------------------------------待打报告样式开始--------------------------------*/
+
+.reportdiv
+{
+	width:850px;
+	height:500px;
+	position:fixed;
+	top:25%;
+	z-index:110;
+	left:25%;
+	}
+.reportdiv-title
+{
+	width:850px;
+	height:62px;
+	float:left;
+	}
+.reportdiv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.reportdiv-title-b
+{
+	width:832px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.reportdiv-title-total
+{
+	width:832px;
+	height:32px;
+	}
+.reportdiv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.reportdiv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.reportdiv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.reportdiv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.reportdiv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.reportdiv-letool-total
+{
+	width:832px;
+	height:30px;
+	font-size:12px;
+	text-align:left;
+	}
+.reportdiv-letool-total span
+{
+	display:block;
+	float:left;
+	}
+.reportdiv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.reportdiv-center
+{
+	width:850px;
+	height:400px;
+	float:left;
+	}
+.reportdiv-center-l
+{
+	width:9px;
+	height:400px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.reportdiv-center-b
+{
+	width:832px;
+	height:400px;
+	float:left;
+	background:#f5fbfe;
+	}
+.reportdiv-center-div-table
+{
+	width:831px;
+	border-top:1px solid #abccff;
+	border-left:1px solid #abccff;
+	font-size:12px;
+	}
+.reportdiv-center-r
+{
+	width:9px;
+	height:400px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.reportdiv-bottom
+{
+	width:850px;
+	height:12px;
+	float:left;
+	}
+.reportdiv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.reportdiv-bottom-b
+{
+	width:832px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.reportdiv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+.reportdiv-feny-table
+{
+	border-right:1px solid #abccff;
+	border-bottom:1px solid #abccff;
+	}
+.reportdiv-paging
+{
+	width:820px;
+	height:26px;
+	margin-left:10px;
+	text-align:center;
+	}
+.reportdiv-paging-left
+{
+	width:3px;
+	height:26px;
+	float:left;
+	background:url(../images/paging-bg-left.png) center no-repeat;
+	}
+.reportdiv-paging-center
+{
+	height:26px;
+	float:left;
+	background:url(../images/paging-bg-center.png) center repeat-x;
+	}
+.reportdiv-paging-right
+{
+	width:3px;
+	height:26px;
+	float:left;
+	background:url(../images/paging-bg-right.png) center no-repeat;
+	}
+.reportdiv-paging ul
+{
+	width:100%;
+	height:26px;
+	line-height:26px;
+	list-style:none;
+	}
+.reportdiv-paging ul li
+{
+	float:left;
+	}
+.reportdiv-paging-bar-bg
+{
+	display:block;
+	width:22px;
+	float:left;
+	margin-top:2px;
+	height:22px;
+	}
+.reportdiv-paging-bar-bg:hover
+{
+	background:url(../images/bar-button-over.gif) no-repeat center;
+	}
+.reportdiv-paging-bar-zq,.reportdiv-paging-bar-sy,.reportdiv-paging-bar-zh,.reportdiv-paging-bar-xy
+{
+	display:block;
+	width:16px;
+	height:16px;
+	margin:2px 0px 0px 3px;
+	}
+.reportdiv-paging-bar-zq
+{
+	background:url(../images/icon-first.gif) bottom no-repeat;
+	}
+.reportdiv-paging-bar-sy
+{
+	background:url(../images/icon-prev.gif) bottom no-repeat;
+	}
+.reportdiv-paging-bar-zh
+{
+	background:url(../images/icon-last.gif) top no-repeat;
+	}
+.reportdiv-paging-bar-xy
+{
+	background:url(../images/icon-next.gif) top no-repeat;
+	}
+.reportdiv-paging-bar-fenge
+{
+	width:2px;
+	height:15px;
+	display:block;
+	margin:4px 5px 0px 5px;
+	background:url(../images/paging-bg-fenge.png) center no-repeat;
+	}
+.reportdiv-paging-bar-input
+{
+	margin:4px 6px 0px 5px;
+	display:block;
+	}
+.reportdiv-paging-bar-input input
+{
+	width:25px;
+	height:10px;
+	}
+.reportdiv-paging-bar-fens
+{
+	display:block;
+	margin-right:5px;
+	}
+.reportdiv-paging-bar-goji
+{
+	color:#084297;
+	display:block;
+	margin:0px 5px 0px 5px;
+	}
+	
+.buttom-wc-fz-cccc
+{
+	margin-top:3px !important;
+	}
+.buttom-wc-fz-llll
+{
+	margin-left:8px;
+	}
+/*--------------------------------待打报告样式结束--------------------------------*/
+
+
+/*--------------------------------档案修改样式开始--------------------------------*/
+
+.Filediv
+{
+	width:300px;
+	height:330px;
+	position:fixed;
+	top:25%;
+	z-index:110;
+	left:25%;
+	}
+.Filediv-title
+{
+	width:300px;
+	height:62px;
+	}
+.Filediv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.Filediv-title-b
+{
+	width:282px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.Filediv-title-total
+{
+	width:282px;
+	height:32px;
+	}
+.Filediv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.Filediv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.Filediv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.Filediv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.Filediv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.Filediv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.Filediv-center
+{
+	width:300px;
+	height:230px;
+	}
+.Filediv-center-l
+{
+	width:9px;
+	height:260px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.Filediv-center-b
+{
+	width:282px;
+	height:260px;
+	float:left;
+	background:#f5fbfe;
+	}
+.Filediv-center-b-table1
+{
+	margin-top:-15px;
+	margin-left:5px;
+	font-size:12px;
+	color:#666;
+	}
+.Filediv-center-b-table1 td,.Filediv-center-b-table2 td
+{
+	height:29px;
+	line-height:29px;
+	}
+.Filediv-center-b-table1 input
+{
+	width:110px;
+	height:20px;
+	padding-left:5px;
+	border:1px solid #c4d1e4;
+	}
+.Filediv-center-b-table1 select
+{
+	width:117px;
+	height:24px;
+	border:1px solid #c4d1e4;
+	}
+
+.Filediv-center-b-table2 input
+{
+	width:190px;
+	height:20px;
+	padding-left:5px;
+	border:1px solid #c4d1e4;
+	}
+.Filediv-center-b-table2
+{
+	margin-top:5px;
+	margin-left:5px;
+	font-size:12px;
+	color:#666;
+	}
+.Filediv-center-b-table2-xx
+{
+	height:15px !important;
+	background:url(../images/Filediv-xx.jpg) bottom no-repeat;
+	}
+.Filediv-center-b-ann
+{
+	width:215px;
+	height:35px;
+	padding-left:50px;
+	margin-top:6px;
+	font-size:12px;
+	text-align:center;
+	}
+.Filediv-center-b-ann span
+{
+	float:left;
+	margin-left:20px;
+	}
+.Filediv-center-r
+{
+	width:9px;
+	height:260px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.Filediv-bottom
+{
+	width:300px;
+	height:12px;
+	}
+.Filediv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.Filediv-bottom-b
+{
+	width:282px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.Filediv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+/*--------------------------------档案修改样式结束--------------------------------*/
+
+
+/*--------------------------------ICD编辑样式开始--------------------------------*/
+
+.Icddiv
+{
+	width:450px;
+	height:550px;
+	position:fixed;
+	top:25;
+	z-index:110;
+	left:25%;
+	}
+.Icddiv-title
+{
+	width:450px;
+	height:62px;
+	}
+.Icddiv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.Icddiv-title-b
+{
+	width:432px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.Icddiv-title-total
+{
+	width:432px;
+	height:32px;
+	}
+.Icddiv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.Icddiv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.Icddiv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.Icddiv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.Icddiv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.Icddiv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.Icddiv-center
+{
+	width:450px;
+	height:450px;
+	}
+.Icddiv-center-l
+
+{
+	width:9px;
+	height:500px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.Icddiv-center-b
+{
+	width:432px;
+	height:500px;
+	float:left;
+	background:#f5fbfe;
+	}
+.Icddiv-center-b-table1
+{
+	margin-top:-15px;
+	margin-left:5px;
+	font-size:12px;
+	color:#666;
+	line-height:31px;
+	}
+.Icddiv-center-b-table1 input
+{
+	width:100%;
+	height:20px;
+	padding-left:5px;
+	border:1px solid #c4d1e4;
+	}
+.Icddiv-center-b-table1 textarea
+{
+	width:100%;
+	border:1px solid #c4d1e4;
+	}
+.Icddiv-center-b-table1-xx
+{
+	height:15px !important;
+	background:url(../images/Icddiv-xx.jpg) right bottom no-repeat;
+	}
+.Icddiv-center-b-ann
+{
+	height:35px;
+	padding-left:90px;
+	margin-top:6px;
+	font-size:12px;
+	text-align:center;
+	}
+.Icddiv-center-b-ann span
+{
+	float:left;
+	margin-left:20px;
+	}
+.Icddiv-center-r
+{
+	width:9px;
+	height:500px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.Icddiv-bottom
+{
+	width:450px;
+	height:12px;
+	}
+.Icddiv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.Icddiv-bottom-b
+{
+	width:432px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.Icddiv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+/*--------------------------------ICD编辑样式结束--------------------------------*/
+
+
+
+
+/*--------------------------------标本维护样式开始--------------------------------*/
+
+.Spediv
+{
+	width:350px;
+	height:320px;
+	position:fixed;
+	top:25;
+	z-index:110;
+	left:25%;
+	}
+.Spediv-title
+{
+	width:350px;
+	height:62px;
+	}
+.Spediv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.Spediv-title-b
+{
+	width:332px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.Spediv-title-total
+{
+	width:332px;
+	height:32px;
+	}
+.Spediv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.Spediv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.Spediv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.Spediv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.Spediv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.Spediv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.Spediv-center
+{
+	width:350px;
+	height:255px;
+	}
+.Spediv-center-l
+{
+	width:9px;
+	height:255px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.Spediv-center-b
+{
+	width:332px;
+	height:255px;
+	float:left;
+	background:#f5fbfe;
+	}
+.Spediv-center-b-table1
+{
+	margin-top:-15px;
+	margin-left:5px;
+	font-size:12px;
+	color:#666;
+	line-height:31px;
+	}
+.Spediv-center-b-table1 input
+{
+	width:100%;
+	height:20px;
+	padding-left:5px;
+	border:1px solid #c4d1e4;
+	}
+.Spediv-center-b-table1 textarea
+{
+	width:100%;
+	border:1px solid #c4d1e4;
+	}
+.Spediv-center-b-table1-xx
+{
+	height:15px !important;
+	background:url(../images/Filediv-xx.jpg) right bottom no-repeat;
+	}
+.Spediv-center-b-ann
+{
+	height:35px;
+	padding-left:40px;
+	margin-top:6px;
+	font-size:12px;
+	text-align:center;
+	}
+.Spediv-center-b-ann span
+{
+	float:left;
+	margin-left:20px;
+	}
+.Spediv-center-r
+{
+	width:9px;
+	height:255px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.Spediv-bottom
+{
+	width:350px;
+	height:12px;
+	}
+.Spediv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.Spediv-bottom-b
+{
+	width:332px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.Spediv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+/*--------------------------------标本维护样式结束--------------------------------*/
+
+
+/*--------------------------------修改密级样式开始--------------------------------*/
+
+.Densediv
+{
+	width:300px;
+	height:330px;
+	position:fixed;
+	top:25%;
+	z-index:110;
+	left:25%;
+	}
+.Densediv-title
+{
+	width:300px;
+	height:62px;
+	}
+.Densediv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.Densediv-title-b
+{
+	width:282px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.Densediv-title-total
+{
+	width:282px;
+	height:32px;
+	}
+.Densediv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.Densediv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.Densediv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.Densediv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.Densediv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.Densediv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.Densediv-center
+{
+	width:300px;
+	height:70px;
+	}
+.Densediv-center-l
+{
+	width:9px;
+	height:100px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.Densediv-center-b
+{
+	width:282px;
+	height:100px;
+	float:left;
+	background:#f5fbfe;
+	}
+.Densediv-center-b-sel
+{
+	width:280px;
+	height:40px;
+	font-size:12px;
+	text-align:center;
+	}
+.Densediv-center-b-sel select
+{
+	width:120px;
+	height:24px;
+	line-height:24px;
+	text-align:center;
+	}
+.Densediv-center-b-table2-xx
+{
+	height:15px !important;
+	background:url(../images/Filediv-xx.jpg) bottom no-repeat;
+	}
+.Densediv-center-b-ann
+{
+	width:215px;
+	height:35px;
+	padding-left:50px;
+	margin-top:6px;
+	font-size:12px;
+	text-align:center;
+	}
+.Densediv-center-b-ann span
+{
+	float:left;
+	margin-left:20px;
+	}
+.Densediv-center-r
+{
+	width:9px;
+	height:100px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.Densediv-bottom
+{
+	width:300px;
+	height:12px;
+	}
+.Densediv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.Densediv-bottom-b
+{
+	width:282px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.Densediv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}
+
+
+/*--------------------------------修改密级样式结束--------------------------------*/
+
+/*--------------------------------IP地址设置样式开始------------------------------*/
+
+
+.Setupdiv
+{
+	width:400px;
+	height:330px;
+	position:fixed;
+	top:25%;
+	z-index:110;
+	left:25%;
+	}
+.Setupdiv-title
+{
+	width:400px;
+	height:62px;
+	}
+.Setupdiv-title-l
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-l.png) no-repeat center;
+	}
+.Setupdiv-title-b
+{
+	width:382px;
+	height:62px;
+	float:left;
+	line-height:32px;
+	background:url(../images/dialog-t-b.png) repeat-x center;
+	}
+.Setupdiv-title-total
+{
+	width:382px;
+	height:32px;
+	}
+.Setupdiv-title-btke
+{
+	height:32px;
+	color:#025985;
+	font-size:14px;
+	margin-left:10px;
+	float:left;
+	}
+.Setupdiv-title-fenge
+{
+	width:2px;
+	height:15px;
+	float:right;
+	margin-top:8px;
+	background:url(../images/fengexian.jpg) no-repeat center;
+	}
+.Setupdiv-title-off
+{
+	width:35px;
+	height:32px;
+	float:right;
+	}
+.Setupdiv-title-off a
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	margin-top:6px;
+	margin-right:6px;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 0px;
+	}
+.Setupdiv-title-off a:hover
+{
+	display:block;
+	width:20px;
+	height:20px;
+	float:right;
+	background:url(../images/off-g.png) top left;
+	background-position:0px 20px;
+	}
+.Setupdiv-title-r
+{
+	width:9px;
+	height:62px;
+	float:left;
+	background:url(../images/dialog-t-r.png) no-repeat center;
+	}
+.Setupdiv-center
+{
+	width:400px;
+	height:170px;
+	}
+.Setupdiv-center-l
+{
+	width:9px;
+	height:200px;
+	float:left;
+	background:url(../images/dialog-c-l.png) repeat-y center;
+	}
+.Setupdiv-center-b
+{
+	width:382px;
+	height:200px;
+	float:left;
+	background:#f5fbfe;
+	}
+.Setupdiv-center-b-left
+{
+	width:110px;
+	height:230px;
+	float:left;
+	margin-top:-30px;
+	border-right:1px solid #cde7f4;
+	}
+.Setupdiv-center-b-left h4
+{
+	font-size:14px;
+	line-height:35px;
+	padding-left:15px;
+	margin-left:10px;
+	text-align:left;
+	font-family:"微软雅黑";
+	background:url(../images/Setup-h4-tt.png) no-repeat left;
+	}
+.Setupdiv-center-b-left ul
+{
+	list-style:none;
+	padding:0px;
+	margin:0px;
+	line-height:30px;
+	font-size:12px;
+	text-align:center;
+	}
+.Setupdiv-center-b-left ul li a
+{
+	display:block;
+	text-decoration:none;
+	color:#333;
+	}
+.Setupdiv-center-b-left ul li a:hover
+{
+	color:#002764;
+	background:#d3e2fa;
+	}
+
+.Setupdiv-center-b-right
+{
+	width:270px;
+	height:230px;
+	float:left;
+	margin-top:-30px;
+	border-left:1px solid #fff;
+	}
+.Setupdiv-center-b-right-tab
+{
+	font-size:12px;
+	line-height:30px;
+	margin-top:20px;
+	margin-left:20px;
+	}
+.Setupdiv-center-b-right-tab input
+{
+	width:150px;
+	height:20px;
+	padding-left:5px;
+	border:1px solid #c4d1e4;
+	}
+.Setupdiv-center-b-table2-xx
+{
+	height:15px !important;
+	background:url(../images/Filediv-xx.jpg) bottom no-repeat;
+	}
+.Setupdiv-center-b-ann
+{
+	width:315px;
+	height:35px;
+	padding-left:50px;
+	margin-top:6px;
+	font-size:12px;
+	text-align:center;
+	}
+.Setupdiv-center-b-ann span
+{
+	float:left;
+	margin-left:20px;
+	}
+.Setupdiv-center-r
+{
+	width:9px;
+	height:200px;
+	float:left;
+	background:url(../images/dialog-c-r.png) repeat-y center;
+	}
+.Setupdiv-bottom
+{
+	width:400px;
+	height:12px;
+	}
+.Setupdiv-bottom-l
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-l.png) no-repeat center;
+	}
+.Setupdiv-bottom-b
+{
+	width:382px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-b.png) repeat-x center;
+	}
+.Setupdiv-bottom-r
+{
+	width:9px;
+	height:12px;
+	float:left;
+	background:url(../images/dialog-b-r.png) no-repeat center;
+	}

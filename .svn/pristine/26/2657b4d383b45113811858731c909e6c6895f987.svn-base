@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="../../../js/skin05/config/base.js"></script>
+</head>
+<body>
+    <div class="panel admin-panel">
+        <div class="panel-head"><strong><span class="fa fa-address-book" aria-hidden="true"></span> 个人信息</strong></div>
+        <div class="body-content">
+
+            <img alt="140x140" src="/template/blue2/LoginSkin/Skin04/images/avtar.png" class="img-circle" style="position: absolute;" />
+
+            <form method="post" class="form-x" action="" style="position: relative;    margin-left: 10%;">
+                <div class="form-group">
+                    <div class="label">
+                        <label>姓名</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="username">管理员</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>证件号</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="idcard">admin</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>体检号</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="sex">男</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>婚姻</label>
+                    </div>
+                    <div class="field">
+                        <select name="s_ishome" class="input" onchange="changesearch()" style="width:auto; line-height:17px; display:inline-block">
+                            <option value="">备单时间</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>民族</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>电话</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label>类型</label>
+                    </div>
+                    <div class="field">
+                        <label style="line-height:33px;" id="sex">男</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 套餐</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 出生日期</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 预定日期</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 导检人员</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label">
+                        <label> 付费方式</label>
+                    </div>
+                    <div class="field">
+                        <select name="s_ishome" class="input" onchange="changesearch()" style="width:auto; line-height:17px; display:inline-block">
+                            <option value="">备单时间</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 备注信息</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 用户密级</label>
+                    </div>
+                    <div class="field">
+                        <select name="s_ishome" class="input" onchange="changesearch()" style="width:auto; line-height:17px; display:inline-block">
+                            <option value="">备单时间</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 领取方式</label>
+                    </div>
+                    <div class="field">
+                        <select name="s_ishome" class="input" onchange="changesearch()" style="width:auto; line-height:17px; display:inline-block">
+                            <option value="">备单时间</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 一卡通号</label>
+                    </div>
+                    <div class="field">
+                        <input id="dateselect" type="text" placeholder="体检号/证件号" name="keywords" class="input" style="width:auto; line-height:17px;display:inline-block;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label">
+                        <label> 体检地址</label>
+                    </div>
+                    <div class="field">
+                        <select name="s_ishome" class="input" onchange="changesearch()" style="width:auto; line-height:17px; display:inline-block">
+                            <option value="">备单时间</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="body-content">
+        <div class="panel admin-panel">
+            <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+            <div class="padding border-bottom">
+            </div>
+            <table class="table table-hover text-center">
+                <tr>
+                    <th width="auto" style="text-align:left; padding-left:20px;">ID</th>
+                    <th width="auto">排序</th>
+                    <th>项目名称</th>
+                    <th>原价</th>
+                    <th>折扣</th>
+                    <th>折扣</th>
+                    <th width="10%">实价</th>
+                    <th width="310">付款方式</th>
+                    <th>已收</th>
+                    <th width="10%">已退</th>
+                    <th width="310">执行科室</th>
+                    <th>登记人</th>
+                    <th width="10%">登记时间</th>
+                </tr>
+                <volist name="list" id="vo">
+                    <tr>
+                        <td style="text-align:left; padding-left:20px;">
+                            <input type="checkbox" name="id[]" value="" />
+                            1
+                        </td>
+                        <td><input type="text" name="sort[1]" value="1" style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
+                        <td width="10%"><img src="../../images/skin05/11.jpg" alt="" width="70" height="50" /></td>
+                        <td>这是一套MUI后台精美管理系统，感谢您的支持</td>
+                        <td><font color="#00CC99">首页</font></td>
+                        <td>产品分类</td>
+                        <td>2016-07-01</td>
+                        <td><div class="button-group"> <a class="button border-main" href="add.html"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(1,1,1)"><span class="icon-trash-o"></span> 删除</a> </div></td>
+                        <td><font color="#00CC99">首页</font></td>
+                        <td>产品分类</td>
+                        <td>2016-07-01</td>
+                        <td><font color="#00CC99">首页</font></td>
+                        <td>2016-07-01</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align:left;padding-left:20px;">
+                            <a href="javascript:void(0)" class="button border-main icon-plus-square-o"> 添加</a>
+                            <a href="javascript:void(0)" class="button border-red icon-trash-o" onclick="DelSelect()"> 删除</a>
+                            <a href="javascript:void(0)" class="button border-green icon-edit" onclick="sorts()"> 折扣</a>
+                        </td>
+                        <td colspan="10"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
+                    </tr>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

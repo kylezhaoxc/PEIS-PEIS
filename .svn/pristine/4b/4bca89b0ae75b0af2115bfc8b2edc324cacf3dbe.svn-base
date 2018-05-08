@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{079A0B3B-27A1-4925-AF77-16DE44C89B0F}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>PEIS.SQLServerDAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.4.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Works\2016-06-28\fyh - 副本\web\bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="log4net">
+      <HintPath>C:\Users\xjjw\Desktop\web\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PEIS.SQLServerDAL\BusBackLogType.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusConclusion.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusConclusionType.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusExamItem.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusExamItemGroup.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusExamPlace.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictExamType.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusFee.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusFeeDetail.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusFeeReport.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictReceiveReportWay.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusPEPackage.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusSetFeeDetail.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusSpecimen.cs" />
+    <Compile Include="PEIS.SQLServerDAL\BusSymptom.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommandWebserviceInterface.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonBase.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonConclusion.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonConfig.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonCustExam.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonExcuteSql.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonRegiste.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonReport.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonRight.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonStatistics.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonSubScribe.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonSystemInfo.cs" />
+    <Compile Include="PEIS.SQLServerDAL\CommonUser.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictCountry.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictCultrul.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictFeeWay.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DctFinalConclusionType.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictGender.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DctICDTen.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictMarriage.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DctNation.cs" />
+    <Compile Include="PEIS.SQLServerDAL\DictVocation.cs" />
+    <Compile Include="PEIS.SQLServerDAL\NatLog.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SysMenu.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SYSRight.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SysRole.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SysRoleRight.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SYSSection.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SYSOpUser.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SYSUserRight.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SYSUserRole.cs" />
+    <Compile Include="PEIS.SQLServerDAL\NatUserSection.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnArcCust.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustApply.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustBackLog.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustConclusion.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustExamItem.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustExamItemResult.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustExamSection.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustFee.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustPhysicalExamInfo.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustRelationCustPEInfo.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnCustReportManage.cs" />
+    <Compile Include="PEIS.SQLServerDAL\OnFianlCheck.cs" />
+    <Compile Include="PEIS.SQLServerDAL\Pagination.cs" />
+    <Compile Include="PEIS.SQLServerDAL\PubConstant.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SysManage.cs" />
+    <Compile Include="PEIS.SQLServerDAL\SysManage1.cs" />
+    <Compile Include="PEIS.SQLServerDAL\Util.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PEIS.Common\PEIS.Common.csproj">
+      <Project>{e7601867-dc09-48bd-8325-8587b9315195}</Project>
+      <Name>PEIS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.DBUtility\PEIS.DBUtility.csproj">
+      <Project>{9d28201b-34cd-4a3e-beae-20318cbf3d5c}</Project>
+      <Name>PEIS.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.Interface\PEIS.IDAL.csproj">
+      <Project>{2c1c8a59-a564-4dbf-991f-f427af0f261a}</Project>
+      <Name>PEIS.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.Model\PEIS.Model.csproj">
+      <Project>{a79d351e-fab1-4c76-80be-54f437a0281b}</Project>
+      <Name>PEIS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

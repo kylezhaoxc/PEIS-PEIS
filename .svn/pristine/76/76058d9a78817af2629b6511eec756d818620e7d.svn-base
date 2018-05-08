@@ -1,0 +1,134 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>指引单回收列表 </title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_GiveUpManageList.js" type="text/javascript"></script>
+    
+</head>
+
+<body>
+
+  	<div class="center" style="padding-top:0px;">
+        
+    <table style="display:none;">
+        <tbody id="QueryDataListTemplete">
+        <tr class="@bgclass">
+            <td>@RowNum</td>
+            <td style="display:none;"><input id="@CheckboxID" title="" type="checkbox" value="@CustomerID" name="ItemCheckbox"/></td>
+            <td><a href="javascript:void(0);" onclick="DoLoad('/System/GiveUpManage/GiveUpManageOper.aspx?txtCustomerID=@CustomerID','');" title="点击进入【@CustomerName】的弃检管理页面">@CustomerID</a></td>
+            <td><lable>@CustomerName</lable></td>
+            <td style="text-align:center;" id="GenderName_@CustomerID">--</td>
+            <td style="text-align:center;" id="Age_@CustomerID">--</td>
+            <td style="display:none;" id="ExamCard_@CustomerID">--</td>
+            <td id="MobileNo_@CustomerID">--</td>
+            <td style="text-align:center;">@Is_GuideSheetReturned</td>
+            <td style="text-align:center;">@GuideSheetReturnedDate</td>
+            <td>@GuideSheetReturnedby</td>
+            <td style="text-align:center; display:none;">@Is_GuideSheetPrinted</td>
+        </tr>
+        </tbody>
+        
+        <tbody id="TipsInfoTemplete">
+        <tr>
+            <td colspan="11"  class="msg" >@TipsInfo</td>
+        </tr>
+        </tbody>
+    </table>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-bg">
+                <span>体检号：</span> <span class="search">
+                    <input type="text" class="span160" onfocus="this.select();" onkeyup="AutoGuideSheetReturnQuery();" id="txtCustomerID"name="txtCustomerID" />  
+                    <a href="javascript:void(0);" title="查询(F4)">
+                        <img  width="17" height="14" onclick="ButtonClickQuery();" /></a>
+                </span>&nbsp;<span class="search-3"><input type="text" id="BeginExamDate" name="BeginExamDate"
+                    value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})" />
+                </span><span>&nbsp;至</span> <span class="search-3">
+                    <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})" />
+                </span><span class="search-4" style="display:none;">
+                    <input type="checkbox" id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf"
+                        onclick="ChangeOnlyMySelf();" onfocus="ChangeOnlyMySelf();" value="0" /><label for="chkOnlyMySelf">
+                            &nbsp;仅我的</label></span> <span class="search-4" style="display:none;">
+                                <input type="checkbox" id="chkNotExam" name="chkNotExam" onclick="ChangeNotExamState();"
+                                    onfocus="ChangeNotExamState();" value="0" /><label for="chkNotExam">
+                                        &nbsp;未回收</label></span> <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"
+                                            id="btnSearch" onclick="ButtonClickQuery();">查询</a></span>
+            </div>
+            <div class="oper-right">
+            </div>
+        </div>
+
+        
+        <div class="project">
+            <div class="project-center">
+                <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:45px" />
+                    	<col style="width:150px" />
+                    	<col style="width:90px" />
+                    	<col style="width:50px" />
+                    	<col style="width:50px" />
+                    	<col style="width:150px" />
+                    	<col style="width:80px" />
+                    	<col style="width:160px" />
+                      </colgroup>
+                          <tr>
+                            <th style="display:none;">
+                                <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>序号</th>
+                            <th>体检号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>联系方式</th>
+                            <th>已回收</th>
+                            <th>回收时间</th>
+                            <th>回收人</th>
+                            <th style="display: none;">已打印</th>
+                          </tr>
+                </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="400" data-min="200" style="overflow:auto;">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                    	<col style="width:45px" />
+                    	<col style="width:150px" />
+                    	<col style="width:90px" />
+                    	<col style="width:50px" />
+                    	<col style="width:50px" />
+                    	<col style="width:150px" />
+                    	<col style="width:80px" />
+                    	<col style="width:160px" />
+                        </colgroup>
+                        
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="958" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                <tr>
+                <td colspan="10">
+                    <div class="paging" id="Pagination">
+                        <div class="paging-left"></div>
+                        <div class="paging-center">
+                            <ul >
+                            </ul>
+                        </div>
+                        <div class="paging-right"></div>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+
+</html>

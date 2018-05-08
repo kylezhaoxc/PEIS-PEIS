@@ -1,0 +1,41 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>彩超 </title>
+    <script src="/template/blue/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/template/blue/js/multiupload/swfobject.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function uploadImageListSuccess() {
+            ShowSystemDialog("上传成功！");
+        }
+
+        jQuery(function () {
+            var params = {
+                uploadServerUrl: "/SNS/Group/Upload.aspx?albumid=" + jQuery("#selectAlbum").val() + "_$!{PublicUserID}", //上传响应页面(必须设置)
+                jsFunction: "uploadImageListSuccess", 		//上传成功后回调JS
+                filter: "*.jpg;*.png;*.gif;*.bmp;*.jpeg", 		//上传文件类型限制
+                wmode: "transparent"
+            }
+            swfobject.embedSWF("/template/blue/js/multiupload/uploadImage.swf", "myContent", "720", "500", "10.0.0", "/template/blue/js/multiupload/expressInstall.swf", params, { wmode: "transparent" });
+        });
+
+    </script>
+</head>
+<body>
+
+    <div class="content">
+        <table width="80%" border="0" cellspacing="0" cellpadding="0" class="divwidth">
+                <tr>
+                    <td>
+                        <div class="scbtn" style="width: 99%; height: 400px;" align="center" id="myContent">
+                        </div>
+                        <div class="wenzi" style="padding: 20px;">
+                            (每次可选择多张照片)</div>
+                    </td>
+                </tr>
+            </table>
+
+    </div>
+
+</body>
+</html>

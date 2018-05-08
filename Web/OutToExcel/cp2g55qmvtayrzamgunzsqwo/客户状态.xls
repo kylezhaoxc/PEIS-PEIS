@@ -1,0 +1,90 @@
+﻿<?xml version='1.0'?><?mso-application progid='Excel.Sheet'?>
+<Workbook xmlns='urn:schemas-microsoft-com:office:spreadsheet'
+          xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel'
+          xmlns:ss='urn:schemas-microsoft-com:office:spreadsheet' xmlns:html='http://www.w3.org/TR/REC-html40'>
+<DocumentProperties xmlns='urn:schemas-microsoft-com:office:office'>
+</DocumentProperties>
+<Styles><Style ss:ID='Default' ss:Name='Normal'><Alignment ss:Vertical='Center'/>
+          <Borders/><Font ss:FontName='宋体' x:CharSet='134' ss:Size='11'/><Interior/><NumberFormat/><Protection/></Style>
+<Style ss:ID='Header'><Borders><Border ss:Position='Bottom' ss:Weight='1'/>
+           <Border ss:Position='Left' ss:Weight='1'/>
+           <Border ss:Position='Right' ss:Weight='1'/>
+           <Border ss:Position='Top'  ss:Weight='1'/></Borders>
+           </Style>
+<Style ss:ID='border'><NumberFormat ss:Format='@'/><Borders>
+          <Border ss:Position='Bottom'/>
+          <Border ss:Position='Left' />
+          <Border ss:Position='Right'/>
+          <Border ss:Position='Top'/></Borders></Style>
+</Styles>
+<Worksheet ss:Name='-客户状态'>
+<Table x:FullColumns='1' x:FullRows='1'>
+
+<Row ss:AutoFitHeight='1'>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>存档号码</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>客户姓名</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>体检号</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>客户性别</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>婚姻状态</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>证件号</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>联系电话</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>单位名称</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>部门</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>二级部门</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>三级部门</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>四级部门</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>体检时间</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>体检类型</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>体检地点</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>是否总检</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>总检医生</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>总检时间</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>是否总审</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>审核人</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>审核时间</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>是否打印</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>打印人</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>打印时间</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>是否通知 </Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>通知人</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>通知时间</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>是否领取</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>领取人</Data></Cell>
+<Cell ss:StyleID='Header'><Data ss:Type='String'>领取时间</Data></Cell>
+
+</Row>
+<Row>
+<Cell ss:StyleID='border'><Data ss:Type='String'>35892</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>佛挡杀佛</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>16031720170017</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>男</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>未婚</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>123123199912121234</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>健康体检</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>川港康复中心大楼1楼</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'>False</Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+<Cell ss:StyleID='border'><Data ss:Type='String'></Data></Cell>
+</Row>
+</Table>
+</Worksheet>
+</Workbook>

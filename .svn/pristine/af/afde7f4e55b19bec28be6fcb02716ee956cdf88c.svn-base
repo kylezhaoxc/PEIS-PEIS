@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                <span style="float:left;">&nbsp;$!{pageTitle} </span>
+                
+                <span style="float:left; font-weight:normal; font-size:10px;" id="ArcCustItemCount">
+                </span>
+                </div>
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        姓名：</label>
+                    <div class="query-controls">
+                        <input type="text" id="txtCustomerName" name="txtCustomerName" class="width80" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        性别：</label>
+                    <div class="query-controls">
+                        <select id="selID_Gender" name="selID_Gender">
+                            <option value="-1">请选择性别</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        出生日期：</label>
+                    <div class="query-controls">
+                        <input type="text" id="txtBirthday" name="txtBirthday" onclick="WdatePicker()" class="Wdate span80" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        证件号：</label>
+                    <div class="query-controls">
+                        <input type="text" class="width120" id='txtIDCard' name="txtIDCard" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" name="btnSearch" type="button" class="button80" value=" 查  询(F4) "
+                            onclick="SearchArcCustomerList();" />
+                        <input id="btnMerge" name="btnMerge" type="button" class="button120" onclick="GetSelectedCustomerID();" value=" 合并选中客户 " />
+                    </label>
+                </div>
+            </div>
+            <div style="width: 920px; min-height: 400px; height: 400px; overflow: scroll;">
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td style="min-width: 40px;">
+                                选择
+                            </td>
+                            <td style="min-width: 50px;">
+                                存档号码
+                            </td>
+                            <td style="min-width: 50px;">
+                                客户名称
+                            </td>
+                            <td style="min-width: 50px;">
+                                客户性别
+                            </td>
+                            <td style="min-width: 50px;">
+                                婚姻状态
+                            </td>
+                            <td style="min-width: 50px;">
+                                出生日期
+                            </td>
+                            <td style="min-width: 50px;">
+                                证件号
+                            </td>
+                            <td style="min-width: 50px;">
+                                联系电话
+                            </td>
+                            <td style="min-width: 50px;">
+                                体检次数
+                            </td>
+                            <td style="min-width: 50px;">
+                                住址
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="ArcCustListItem">
+                    </tbody>
+                </table>
+            </div>
+            <div id="divLoadCustomerReport" style="display: none;">
+            </div>
+        </div>
+        $!{HiddenInputQueryString}
+    </div>
+
+    <div id="divHidTemplate" style="display: none;">
+        <!--客户存档信息模版 Begin-->
+        <table id="ArcCustTemplate">
+            <tbody id="ArcCustListItemTemplete">
+                <tr>
+                    <td style="min-width: 40px;">
+                        <input type="checkbox" name="@chkArcCustQueryList" id="chkArcCust_@ID_ArcCustomer" value="@ID_ArcCustomer"  CustomerName="@CustomerName"  />
+                    </td>
+                    <td>
+                        @ID_ArcCustomer
+                    </td>
+                    <td>
+                        @CustomerName
+                    </td>
+                    <td>
+                        @GenderName
+                    </td>
+                    <td>
+                        @MarriageName
+                    </td>
+                    <td>
+                        @BirthDay
+                    </td>
+                    <td>
+                        @IDCard
+                    </td>
+                    <td>
+                        @MobileNo
+                    </td>
+                    <td style="text-align:center;">
+                        <div style="float:left;" title="总的体检次数">&nbsp;&nbsp;@TotalCount&nbsp;&nbsp;|&nbsp;&nbsp;</div><div style="float:left;" title="已完成体检次数">@FinishCount&nbsp;&nbsp;</div>
+                    </td>
+                    <td>
+                        @Address
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--客户存档信息模版 End-->
+    </div>
+<script language="javascript" type="text/javascript">
+
+    /// <summary>
+    /// 查询客户存档列表
+    /// </summary>
+    function SearchArcCustomerList() {
+
+        // jQuery("#CustomerName").html(jQuery("#chkArcCust_" + ID_ArcCustomer).attr("CustomerName"));
+        
+        var ID_Gender = jQuery("#selID_Gender").val();         // 性别ID
+        var CustomerName = jQuery("#txtCustomerName").val();   // 客户姓名
+        CustomerName = encodeURIComponent(CustomerName);       // 客户姓名 编码处理
+        var IDCard = jQuery("#txtIDCard").val();               // 证件号
+        IDCard = encodeURIComponent(IDCard);                   // 证件号 编码处理
+        var BirthDay = jQuery("#txtBirthday").val();           // 生日
+        BirthDay = encodeURIComponent(BirthDay);               // 生日 编码处理
+
+
+        if (CustomerName == "") {
+            jQuery('#txtCustomerName').focus();
+            parent.ShowSystemDialog("请输入客户姓名!");
+            return;
+        }
+        if (ID_Gender == "-1") {
+            jQuery('#selID_Gender').focus();
+            parent.ShowSystemDialog("请客户性别!");
+            return;
+        }
+
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxConfig.aspx",
+            data: { action: 'SearchArcCustomerList',
+                ID_Gender: ID_Gender,
+                CustomerName: CustomerName,
+                IDCard: IDCard,
+                BirthDay: BirthDay,
+                currenttime: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (jsonmsg) {
+                if (jsonmsg != null && jsonmsg != "") {
+                    // 显示查询到的信息
+                    ShowArcCustomerList(jsonmsg);
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    /// 显示客户存档列表 (显示)
+    /// </summary>
+    function ShowArcCustomerList(ArcCustList) {
+
+        var tempListContent = "";  // 临时内容
+
+        // 检查项目显示模版
+        var ArcCustListItemTempleteContent = jQuery('#ArcCustListItemTemplete').html();
+
+        if (ArcCustListItemTempleteContent == undefined) { return; }
+
+        jQuery("#ArcCustListItem").html(""); //   先清空列表
+
+        var ArcCustItemCount = 0;
+        // dataList0 显示所有的角色信息
+        jQuery(ArcCustList.dataList0).each(function (j, item) {
+            ArcCustItemCount++;
+            tempListContent += ArcCustListItemTempleteContent
+                        .replace(/@ID_ArcCustomer/gi, item.ID_ArcCustomer)
+                        .replace(/@CustomerName/gi, item.CustomerName)
+                        .replace(/@GenderName/gi, item.GenderName)
+                        .replace(/@MarriageName/gi, item.MarriageName)
+                        .replace(/@BirthDay/gi, item.BirthDay)
+                        .replace(/@IDCard/gi, item.IDCard)
+                        .replace(/@MobileNo/gi, item.MobileNo)
+                        .replace(/@FinishCount/gi, item.FinishedNum)
+                        .replace(/@TotalCount/gi, item.TotalNum)
+                        .replace(/@chkArcCustQueryList/gi, 'chkArcCustQueryList')
+                        .replace(/@Address/gi, item.Address);
+        });
+
+        jQuery("#ArcCustItemCount").html(" 【共有 " + ArcCustItemCount + " 个客户信息】");
+        jQuery("#ArcCustListItem").html(tempListContent);  // 显示每列的数据
+
+    }
+
+    function GetSelectedCustomerID() {
+        var nCount = 0;
+        var SelectedArcCustomerIDs = ""; // 记录已选客户的ID及名字
+        jQuery("input[name='chkArcCustQueryList']:checkbox:checked").each(function () {
+            // jQuery("#chkArcCust_" + jQuery(this).val()).attr("CustomerName")); // 客户名称
+            nCount++;
+            if (nCount == 1) {
+                SelectedArcCustomerIDs = jQuery(this).val() ;
+            } else {
+                SelectedArcCustomerIDs = SelectedArcCustomerIDs  + "_"+ jQuery(this).val();
+            }
+        });
+        if (nCount != 2) {
+            if (nCount > 2) {
+                parent.ShowSystemDialog("只能选择两个关联的客户!");
+            }
+            else {
+                parent.ShowSystemDialog("请选择需要关联的两个客户!");
+            }
+            return;
+        }
+        OpenCustMergeOperWindowParams(SelectedArcCustomerIDs);
+    }
+
+
+    /// <summary>
+    /// 弹出合并页面
+    /// </summary>
+    function OpenCustMergeOperWindowParams(SelectedArcCustomerIDs) {
+
+        var url = '/System/Admin/CustPhysicalExamMergeOper.aspx?num=' + Math.random();
+        if (SelectedArcCustomerIDs != "") {
+            url = url + "&IDs=" + SelectedArcCustomerIDs;
+        }
+        art.dialog.open(url,
+        {
+            width: 670,
+            height: 400,
+            drag: false,
+            lock: true,
+            id: 'OperWindowFrame',
+            title: "客户信息关联"
+        });
+    }
+
+
+</script>
+
+</body>
+
+
+</html>

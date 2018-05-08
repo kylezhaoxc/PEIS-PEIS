@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+</head>
+<body>
+    <form onkeyup="OnFormKeyUp();">
+    $!{HiddenInputQueryString}
+    <table id="tblExtern">
+        <tr id="showBusFee">
+            <td colspan="2" style="text-align: left;">
+                <div id="divExternList" style="border: 1px solid Blue; height: 400px; width: auto;
+                    overflow: scroll;">
+                    <div id="divExternItem">
+                        <table style="max-height: 400px;" id="teamBatchSearch" class="tblExamItemTable">
+                            <thead>
+                                <tr>
+                                    <td style="width: 20px;">
+                                        <input id="chbAll1" name="checkAllX" onkeydown="keyMove(this, event)" onclick="checkAllChildren(this);"
+                                            type="checkbox" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="txtSearch" onkeyup="OnKeyUp();" style="width: 99%;" />
+                                    </td>
+                                    <td colspan="2">
+                                        <input id="btnSure" name="btnSure" onclick="SureAddTeamTaskGroupFee_Batch();" type="button" class="button80"
+                                            value=" 确  定 " />
+                                        <input id="btnClose" name="btnClose" onclick="DoClose();" type="button" class="button80" value=" 关  闭 " />
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="showBusFeeItem">
+                                #foreach($info in $!{BusFeeDT.Rows})
+                                <tr name="trExternItem" class="trExternItem" custfeechargestate="${info.CustFeeChargeState}"
+                                    id_fee="$!{info.ID_Fee}" feename="$!{info.FeeName}" id_set="${info.PEPackageID}" username="${info.userName}"
+                                    id_section="${info.ID_Section}" price="$!{info.Price}">
+                                    <td>
+                                        <input onkeydown="keyMove(this, event)" id="Checkbox_$!{info.ID_Fee}" name="ItemCheckboxX"
+                                            type="checkbox" parentid="$!{info.ID_Fee}">
+                                    </td>
+                                    <td>
+                                        <input readonly="readonly" style="width: auto; border: 0px;" name="textExternItem"
+                                            onkeydown="keyMove(this, event)" type="text" readonly="readonly" style="border: 0px;"
+                                            value="$!{info.FeeName}" id="xmmc_$!{info.ID_Fee}">
+                                    </td>
+                                    <td>
+                                        <input readonly="readonly" style="width: auto; border: 0px;" name="textExternItem"
+                                            onkeydown="keyMove(this, event)" type="text" readonly="readonly" style="border: 0px;"
+                                            value="$!{info.InputCode}" id="inputCode_$!{info.ID_Fee}">
+                                    </td>
+                                    <td>
+                                        <input readonly="readonly" style="width: auto; border: 0px;" name="textExternItem"
+                                            onkeydown="keyMove(this, event)" type="text" readonly="readonly" style="border: 0px;"
+                                            value="$!{info.Price}">
+                                    </td>
+                                </tr>
+                                #end
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</form>
+</html>

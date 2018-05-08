@@ -1,0 +1,54 @@
+using System;
+
+namespace PEIS.Model
+{
+	[Serializable]
+	public class SYSSection
+	{
+        private int _sectionid;
+        private string _sectionname;
+        private bool _functiontype;
+        private string _displaymenu;
+        private bool _is_del;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int SectionID
+        {
+            set { _sectionid = value; }
+            get { return _sectionid; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string SectionName
+        {
+            set { _sectionname = value; }
+            get { return _sectionname; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool FunctionType
+        {
+            set { _functiontype = value; }
+            get { return _functiontype; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string DisplayMenu
+        {
+            set { _displaymenu = value; }
+            get { return _displaymenu; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Is_Del
+        {
+            set { _is_del = value; }
+            get { return _is_del; }
+        }
+    }
+}

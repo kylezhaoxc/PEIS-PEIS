@@ -1,0 +1,53 @@
+.tipscolor{
+    color:red;
+}
+.tipsfont{
+    font-size:18px;
+}
+.disabled-mouse {
+//禁止鼠标操作
+pointer-events: none;
+}
+.inputdisabled{
+    ime-mode: disabled;
+}
+.leftFirstListFixed{
+    position: fixed;
+    background-color: aliceblue;
+}
+.secondList {
+    font-size:12px;
+}
+.searchbox {
+    width:auto; 
+    line-height:17px;
+    display:inline-block;
+    margin-left:60px
+}
+.searchbtn {
+    float:right !important;
+        margin-left: 10px;
+}
+.searchselectwithname {
+    width:auto; 
+    line-height:17px;
+    display:inline-block
+}
+.searchselectnoname {
+    width:auto;
+     line-height:17px;
+     margin-left:60px
+}
+
+/*标题*/
+.logo-txt {
+    float: left;
+    height: 48px;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #cdcdcd;
+    color: #666;
+    color: white;
+    
+
+}

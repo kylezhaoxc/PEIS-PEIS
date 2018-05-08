@@ -1,0 +1,548 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>总检列表 </title>
+
+
+</head>
+<body>
+
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+        
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            GetDoctorFinalNotCheckedList();   // 获取某医生总审未通过的列表
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+            GetFinalExamListParams();         // 获取查询条件
+            QueryPagesData(0);
+        });
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        function ButtonClickQuery() {
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val());;    // 体检号
+            if (customerid == "") {
+                SaveFinalExamListParams();
+                QueryPagesData(0);
+            } else {
+                if (!isCustomerExamNo(customerid)) {
+                    ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                    return;
+                } else {
+                    DoLoad('/System/Conclusion/ConclusionOper.aspx?txtCustomerID=' + customerid, '');
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自动查询
+        /// </summary>
+        function AutoSectionCustomerQuery() {
+        
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+                var customerid = jQuery.trim(jQuery('#txtCustomerID').val()); ;    // 体检号
+                if (customerid != "") {
+                    // 如果输入的值满足体检号的条件，则自动跳转到总检页面
+                    if (isCustomerExamNo(customerid)) {
+                        DoLoad('/System/Conclusion/ConclusionOper.aspx?txtCustomerID=' + customerid, '');
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+
+            var FinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();   // 未通过总审
+            var FinalFinished = jQuery("input[name='chkFinalFinished']:checked").val(); // 未总检
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val(); // 仅显示我操作的
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConclusion.aspx",
+                data: { pageIndex: pageIndex,
+                    BeginExamDate: BeginExamDate,
+                    EndExamDate: EndExamDate,
+                    pageSize: pagePagination.items_per_page,
+                    FinalChecked: FinalChecked,
+                    FinalFinished: FinalFinished,
+                    OnlyMySelf: OnlyMySelf,
+                    action: 'GetCustomerFinalExamList'
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    var tmpCustomerIDsStr = ""; // 临时记录体检号（逗号分隔的字符串）
+
+                    if (parseInt(msg.totalCount) > 0) {
+
+//                        jQuery("#Pagination").show();
+//                        if (tempOperPageCount == 0) {
+//                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+//                            tempOldtotalCount = msg.totalCount;
+//                            tempOperPageCount = 1;
+//                        }
+//                        else if (tempOldtotalCount != msg.totalCount) {
+//                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+//                            tempOperPageCount = 1;
+//                        }
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+                            tempOldtotalCount = msg.totalCount;
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#QueryDataListTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (tmpCustomerIDsStr == "") {
+                                tmpCustomerIDsStr = item.ID_Customer;
+                            } else {
+                                tmpCustomerIDsStr = tmpCustomerIDsStr + "," + item.ID_Customer;
+                            }
+
+                            newcontent +=
+                             templateContent.replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@CustomerID/gi, item.ID_Customer)
+                            .replace(/@FinalExamed/gi, item.Is_FinalFinished == 'True' ? '√' : '--')
+                            .replace(/@FinalDoctor/gi, item.Is_FinalFinished == 'True' ? item.FinalDoctor : '--')
+                            .replace(/@FinalFormatDate/gi, item.Is_FinalFinished == 'True' ? item.FinalFormatDate : '--' )
+                            .replace(/@FinalChecked/gi, item.Is_Checked == 'True' ? '√' : '--')
+                            .replace(/@Checker/gi, item.Is_Checked == 'True' ? item.Checker : '--')
+                            .replace(/@CheckedFormatDate/gi, item.Is_Checked == 'True' ? item.CheckedFormatDate : "--")
+                            .replace(/@ReportReceipted/gi, item.Is_ReportReceipted == 'True' ? '√' : '--')
+                            ;
+
+                        });
+                        if (newcontent != '') {
+                            jQuery('#Searchresult').html(newcontent);
+
+                            // 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+                            GetCustomerExamListArcPhysicalInfo(tmpCustomerIDsStr);
+
+                        }
+                    } else {
+                        jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "在您查询的时间段内，没有找到客户的体检信息！"));
+                        jQuery("#Pagination").hide(); // 没有数据的时候，隐藏分页信息
+                    }
+                }
+            });
+        }
+
+
+        function Search() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+        /// <summary>
+        /// 获取某医生总审未通过的列表
+        /// </summary>
+        function GetDoctorFinalNotCheckedList() {
+
+            var FinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();
+            if (FinalChecked != undefined) { return; }  //如果用户当前查询的就是未通过的列表，则在此就不再重复进行查询了。
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxConclusion.aspx",
+                data: { action: 'GetDoctorFinalNotCheckedList',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg == null || jsonmsg == "" || parseInt(jsonmsg.totalCount) <= 0)
+                    { return false; }
+
+                    var HeaderTemplateContent = jQuery('#QueryNotCheckedHeaderTemplete').html();
+                    if (HeaderTemplateContent == undefined) { return; }
+
+                    var newcontent = "";
+
+                    var templateContent = jQuery('#QueryNotCheckedTemplete').html();
+                    if (templateContent == undefined) { return; }
+
+                    jQuery(jsonmsg.dataList).each(function (i, item) {
+
+                        newcontent +=
+                             templateContent.replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@CustomerID/gi, item.ID_Customer)
+                            ;
+                    });
+
+                    newcontent = '<table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 200px;"><thead>' + HeaderTemplateContent + '</thead><tbody>' + newcontent + '</tbody></table>';
+
+                    art.dialog({
+                        id: 'OperWindowFrame',
+                        content: newcontent,
+                        lock: true,
+                        fixed: true,
+                        opacity: 0.3,
+                        title: "您有【" + jsonmsg.totalCount + "】个未通过总审的体检报告！",
+                        button: [{
+                            name: '确定',
+                            focus: true
+                        }]
+                    });
+
+
+                }
+            });
+
+        }
+
+
+        /// <summary>
+        /// 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+        /// </summary>
+        function GetCustomerExamListArcPhysicalInfo(CustomerIDsStr) {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { CustomerIDsStr: CustomerIDsStr,
+                    action: 'GetCustomerExamListArcPhysicalInfo',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg == null || jsonmsg == "" || parseInt(jsonmsg.totalCount) <= 0)
+                    { return false; }
+
+                    jQuery(jsonmsg.dataList0).each(function (i, onarccustitem) {
+                        jQuery("#GenderName_" + onarccustitem.ID_Customer).html(onarccustitem.GenderName);
+                        jQuery("#Age_" + onarccustitem.ID_Customer).html(onarccustitem.Age);
+                        jQuery("#IDCard_" + onarccustitem.ID_Customer).html(onarccustitem.IDCard);
+                        jQuery("#ExamCard_" + onarccustitem.ID_Customer).html(onarccustitem.ExamCard);
+                        jQuery("#MobileNo_" + onarccustitem.ID_Customer).html(onarccustitem.MobileNo);
+                    });
+                }
+            });
+
+        }
+
+        function OperWindowFrameClose() {
+            var list = art.dialog.list;
+            for (var i in list) {
+                list[i].close();
+            };
+
+        }
+
+        function ChangeOnlyMySelf() {
+            // chkFinalFinished chkFinalChecked chkOnlyMySelf
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();               // 仅显示我操作的
+//            var NotFinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();        // 未通过总审
+//            var NotFinalFinished = jQuery("input[name='chkFinalFinished']:checked").val();      // 未完成总检
+            
+            if (OnlyMySelf == "0") {
+                jQuery("#chkFinalChecked").attr("checked", false);
+                jQuery("#chkFinalFinished").attr("checked", false);
+            }
+
+        }
+
+
+        function ChangeFinalChecked() {
+            // chkFinalFinished chkFinalChecked chkOnlyMySelf
+//            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();               // 仅显示我操作的
+            var NotFinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();        // 未通过总审
+//            var NotFinalFinished = jQuery("input[name='chkFinalFinished']:checked").val();      // 未完成总检
+            
+            if (NotFinalChecked == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+                jQuery("#chkFinalFinished").attr("checked", false);
+            } 
+        }
+
+        function ChangeFinalFinished() {
+            // chkFinalFinished chkFinalChecked chkOnlyMySelf
+//            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();               // 仅显示我操作的
+//            var NotFinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();        // 未通过总审
+            var NotFinalFinished = jQuery("input[name='chkFinalFinished']:checked").val();      // 未完成总检
+            
+            if (NotFinalFinished == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+                jQuery("#chkFinalChecked").attr("checked", false);
+            }
+        }
+
+
+        /// <summary>
+        /// 获取Cookie中存放的总检查询列表页参数
+        /// </summary>
+        function GetFinalExamListParams() {
+
+            var ParamsArgArray = GetUserCurrentQueryParams("QParam_FinalExamList");
+            if (ParamsArgArray == null) { return; }
+            if (ParamsArgArray.length <= 5) { return; }
+            // 注意放入数组的顺序
+
+            var BeginExamDate = ParamsArgArray[0];    // 开始日期
+            var EndExamDate = ParamsArgArray[1];      // 结束日期
+            var FinalChecked = ParamsArgArray[2];     // 未通过总审
+            var FinalFinished = ParamsArgArray[3];    // 未总检
+            var OnlyMySelf = ParamsArgArray[4];       // 仅显示我操作的
+
+            jQuery('#BeginExamDate').val(BeginExamDate); // 开始日期
+            jQuery('#EndExamDate').val(EndExamDate);     // 结束日期
+
+            // 未通过总审
+            if (FinalChecked == "0") {
+                jQuery("#chkFinalChecked").attr("checked", true);
+            } else {
+                jQuery("#chkFinalChecked").attr("checked", false);
+            }
+            // 未总检
+            if (FinalFinished == "0") {
+                jQuery("#chkFinalFinished").attr("checked", true);
+            } else {
+                jQuery("#chkFinalFinished").attr("checked", false);
+            }
+            // 仅显示我操作的
+            if (OnlyMySelf == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", true);
+            } else {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+            }
+        }
+
+        /// <summary>
+        /// 保存总检查询列表页参数
+        /// </summary>
+        function SaveFinalExamListParams() {
+
+            var ParamsArgArray = new Array();
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+            var FinalChecked = jQuery("input[name='chkFinalChecked']:checked").val();   // 未通过总审
+            var FinalFinished = jQuery("input[name='chkFinalFinished']:checked").val(); // 未总检
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val(); // 仅显示我操作的
+
+            // 注意放入数组的顺序
+            ParamsArgArray.push(BeginExamDate); // 开始日期
+            ParamsArgArray.push(EndExamDate);   // 结束日期
+            ParamsArgArray.push(FinalChecked);    // 未通过总审
+            ParamsArgArray.push(FinalFinished);   // 未总检
+            ParamsArgArray.push(OnlyMySelf);      // 仅显示我操作的
+
+            // 保存科室分检查询列表的参数
+            SetUserCurrentQueryParams("QParam_FinalExamList", ParamsArgArray);
+
+        }
+
+
+    </script>
+    <table style="display:none;">
+        <tbody id="QueryDataListTemplete">
+           <tr>
+            <td style="display:none;"><input id="@CheckboxID" title="" type="checkbox" value="@CustomerID" name="ItemCheckbox"/></td>
+            <td><a href="javascript:void(0);" onclick="DoLoad('/System/Conclusion/ConclusionOper.aspx?txtCustomerID=@CustomerID','');" title="点击进入【@CustomerName】的总检页面">@CustomerID</a></td>
+            <td><lable>@CustomerName</lable></td>
+            <td style="text-align:center;" id="GenderName_@CustomerID">--</td>
+            <td style="text-align:center;" id="Age_@CustomerID">--</td>
+            <td style="display:none;" id="IDCard_@CustomerID">--</td>
+            <td style="display:none;" id="ExamCard_@CustomerID">--</td>
+            <td id="MobileNo_@CustomerID">--</td>
+            <td style="text-align:center;">@FinalExamed</td>
+            <td style="text-align:center;">@FinalDoctor</td>
+            <td style="text-align:center;">@FinalFormatDate</td>
+            <td style="text-align:center;">@FinalChecked</td>
+            <td style="text-align:center;">@Checker</td>
+            <td style="text-align:center;">@CheckedFormatDate</td>
+            <td style="text-align:center;">@ReportReceipted</td>
+        </tr>
+        </tbody>
+        
+        <tbody id="QueryNotCheckedHeaderTemplete">
+        <tr>
+            <td>体检号</td>
+            <td>姓名</td>
+        </tr>
+        </tbody>
+        <tbody id="QueryNotCheckedTemplete">
+        <tr>
+            <td><a href="javascript:void(0);" onclick="OperWindowFrameClose();DoLoad('/System/Conclusion/ConclusionOper.aspx?txtCustomerID=@CustomerID','');" title="点击进入【@CustomerName】的总检页面">@CustomerID</a></td>
+            <td><lable>@CustomerName</lable></td>
+        </tr>
+        </tbody>
+        
+        <tbody id="TipsInfoTemplete">
+        <tr>
+            <td colspan="13" style="text-align:center; line-height:100px; ">@TipsInfo</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;总检列表</div>
+                <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+
+            <div class="query-area">
+                <div class="query-group">
+                    <label class="query-label">
+                        日期：</label>
+                    <div class="query-controls">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-40}', maxDate:'%y-%M-#{%d}'})" class="Wdate span120" />
+                        至
+                        <input type="text" id="EndExamDate"   name="EndExamDate"   value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-40}', maxDate:'%y-%M-#{%d}'})" class="Wdate span120" />
+                    </div>
+                </div>
+                
+                 <div class="query-group">
+                  <label class="query-label">体检号(F2):</label>
+                  <div class="query-controls">
+                    <input type="text" class="span120" onfocus="this.select();" onkeyup="AutoSectionCustomerQuery();" onchange="AutoSectionCustomerQuery();"  id="txtCustomerID"name="txtCustomerID" />  
+                  </div>
+                </div>
+             
+                 <div class="query-group">
+                  <label class="query-label">&nbsp;</label>
+                  <div class="query-controls">
+                    <input type="checkbox"  id="chkFinalFinished" name="chkFinalFinished" value="0" onclick="ChangeFinalFinished();" /><label for="chkFinalFinished">&nbsp;未总检</label>  
+                  </div>
+                </div>
+             
+                 <div class="query-group">
+                  <label class="query-label">&nbsp;</label>
+                  <div class="query-controls">
+                    <input type="checkbox"  id="chkFinalChecked" name="chkFinalChecked" value="0" onclick="ChangeFinalChecked();"  /><label for="chkFinalChecked">&nbsp;未通过总审</label>  
+                  </div>
+                </div>
+             
+                 <div class="query-group">
+                  <label class="query-label">&nbsp;</label>
+                  <div class="query-controls">
+                    <input type="checkbox"  id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf" value="0" onclick="ChangeOnlyMySelf();"  /><label for="chkOnlyMySelf">&nbsp;仅我的</label>  
+                  </div>
+                </div>
+                          
+                 <div class="query-group">
+                  <label class="query-label">
+                  
+                  <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) "  onclick="ButtonClickQuery();" />
+                  
+                  </label>
+                </div>
+
+            </div>
+            
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td style="display:none;">
+                            <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                        </td>
+                        <td>
+                            体检号
+                        </td>
+                        <td>
+                            姓名
+                        </td>
+                        <td style="text-align:center;">
+                            性别
+                        </td>
+                        <td style="text-align:center;">
+                            年龄
+                        </td>
+                        <td style="display:none;">
+                            身份证号码
+                        </td>
+                        <td style="display:none;">
+                            卡号
+                        </td>
+                        <td>
+                            联系方式
+                        </td>
+                        <td style="text-align:center;">
+                            已总检
+                        </td>
+                        <td style="text-align:center;">
+                            总检医生
+                        </td>
+                        <td style="text-align:center;">
+                            总检时间
+                        </td>
+                        <td style="text-align:center;">
+                            已总审
+                        </td>
+                        <td style="text-align:center;">
+                            总审医生
+                        </td>
+                        <td style="text-align:center;">
+                            总审时间
+                        </td>
+                        <td style="text-align:center;">
+                            报告已领
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id='Searchresult'>
+                    
+                </tbody>
+            </table>
+            <div class="pagination">
+                <ul id="Pagination">
+                    
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

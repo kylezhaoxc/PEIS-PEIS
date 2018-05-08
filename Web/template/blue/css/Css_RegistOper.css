@@ -1,0 +1,192 @@
+﻿/***************该文件为预约、登记界面公用样式******************************/
+.tblExamItemTable thead, .tblRegistTableEdit thead
+{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tblRegistTableEdit tr td
+{
+    padding-left: 5px;
+    height: 35px;
+    border: 1px solid #d0d0d0;
+    font-size: 10pt;
+}
+.tblExamItemTable tr td
+{
+    text-align: left;
+    padding-left: 5px;
+    height: 30px;
+    border: 1px solid #d0d0d0;
+    font-size: 10pt;
+}
+.tdlabel
+{
+    background-color: Red;
+    width: 100px;
+}
+.tblRegistTableEdit tr select
+{
+    width: 155px;
+}
+
+.Note
+{
+    width: 255px;
+}
+.tblExamItemTable .qx
+{
+    height: 25px; /* width: 20px; */
+}
+.tblExamItemTable .xmmc
+{
+    width: 80px;
+}
+.tblExamItemTable .yj
+{
+    width: 100px;
+}
+.tblExamItemTable .zk
+{
+    width: 50px;
+}
+.tblExamItemTable .zkx
+{
+    width: 35px;
+}
+.tblExamItemTable .sj
+{
+    width: 50px;
+}
+
+.tblExamItemTable input
+{
+    background-color: transparent;
+}
+.tblExamItemTable tr select
+{
+    background-color: transparent;
+    width: 60px;
+}
+.tblExamItemTable .djr
+{
+    height: 25px; /* width: 70px; */
+}
+.tblExamItemTable .djsj
+{
+    height: 25px; /* width: 100px; */
+}
+.tblExamItemTable .xmzt
+{
+    text-align: center;
+    height: 25px; /* width: 350px; */
+}
+.tblExamItemTable .ysf
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yyy
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .ytf
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yjz
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yfxj
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .cz
+{
+    padding-left: 5px;
+    text-align: center;
+    height: 25px; /* width: 80px; */
+}
+.tblExamItemTable .sffs
+{
+    text-align: center;
+    height: 25px; /* width: 100px; */
+}
+.tblExtern
+{
+    text-align: right;
+    height: 15px;
+    width: 100%;
+    background-color:Gray;
+}
+.divOperate
+{
+    text-align: center;
+    padding: 8px;
+    float: right;
+    height: 30px;
+}
+.headPic
+{
+    width: 100px;
+    height: 120px;
+}
+.takePhote
+{
+    width: 80px;
+    height: 30px;
+}
+.lblRequired
+{
+    padding-left: 5px;
+    color: Red;
+}
+.xmzj
+{
+    /*background-color:#d0d0d0;*/
+    width: 50px;
+    color: Red;
+}
+#hidDiv
+{
+    display: none;
+}
+.NewXM
+{
+    background-color: #e3e3e3;
+    
+}
+.DefaultXM
+{
+    color: Black;
+}
+/*被搜索到的样式*/
+.externSearch
+{
+    background-color: Aqua; /*background-color: #27a9e3;*/
+    color: Red;
+}
+/*被选中的样式*/
+.externSelect
+{
+    background-color: Green; /*background-color: #27a9e3;*/
+    color: Blue;
+}
+ 
+/*****付费项目样式********/
+.CustFeeChargeState
+{
+    background-color: #999999; /*background-color: #27a9e3;*/
+    color: red;
+}
+#lblSumHeaderX
+{
+     font-size:18px;
+     color:Red;
+
+    }

@@ -1,0 +1,348 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>解除总审页面 </title>
+        <meta charset="UTF-8" />
+
+    <link rel="stylesheet" href="$!{templatepath}/css/exam.css" />
+
+    <style type="text/css">
+        
+        
+        .ConclusionTitleClass
+        {
+            padding-left:122px;
+            float:left;
+        }
+        .ConclusionTitleClass li
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            cursor:pointer;
+        }
+         .ConclusionTitleClass .selected
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            background-color:#27a9e3;
+            color:White;
+        }
+         .ConclusionTitleClass li:hover
+        {
+            float:left;
+            padding-left:20px;
+            padding-right:20px;
+            border:1px solid #dcdcdc;
+            background-color:#27a9e3;
+            color:White;
+        }
+        
+        .showQueryConclusionClass .QueryConclusionClass
+        {
+            display:block;
+        }
+        
+        .hideQueryConclusionClass .QueryConclusionClass
+        {
+            display:none;
+        }
+        
+        .right
+        {
+            float: right;
+        }
+        .left
+        {
+            float: left;
+        }
+        .textright
+        {
+            text-align: right;
+        }
+        .textcenter
+        {
+            text-align: center;
+        }
+        .textleft
+        {
+            text-align: left;
+        }
+        
+        .style1
+        {
+            text-align: right;
+            width: 89px;
+        }
+        .style2
+        {
+            text-align: right;
+            width: 146px;
+        }
+        .style3
+        {
+            width: 275px;
+        }
+    </style>
+
+
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Conclusion.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取分科检查（自动调用）
+        jQuery(document).ready(function () {
+
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+
+//            // 查询客户的基本信息，并显示
+//            SearchCustomerBaseInfo();
+
+
+        });
+
+    </script>
+
+
+	</head>
+	<body  style="text-align:center;">
+    
+
+    <div class="content">
+
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                扫描区
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <table class="tblRegistTableEdit" id="tblRegistTableEdit">
+                <tr>
+                    <td class="text_left">
+                        体检号：
+                        <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+                        <input name="txtCustomerID"  id="txtCustomerID"type="text" onfocus="this.select();" onkeyup="AutoUnLockFinalCheck();" value="$!{txtCustomerID}"/>
+                        
+                        <input type="button" class="button80" name="ButUnLockFinalCheck" onclick="UnLockFinalFinished();" value=" 解除总检 " />
+
+                        <input type="button" class="button80" name="ButUnLockFinalCheck" onclick="UnLockFinalCheck();" value=" 解除总审 " />
+
+                        <span style="display:none;">
+                        <input id="Button10" type="button" class="button80" onclick="ClearCustomerInfo();" title="清除信息，便于进行下一个客户的体检。" value=" 清  除 " />
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox" id="DivUnCheckedTipsInfo" style="display:none;">
+            <table class="tblRegistTableEdit" id="UnCheckedTipsInfo">
+                <tr>
+                    <td class="text_center">
+                        正在加载数据，请稍等...
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="display:none;">
+               
+            <table id="UnCheckedSuccessTemplete">
+                <thead>
+                <tr>
+                    <td>体检号</td>
+                    <td>姓名</td>
+                    <td>总审状态</td>
+                    <td>总审医生</td>
+                    <td>总审时间</td>
+                    <td>总检医生</td>
+                    <td>总检时间</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align:center;">@ID_Customer</td>
+                    <td style="text-align:center;">@CustomerName</td>
+                    <td style="text-align:center;"><span style="color:Red;">已解除</span></td>
+                    <td style="text-align:center;">@Checker</td>
+                    <td style="text-align:center;">@CheckedDate</td>
+                    <td style="text-align:center;">@FinalDoctor</td>
+                    <td style="text-align:center;">@FinalDate</td>
+                </tr>
+                
+                <tr>
+                    <td colspan="7" style="text-align:center; font-weight:bold;">解除总审成功！</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <table id="UnFinishedSuccessTemplete">
+                <thead>
+                <tr>
+                    <td>体检号</td>
+                    <td>姓名</td>
+                    <td>总检医生</td>
+                    <td>总检时间</td>
+                    <td>总检状态</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="text-align:center;">@ID_Customer</td>
+                    <td style="text-align:center;">@CustomerName</td>
+                    <td style="text-align:center;">@FinalDoctor</td>
+                    <td style="text-align:center;">@FinalDate</td>
+                    <td style="text-align:center;"><span style="color:Red;">已解除</span></td>
+                </tr>
+                
+                <tr>
+                    <td colspan="7" style="text-align:center; font-weight:bold;">解除总检成功！</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <table id="UnCheckedOtherMessageTemplete">
+                <tr>
+                    <td class="text_center">
+                        @MessageInfo
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--客户信息扫描 End-->
+        <div class="widget-box showbox" id="divCustomerInfoArea" style="display:none;">
+            <div class="widget-title bg_lg widget-title-middle">
+                客户基本信息
+                <label id="Label1" style="color: Red;">
+                </label>
+            </div>
+            <div style="min-height: 90px; height: 90px;">
+                <table class="tblCustomerBaseInfo" id="tblSearch">
+                    <tbody>
+                        <tr id="loading">
+                            <td style="text-align: center;" colspan="9">
+                                未找到该体检号对应的客户信息,请核对体检号是否正确...
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title">
+                                体检号
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblID_Customer" name="lblID_Customer">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户姓名
+                            </td>
+                            <td class="text_left width100">
+                                <label id="lblCustomerName" name="lblCustomerName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户性别
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblSex" name="lblSex">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                客户年龄
+                            </td>
+                            <td class="text_left width50">
+                                <label id="lblAge" name="lblAge">
+                                    &nbsp;</label> 岁
+                            </td>
+                            <td class="text_center width100" rowspan="3">
+                                <img id="HeadImg" name="HeadImg" style="width: 80px; " src="/template/blue/images/icons/nohead.gif" />
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title">
+                                证件号
+                            </td>
+                            <td class="text_left">
+                                <label id="lblIDCard" name="lblIDCard">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                联系电话
+                            </td>
+                            <td>
+                                <label id="lblTel" name="lblTel">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检日期
+                            </td>
+                            <td colspan="3">
+                                <label id="lblRegisterDate" name="lblRegisterDate">
+                                    &nbsp;</label>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="title ">
+                                体检单位
+                            </td>
+                            <td>
+                                <label id="lblTeamName" name="lblTeamName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                婚姻状况
+                            </td>
+                            <td>
+                                <label id="lblMarriedName" name="lblMarriedName">
+                                    &nbsp;</label>
+                            </td>
+                            <td class="title">
+                                体检类型
+                            </td>
+                            <td colspan="3">
+                                <label id="lblExamType" name="lblExamType">
+                                    &nbsp;</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+	    <!-- 标记当前操作的是解除总检 还是 解除总审 -->
+        <input type="hidden" name="Is_UncheckORUnFinish" id="Is_UncheckORUnFinish" value="" />
+
+
+	    <!-- 总审 -->
+        <input type="hidden" name="Is_FinalCheck" id="Is_FinalCheck" value="True" />
+	    <!-- 分科锁定 -->
+        <input type="hidden" name="Is_SectionLock" id="Is_SectionLock" value="$!{Is_SectionLock}" />
+	    <!-- 完成总检 -->
+        <input type="hidden" name="Is_FinalFinished" id="Is_FinalFinished" value="$!{Is_FinalFinished}" />
+	    <!-- 总检医生ID -->
+        <input type="hidden" name="ID_FinalDoctor" id="ID_FinalDoctor" value="$!{ID_FinalDoctor}" />
+	    <!-- 总检医生 -->
+        <input type="hidden" name="FinalDoctor" id="FinalDoctor" value="$!{FinalDoctor}" />
+	    <!-- 总检时间 -->
+        <input type="hidden" name="FinalDateDetail" id="FinalDateDetail" value="$!{FinalDateDetail}" />
+
+	    <!-- 审核通过 -->
+        <input type="hidden" name="Is_Checked" id="Is_Checked" value="$!{Is_Checked}" />
+	    <!-- 审核人ID -->
+        <input type="hidden" name="ID_Checker" id="ID_Checker" value="$!{ID_Checker}" />
+	    <!-- 审核人 -->
+        <input type="hidden" name="Checker" id="Checker" value="$!{Checker}" />
+	    <!-- 审核时间 -->
+        <input type="hidden" name="CheckedDate" id="CheckedDate" value="$!{CheckedDate}" />
+
+	</body>
+</html>

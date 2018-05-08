@@ -1,0 +1,232 @@
+using System;
+using System.Collections.Specialized;
+using System.Web;
+
+namespace PEIS.Base
+{
+	public class Pager
+	{
+		public static string PagSTR(int pageindex, int pagecount, int rcount, int pres)
+		{
+			return Pager.Pagination(pageindex, pagecount, string.Empty, rcount, pres);
+		}
+
+		public static string Pagination(int pageindex, int pagecount, string url, int rcount, int pres)
+		{
+			if (string.IsNullOrEmpty(url))
+			{
+				string text = string.Empty;
+				url = HttpContext.Current.Request.FilePath;
+				if (url.IndexOf(".html") <= 0)
+				{
+					NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+					for (int i = 0; i < queryString.Count; i++)
+					{
+						if (queryString.Keys[i].ToLower() != "page")
+						{
+							if (i != 0)
+							{
+								text += "&";
+							}
+							text = text + queryString.Keys[i] + "=" + HttpContext.Current.Server.UrlEncode(queryString[i]);
+						}
+					}
+				}
+				if (!string.IsNullOrEmpty(text))
+				{
+					url = url + "?" + text;
+				}
+			}
+			if (url.IndexOf("?") >= 0)
+			{
+				url += "&";
+			}
+			else
+			{
+				url += "?";
+			}
+			string text2 = string.Empty;
+			if (pageindex < 1)
+			{
+				pageindex = 1;
+			}
+			if (pageindex > pagecount)
+			{
+				pageindex = pagecount;
+			}
+			int num = pageindex + 1;
+			int num2 = pageindex - 1;
+			int num3 = (pageindex + 5 > pagecount) ? (pagecount - 9) : (pageindex - 4);
+			int num4 = (pageindex < 5) ? 10 : (pageindex + 5);
+			if (num3 < 1)
+			{
+				num3 = 1;
+			}
+			if (pagecount < num4)
+			{
+				num4 = pagecount;
+			}
+			object obj = text2;
+			text2 = string.Concat(new object[]
+			{
+				obj,
+				"<span>共<strong>",
+				rcount,
+				"</strong>个记录</span>"
+			});
+			text2 += ((pageindex > 1) ? string.Concat(new object[]
+			{
+				"<a href=\"",
+				url,
+				"page=1\" title=\"首页\">|<</a><a href=\"",
+				url,
+				"page=",
+				num2,
+				"\" title=\"上一页\"><</a>"
+			}) : "");
+			for (int i = num3; i <= num4; i++)
+			{
+				text2 += ((pageindex == i) ? string.Concat(new object[]
+				{
+					"<a href=\"",
+					url,
+					"page=",
+					i,
+					"\" class=\"current\" title=\"当前所在页\">",
+					i,
+					"</a>"
+				}) : string.Concat(new object[]
+				{
+					"<a href=\"",
+					url,
+					"page=",
+					i,
+					"\">",
+					i,
+					"</a>"
+				}));
+			}
+			return text2 + ((pageindex != pagecount) ? string.Concat(new object[]
+			{
+				"<a href=\"",
+				url,
+				"page=",
+				num,
+				"\"  title=\"下一页\">></a><a href=\"",
+				url,
+				"page=",
+				pagecount,
+				"\"  title=\"最后一页\">>|</a>"
+			}) : "");
+		}
+
+		public static string GoosListPagination(int pageindex, int pagecount, string url, int rcount, int pres)
+		{
+			if (string.IsNullOrEmpty(url))
+			{
+				string text = string.Empty;
+				url = HttpContext.Current.Request.FilePath;
+				if (url.IndexOf(".html") <= 0)
+				{
+					NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+					for (int i = 0; i < queryString.Count; i++)
+					{
+						if (queryString.Keys[i].ToLower() != "page")
+						{
+							if (i != 0)
+							{
+								text += "&";
+							}
+							text = text + queryString.Keys[i] + "=" + HttpContext.Current.Server.UrlEncode(queryString[i]);
+						}
+					}
+				}
+				if (!string.IsNullOrEmpty(text))
+				{
+					url = url + "?" + text;
+				}
+			}
+			if (url.IndexOf("?") >= 0)
+			{
+				url += "&";
+			}
+			else
+			{
+				url += "?";
+			}
+			string text2 = string.Empty;
+			if (pageindex < 1)
+			{
+				pageindex = 1;
+			}
+			if (pageindex > pagecount)
+			{
+				pageindex = pagecount;
+			}
+			int num = pageindex + 1;
+			int num2 = pageindex - 1;
+			int num3 = (pageindex + 5 > pagecount) ? (pagecount - 9) : (pageindex - 4);
+			int num4 = (pageindex < 5) ? 10 : (pageindex + 5);
+			if (num3 < 1)
+			{
+				num3 = 1;
+			}
+			if (pagecount < num4)
+			{
+				num4 = pagecount;
+			}
+			object obj = text2;
+			text2 = string.Concat(new object[]
+			{
+				obj,
+				"<span class=\"fenye2\"><a>共<strong>",
+				rcount,
+				"</strong>个记录</a></span>"
+			});
+			text2 += ((pageindex > 1) ? string.Concat(new object[]
+			{
+				"<span class=\"fenye1\"><a href=\"",
+				url,
+				"page=1\" title=\"首页\">|<</a><a href=\"",
+				url,
+				"page=",
+				num2,
+				"\" title=\"上一页\"><</a>"
+			}) : "<span class=\"fenye1\">");
+			for (int i = num3; i <= num4; i++)
+			{
+				text2 += ((pageindex == i) ? string.Concat(new object[]
+				{
+					"<a href=\"",
+					url,
+					"page=",
+					i,
+					"\" class=\"current\" title=\"当前所在页\">",
+					i,
+					"</a>"
+				}) : string.Concat(new object[]
+				{
+					"<a href=\"",
+					url,
+					"page=",
+					i,
+					"\">",
+					i,
+					"</a>"
+				}));
+			}
+			return text2 + ((pageindex != pagecount) ? string.Concat(new object[]
+			{
+				"<a href=\"",
+				url,
+				"page=",
+				num,
+				"\"  title=\"下一页\">></a><a href=\"",
+				url,
+				"page=",
+				pagecount,
+				"\"  title=\"最后一页\">>|</a></span>"
+			}) : "</span>");
+		}
+	}
+}

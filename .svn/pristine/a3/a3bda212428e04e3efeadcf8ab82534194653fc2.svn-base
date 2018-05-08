@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>系统设置-IP地址设置</title>
+    <style type="text/css">
+        #body
+        {
+            overflow-x:hidden;
+            overflow-y:auto;
+        }
+        .IP-Setup
+        {
+            height: auto;
+            overflow: hidden;
+            position: relative;
+            padding-top: 80px;
+            margin-top: 0;
+            background-color:#fff;
+        }
+        .IP-Setup-left
+        {
+            position: relative;
+            min-height: 130px;
+        }
+        .IP-Setup-left-span
+        {
+            position: absolute;
+            left: 60px;
+            top: 25px;
+            margin: 0;
+        }
+        .IP-Setup-left-bt
+        {
+            position: absolute;
+            margin: 0;
+            left: 40px;
+            top: 50px;
+        }
+        .IP-Setup-left-bt-font1
+        {
+            margin: 30px 0 0 0;
+            display: block;
+        }
+        .IP-Setup-right
+        {
+            height: auto;
+        }
+        .IP-Setup-right-fen
+        {
+            margin-top: 50px;
+            padding-top: 0;
+            height: 230px;
+        }
+        .IP-Setup-right-nr-bh1, .IP-Setup-right-nr-bh2
+        {
+            padding-top: 0;
+            position: relative;
+        }
+        .IP-Setup-right-nr-bh1
+        {
+            height: 50px;
+        }
+        .IP-Setup-right-nr-bh2
+        {
+            height: 105px;
+        }
+        
+        .IP-Setup-right-nr-bh1 span, .IP-Setup-right-nr-bh2 span
+        {
+            position: absolute;
+            bottom: 2px;
+            left: 12px;
+        }
+        .IP-Setup-right-nr-bl1
+        {
+            margin-bottom: 6px;
+        }
+        
+        .hide
+        {
+            display: none;
+        }
+        
+        .Setupdiv
+        {
+            left: 40%;
+            position: absolute;
+            top: 28%;
+            z-index: 300;
+        }
+        .Setupdiv-center-b-left ul li.active a
+        {
+            background: none repeat scroll 0 0 #D3E2FA;
+            color: #002764;
+        }
+        .dialog-mask
+        {
+            background-color: #555555;
+            bottom: 0;
+            left: 0;
+            opacity: 0.75;
+            filter: alpha(opacity=75);
+            -ms-filter: alpha(opacity=75);
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 200;
+        }
+        .Setupdiv-title-total
+        {
+            cursor: move;
+        }
+        .Setupdiv-center-b-ann
+        {
+            padding-left: 10px;
+        }
+        .Setupdiv-center-b-ann .disabled
+        {
+            opacity: .55;
+            filter: alpha(opacity=55);
+            -ms-filter: alpha(opacity=55);
+            cursor: not-allowed;
+        }
+        .Setupdiv-center-b-ann .disabled a
+        {
+            cursor: not-allowed;
+        }
+        .buttom-tj-s.disabled a:hover
+        {
+            background-position: -300px 0;
+        }
+        .buttom-sc-s.disabled a:hover
+        {
+            background-position: -368px 0;
+        }
+        .Setupdiv-center-b-left
+        {
+            overflow-y: auto;
+        }
+    </style>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <!--[if lte IE 6]> 
+<style type="text/css"> 
+    html { 
+        /*这个可以让IE6下滚动时无抖动*/ 
+        background: url(about:black) no-repeat fixed 
+    } 
+    .tool { 
+        position: absolute;
+    } 
+</style> 
+<![endif]-->
+</head>
+<body>
+    <div id="body">
+        <div id="center" class="j-autoHeight" data-left="225" data-min="260px">
+            <div class="IP-Setup">
+                <span class="buttom-pz IP-Setup-left-span" title="配置"><a href="javascript:void(0);">
+                    配置</a> </span>
+                <div class="IP-Setup-left">
+                    <div class="IP-Setup-left-bt">
+                    </div>
+                </div>
+                <div class="IP-Setup-right">
+                    <div class="IP-Setup-right-fen">
+                    </div>
+                    <div class="IP-Setup-right-nr">
+                        <div class="IP-Setup-right-nr-bh">
+                        </div>
+                        <div class="IP-Setup-right-nr-bl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 弹出 -->
+        <div class="Setupdiv hide">
+            <div class="Setupdiv-title">
+                <div class="Setupdiv-title-l">
+                </div>
+                <div class="Setupdiv-title-b">
+                    <div class="Setupdiv-title-total">
+                        <div class="Setupdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>IP地址配置</strong>
+                        </div>
+                        <div class="Setupdiv-title-off">
+                            <a href="javascript:void(0);"></a>
+                        </div>
+                        <div class="Setupdiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="Setupdiv-title-r">
+                </div>
+            </div>
+            <div class="Setupdiv-center">
+                <div class="Setupdiv-center-l">
+                </div>
+                <div class="Setupdiv-center-b">
+                    <div class="Setupdiv-center-b-left">
+                        <h4>
+                            服务器</h4>
+                        <ul>
+                        </ul>
+                    </div>
+                    <div class="Setupdiv-center-b-right">
+                        <form class="edit-form">
+                        <input type="hidden" name="guid" />
+                        <table width="240" border="0" cellspacing="0" cellpadding="0" class="Setupdiv-center-b-right-tab">
+                            <tr>
+                                <td width="75" align="right">
+                                    部门编号：
+                                </td>
+                                <td width="165" align="left">
+                                    <input type="text" name="code" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="75" align="right">
+                                    部门名称：
+                                </td>
+                                <td width="165" align="left">
+                                    <input type="text" name="name" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="75" align="right">
+                                    起始IP地址：
+                                </td>
+                                <td width="165" align="left">
+                                    <input type="text" name="begin_ip" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="75" align="right">
+                                    终止IP地址：
+                                </td>
+                                <td width="165" align="left">
+                                    <input type="text" name="end_ip" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="Setupdiv-center-b-table2-xx">
+                                </td>
+                            </tr>
+                        </table>
+                        </form>
+                        <div class="Setupdiv-center-b-ann">
+                            <span class="buttom-tj-s" title="新增"><a href="javascript:void(0);">新增</a></span>
+                            <span class="buttom-sc-s" title="删除"><a href="javascript:void(0);">删除</a></span>
+                            <span class="buttom-bc-s" title="保存"><a href="javascript:void(0);">保存</a></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="Setupdiv-center-r">
+                </div>
+            </div>
+            <div class="Setupdiv-bottom">
+                <div class="Setupdiv-bottom-l">
+                </div>
+                <div class="Setupdiv-bottom-b">
+                </div>
+                <div class="Setupdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <div class="dialog-mask hide"></div>
+</body>
+</html>
+<script type="text/javascript" src="$!{templatepath}/js/JS_IPSetting.js"></script>

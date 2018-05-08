@@ -1,0 +1,736 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <style type="text/css">
+        .Yellow, .TeamYellow
+        {
+            color: Gray;
+        }
+        .Green, .TeamGreen
+        {
+            color: Green;
+        }
+        .TeamYellow td input[type='checkbox'], .TeamRed td input[type='checkbox'], .TeamGreen td input[type='checkbox'], .Yellow td input[type='checkbox']
+        {
+            display: none;
+        }
+        .HidChechBox td input[type='checkbox']
+        {
+            display: none;
+        }
+        .selExamItemList li
+        {
+            line-height: 22px;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+        var RegisteDate = "${RegisteDate}"; //登记日期
+        var Register = "${Register}"; //登记人
+        var DisCountRate = "$!{DisCountRate}"; //折扣为0表示没有折扣
+        DisCountRate = (DisCountRate == "" || DisCountRate == 0) ? 10 : DisCountRate;
+        var Base64PhtoStr = "$!{Base64Photo}";
+        var UserID = "$!{UserID}"; //登录人名称
+        var UserName = "$!{UserName}"; //登录人名称
+    </script>
+    <!--团体通用脚本-->
+    <script src="$!{templatepath}/js/JS_TeamSearch.js" type="text/javascript"></script>
+    <!--团体通用脚本-->
+    <script src="$!{templatepath}/js/JS_CustomerCharges.js" type="text/javascript"></script>
+</head>
+<body>
+    <body onload='SetToolMenuXY()' onresize='SetToolMenuXY()'>
+        <div class="fkx-title">
+            <div id="modelTitle" class="fkx-title-bt">
+                收费操作</div>
+            <span class="CurrentTime"></span>
+            <div class="fkx-title-fh">
+                <a href="javascript:void(0);" onclick="LoadDefaultPage();">返回>></a></div>
+        </div>
+        <div class="center">
+            <form id="form1" onkeyup="OnFormKeyUp();">
+            <div style="display: none;">
+                <!--收费项目模版 Begin-->
+                <table id="tblTemplateCustFee">
+                    <tbody>
+                        <tr class="@CustCssStyle" style="mystyle" id="@ID_Fee" id_customer="@ID_Customer"
+                            feename="@FeeName" name="busList" id_fee="@ID_Fee" feechargestaute="@FeeChargeStaute"
+                            is_printed="@Is_Printed" custfeechargestate="@CustFeeChargeState" is_feecharged="@Is_FeeCharged"
+                            is_feerefund="@Is_FeeRefund" id_teamtaskgroup="@ID_TeamTaskGroup" is_examined="@Is_Examined">
+                            <td>
+                                <input name="@ItemCheckbox" type="checkbox">
+                            </td>
+                            <td>
+                                <label name="lblRowNum">
+                                    @RowNum</label>
+                            </td>
+                            <td class="project-align-left" title="@FeeName">
+                                <label name="xmmc" title="@FeeName">
+                                    @FeeName</label>
+                            </td>
+                            <td class="project-align-right">
+                                <label name="yj" class="zkx">
+                                    @Price</label>
+                            </td>
+                            <td class="project-align-right">
+                                <label class="zkx" name="zk">
+                                    @Discount</label>
+                            </td>
+                            <td>
+                                <label name="zkr">
+                                    @DscctName</label>
+                            </td>
+                            <td class="project-align-right">
+                                <label class="zkx" name="sj">
+                                    @FactPrice</label>
+                            </td>
+                            <td>
+                                <label class="sffs" name="fffs">
+                                    @FeeWayName
+                                </label>
+                            </td>
+                            <td>
+                                <label name="sfzt">
+                                    @FeeChargeStaute</label>
+                            </td>
+                            <td>
+                                <label name="sfzt">
+                                    @XFeeChargeStaute</label>
+                            </td>
+                            <td>
+                                <label name="sfr">
+                                    @FeeCharger</label>
+                            </td>
+                            <td>
+                                <label name="sfsj">
+                                    @FeeChargeDate</label>
+                            </td>
+                            <td>
+                                <label name="tfr">
+                                    @FeeRefunderName</label>
+                            </td>
+                            <td>
+                                <label name="tfrq">
+                                    @FeeRefunderDate</label>
+                            </td>
+                            <td>
+                                <label name="jczt">
+                                    @Is_Examined</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--收费项目模版 End-->
+                <!--退费发票绑定模板 Begin-->
+                <table id="tblInvoiceTemplate">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center; border-bottom: #dcdcdc 1px solid; border-top: #dcdcdc 1px solid;
+                                border-right: #dcdcdc 1px solid" class="inputtitle">
+                                @InvoiceName
+                            </td>
+                            <td style="border-bottom: #dcdcdc 1px solid; border-left: #dcdcdc 1px solid; border-top: #dcdcdc 1px solid">
+                                <div style="padding-bottom: 6px; padding-left: 6px; padding-right: 6px; height: 60px;
+                                    overflow: auto; padding-top: 6px">
+                                    <!-- <ul id="showInvoiceList" class="selExamItemList">
+                                    </ul>-->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--退费发票绑定模板 End-->
+                <!--退费发票列表模板 Begin-->
+                <div id="InvoiceTemplate">
+                    <div id="@InvoiceNo">
+                        <span>@InvoiceNo</span><a onclick="DeleteMe(this);" href="javascript:void(0);"></a></div>
+                    <!--
+                    <li id="@InvoiceNo"><a title="删除" onclick="DeleteMe(this);" href="javascript:void(0);">
+                        × </a>@InvoiceNo</li>-->
+                </div>
+                <!--退费发票列表模板 End-->
+                $!{HiddenInputQueryString}
+                <input type="button" class="button80" id="btnPrintReport" value="打印指引单" onclick="return DoPrintReport();"
+                    style="display: none;" />
+                <input type="button" class="button90" id="btnReprintCustomerCredence" value="补打预约凭证"
+                    onclick="return ReprintCustomerCredence();" style="display: none;" />
+            </div>
+            <!-- 快速导航区域 根据不同权限显示不同科室 -->
+            <!--客户信息扫描 Begin-->
+            <div class="oper">
+                <div class="oper-left">
+                </div>
+                <div class="oper-right">
+                </div>
+                <div class="oper-bg1">
+                    <span>体检号：</span> <span class="search">
+                        <input type="text" id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                            maxlength="20" />
+                        <a href="javascript:void(0);" title="查询(F4)" onclick="DoSearchCustomerInfoAndCustFeeInfo();">
+                            </a>
+                    </span>
+                </div>
+                <div class="oper-bg" style="margin-top:-20px">
+                    <span id="btnCharge" class="buttom-sf floatleft" title="收费" style="margin-left: 8px">
+                        <a href="javascript:void(0);" onclick="return Charge();">收费</a></span> <span id="btnUnCharge"
+                            class="buttom-tf floatleft" title="退费" style="margin-left: 8px"><a href="javascript:void(0);"
+                                onclick="return UnCharge();">退费</a></span> <span id="btnRePrintReport" class="buttom-bd floatleft"
+                                    title="补打" style="margin-left: 8px"><a href="javascript:void(0);" onclick="return ReDoPrint();">
+                                        补打</a></span> <span id="btnInvoice" class="buttom-bl floatleft" title="补录"><a href="javascript:void(0);"
+                                            onclick="return LoseInvoiceCharge();">补录</a></span>
+                    <div class="Information-s">
+                        <div class="Information-s-l">
+                        </div>
+                        <div class="Information-s-c">
+                            <a id="bcc" onclick="OpenOrClose(this,'bzz');" style="cursor: pointer">
+                                <label id="lblCustomerName">
+                                </label>
+                            </a>
+                        </div>
+                        <div class="Information-s-r">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--客户浮动个人信息-->
+            <div class="Iperso" id="bzz" style="display: none; top :105px;">
+                <table border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td rowspan="4" class="Iperso-tx">
+                            <img width="70" height="82" id="HeadImg" name="HeadImg" src="$!{templatepath}/images/avatar.jpg" />
+                        </td>
+                        <td colspan="2" align="left">
+                            <span class="Iperso-name">
+                                <label name="lblCustomerName">
+                                </label>
+                            </span><span>
+                                <label id="lblSex">
+                                </label>
+                            </span><span>
+                                <label id="lblAge">
+                                </label>
+                            </span><span>
+                                <label id="lblMarriedName">
+                                </label>
+                            </span>
+                        </td>
+                        <td colspan="2" align="left" class="Iperso-Thm">
+                            <label id="lblID_Customer" name="lblID_Customer">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            电话：
+                        </td>
+                        <td align="left">
+                            <label id="lblTel" name="lblTel">
+                            </label>
+                        </td>
+                        <td width="80" align="right">
+                            体检日期：
+                        </td>
+                        <td align="left">
+                            <label id="lblRegisterDate" name="lblRegisterDate">
+                            </label>
+                            <label style="display: none;" id="lblHideRegisterDate" name="lblHideRegisterDate">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            证件：
+                        </td>
+                        <td align="left">
+                            <label id="lblIDCard" name="lblIDCard">
+                            </label>
+                        </td>
+                        <td width="80" align="right">
+                            体检类型：
+                        </td>
+                        <td align="left">
+                            <label id="lblExamType" name="lblExamType">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50" align="right">
+                            单位：
+                        </td>
+                        <td colspan="3" align="left">
+                            <label id="lblTeamName" name="lblTeamName">
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--客户浮动个人信息 End-->
+
+            <!--客户信息扫描 End-->
+            <!--收费信息 Begin-->
+            <div class="charge other_dynamic_height" style="width: 100%;">
+                <div class="basic-title">
+                    <div class="basic-title-t">
+                        <a href="javascript:void(0);" class="j-hiddenAway j-hiddenAway01" data-hiddenaway="{resize: 'true',state:1,container:'.j-content',joint:'.j-hiddenAway02'}">
+                            收费信息</a></div>
+                    <div class="basic-title-j">
+                        <a class="j-hiddenAway j-hiddenAway02 j-hidden" data-hiddenaway="{resize: 'true',state:1,toggleClass:'j-away',container:'.j-content',joint:'.j-hiddenAway01'}">
+                        </a>
+                    </div>
+                </div>
+                <div class="charge-xx j-content" id="bxx">
+                    <table border="0" cellspacing="0" cellpadding="0" class="stripe" style="width: 100%;">
+                        <tr id="project-center-lb1">
+                            <th>
+                                项目总数
+                            </th>
+                            <th>
+                                原价
+                            </th>
+                            <th>
+                                折后
+                            </th>
+                            <th>
+                                记账
+                            </th>
+                            <th>
+                                退费
+                            </th>
+                            <th>
+                                应收
+                            </th>
+                            <th>
+                                已收
+                            </th>
+                            <th>
+                                待收
+                            </th>
+                            <th>
+                                本次应交
+                            </th>
+                        </tr>
+                        <tr id="divSumHeader">
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                            <td>
+                                --
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!--收费信息 End-->
+            <!--项目明细 Begin-->
+            <div class="project">
+                <div class="basic-title">
+                    <div class="basic-title-t">
+                        <a href="javascript:void(0);">项目明细</a></div>
+                    <div class="basic-title-j">
+                        <!--<a class="j-hiddenAway j-hiddenAway04 j-hidden" data-hiddenaway="{state:1,toggleClass:'j-away',container:'.j-content01',joint:'.j-hiddenAway03',resize:false}"></a>-->
+                    </div>
+                </div>
+                <div class="project-center">
+                    <div>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                            <colgroup>
+                                <col style="width: 35px" />
+                                <col style="width: 35px" />
+                                <col style="width: 16%" />
+                                <col style="width: 6%" />
+                                <col style="width: 4%" />
+                                <col style="width: 5%" />
+                                <col style="width: 6%" />
+                                <col style="width: 7%" />
+                                <col style="width: 4%" />
+                                <col style="width: 4%;" />
+                                <col style="width: 5%" />
+                                <col style="width: 14%" />
+                                <col style="width: 6%" />
+                                <col style="width: 11%" />
+                            </colgroup>
+                            <tr id="project-center-lb1">
+                                <th>
+                                    <input type="checkbox" id="Checkbox2" onclick="CheckAllCustFee(this);" />
+                                </th>
+                                <th>
+                                    序号
+                                </th>
+                                <th>
+                                    项目名称
+                                </th>
+                                <th>
+                                    原价
+                                </th>
+                                <th>
+                                    折扣
+                                </th>
+                                <th>
+                                    折扣人
+                                </th>
+                                <th>
+                                    实价
+                                </th>
+                                <th>
+                                    付款方式
+                                </th>
+                                <th>
+                                    已收
+                                </th>
+                                <th>
+                                    已退
+                                </th>
+                                <th>
+                                    收费人
+                                </th>
+                                <th>
+                                    收费日期
+                                </th>
+                                <th>
+                                    退费人
+                                </th>
+                                <th>
+                                    退费日期
+                                </th>
+                                <th>
+                                    状态
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="j-autoHeight QueryListNoDataTips" id="QueryExamListData" data-extra="8" data-left="286" data-min="300" data-sendarea="true" style="overflow: auto">
+                        <table id="tblTeamTaskGroupFee" width="100%" border="0" cellspacing="0" cellpadding="0"
+                            class="stripe">
+                            <colgroup>
+                                <col style="width: 35px" />
+                                <col style="width: 35px" />
+                                <col style="width: 16%" />
+                                <col style="width: 6%" />
+                                <col style="width: 4%" />
+                                <col style="width: 5%" />
+                                <col style="width: 6%" />
+                                <col style="width: 7%" />
+                                <col style="width: 4%" />
+                                <col style="width: 4%;" />
+                                <col style="width: 5%" />
+                                <col style="width: 14%" />
+                                <col style="width: 6%" />
+                                <col style="width: 11%" />
+                            </colgroup>
+                            <tbody id="Searchresult">
+                                <tr id="loading">
+                                    <td class="msg" style="text-align: center;" colspan="14">
+                                        未检索到任何数据...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--项目明细 End-->
+            <!--收费发票扫描 Begin-->
+            <div class="Invoicesdiv" id="chargeDiv" style="display: none;">
+                <div class="Invoicesdiv-title">
+                    <div class="Invoicesdiv-title-l">
+                    </div>
+                    <div class="Invoicesdiv-title-b">
+                        <div class="Invoicesdiv-title-total chargeDivTitle">
+                            <div class="Invoicesdiv-title-btke">
+                                <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                                <strong>收费发票扫描</strong>
+                            </div>
+                            <div class="Invoicesdiv-title-off">
+                                <a href="javascript:void(0);" onclick="CloseChargeDialog();"></a>
+                            </div>
+                            <div class="Invoicesdiv-title-fenge">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Invoicesdiv-title-r">
+                    </div>
+                </div>
+                <div class="Invoicesdiv-center">
+                    <div class="Invoicesdiv-center-l">
+                    </div>
+                    <div class="Invoicesdiv-center-b">
+                        <table width="265" border="0" cellspacing="0" cellpadding="0" class="Invoicesdiv-center-b-table2">
+                            <tr>
+                                <td width="80" align="right">
+                                    收费项目：
+                                </td>
+                                <td>
+                                    <label id="lblChargeCustFeeCount">
+                                        0</label>
+                                    个
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    原始价格：
+                                </td>
+                                <td>
+                                    <label id="lblChargeFactPrice">
+                                        0.00</label>
+                                    元
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    应交费用：
+                                </td>
+                                <td class="red-x">
+                                    <strong>
+                                        <label id="lblCurChargePrice">
+                                            0.00</label>
+                                        元</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    发票扫描：
+                                </td>
+                                <td>
+                                    <input type="text" name="textfield" id="txtInvoice" onkeyup="OnFormKeyUp();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    发票号：
+                                </td>
+                                <td height="100">
+                                    <div id="showInvoiceList" class="Invoicesdiv-ul">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="Invoicesdiv-center-b-table2-xx">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="Invoicesdiv-center-b-ann">
+                            <span class="buttom-sf" title="交费" style="float: left !important; margin-top: 7px;">
+                                <a href="javascript:void(0);" onclick="ChargeCallback();">交费</a></span> <span class="buttom-qx"
+                                    title="取消"><a href="javascript:void(0);" onclick="CommonShowHideDialog('chargeDiv');">
+                                        取消</a></span>
+                        </div>
+                    </div>
+                    <div class="Invoicesdiv-center-r">
+                    </div>
+                </div>
+                <div class="Invoicesdiv-bottom">
+                    <div class="Invoicesdiv-bottom-l">
+                    </div>
+                    <div class="Invoicesdiv-bottom-b">
+                    </div>
+                    <div class="Invoicesdiv-bottom-r">
+                    </div>
+                </div>
+            </div>
+            <!--收费发票扫描 End-->
+            <!--退费发票扫描 Begin-->
+            <div class="ReInvoicesdiv" id="unChargeDiv" style="display: none;">
+                <div class="ReInvoicesdiv-title">
+                    <div class="ReInvoicesdiv-title-l">
+                    </div>
+                    <div class="ReInvoicesdiv-title-b">
+                        <div class="ReInvoicesdiv-title-total chargeDivTitle">
+                            <div class="ReInvoicesdiv-title-btke">
+                                <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                                <strong>退费发票扫描</strong>
+                            </div>
+                            <div class="ReInvoicesdiv-title-off">
+                                <a href="javascript:void(0);" onclick="CloseUnChargeDialog();"></a>
+                            </div>
+                            <div class="ReInvoicesdiv-title-fenge">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ReInvoicesdiv-title-r">
+                    </div>
+                </div>
+                <div class="ReInvoicesdiv-center">
+                    <div class="ReInvoicesdiv-center-l">
+                    </div>
+                    <div class="ReInvoicesdiv-center-b">
+                        <table width="265" border="0" cellspacing="0" cellpadding="0" class="ReInvoicesdiv-center-b-table2">
+                            <tr>
+                                <td width="80" align="right">
+                                    退费项目：
+                                </td>
+                                <td>
+                                    <label id="lblUnChargeCustFeeCount">
+                                        0</label>
+                                    个
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    发票扫描：
+                                </td>
+                                <td>
+                                    <input type="text" name="textfield" id="txtUnChargeInvoice" onkeyup="OnFormKeyUp();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    发票号：
+                                </td>
+                                <td height="100">
+                                    <div id="showUnChargeInvoiceList" class="ReInvoicesdiv-ul">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    应退金额：
+                                </td>
+                                <td class="red-x">
+                                    <strong>
+                                        <label id="lblCurUnChargePrice">
+                                            0.00</label>元</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    发票金额：
+                                </td>
+                                <td>
+                                    <input type="text" name="textfield" id="txtAllUnChargeInvoiceMoney" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="ReInvoicesdiv-div">
+                                        部分退费：指对已扫描发票总金额中部分金额进行退费；<br />
+                                        全额退费：指对已扫描发票进行全额退费；<br />
+                                        其中部分退费发票总金额必须大于应退金额。</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="ReInvoicesdiv-center-b-table2-xx">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ReInvoicesdiv-center-b-ann">
+                            <span class="buttom-bftf" title="部分退费"><a href="javascript:void(0);" onclick="UnChargeAllCallback(0);">
+                                部分退费</a></span> <span class="buttom-bftf" title="全额退费"><a href="javascript:void(0);"
+                                    onclick="UnChargeAllCallback(1);">全额退费</a></span>
+                        </div>
+                    </div>
+                    <div class="ReInvoicesdiv-center-r">
+                    </div>
+                </div>
+                <div class="ReInvoicesdiv-bottom">
+                    <div class="ReInvoicesdiv-bottom-l">
+                    </div>
+                    <div class="ReInvoicesdiv-bottom-b">
+                    </div>
+                    <div class="ReInvoicesdiv-bottom-r">
+                    </div>
+                </div>
+            </div>
+            <!--退费发票扫描 End-->
+            <!--补录发票 Begin-->
+            <div class="Invoicesdiv InBl" id="loseInvoiceChargeDiv" style="display: none; height: 230px;">
+                <div class="Invoicesdiv-title">
+                    <div class="Invoicesdiv-title-l">
+                    </div>
+                    <div class="Invoicesdiv-title-b">
+                        <div id="ChargeInvoice" class="Invoicesdiv-title-total chargeDivTitle">
+                            <div class="Invoicesdiv-title-btke">
+                                <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                                <strong>发票补录</strong>
+                            </div>
+                            <div class="Invoicesdiv-title-off">
+                                <a href="javascript:void(0);" onclick="CloseLoseInvoiceDialog();"></a>
+                            </div>
+                            <div class="Invoicesdiv-title-fenge">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Invoicesdiv-title-r">
+                    </div>
+                </div>
+                <div class="Invoicesdiv-center InBlC" style="height: 160px;">
+                    <div class="Invoicesdiv-center-l InBlCl" style="height: 160px;">
+                    </div>
+                    <div class="Invoicesdiv-center-b InBlCb" style="height: 160px;">
+                        <table width="265" border="0" cellspacing="0" cellpadding="0" class="Invoicesdiv-center-b-table2">
+                            <tr>
+                                <td width="80" align="right">
+                                    发票扫描：
+                                </td>
+                                <td>
+                                    <input type="text" name="textfield" id="txtLoseInvoice" onkeyup="OnFormKeyUp();" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100" align="right">
+                                    发票号：
+                                </td>
+                                <td height="100">
+                                    <div id="showLoseInvoiceList" class="Invoicesdiv-ul">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="Invoicesdiv-center-b-table2-xx">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="Invoicesdiv-center-b-ann">
+                            <span class="buttom-wc" title="保存" style="float: left !important; margin-top: 7px;">
+                                <a href="javascript:void(0);" onclick="DoLoseInvoiceCharge();">保存</a></span>
+                            <span class="buttom-qx" title="取消"><a href="javascript:void(0);" onclick="CloseLoseInvoiceDialog();">
+                                取消</a></span>
+                        </div>
+                    </div>
+                    <div class="Invoicesdiv-center-r InBlCr" style="height: 160px;">
+                    </div>
+                </div>
+                <div class="Invoicesdiv-bottom">
+                    <div class="Invoicesdiv-bottom-l">
+                    </div>
+                    <div class="Invoicesdiv-bottom-b">
+                    </div>
+                    <div class="Invoicesdiv-bottom-r">
+                    </div>
+                </div>
+            </div>
+            <!--补录发票 End-->
+            </form>
+        </div>
+    </body>
+</html>

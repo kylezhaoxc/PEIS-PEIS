@@ -1,0 +1,411 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;套餐列表 <span style=" font-size:12px; color:666;" id="SetItemCount"></span>
+            </div>
+            <div class="query-area">
+                
+                <div class="query-group">
+                    <label class="query-label">
+                        套餐 :</label>
+                    <div class="query-controls">
+                        <input type="text" class="span150" onfocus="this.select();" 
+                        
+                        onkeydown="if(IsEnterKeyDown() == true) { SetKeywordsSearch();}" 
+                        id="txtSearchSetKeyword" name="txtSearchSetKeyword" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) " onclick="SetKeywordsSearch();" />
+                    </label>
+                </div>
+                <div class="query-group" style="float: right;">
+                    <input id="Button1" type="button" class="button80" onclick="OpenSetItemOperWindow();" value="  新 增  "/>
+                    <input id="Button2" type="button" class="button80" onclick="OpenEditSetItemWindow();" value="  修 改  "/>
+       
+                </div>
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                套餐名称
+                            </td>
+                            <td>
+                                输入码
+                            </td>
+                            <td style="text-align:center;">
+                                男
+                            </td>
+                            <td style="text-align:center;">
+                                女
+                            </td>
+                            <td style="text-align:left;">
+                                创建日期
+                               </td>
+                            <td style="text-align:center;">
+                                禁用
+                            </td>
+                            <td style="text-align:left;">
+                                禁用日期
+                               </td>
+                            <td style="text-align:left;">
+                                禁用描述
+                            </td>
+                            <td style="text-align:center;">
+                                排序号
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                        
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <ul id="Pagination">
+                       
+                    </ul>
+                </div>
+            </div>
+            <div class="widget-title bg_lg widget-title-middle" style="width: 100%; clear: both;">
+                <span style="float:left;" id="SetItemName">
+                &nbsp;套餐明细
+                </span>
+                
+                <span style="float:left; font-weight:normal; font-size:10px;" id="FeeItemCount">
+                </span>
+
+                <span style="float: right; padding-right:40px;">
+                    <input id="Button4" type="button" class="button120" value="  套餐明细管理  " onclick="OpenSetFeeRelOperWindow();" />
+                </span>
+            </div>
+
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                            <td>
+                                <input id="Checkbox11" title="全选" type="hidden" onclick='' /> &nbsp;
+                            </td>
+                            <td>
+                                收费名称
+                            </td>
+                            <td>
+                                隶属科室
+                            </td>
+                            <td>
+                                原始价格
+                            </td>
+                            <td style=" text-align:center;">
+                                男
+                            </td>
+                            <td style=" text-align:center;">
+                                女
+                            </td>
+                            <td style=" text-align:center;">
+                                禁用
+                            </td>
+                            <td style="width:30px; text-align:center;">
+                                早餐顺序
+                            </td>
+                            <td>
+                                输入码
+                            </td>
+                            <td>
+                                标本名称
+                            </td>
+                        </tr>
+                </thead>
+                <tbody id='FeeExamList'>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <table style="display:none;">
+        <tbody id="SetPagesListItemTemplete">
+            <tr onclick="GetFeeListBySet('@PEPackageID');" 
+                ondblclick="OpenEditSetItemWindow();" id="trSet_@PEPackageID" >
+                <td>
+                    <input id="rdi_Set_@PEPackageID" value="@PEPackageID"  title="" type="radio" setname="@PEPackageName" name='SetRadio' />
+                </td>
+                <td id="PEPackageName_@PEPackageID">@PEPackageName</td>
+                <td id="InputCode_@PEPackageID">@InputCode</td>
+                <td style="text-align:center;" id="Forsex01_@PEPackageID">@Forsex01</td>
+                <td style="text-align:center;" id="Forsex00_@PEPackageID">@Forsex00</td>
+                <td style="text-align:left;" id="CreateDate_@PEPackageID">@CreateDate</td>
+                <td style="text-align:center;" id="Is_Banned_@PEPackageID">@Is_Banned</td>
+                <td style="text-align:center;" id="BanDate_@PEPackageID">@BanDate</td>
+                <td style="text-align:left;" id="BanDescribe_@PEPackageID">@BanDescribe</td>
+                <td style="text-align:center;" id="DispOrder_@PEPackageID">@DispOrder</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="FeeListItemTemplete">
+            <tr onclick="SetFeeRadioSelect('@ID_Fee');"
+                ondblclick="OpenSetFeeRelOperWindow();" >
+                <td>
+                    <input id="rdi_Fee_@ID_Fee" type="radio" value="@ID_Fee" name='FeeRadio' />
+                </td>
+                <td id="FeeName_@ID_Fee">@FeeName</td>
+                <td id="SectionName_@ID_Fee">@SectionName</td>
+                <td id="Price_@ID_Fee" style="text-align:right; padding-right:6px;" >@Price</td>
+                <td id="Forsex01_@ID_Fee" style="width:20px; text-align:center;">@Forsex01</td>
+                <td id="Forsex00_@ID_Fee" style="width:20px; text-align:center;">@Forsex00 </td>
+                <td id="Is_Banned_@ID_Fee" style="width:30px; text-align:center;">@Is_Banned </td>
+                <td id="BreakfastOrder_@ID_Fee" style="width:20px; text-align:center;">@BreakfastOrder</td>
+                <td id="FeeInputCode_@ID_Fee">@InputCode</td>
+                <td id="SpecimenName_@ID_Fee">@SpecimenName</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <table style="display:none;">
+    <tbody id="SectionQuickQueryTableTemplete">
+        <tr onclick="SetSectionChecked('@ID_Section')">
+            <td>
+            <input type="radio" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                value="@ID_Section"
+                SectionName="@SectionName"  />
+            </td>
+            <td>@SectionName</td>
+            <td>@InputCode</td>
+        </tr>
+    </tbody>
+    <tbody id="EmptySectionQuickQueryDataTemplete">
+        <tr>
+            <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+        </tr>
+    </tbody>
+        
+        
+    </table>
+    <div id="SecectedSectionLableTemplete" style="display:none;">
+    <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedSection();"> × </a> @SectionName 
+    </div>
+
+</body>
+</html>
+
+
+
+
+    <script type="text/javascript">
+
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary>
+        /// 按照关键字搜索
+        /// </summary>
+        function SetKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var SearchSetKeyword = jQuery('#txtSearchSetKeyword').val();      // 检查项目关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchSetKeyword: SearchSetKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchSetList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#SetItemCount").html(" 【共有 " + msg.totalCount + " 个套餐】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SetPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            newcontent += templateContent
+                                        .replace(/@PEPackageID/gi, item.PEPackageID)
+                                        .replace(/@PEPackageName/gi, item.PEPackageName)
+                                        .replace(/@InputCode/gi, item.InputCode)
+                                        .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                                        .replace(/@BanDate/gi,  item.Is_Banned == 'True' ? item.BanDate:' ')
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@CreateDate/gi, item.CreateDate)
+                                        .replace(/@DispOrder/gi, item.DispOrder)
+                                        .replace(/@BanDescribe/gi, item.Is_Banned == 'True' ? item.BanDescribe:' ');
+
+                            // 记录第一个收费项目的ID
+                            if (tempFirstItemID == 0) {
+                                tempFirstItemID = item.PEPackageID;
+                            }
+
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+
+                            // 自动读取第一行对应的套餐的收费项目
+                            if (tempFirstItemID != 0) { GetFeeListBySet(tempFirstItemID); }
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#SetItemCount").html(" 【共有 0 个套餐】");
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 获取修改或新增的单条套餐的数据
+        /// </summary>
+        function GetSingleBusSet(PEPackageID, type) {
+            
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { PEPackageID: PEPackageID,
+                    action: 'GetSingleBusSet',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+
+                        var templateContent = jQuery('#SetPagesListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        var Forsex01 = ""; // 男性是否选中
+                        var Forsex00 = ""; // 女性是否选中
+                        var tempFirstItemID = 0;  // 记录第一个数据的ID
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (item.Forsex == '2') {
+                                Forsex01 = "√";
+                                Forsex00 = "√";
+                            } else if (item.Forsex == '1') {
+                                Forsex01 = "√";
+                                Forsex00 = "-";
+                            } else {
+                                Forsex01 = "-";
+                                Forsex00 = "√";
+                            }
+
+                            if (type == "edit") {
+                                jQuery("#PEPackageName_" + item.PEPackageID).html(item.PEPackageName);
+                                jQuery("#Forsex00_" + item.PEPackageID).html(Forsex00);
+                                jQuery("#Forsex01_" + item.PEPackageID).html(Forsex01);
+                                jQuery("#InputCode_" + item.PEPackageID).html(item.InputCode);
+                                jQuery("#Is_Banned_" + item.PEPackageID).html(item.Is_Banned == 'True' ? '√' : '');
+
+                                jQuery("#BanDate_" + item.PEPackageID).html(item.Is_Banned == 'True' ? item.BanDate : ' ');
+                                jQuery("#CreateDate_" + item.PEPackageID).html(item.CreateDate);
+                                jQuery("#DispOrder_" + item.PEPackageID).html(item.DispOrder);
+                                jQuery("#InputCode_" + item.PEPackageID).html(item.InputCode);
+                                jQuery("#BanDescribe_" + item.PEPackageID).html(item.Is_Banned == 'True' ? item.BanDescribe : ' ');
+
+                            } else {
+
+                                newcontent +=
+                                     templateContent.replace(/@PEPackageID/gi, item.PEPackageID)
+                                        .replace(/@PEPackageName/gi, item.PEPackageName)
+                                        .replace(/@InputCode/gi, item.InputCode)
+                                        .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                                        .replace(/@BanDate/gi, item.Is_Banned == 'True'?item.BanDate:"")
+                                        .replace(/@Forsex00/gi, Forsex00)
+                                        .replace(/@Forsex01/gi, Forsex01)
+                                        .replace(/@CreateDate/gi, item.CreateDate)
+                                        .replace(/@DispOrder/gi, item.DispOrder)
+                                        .replace(/@BanDescribe/gi, item.Is_Banned == 'True'?item.BanDescribe:' ');
+                                     
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                }
+            });
+        }
+
+
+    </script>
+

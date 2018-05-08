@@ -1,0 +1,153 @@
+body,html
+{
+	margin:0 auto;
+	padding:0px;
+	text-align:center;
+}
+html
+{
+	background:url(../images/login-bg.jpg) top center no-repeat;
+	background-color:#f9efe4;
+	}
+.checkbox,.checkbox input
+{
+	cursor:pointer;
+	}
+.checkbox input
+{
+	vertical-align:-3px;
+	}
+.login
+{
+	width:1000px;
+	overflow:hidden;
+	margin:0 auto;
+	font-size:12px;
+	}
+.login-logo
+{
+	width:1000px;
+	height:66px;
+	background:url(../images/login-logo.png) center no-repeat;
+	}
+.login-box
+{
+	width:302px;
+	height:200px;
+	margin:0 auto;
+	margin-top:200px;
+	}
+.login-box-user
+{
+	width:300px;
+	height:42px;
+	}
+.login-box-password
+{
+	width:300px;
+	height:42px;
+	margin-top:20px;
+	}
+.login-box-keep
+{
+	width:300px;
+	height:53px;
+	line-height:53px;
+	color:#aaa;
+	}
+.login-box-button
+{
+	width:300px;
+	height:40px;
+	line-height:40px;
+	background:#ff8400;
+	}
+.login-box-button:hover
+{
+	cursor:pointer;
+	background:#ff6600;
+	}
+.login-box-button a
+{
+	color:#fff;
+	font-size:14px;
+	font-family:"微软雅黑";
+	text-decoration:none;
+	}
+.login-box-keep-left
+{
+	float:left;
+	}
+.login-box-keep-right
+{
+	float:right;
+	}
+.login-box-keep-right a
+{
+	color:#aaa;
+	}
+.login-box-keep-right a:hover
+{
+	color:#00a2c9;
+	}
+.login-user-icon
+{
+	width:42px;
+	height:42px;
+	float:left;
+	background:url(../images/login-icon.jpg) top center no-repeat;
+	}
+.login-password-icon
+{
+	width:42px;
+	height:42px;
+	float:left;
+	background:url(../images/login-icon.jpg) bottom center no-repeat;
+	}
+.login-user-input,.login-password-input
+{
+	width:258px;
+	height:42px;
+	float:left;
+	}
+.login-user-input input,.login-password-input input
+{
+	width:252px;
+	height:38px;
+	line-height:normal;
+	line-height:38px\9;
+	color:#b4b4b4;
+	padding-left:5px;
+	border-left:none;
+	background:#FFF;
+	border:1px solid #00a2c9;
+	}
+.login-Copyright
+{
+	width:1000px;
+	height:30px;
+	line-height:30px;
+	color:#777;
+	position:absolute;
+	bottom:0px;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

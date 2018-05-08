@@ -1,0 +1,147 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <meta charset="UTF-8" />
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            
+            <div class="widget-title bg_lg widget-title-middle" style="width: 100%; clear: both;">
+                <span style="float:left;" id="SetItemName">
+                &nbsp;串口参数配置
+                </span>
+                
+                <span style="float: right; padding-right:40px;">
+                    <input id="Button4" type="button" class="button120" value="  保存参数  " onclick="SetComConfig();" />
+                </span>
+                <span id="showmsg" style=" font-size:12px; color:Red; float: right;  padding-right:40px;">
+                    
+                </span>
+            </div>
+            <input type="hidden" name="SaveComConfigUserInfo" id="SaveComConfigUserInfo" value="" />
+            <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1" style="width: 100%;">
+                <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                            <td>
+                                项目名称
+                            </td>
+                            <td>
+                                端口号
+                            </td>
+                            <td>
+                                波特率
+                            </td>
+                            <td>
+                                数据位
+                            </td>
+                            <td>
+                                校验位
+                            </td>
+                            <td>
+                                停止位
+                            </td>
+                        </tr>
+                        
+                </thead>
+                <tbody>
+                    
+                        <tr>
+                            <td>
+                                测血压
+                            </td>
+                            <td>
+                                <input name="PortNumber01" id="PortNumber01" value="COM1" class="width100" />
+                            </td>
+                            <td>
+                                <input name="Baudrate01" id="Baudrate01" value="1200" class="width100" />
+                            </td>
+                            <td>
+                                <input name="DataBit01" id="DataBit01" value="8" class="width100" />
+                            </td>
+                            <td>
+                                <input name="CheckBit01" id="CheckBit01" value="2" class="width100" />
+                            </td>
+                            <td>
+                                <input name="StopBit01" id="StopBit01" value="2" class="width100" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                测身高体重
+                            </td>
+                            <td>
+                                <input name="PortNumber02" id="PortNumber02" value="COM2" class="width100" />
+                            </td>
+                            <td>
+                                <input name="Baudrate02" id="Baudrate02" value="9600" class="width100" />
+                            </td>
+                            <td>
+                                <input name="DataBit02" id="DataBit02" value="8" class="width100" />
+                            </td>
+                            <td>
+                                <input name="CheckBit02" id="CheckBit02" value="1" class="width100" />
+                            </td>
+                            <td>
+                                <input name="StopBit02" id="StopBit02" value="2" class="width100" />
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script language="javascript" type="text/javascript">
+
+
+        jQuery(document).ready(function () {
+            GetComConfig();
+        });
+        // 获取保存的参数
+        function GetComConfig() {
+            var PortNumber01 = GetCookie('PortNumber01');
+            if (PortNumber01 == undefined || PortNumber01 == null || PortNumber01 == "") {
+                jQuery("#showmsg").html("当前为初始值，请根据实际情况修改！");
+                return;
+            }
+            jQuery("#PortNumber01").val(GetCookie('PortNumber01'));       // 血压 端口号
+            jQuery("#Baudrate01").val(GetCookie('Baudrate01'));           // 血压 波特率
+            jQuery("#DataBit01").val(GetCookie('DataBit01'));             // 血压 数据位
+            jQuery("#CheckBit01").val(GetCookie('CheckBit01'));           // 血压 校验位
+            jQuery("#StopBit01").val(GetCookie('StopBit01'));             // 血压 停止位
+
+            jQuery("#PortNumber02").val(GetCookie('PortNumber02'));       // 身高体重 端口号
+            jQuery("#Baudrate02").val(GetCookie('Baudrate02'));           // 身高体重 波特率
+            jQuery("#DataBit02").val(GetCookie('DataBit02'));             // 身高体重 数据位
+            jQuery("#CheckBit02").val(GetCookie('CheckBit02'));           // 身高体重 校验位
+            jQuery("#StopBit02").val(GetCookie('StopBit02'));             // 身高体重 停止位
+
+            jQuery("#SaveComConfigUserInfo").val(GetCookie('SaveComConfigUserInfo'));             // 保存人信息
+        }
+        
+        //设置保存的参数
+        function SetComConfig() {
+            SetCookie('PortNumber01', jQuery("#PortNumber01").val());       // 血压 端口号
+            SetCookie('Baudrate01', jQuery("#Baudrate01").val());           // 血压 波特率
+            SetCookie('DataBit01', jQuery("#DataBit01").val());             // 血压 数据位
+            SetCookie('CheckBit01', jQuery("#CheckBit01").val());           // 血压 校验位
+            SetCookie('StopBit01', jQuery("#StopBit01").val());             // 血压 停止位
+
+            SetCookie('PortNumber02', jQuery("#PortNumber02").val());       // 身高体重 端口号
+            SetCookie('Baudrate02', jQuery("#Baudrate02").val());           // 身高体重 波特率
+            SetCookie('DataBit02', jQuery("#DataBit02").val());             // 身高体重 数据位
+            SetCookie('CheckBit02', jQuery("#CheckBit02").val());           // 身高体重 校验位
+            SetCookie('StopBit02', jQuery("#StopBit02").val());             // 身高体重 停止位
+            var strSetUser = jQuery("#CookieUserName").val() +"|"+jQuery("#CookieLoginName").val() +"|"+jQuery("#CookieUserID").val() ;
+            SetCookie('SaveComConfigUserInfo', strSetUser);             // 保存参数的操作人员信息
+
+            ShowSystemDialog("保存参数成功");
+        }
+
+    </script>
+
+</body>
+</html>
+

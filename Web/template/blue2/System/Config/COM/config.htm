@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>数据字典-串口参数配置</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_ExamPlace.js"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span style="font-size: 14px; font-weight: bold;">串口参数配置</span> 
+            </div>
+            <div class="oper-bg">
+            <span style="float: right;
+                    padding-right: 20px; padding-top: 8px;">
+                    <input type="button" class="btn-bc-s  btn-common button65" id="ButSave" onclick="SetComConfig();"
+                        value="保存" />
+                </span>
+            <span id="showmsg" style="font-size: 12px; color: Red; float: right; padding-right: 40px;">
+                </span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <tr id="project-center-lb1-list">
+                        </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 15%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 6%" />
+                            <col style="width: 8%" />
+                            <col style="width: 11%" />
+                        </colgroup>
+                        <tr>
+                            <th>
+                                项目名称
+                            </th>
+                            <th>
+                                端口号
+                            </th>
+                            <th>
+                                波特率
+                            </th>
+                            <th>
+                                数据位
+                            </th>
+                            <th>
+                                校验位
+                            </th>
+                            <th>
+                                停止位
+                            </th>
+                            <th>
+                                解析规则
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight com-config-param" data-left="400"
+                    data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 15%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 6%" />
+                            <col style="width: 8%" />
+                            <col style="width: 11%" />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    测血压
+                                </td>
+                                <td>
+                                    <select name="PortNumber01" id="PortNumber01" class="width60">
+                                        <option value="COM1">COM1</option>
+                                        <option value="COM2">COM2</option>
+                                        <option value="COM3">COM3</option>
+                                        <option value="COM4">COM4</option>
+                                        <option value="COM5">COM5</option>
+                                        <option value="COM6">COM6</option>
+                                    </select>
+                                </td>
+                                <td>
+                                <select name="Baudrate01" id="Baudrate01" class="width70">
+                                    <option value="75">75</option>
+                                    <option value="110">110</option>
+                                    <option value="150">150</option>
+                                    <option value="300">300</option>
+                                    <option value="600">600</option>
+                                    <option value="1200">1200</option>
+                                    <option value="2400">2400</option>
+                                    <option value="4800">4800</option>
+                                    <option value="9600">9600</option>
+                                    <option value="14400">14400</option>
+                                    <option value="19200">19200</option>
+                                    <option value="28800">28800</option>
+                                    <option value="38400">38400</option>
+                                    <option value="56000">56000</option>
+                                    <option value="57600">57600</option>
+                                    <option value="115200">115200</option>
+                                    <option value="128000">128000</option>
+                                    <option value="230400">230400</option>
+                                    <option value="256000">256000</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="DataBit01" id="DataBit01" class="width40">
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="CheckBit01" id="CheckBit01" class="width60">
+                                        <option value="0">None</option>
+                                        <option value="1">Odd</option>
+                                        <option value="2">Even</option>
+                                        <option value="3">Mark</option>
+                                        <option value="4">Space</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="StopBit01" id="StopBit01" class="width100">
+                                        <option value="0">None</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">OnePointFive</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input name="DataAnalysisParams01" id="DataAnalysisParams01" value="12-3;15-3;18-3"
+                                        class="width350" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    测身高体重
+                                </td>
+                                <td>
+                                    <select name="PortNumber02" id="PortNumber02" class="width60">
+                                        <option value="COM1">COM1</option>
+                                        <option value="COM2">COM2</option>
+                                        <option value="COM3">COM3</option>
+                                        <option value="COM4">COM4</option>
+                                        <option value="COM5">COM5</option>
+                                        <option value="COM6">COM6</option>
+                                    </select>
+                                </td>
+                                <td>
+                                <select name="Baudrate02" id="Baudrate02" class="width70">
+                                    <option value="75">75</option>
+                                    <option value="110">110</option>
+                                    <option value="150">150</option>
+                                    <option value="300">300</option>
+                                    <option value="600">600</option>
+                                    <option value="1200">1200</option>
+                                    <option value="2400">2400</option>
+                                    <option value="4800">4800</option>
+                                    <option value="9600">9600</option>
+                                    <option value="14400">14400</option>
+                                    <option value="19200">19200</option>
+                                    <option value="28800">28800</option>
+                                    <option value="38400">38400</option>
+                                    <option value="56000">56000</option>
+                                    <option value="57600">57600</option>
+                                    <option value="115200">115200</option>
+                                    <option value="128000">128000</option>
+                                    <option value="230400">230400</option>
+                                    <option value="256000">256000</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="DataBit02" id="DataBit02" class="width40">
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="CheckBit02" id="CheckBit02" class="width60">
+                                        <option value="0">None</option>
+                                        <option value="1">Odd</option>
+                                        <option value="2">Even</option>
+                                        <option value="3">Mark</option>
+                                        <option value="4">Space</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="StopBit02" id="StopBit02" class="width100">
+                                        <option value="0">None</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">OnePointFive</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input name="DataAnalysisParams02" id="DataAnalysisParams02" value="2-6;14-6;26-6"
+                                        class="width350" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script language="javascript" type="text/javascript">
+
+
+        jQuery(document).ready(function () {
+
+
+            jQuery("#QueryExamListData").attr("data-left", (268 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            GetComConfig();
+        });
+        // 获取保存的参数
+        function GetComConfig() {
+
+            var params01 = "";
+            var params02 = "";
+            try {
+                params01 = ComReadObject.GetCOMConfigParams("1");
+                params02 = ComReadObject.GetCOMConfigParams("2");
+            } catch (e) {
+                return;
+            }
+
+            var paramsArray01 = params01.split("|");
+            var paramsArray02 = params02.split("|");
+            
+            if (paramsArray01.length > 5) {
+                jQuery("#PortNumber01").val(paramsArray01[0]);          // 血压 端口号
+                jQuery("#Baudrate01").val(paramsArray01[1]);            // 血压 波特率
+                jQuery("#DataBit01").val(paramsArray01[2]);             // 血压 数据位
+                jQuery("#CheckBit01").val(paramsArray01[3]);            // 血压 校验位
+                jQuery("#StopBit01").val(paramsArray01[4]);             // 血压 停止位
+                jQuery("#DataAnalysisParams01").val(paramsArray01[5]);  // 血压 数据解析方式
+            }
+
+
+            if (paramsArray02.length > 5) {
+                jQuery("#PortNumber02").val(paramsArray02[0]);          // 身高体重 端口号
+                jQuery("#Baudrate02").val(paramsArray02[1]);            // 身高体重 波特率
+                jQuery("#DataBit02").val(paramsArray02[2]);             // 身高体重 数据位
+                jQuery("#CheckBit02").val(paramsArray02[3]);            // 身高体重 校验位
+                jQuery("#StopBit02").val(paramsArray02[4]);             // 身高体重 停止位
+                jQuery("#DataAnalysisParams02").val(paramsArray02[5]);  // 身高体重 数据解析方式
+            }
+        }
+
+        //设置保存的参数
+        function SetComConfig() {
+            
+            var PortNumber01 = jQuery("#PortNumber01").val();       // 血压 端口号
+            var Baudrate01 = jQuery("#Baudrate01").val();           // 血压 波特率
+            var DataBit01 = jQuery("#DataBit01").val();             // 血压 数据位
+            var CheckBit01 = jQuery("#CheckBit01").val();           // 血压 校验位
+            var StopBit01 = jQuery("#StopBit01").val();             // 血压 停止位
+            var DataAnalysisParams01 = jQuery("#DataAnalysisParams01").val(); // 血压 数据解析方式
+
+            var PortNumber02 = jQuery("#PortNumber02").val();       // 身高体重 端口号
+            var Baudrate02 = jQuery("#Baudrate02").val();           // 身高体重 波特率
+            var DataBit02 = jQuery("#DataBit02").val();             // 身高体重 数据位
+            var CheckBit02 = jQuery("#CheckBit02").val();           // 身高体重 校验位
+            var StopBit02 = jQuery("#StopBit02").val();             // 身高体重 停止位
+            var DataAnalysisParams02 = jQuery("#DataAnalysisParams02").val(); // 身高体重 数据解析方式
+
+            if (jQuery.trim(DataAnalysisParams01) == "") {
+                ShowCallBackSystemDialog("请输入[测血压]数据解析方式!", "DataAnalysisParams01");
+                return;
+            }
+            if (jQuery.trim(DataAnalysisParams02) == "") {
+                ShowCallBackSystemDialog("请输入[测身高体重]数据解析方式!", "DataAnalysisParams02");
+                return;
+            }
+            try {
+                var strConfigParam01 = PortNumber01 + "|" + Baudrate01 + "|" + DataBit01 + "|" + CheckBit01 + "|" + StopBit01 + "|" + DataAnalysisParams01;
+                var ret01 = ComReadObject.SaveRecvedDate(1, strConfigParam01);
+
+                var strConfigParam02 = PortNumber02 + "|" + Baudrate02 + "|" + DataBit02 + "|" + CheckBit02 + "|" + StopBit02 + "|" + DataAnalysisParams02;
+                var ret02 = ComReadObject.SaveRecvedDate(2, strConfigParam02);
+                if (strConfigParam01 == ret01 && strConfigParam02 == ret02) {
+                    ShowSystemDialog("保存参数成功！");
+                } else {
+                    ShowSystemDialog("保存参数失败，请重新保存！");
+                }
+            } catch (e) {
+                ShowSystemDialog("保存参数失败，请检查接口程序安装是否正确！");
+            }
+        }
+
+    </script>
+</body>
+</html>

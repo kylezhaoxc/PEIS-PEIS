@@ -1,0 +1,372 @@
+using System;
+
+namespace PEIS.Model
+{
+	[Serializable]
+	public class BusFee
+	{
+		private int _id_fee;
+
+		private int? _id_section;
+
+		private int? _id_specimen;
+
+		private string _feename;
+
+		private int? _forgender;
+
+		private string _reportfeename;
+
+		private string _feecode;
+
+		private decimal? _price;
+
+		private string _inputcode;
+
+		private string _sectionname;
+
+		private string _specimenname;
+
+		private string _workgroupcode;
+
+		private string _workstationcode;
+
+		private string _workbenchcode;
+
+		private DateTime? _createdate;
+
+		private bool? _is_banned;
+
+		private int? _id_banopr;
+
+		private string _bandescribe;
+
+		private int? _disporder;
+
+		private string _note;
+
+		private int? _breakfastorder;
+
+		private bool? _is_feenonprintinreport = new bool?(false);
+
+		private string _interfacename;
+
+		private bool? _is_feereportmerger;
+
+		private int? _id_feereportmerger;
+
+		private string _operationaldate;
+
+		public int ID_Fee
+		{
+			get
+			{
+				return this._id_fee;
+			}
+			set
+			{
+				this._id_fee = value;
+			}
+		}
+
+		public int? ID_Section
+		{
+			get
+			{
+				return this._id_section;
+			}
+			set
+			{
+				this._id_section = value;
+			}
+		}
+
+		public int? ID_Specimen
+		{
+			get
+			{
+				return this._id_specimen;
+			}
+			set
+			{
+				this._id_specimen = value;
+			}
+		}
+
+		public string FeeName
+		{
+			get
+			{
+				return this._feename;
+			}
+			set
+			{
+				this._feename = value;
+			}
+		}
+
+		public int? Forsex
+		{
+			get
+			{
+				return this._forgender;
+			}
+			set
+			{
+				this._forgender = value;
+			}
+		}
+
+		public string ReportFeeName
+		{
+			get
+			{
+				return this._reportfeename;
+			}
+			set
+			{
+				this._reportfeename = value;
+			}
+		}
+
+		public string FeeCode
+		{
+			get
+			{
+				return this._feecode;
+			}
+			set
+			{
+				this._feecode = value;
+			}
+		}
+
+		public decimal? Price
+		{
+			get
+			{
+				return this._price;
+			}
+			set
+			{
+				this._price = value;
+			}
+		}
+
+		public string InputCode
+		{
+			get
+			{
+				return this._inputcode;
+			}
+			set
+			{
+				this._inputcode = value;
+			}
+		}
+
+		public string SectionName
+		{
+			get
+			{
+				return this._sectionname;
+			}
+			set
+			{
+				this._sectionname = value;
+			}
+		}
+
+		public string SpecimenName
+		{
+			get
+			{
+				return this._specimenname;
+			}
+			set
+			{
+				this._specimenname = value;
+			}
+		}
+
+		public string WorkGroupCode
+		{
+			get
+			{
+				return this._workgroupcode;
+			}
+			set
+			{
+				this._workgroupcode = value;
+			}
+		}
+
+		public string WorkStationCode
+		{
+			get
+			{
+				return this._workstationcode;
+			}
+			set
+			{
+				this._workstationcode = value;
+			}
+		}
+
+		public string WorkBenchCode
+		{
+			get
+			{
+				return this._workbenchcode;
+			}
+			set
+			{
+				this._workbenchcode = value;
+			}
+		}
+
+		public DateTime? CreateDate
+		{
+			get
+			{
+				return this._createdate;
+			}
+			set
+			{
+				this._createdate = value;
+			}
+		}
+
+		public bool? Is_Banned
+		{
+			get
+			{
+				return this._is_banned;
+			}
+			set
+			{
+				this._is_banned = value;
+			}
+		}
+
+		public int? ID_BanOpr
+		{
+			get
+			{
+				return this._id_banopr;
+			}
+			set
+			{
+				this._id_banopr = value;
+			}
+		}
+
+		public string BanDescribe
+		{
+			get
+			{
+				return this._bandescribe;
+			}
+			set
+			{
+				this._bandescribe = value;
+			}
+		}
+
+		public int? DispOrder
+		{
+			get
+			{
+				return this._disporder;
+			}
+			set
+			{
+				this._disporder = value;
+			}
+		}
+
+		public string Note
+		{
+			get
+			{
+				return this._note;
+			}
+			set
+			{
+				this._note = value;
+			}
+		}
+
+		public int? BreakfastOrder
+		{
+			get
+			{
+				return this._breakfastorder;
+			}
+			set
+			{
+				this._breakfastorder = value;
+			}
+		}
+
+		public bool? Is_FeeNonPrintInReport
+		{
+			get
+			{
+				return this._is_feenonprintinreport;
+			}
+			set
+			{
+				this._is_feenonprintinreport = value;
+			}
+		}
+
+		public string InterfaceName
+		{
+			get
+			{
+				return this._interfacename;
+			}
+			set
+			{
+				this._interfacename = value;
+			}
+		}
+
+		public bool? IS_FeeReportMerger
+		{
+			get
+			{
+				return this._is_feereportmerger;
+			}
+			set
+			{
+				this._is_feereportmerger = value;
+			}
+		}
+
+		public int? ID_FeeReportMerger
+		{
+			get
+			{
+				return this._id_feereportmerger;
+			}
+			set
+			{
+				this._id_feereportmerger = value;
+			}
+		}
+
+		public string OperationalDate
+		{
+			get
+			{
+				return this._operationaldate;
+			}
+			set
+			{
+				this._operationaldate = value;
+			}
+		}
+	}
+}

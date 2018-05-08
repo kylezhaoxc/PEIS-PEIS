@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>结论词类型维护</title>
+
+    <link   rel="stylesheet" href="$!{templatepath}/css/style.css" />
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+
+</head>
+
+<body>
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 结论词类型ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_ConclusionType" id="ID_ConclusionType" value="$!{ID_ConclusionType}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    <input type="hidden" name="txtIs_Banned" id="txtIs_Banned" value="$!{Is_Banned}" />
+    
+
+
+    <div class="Conclusiontypediv">
+	    <div class="Conclusiontypediv-title">
+    	    <div class="Conclusiontypediv-title-l"></div>
+    	    <div class="Conclusiontypediv-title-b">
+        	    <div class="Conclusiontypediv-title-total">
+                    <div class="Conclusiontypediv-title-btke">
+                        <img src="images/list-icon.png" width="17" height="13" />
+                        <strong>结论词类型维护</strong>
+                    </div>
+                    <div class="Conclusiontypediv-title-off"><a href="#" ></a></div>
+                    <div class="Conclusiontypediv-title-fenge"></div>
+                </div>
+            </div>
+    	    <div class="Conclusiontypediv-title-r"></div>
+        </div>
+	    <div class="Conclusiontypediv-center">
+    	    <div class="Conclusiontypediv-center-l"></div>
+    	    <div class="Conclusiontypediv-center-b">
+			    <table width="360" border="0" cellspacing="0" cellpadding="0" class="Conclusiontypediv-center-b-table1">
+                  <tr>
+                    <td width="80" align="right">类型名称：</td>
+                    <td colspan="3"><input type="text" name="txtConclusionTypeName" id="txtConclusionTypeName" maxlength="25" value="$!{ConclusionTypeName}" /></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                	    <table width="360" border="0" cellspacing="0" cellpadding="0">
+                    	    <tr>
+                                <td width="80" align="right">禁用：</td>
+                                <td align="left"><input name="" type="checkbox" value="" style="width:15px;" /></td>
+                                <td width="60" align="right">禁用人：</td>
+                                <td align="left">陈小兵</td>
+                                <td width="70" align="right">禁用时间：</td>
+                                <td align="left">2013-12-02</td>
+                            </tr>
+                        </table>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td width="80" align="right" valign="top">禁用说明：</td>
+                    <td colspan="3"><textarea cols="" rows="2" name="txtBanDescribe" id="txtBanDescribe">$!{BanDescribe}</textarea></td>
+                  </tr>
+                  <tr>
+                    <td width="80" align="right">创建人：</td>
+                    <td align="left">张晓偶</td>
+                    <td width="160" align="right">创建时间：</td>
+                    <td align="left">2013-12-02</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"><div class="Conclusiontypediv-center-b-table1-xx"></div></td>
+                  </tr>
+                </table>
+			    <div class="Conclusiontypediv-center-b-ann">
+                    <span class="buttom-bcbgb" id="btnSaveclose" onclick="AutoCloseDialogWindow('True');SaveConclusionTypeInfo();"  title="保存并关闭"><a href="javascript:void(0);">保存并关闭</a></span>
+                    <span class="buttom-bcbjx" id="btnSave" onclick="AutoCloseDialogWindow('False');SaveConclusionTypeInfo();" title="保存并继续"><a href="javascript:void(0);">保存并继续</a></span>
+                </div>
+            </div>
+    	    <div class="Conclusiontypediv-center-r"></div>
+        </div>
+	    <div class="Conclusiontypediv-bottom">
+    	    <div class="Conclusiontypediv-bottom-l"></div>
+    	    <div class="Conclusiontypediv-bottom-b"></div>
+    	    <div class="Conclusiontypediv-bottom-r"></div>
+        </div>
+    </div>
+
+</body>
+
+
+<script language="javascript" type="text/javascript">
+
+    /// <summary> 
+    /// 点击选中对应样本分类的单选按钮（快速选择列表）
+    /// </summary>
+    function SetConclusionTypeTypeChecked(ID_ConclusionTypeType) {
+        jQuery("#chkConclusionTypeType_" + ID_ConclusionTypeType).attr("checked", jQuery("#chkConclusionTypeType_" + ID_ConclusionTypeType).attr("checked"));
+    }
+
+
+    jQuery(document).ready(function () {
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+
+        // 科室编辑操作时，初始化页面数据
+        InitConclusionTypeEditData();
+    });
+
+
+</script>
+
+
+</html>

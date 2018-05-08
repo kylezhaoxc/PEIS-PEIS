@@ -1,0 +1,976 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>登记预约查询列表 </title>
+    <script type="text/javascript" language="javascript">
+        /************************该页面为预约登记列表页公用脚本******************************/
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;                           //总页数
+        var tempOldtotalCount = 0;                           //初始总页数，用于判断是否更新页码  
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        /// <summary>
+        /// 设置表横向滚动 
+        /// </summary>
+        function TableScrollByID(titleID, scrollID) {
+            var scrollControl = jQuery("#" + scrollID);
+            if (scrollControl.length > 0) {
+                var widthLeft = scrollControl.width() - scrollControl[0].clientWidth;
+                if (widthLeft > 0) {
+                    var scrollTitle = jQuery("#" + titleID);
+                    scrollTitle.css("width", scrollTitle.width() + widthLeft);
+                }
+                scrollControl.bind("scroll.j-control", function () {
+                    var left = jQuery(this).scrollLeft();
+                    jQuery("#" + titleID).css("margin-left", 0 - left);
+                });
+            }
+        }
+
+        jQuery(document).ready(function () {
+            //SwitchHeader(1); // 显示通用头部 xmhuang 2014-08-21
+            jQuery("#customerScrollControl").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+            TableScrollByID("customerScrollTitle", "customerScrollControl"); //设置横向滚动条
+            jQuery("#txtSFZ").focus();
+            ResetSearchInfo("");
+        });
+
+        function CheckAllCustomer(obj, ShowDataElementID) {
+            jQuery("#" + ShowDataElementID + " tbody tr td input[name='ItemCheckbox']").each(function () {
+                jQuery(this).attr('checked', obj.checked);
+            })
+        }
+
+        /// <summary>
+        /// 重置检索无结果显示的信息
+        /// </summary>
+        function ResetSearchInfo(msgInfo) {
+            if (msgInfo == "" || msgInfo == undefined) {
+                msgInfo = "点击导入名单按钮,按照提示即可进行网上预约数据导入！";
+            }
+            var html = "<tr name='msg'><td class='msg' colSpan='160'>" + msgInfo + "</td></tr>";
+            jQuery('#Searchresult').html(html); //设置无数据检索时显示提示信息
+            SetTableRowStyle();
+            jQuery("#Pagination").hide(); //隐藏分页控件
+        }
+        ///重置序号
+        function ResetRowNum(elementID) {
+            var RowNum = 1;
+            jQuery("#" + elementID + " tbody tr td label[name='lblRowNum'").each(function () {
+                jQuery(this).text(RowNum);
+                RowNum++;
+            });
+        }
+        function CloseCurDialogWindow() {
+            if (art.dialog.get('OperWindowFrame') != undefined) {
+                art.dialog.get('OperWindowFrame').close();
+            }
+        }
+        /// <summary>
+        /// 清除名单(未生成体检号的客户名单)
+        /// </summary>
+        function ResetCustomer() {
+            //判断是否为空
+            if (jQuery("#tblTeamTaskGroupCustomerX tbody tr td input[type='checkbox'][name='ItemCheckbox']:checked").length == 0) {
+                return false;
+            }
+            var msgContent = "您确认要清除所选的尚未生成体检号的客户名单吗？";
+            var dialog = art.dialog({
+                id: 'artDialogIDRegisterDate',
+                lock: true,
+                fixed: true,
+                opacity: 0.3,
+                title: '温馨提示',
+                content: msgContent,
+                button: [{
+                    name: '取消',
+                    callback: function () {
+                        return true;
+                    }
+                }, {
+                    name: '确定',
+                    callback: function () {
+                        jQuery("#tblTeamTaskGroupCustomerX tbody tr td input[type='checkbox'][name='ItemCheckbox']").each(function () {
+                            if (jQuery(this).attr('checked')) {
+                                if (jQuery(this).parent().parent().attr('exist') != "1") {
+                                    jQuery(this).parent().parent().remove();
+                                }
+                            }
+                        });
+                        ResetRowNum("tblTeamTaskGroupCustomerX");
+                        return true;
+
+                    }, focus: true
+                }]
+
+            }).lock();
+        }
+
+        /**************导入预约数据 Begin************************/
+        function ExcelFileInfo(excelFilePath, workSheetName, fileFormat, returnValue) {
+            this.ExcelFilePath = excelFilePath;
+            this.ReturnValue = returnValue;
+            this.WorkSheetName = workSheetName;
+            this.FileFormat = fileFormat;
+        }
+        //从Excel报表导入客户名单
+        function ImportFromExcel() {
+            this.ReturnValue = "";
+            var aExcelFileInfo = new ExcelFileInfo("", "", "", "no");
+            var title = "选择文件";
+            var url = "/System/Customer/ShowDialog.aspx?Type=Excel&Page=ImportExcel.aspx&Path=YYSJDR";
+            art.dialog.open(url,
+    {
+        width: 350,
+        height: 300,
+        drag: false,
+        lock: true,
+        id: 'OperWindowFrame',
+        title: title,
+        cache: false,
+        init: function () {
+            jQuery(".aui_close").hide();
+        },
+        close: function () {
+            aExcelFileInfo = art.dialog.data("aExcelFileInfo");
+            if (aExcelFileInfo.ReturnValue == "ok") {
+                var ExcelFilePath = aExcelFileInfo.ExcelFilePath;
+                var FileFormat = aExcelFileInfo.FileFormat;
+                url = "/System/Customer/SelectExcelInfo.aspx?FilePath=" + escape(aExcelFileInfo.ExcelFilePath);
+                art.dialog.open(url,
+                {
+                    width: 350,
+                    height: 300,
+                    drag: false,
+                    lock: true,
+                    id: 'OperWindowFrame1',
+                    title: title,
+                    close: function () {
+                        aExcelFileInfo = art.dialog.data("aExcelFileInfo");
+                        if (aExcelFileInfo.WorkSheetName != '') {
+                            //ShowProgressPage("正在导入客户名单，请稍后、、、");
+                            //这里采用Ajax方式进行Excel数据验证并返回客户端呈现
+                            var WorkSheetName = aExcelFileInfo.WorkSheetName;
+                            var OperValue = "ImportFromExcel";
+
+                            BindInternatCustomerInfoFromExcel_Ajax(WorkSheetName, ExcelFilePath);
+                        }
+                    }
+                });
+
+            }
+            else {
+                return true;
+            }
+        }
+    });
+        }
+
+        function BindInternatCustomerInfoFromExcel_Ajax(WorkSheetName, ExcelFilePath) {
+
+            // var myDialog = art.dialog({ lock: true, fixed: true, opacity: 0.3, content: "正在加载数据，请稍候..." });
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxTeamOper.aspx",
+                data: { WorkSheetName: WorkSheetName, ExcelFilePath: ExcelFilePath, action: "ImportInternatCustomerInfoFromExcel" },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    // 检查Ajax返回数据的状态等 20140504 by xmhuang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+                    //这里遍历msg数据绑定所有预约数据
+                    ReadCustomerTemplate(msg);
+                },
+                complete: function () {
+                    //myDialog.close();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 读取客户名单模版并绑定值
+        /// </summary>
+        function ReadCustomerTemplate(msg) {
+            if (msg == null || msg == undefined)
+                return false;
+            //获取所有订单号信息
+            var allCustomerOrder = "";
+            jQuery(msg.dataList0).each(function (i, item) {
+                allCustomerOrder += item.UserOrderNO == undefined ? "" : item.UserOrderNO + ",";
+            });
+            if (allCustomerOrder.length > 0) {
+                allCustomerOrder = allCustomerOrder.substr(0, allCustomerOrder.length - 1); //移除末尾,号
+            }
+            var StrAllCustomerInfo = ","; //存放所有已导入的客户ID信息
+
+            if (allCustomerOrder.length > 0)  //如果订单号码不为空，则需要通过订单号查询对应的已导入的名单信息
+            {
+                //                if (1 == 2) {
+                //                    var AllCustomerInfo = GetAllCustomerOrder(allCustomerOrder);  //读取所有订单号对应的客户名单数据
+                //                    if (AllCustomerInfo.dataList != null) {
+                //                        jQuery(AllCustomerInfo.dataList).each(function (i, item) {
+                //                            StrAllCustomerInfo += jQuery.trim(item.ID_UserOrderDetail) + ",";
+                //                        });
+                //                    }
+                //                }
+            }
+            if (StrAllCustomerInfo.length > 0) {
+                StrAllCustomerInfo = StrAllCustomerInfo.substr(0, StrAllCustomerInfo.length - 1); //移除末尾,号
+            }
+
+            //加上当前列表中的客户信息
+            jQuery("#tblTeamTaskGroupCustomerX tbody tr").each(function () {
+                if (jQuery(this).attr("exist") != "") {
+                    StrAllCustomerInfo += "," + jQuery.trim(jQuery(this).attr("ID_UserOrderDetail")) + ","; //查找预约客户ID
+                }
+            });
+
+            var ShowDataElementID = "tblTeamTaskGroupCustomerX";
+            jQuery("#" + ShowDataElementID).data("data", msg.dataList0);
+            //读取客户名单模版
+            var customerListBodyTempleteContent = jQuery("#RegistListTemplate").html(); //  xustomerTask.teamTaskListBodyTempleteContent;
+            var htmlContent = "", tempContent = "", TempGender = "", TempMarried = "", Age = "", ID_TeamTaskGroup = "", TeamTaskGroupName = "", Gender = "", GenderName = "", Married = "", MarriageName = "", MinAge = "", MaxAge = "", RoleName = "", groupInfo = "", CurID_TeamTaskGroup = "", CurTeamTaskGroupName = "", imgSrc = "";
+            var IsCompar = false, CurCustomerInfo = "";
+
+            if (customerListBodyTempleteContent != "") {
+                jQuery(msg.dataList0).each(function (i, item) {
+                    if (StrAllCustomerInfo.search("," + item.ID_UserOrderDetail + ",") == -1) {
+                        //为空验证 Begin
+                        item.ID_UserOrderDetail = item.ID_UserOrderDetail == undefined ? "" : item.ID_UserOrderDetail;
+                        item.UserOrderNO = item.UserOrderNO == undefined ? "" : item.UserOrderNO;
+                        item.CustomerName = item.CustomerName == undefined ? "" : item.CustomerName;
+                        item.GenderName = item.GenderName == undefined ? "" : item.GenderName;
+                        item.CustomerMobile = item.CustomerMobile == undefined ? "" : item.CustomerMobile;
+                        item.IDCardNo = item.IDCardNo == undefined ? "" : item.IDCardNo;
+                        item.CustomerBirthday = item.CustomerBirthdayStr == undefined ? "" : item.CustomerBirthdayStr;
+                        item.ApplyrExamDate = item.ApplyrExamDateStr == undefined ? "" : item.ApplyrExamDateStr;
+                        //                        item.ID_ExamSet = item.ID_ExamSet == undefined ? "" : item.ID_ExamSet;
+                        item.ID_ExamSet = item.ExamSetCode == undefined ? "" : item.ExamSetCode; //xmhuang 20141020 使用ExamSetCode作为套餐编码
+                        item.ExamPEPackageName = item.ExamPEPackageName == undefined ? "" : item.ExamPEPackageName;
+                        item.ID_Customer = item.ID_Customer == undefined ? "" : item.ID_Customer;
+                        item.Operator = item.Operator == undefined ? "" : item.Operator;
+                        item.State = item.State == undefined ? "" : item.State;
+                        item.State = item.State == 1 ? "已导入" : "未导入";
+                        item.exist = item.exist == undefined ? 0 : item.exist;
+                        //为空验证 End
+
+                        //去除空格 Begin
+                        item.ID_UserOrderDetail = jQuery.trim(item.ID_UserOrderDetail);
+                        item.UserOrderNO = jQuery.trim(item.UserOrderNO);
+                        item.CustomerName = jQuery.trim(item.CustomerName);
+                        item.GenderName = jQuery.trim(item.GenderName);
+                        item.CustomerMobile = jQuery.trim(item.CustomerMobile);
+                        item.IDCardNo = jQuery.trim(item.IDCardNo);
+                        item.CustomerBirthday = jQuery.trim(item.CustomerBirthday);
+                        item.ApplyrExamDate = jQuery.trim(item.ApplyrExamDate);
+                        item.ID_ExamSet = jQuery.trim(item.ID_ExamSet);
+                        item.ExamPEPackageName = jQuery.trim(item.ExamPEPackageName);
+                        item.ID_Customer = jQuery.trim(item.ID_Customer);
+                        item.State = jQuery.trim(item.State);
+                        item.Operator = jQuery.trim(item.Operator);
+                        item.exist = jQuery.trim(item.exist);
+                        //去除空格 End
+
+                        tempContent += customerListBodyTempleteContent.replace(/@type="text"/gi, "")
+                                    .replace(/@exist/gi, item.exist)
+                                    .replace(/@ID_UserOrderDetail/gi, item.ID_UserOrderDetail)
+                                    .replace(/@UserOrderNO/gi, item.UserOrderNO)
+                                    .replace(/@CustomerName/gi, item.CustomerName)
+                                    .replace(/@GenderName/gi, item.GenderName)
+                                    .replace(/@CustomerMobile/gi, item.CustomerMobile)
+                                    .replace(/@IDCardNo/gi, item.IDCardNo)
+                                    .replace(/@CustomerBirthday/gi, item.CustomerBirthday)
+                                    .replace(/@ApplyrExamDate/gi, item.ApplyrExamDate)
+                                    .replace(/@ID_ExamSet/gi, item.ID_ExamSet)
+                                    .replace(/@ExamPEPackageName/gi, item.ExamPEPackageName)
+                                    .replace(/@ID_Customer/gi, item.ID_Customer)
+                                    .replace(/@State/gi, item.State)
+                                    .replace(/@Operator/gi, item.Operator)
+                            ;
+                    }
+                });
+                htmlContent = tempContent;
+            }
+            if (htmlContent != "") {
+                //jQuery('#Searchresult').html(newcontent); 
+                if (jQuery('#Searchresult tr[name!="msg"]').length > 0) {
+                    jQuery('#Searchresult').prepend(htmlContent);
+                }
+                else {
+                    jQuery('#Searchresult').html(htmlContent);
+                }
+
+                htmlContent = "";
+                ResetRowNum("tblTeamTaskGroupCustomerX");
+                SetTableRowStyle(); //设置隔行样式 xmhuang 2014-04-18 
+            }
+
+        }
+        /**************导入预约数据 End************************/
+
+        /// <summary>
+        /// 判断指定团体包含的团体、任务、任务分组、分组名单、分组收费项目是否可用删除
+        /// </summary>
+        function GetAllCustomerOrder() {
+            var allISDeleteDT = ""; //当前团体所有不可用于删除的团体ID，团体任务，团体任务分组，体检号
+            var flag = false;
+            jQuery.ajax({
+                type: "POST",
+                async: false,
+                url: "/Ajax/AjaxTeamOper.aspx",
+                data: { action: "GetAllCustomerOrder" },
+                contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    // 检查Ajax返回数据的状态等 20140504 by xmhuang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+                    allISDeleteDT = msg;
+                }
+            });
+            return allISDeleteDT;
+        }
+
+
+        /// <summary>
+        /// 保存客户名单
+        /// 修改人：xmhuang
+        /// 修改时间：2013-10-23
+        /// 修改内容：生成体检号时，验证所有分组是否都存在收费项目，不存在，则不允许生成
+        /// </summary>
+        function SaveCustomer() {
+            //判断收费项目是否保存
+            if (jQuery("#tblTeamTaskGroupCustomerX tbody tr[name!='msg']").length == 0) {
+                ShowSystemDialog("对不起，预约数据为空，无法进行体检号生成！");
+                return false;
+            }
+            art.dialog({ lock: true, fixed: true, opacity: 0.3,
+                content: '正在进行数据分析，请稍候...',
+                init: function () {
+                    var that = this;
+                    var fn = function () {
+                        //判断收费项目是否保存
+                        if (jQuery("#tblTeamTaskGroupCustomerX tbody tr[name!='msg']").length == 0) {
+                            ShowSystemDialog("对不起，预约数据为空，无法进行体检号生成！");
+                            that.close();
+                            return false;
+                        }
+                        var IsCanSave = true;
+                        //重新分组
+                        var rowNum = "", UserOrderNO = "", ID_UserOrderDetail = "", ID_ExamSet = "", ExamPEPackageName = "", ID_Customer = "", Operator = "", ApplyrExamDate = "", exist = "", CheckGenderName = "", NationName = "", CheckCustomerName = "", IDCard = "", CheckBirthDay = "", obj = "", CheckGenderName = "", CustomerTel = "", Base64Photo = "";
+                        jQuery("#tblTeamTaskGroupCustomerX tbody tr[id!='loading'][exist!='1']").each(function () {
+                            rowNum = jQuery.trim(jQuery(this).find("td label[name='lblRowNum']").text());      //序号
+                            ID_Customer = jQuery(this).attr("ID_Customer");                 //体检号
+                            ID_ExamSet = jQuery(this).attr("ID_ExamSet");                           //套餐ID
+                            ExamPEPackageName = jQuery.trim(jQuery(this).find("td label[name='lblExamPEPackageName']").text());            //预约套餐名称
+                            ID_UserOrderDetail = jQuery(this).attr("ID_UserOrderDetail");   //用户订单详细ID
+                            UserOrderNO = jQuery(this).attr("UserOrderNO");                 //订单号
+                            exist = jQuery(this).attr("exist");                             //是否已生成
+                            CheckCustomerName = jQuery.trim(jQuery(this).find("td label[name='lblCustomerName']").text());    //客户姓名
+                            CheckGenderName = jQuery.trim(jQuery(this).find("td label[name='lblGenderName']").text());    //客户姓名
+                            CheckBirthDay = jQuery.trim(jQuery(this).find("td label[name='lblCustomerBirthday']").text());  //出生日期
+                            CustomerTel = jQuery.trim(jQuery(this).find("td label[name='lblCustomerMobile']").text());      //联系电话
+                            IDCard = jQuery.trim(jQuery(this).find("td label[name='lblIDCardNo']").text());                 //证件号码
+                            ApplyrExamDate = jQuery.trim(jQuery(this).find("td label[name='lblApplyrExamDate']").text());   //预约体检日期
+                            Operator = jQuery.trim(jQuery(this).find("td label[name='lblOperator']").text());               //操作人
+
+
+                            //订单号为空
+                            if (UserOrderNO == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]订单号不允许为空!");
+                                IsCanSave = false;
+                                that.close();
+                                return false;
+                            }
+                            //证件号为空
+                            if (IDCard == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]证件号不允许为空!");
+                                IsCanSave = false;
+                                that.close();
+                                return false;
+                            }
+                            //判断证件号的正确性
+                            if (IDCard.length == 15 || IDCard.length == 18) {
+                            } else {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]证件号格式不正确,请确认!");
+                                IsCanSave = false;
+                                that.close();
+                                return false;
+                            }
+                            //客户名称为空
+                            if (CheckCustomerName == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]客户名称不允许为空!");
+                                IsCanSave = false;
+                                that.close();
+                                return false;
+                            }
+                            //客户性别为空
+                            if (CheckGenderName == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]客户性别不允许为空!");
+                                IsCanSave = false;
+                                that.close();
+                                return false;
+                            }
+                            //出生日期为空
+                            if (CheckBirthDay == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]出生日期不允许为空!");
+                                IsCanSave = false; that.close();
+                                return false;
+                            }
+                            //联系电话为空
+                            if (CustomerTel == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]联系电话不允许为空!");
+                                IsCanSave = false; that.close();
+                                return false;
+                            }
+                            //预约套餐为空
+                            if (ID_ExamSet == "" || ExamPEPackageName == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]预约套餐不允许为空!");
+                                IsCanSave = false; that.close();
+                                return false;
+                            }
+                            //预约套餐为空
+                            if (ApplyrExamDate == "") {
+                                ShowSystemDialog("对不起，行[" + rowNum + "]预约体检时间不允许为空!");
+                                IsCanSave = false; that.close();
+                                return false;
+                            }
+                            //判断预约体检时间是否是日期格式
+
+                        });
+                        if (!IsCanSave) {
+                            return;
+                        }
+                        var Is_Paused = 0, NationName = "", ID_Customer = "", ID_TeamTaskGroup = "", ID_TeamTask = "", CustomerName = "", Gender = "", GenderName = "", Married = "", MarriageName = "", MinAge = "", MaxAge = "", BirthDay = "", MobileNo = "", RoleName = "", Department = "", DepartSubA = "", DepartSubB = "", DepartSubC = "", Note = "";
+                        //由于已经生成体检号的项目不允许修改，这里只需要获取没有生成体检号的客户名单即可
+                        var AllItem = "";
+                        jQuery("#tblTeamTaskGroupCustomerX tbody tr[name!='msg'][exist!='1']").each(function () {
+                            Base64Photo = "";
+                            ID_Customer = jQuery(this).attr("ID_Customer");
+                            exist = jQuery(this).attr("exist");
+                            if (ID_Customer == "") {
+                                rowNum = jQuery.trim(jQuery(this).find("td label[name='lblRowNum']").text());      //序号
+                                ID_Customer = jQuery(this).attr("ID_Customer");                 //体检号
+                                ID_ExamSet = jQuery(this).attr("ID_ExamSet");                           //套餐ID
+                                ExamPEPackageName = jQuery.trim(jQuery(this).find("td label[name='lblExamPEPackageName']").text());            //预约套餐名称
+                                ID_UserOrderDetail = jQuery(this).attr("ID_UserOrderDetail");   //用户订单详细ID
+                                UserOrderNO = jQuery(this).attr("UserOrderNO");                 //订单号
+                                exist = jQuery(this).attr("exist");                             //是否已生成
+                                CheckCustomerName = jQuery.trim(jQuery(this).find("td label[name='lblCustomerName']").text());    //客户姓名
+                                CheckGenderName = jQuery.trim(jQuery(this).find("td label[name='lblGenderName']").text());    //客户姓名
+                                CheckBirthDay = jQuery.trim(jQuery(this).find("td label[name='lblCustomerBirthday']").text());  //出生日期
+                                CustomerTel = jQuery.trim(jQuery(this).find("td label[name='lblCustomerMobile']").text());      //联系电话
+                                IDCard = jQuery.trim(jQuery(this).find("td label[name='lblIDCardNo']").text());                 //证件号码
+                                ApplyrExamDate = jQuery.trim(jQuery(this).find("td label[name='lblApplyrExamDate']").text());   //预约体检日期
+                                Operator = jQuery.trim(jQuery(this).find("td label[name='lblOperator']").text());               //操作人
+                                CurItem = ID_Customer + "_" + UserOrderNO + "_" + ID_UserOrderDetail + "_" + ID_ExamSet + "_" + ExamPEPackageName + "_" + CheckCustomerName
+        + "_" + CheckGenderName + "_" + IDCard + "_" + CheckBirthDay + "_" + CustomerTel + "_" + ApplyrExamDate + "_" + Operator + "|";
+                                AllItem += CurItem;
+                            }
+                        });
+                        that.close(); //关闭当前信息提示框
+                        //这里通过后台保存数据
+                        if (AllItem != "") {
+                            art.dialog({
+                                id: "OperWindowFrame",
+                                lock: true, fixed: true, opacity: 0.3,
+                                content: '正在生成体检号，请稍候...',
+                                init: function () {
+                                    var that = this;
+                                    SaveCustomer_Ajax(AllItem);
+                                },
+                                close: function () {
+                                }
+                            }).show();
+                        }
+                        //that.close();
+                    };
+                    setTimeout(fn, 1);
+                },
+                close: function () {
+                }
+            }).show();
+        }
+
+        //通过Ajax请求保存客户名单
+        function SaveCustomer_Ajax(AllItem) {
+            jQuery("#btnSaveCustomer").hide();
+            //获取所有分组ID
+            var ID_TeamTaskGroupS = "";
+            jQuery("#tblTeamTaskGroupX tbody tr[id!='loading']").each(function () {
+                ID_TeamTaskGroupS += "'" + jQuery(this).attr("ID_ExamSet") + "',";
+            });
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxTeamOper.aspx",
+                data: { action: "SaveInternatCustomerInfo", AllItem: AllItem },
+                cache: false,
+                contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+                dataType: "json",
+                success: function (msg) {
+                    // 检查Ajax返回数据的状态等 20140504 by xmhuang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+                    if (msg.dataList0 != undefined) {
+                        ShowSystemDialog(msg.dataList0[0].Message);
+                        jQuery("#btnSaveCustomer").show();
+                    }
+
+                    if (msg.dataList1 != undefined) {
+                        BindInternatCustomer(msg.dataList1); // BindCustomerCustInfo(msg.dataList1); xmhuang 2014-01-22 注释
+                        //ReadCustomerTemplate
+                    }
+                },
+                complete: function () {
+                    CloseCurDialogWindow(); //关闭所有提示信息
+                    jQuery("#btnSaveCustomer").show();
+                }
+            });
+        }
+
+        function BindInternatCustomer(msg) {
+            //循环设置体检号信息
+            jQuery(msg).each(function (i, item) {
+                //查找指定id的数据并设置体检号
+                var obj = jQuery("#tblTeamTaskGroupCustomerX tbody tr[ID_UserOrderDetail='" + item.OrderDetail + "']");
+                if (obj.length > 0) {
+                    jQuery(obj).attr("exist", 1);
+                    jQuery(obj).attr("ID_Customer", item.ID_Customer);
+                    jQuery(obj).find("td label[name='lblID_Customer']").text(item.ID_Customer);
+                    jQuery(obj).find("td label[name='lblState']").text("已导入");
+                }
+            });
+        }
+        /// <summary>
+        /// 判断指定团体任务名单信息是否可用删除
+        /// </summary>
+        function ISCanDeleteTeamTaskGroupCustomerInfo(ID_Customer) {
+            var allISDeleteDT = ""; //当前团体所有不可用于删除的团体ID，团体任务，团体任务分组，体检号
+            var flag = false;
+            jQuery.ajax({
+                type: "POST",
+                async: false,
+                url: "/Ajax/AjaxTeamOper.aspx",
+                data: { action: "ISCanDeleteTeamTaskGroupCustomerInfo", ID_Customer: ID_Customer },
+                contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    // 检查Ajax返回数据的状态等 20140504 by xmhuang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+                    allISDeleteDT = msg;
+                }
+            });
+            return allISDeleteDT;
+        }
+        /// <summary>
+        /// 批量删除客户数据
+        /// </summary>
+        function DoDeleteInternatCustomerInfo(ShowDataElementID) {
+            //判断是否为空
+            if (jQuery("#" + ShowDataElementID + " tbody tr td input[type='checkbox'][name='ItemCheckbox']:checked").length == 0) {
+                ShowSystemDialog("对不起，请选择需要删除的客户名单!");
+                return false;
+            }
+            //在没有打印指引单之前，客户备单允许删除
+            //获取需要删除的客户体检号
+            var CustTeamTaskID = "";
+            jQuery("#" + ShowDataElementID + " tbody tr td input[type='checkbox'][name='ItemCheckbox']").each(function () {
+                if (jQuery(this).attr('checked')) {
+                    if (jQuery(this).parent().parent().attr('exist') == "1") {
+                        CustTeamTaskID += jQuery(this).parent().parent().attr('ID_Customer') + ",";
+                    }
+                }
+            });
+
+            var curAllISDeleteDT = { "dataList": "" };
+            //var ID_Team = jQuery('#txtTeamNameX').data("ID_Team");
+            if (CustTeamTaskID != "") {
+                curAllISDeleteDT = ISCanDeleteTeamTaskGroupCustomerInfo(CustTeamTaskID);
+                //xmhuang 2013-12-01 从后台未检索到信息，不允许执行删除操作
+                if (curAllISDeleteDT == "") {
+                    return false;
+                }
+            }
+
+            /******如果出现异常则不允许执行下一步 xmhuang 2013-12-11*********/
+            if (curAllISDeleteDT.success != undefined) {
+                if (curAllISDeleteDT.success == -1) {
+                    ShowSystemDialog(curAllISDeleteDT.Message);
+                    return false;
+                }
+            }
+            /******如果出现异常则不允许执行下一步 xmhuang 2013-12-11*********/
+
+            var CustTeamTaskID = '';
+            var IsExist = false;
+            var ErrorMessage = "";
+            var CurID = "", TeamTaskName = "";
+            //获取团体任务信息
+            jQuery("#" + ShowDataElementID + " tbody tr td input[type='checkbox'][name='ItemCheckbox']").each(function () {
+                if (jQuery(this).attr('checked')) {
+                    //判断当前团体任务是否可用用于删除
+                    IsExist = false;
+                    CurID = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblID_Customer']").text());
+                    TeamTaskName = jQuery.trim(jQuery(this).parent().parent().find("td input[name='txtCustomerName']").val());
+                    if (TeamTaskName == "") {
+                        TeamTaskName = jQuery.trim(jQuery(this).parent().parent().find("td label[name='lblCustomerName']").text());
+                    }
+                    jQuery(curAllISDeleteDT.dataList).each(function (i, item) {
+                        if (CurID == item.ID_Customer) {
+                            ErrorMessage += TeamTaskName + ",";
+                            IsExist = true;
+                            return false;
+                        }
+                    });
+                    if (!IsExist) {
+                        if (jQuery(this).parent().parent().attr('exist') == "1") {
+                            if (jQuery(this).parent().parent().attr('ID_Customer') != undefined) {
+                                CustTeamTaskID += jQuery(this).parent().parent().attr('ID_Customer') + ",";
+                            }
+                        }
+                    }
+                }
+            });
+            if (ErrorMessage != "") {
+                ErrorMessage = "客户[" + ErrorMessage.substring(0, ErrorMessage.length - 1) + "]已完成登记，不可删除！";
+                ShowSystemDialog(ErrorMessage);
+                return false;
+            }
+
+            var msgContent = "删除客户名单后，其收费项目信息、体检信息将无法修复，您确认要删除吗？";
+            var dialog = art.dialog({
+                id: 'artDialogIDRegisterDate',
+                lock: true,
+                fixed: true,
+                opacity: 0.3,
+                title: '温馨提示',
+                content: msgContent,
+                button: [{
+                    name: '取消',
+                    callback: function () {
+                        return true;
+                    }
+                }, {
+                    name: '确定',
+                    callback: function () {
+                        //获取当前分组ID()和收费ID
+                        var ID_TeamTaskGroupCustomer = "";
+                        var AllItem = "";
+                        jQuery("#" + ShowDataElementID + " tbody tr td input[type='checkbox'][name='ItemCheckbox']").each(function () {
+                            if (jQuery(this).attr('checked')) {
+                                if (jQuery(this).parent().parent().attr('exist') == "1") {
+                                    if (jQuery(this).parent().parent().attr('ID_Customer') != undefined) {
+
+                                        ID_TeamTaskGroupCustomer = jQuery(this).parent().parent().attr('ID_Customer');
+                                        AllItem += "'" + ID_TeamTaskGroupCustomer + "',";
+                                    }
+                                }
+                                jQuery(this).parent().parent().remove();
+                            }
+                        });
+
+                        if (AllItem != "") {
+                            //执行后台删除
+                            DoDeleteInternatCustomerInfo_Ajax(AllItem);
+                        }
+                        return true;
+
+                    }, focus: true
+                }]
+
+            }).lock();
+        }
+        /// <summary>
+        /// 执行后台删除收费数据
+        /// </summary>
+        function DoDeleteInternatCustomerInfo_Ajax(AllItem) {
+            //存储大数据请设置Content-length值
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxTeamOper.aspx",
+                data: { action: "DoDeleteInternatCustomerInfo", AllItem: AllItem },
+                cache: false,
+                contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+                dataType: "json",
+                success: function (msg) {
+                    // 检查Ajax返回数据的状态等 20140504 by xmhuang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+                    //ShowSystemDialog(msg.Message);
+                    if (msg.success == "1") {
+                        ResetRowNum("tblTeamTaskGroupCustomerX");
+                    }
+                },
+                complete: function () {
+                    ResetRowNum("tblTeamTaskGroupCustomerX");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="center">
+        <!--查询区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+
+
+            </div>
+            <div class="oper-bg">
+                <!-- <span>体检/订单号：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c" style="line-height: 24px;">
+                        <input type="text" id='txtSFZ' placeholder=" " onkeyup="DirectQueryCustomerID();"
+                            class="tjzj-input input-4" maxlength="18" />
+                        <a href="javascript:void(0);" title="查询(F4)">
+                            <img src="$!{templatepath}/images/search.jpg" width="17" height="14" onclick="RegistListSearch();"
+                                style="margin-top: 5px;" /></a>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>-->
+                <span class="buttom-drmd" title="导入名单" style="padding-top: 8px;"><a href="javascript:void(0);"
+                    id="btnImport" onclick="return ImportFromExcel();">导入名单</a></span><span class="buttom-qcmd"
+                        title="清除名单" style="padding-top: 8px;"><a href="javascript:void(0);" id="btnReset"
+                            onclick="return ResetCustomer();">清除名单</a></span><span class="buttom-sc" style="padding-top: 3px;"
+                                title="删除" name="btnDeleteCustomer" onclick="return DoDeleteInternatCustomerInfo('tblTeamTaskGroupCustomerX');"><a
+                                    href="javascript:void(0);"> 删除</a></span> <span class="buttom-sctjh" style="padding-top: 8px;"
+                                        title="生成体检号"><a href="javascript:void(0);" id="btnSaveCustomer" onclick="return SaveCustomer();">
+                                            生成体检号</a></span>
+            </div>
+        </div>
+        <!--查询区域 End-->
+        <!--查询列表 Begin-->
+        <div class="project">
+            <div class="project-center">
+                <div style="overflow: hidden; width: 100%">
+                    <table id="customerScrollTitle" width="1400" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe j-control-title">
+                        <colgroup>
+                            <col style="width: 38px" />
+                            <!--复选框-->
+                            <col style="width: 50px" />
+                            <!--序号-->
+                            <col style="width: 100px" />
+                            <!--状态-->
+                            <col style="width: 120px" />
+                            <!--体检号-->
+                            <col style="width: 150px" />
+                            <!--订单号-->
+                            <col style="width: 150px" />
+                            <!--证件号-->
+                            <col style="width: 100px" />
+                            <!--姓名-->
+                            <col style="width: 50px" />
+                            <!--性别-->
+                            <col style="width: 100px" />
+                            <!--出生日期-->
+                            <col style="width: 180px" />
+                            <!--联系电话-->
+                            <col style="width: 150px" />
+                            <!--预约套餐-->
+                            <col style="width: 120px" />
+                            <!--预约体检时间-->
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input type="checkbox" onclick="CheckAllCustomer(this,'tblTeamTaskGroupCustomerX');" />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                状态
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                订单号
+                            </th>
+                            <th>
+                                证件号
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                出生日期
+                            </th>
+                            <th>
+                                联系电话
+                            </th>
+                            <th>
+                                预约套餐
+                            </th>
+                            <th>
+                                预约体检时间
+                            </th>
+                            <th>
+                                操作人
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="customerScrollControl" class="j-autoHeight j-scroll-control QueryListNoDataTips"
+                    data-left="330" data-min="300" style="overflow: auto;">
+                    <table id="tblTeamTaskGroupCustomerX" name="tblTeamTaskGroupCustomerX" width="1400"
+                        border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 38px" />
+                            <!--复选框-->
+                            <col style="width: 50px" />
+                            <!--序号-->
+                            <col style="width: 100px" />
+                            <!--状态-->
+                            <col style="width: 120px" />
+                            <!--体检号-->
+                            <col style="width: 150px" />
+                            <!--订单号-->
+                            <col style="width: 150px" />
+                            <!--证件号-->
+                            <col style="width: 100px" />
+                            <!--姓名-->
+                            <col style="width: 50px" />
+                            <!--性别-->
+                            <col style="width: 100px" />
+                            <!--出生日期-->
+                            <col style="width: 180px" />
+                            <!--联系电话-->
+                            <col style="width: 150px" />
+                            <!--预约套餐-->
+                            <col style="width: 120px" />
+                            <!--预约体检时间-->
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <!--分页区域　Begin-->
+                <table width="958" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!--分页区域 End-->
+            </div>
+        </div>
+        <!--查询列表 End-->
+        <!--参数输出区域 Begin-->
+        $!{HiddenInputQueryString}
+        <!--参数输出区域 End-->
+        <!--模版区域 Begin-->
+        <div style="display: none;">
+            <!--引入身份证插件 Begin-->
+            <div>
+                <object id="CVR_IDCard" height="0" width="0" classid="clsid:3C39D5DB-4DA5-4061-81CF-3F8ADD48B950"
+                    name="CVR_IDCard">
+                </object>
+            </div>
+            <!--引入身份证插件 End-->
+        </div>
+        <table style="display: none;">
+            <script type="text/plain" id="RegistListTemplate">
+                <tr ID_ExamSet="@ID_ExamSet" ID_Customer="@ID_Customer" exist="@exist"  ID_UserOrderDetail="@ID_UserOrderDetail" UserOrderNO="@UserOrderNO">
+                    <td>
+                            <input type="checkbox" name="ItemCheckbox"/>
+                    </td>
+                    <td>
+                          <label name="lblRowNum">
+                                    @rowNum</label>
+                    </td>
+                    <td><label name="lblState">@State</label></td>
+                     <td title="@ID_Customer" class="project-align-left">
+                             <div class="nowrap" style="width: 100px;" >
+                            <label name="lblID_Customer">@ID_Customer</label></div>
+                    </td>
+                    <td title="@UserOrderNO" class="project-align-left">
+                          <div class="nowrap" style="width: 140px;" >
+                            <label name="lblUserOrderNO">@UserOrderNO</label></div>
+                    </td>
+                    <td title="@IDCardNo" class="project-align-left">
+                         <div class="nowrap" style="width: 120px;">
+                            <label name="lblIDCardNo">@IDCardNo</label></div>
+                    </td>
+                    <td title="@CustomerName" class="project-align-left" >  
+                        <div class="nowrap" style="width: 85px;" >
+                            <label name="lblCustomerName">@CustomerName</label></div>
+                    </td>
+                    <td >
+                       <div class="nowrap" style="width: 30px;" >
+                             <label name="lblGenderName">@GenderName</label></div>
+                    </td>
+                    <td title="@CustomerBirthday">
+                          <div class="nowrap" style="width: 85px;" >
+                            <label name="lblCustomerBirthday">@CustomerBirthday</label></div>
+                    </td>
+                    <td title="@CustomerMobile" class="project-align-left">
+                         <div class="nowrap" style="width: 150px;" >
+                            <label name="lblCustomerMobile">@CustomerMobile</label></div>
+                    </td>
+                    <td title="@ExamPEPackageName" class="project-align-left">
+                        <div class="nowrap" style="width: 140px;" >
+                        <label name="lblExamPEPackageName">@ExamPEPackageName</label></div>
+                    </td>
+                    <td title="@ApplyrExamDate">
+                       <div class="nowrap" style="width: 85px;" >
+                       <label name="lblApplyrExamDate">@ApplyrExamDate</label></div>  
+                    </td> 
+                    <td >
+                       <label name="lblOperator">@Operator</label>
+                    </td>
+                </tr>
+            </script>
+        </table>
+        <!--模版区域 End-->
+    </div>
+</body>
+</html>

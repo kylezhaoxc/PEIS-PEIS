@@ -1,0 +1,751 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>四川省人民医院·健康体检中心 </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/css.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/select2.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/uniform.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>
+    <script src="$!{templatepath}/js/bootstrap.min.js"></script>
+    <script src="$!{templatepath}/js/jquery.uniform.js"></script>
+    <script src="$!{templatepath}/js/select2.min.js"></script>
+    <script src="$!{templatepath}/js/My97DatePicker/WdatePicker.js"></script>
+    <script src="$!{templatepath}/js/Commom.js"></script>
+    <script src="$!{templatepath}/js/JS_FloatRight.js"></script>
+    <script src="$!{templatepath}/js/jquery.pagination.js"></script>
+    <script src="$!{templatepath}/js/artDialog4.1.7/artDialog.source.js?skin=default"></script>
+    <script src="$!{templatepath}/js/artDialog4.1.7/plugins/iframeTools.js"></script>
+    <script src="$!{templatepath}/js/WebIm.js"></script>
+    <script type="text/javascript" language="javascript">
+        jQuery(document).ready(function () {
+
+            // 获取用户的菜单列表,权限列表，分检科室列表 (用于显示菜单项，判断用户权限)
+            GetUserMenuRightSectionList();
+
+            SetSideFloatXY(); // 计算侧边栏的坐标
+            var IsLogin = jQuery("#CookieIsLogin").val();
+            var SessionID = jQuery("#CookieSessionID").val();
+            var LoginName = jQuery("#CookieLoginName").val();
+            var UserName = jQuery("#CookieUserName").val();
+            if (LoginName != "") {
+                if (IsLogin == 1)//表示用户是来之登录界面，向其他站内成员发送上线消息
+                {
+                    Wait(LoginName, UserName, "LOGIN","INFO"); //发送上线通知消息
+                }
+                else//表示用户来之首页,开启站内消息等待
+                {
+                    Wait(LoginName, UserName, "-1", "INFO"); //开启消息接收
+                }
+            }
+        });
+
+        /// <summary>
+        /// 加载子页面
+        /// </summary>
+        function DoLoad(href, parentContainer) {
+            if (href == undefined)
+                return false;
+            if (parentContainer == '' || parentContainer == undefined )
+                parentContainer = 'loadForm';
+
+            // 隐藏侧边栏按钮和连接 20130821 by WTang 
+            if (parentContainer == "loadForm") {
+                jQuery("#divSectionExamedCount").hide();    // 隐藏已检查科室链接
+                jQuery("#divHistoryExamCount").hide();      // 隐藏历史检查次数链接
+                jQuery("#divSectionExamFloat").hide();      // 隐藏切换客户科室链接
+                jQuery("#divFinalExamCompare").hide();      // 隐藏总检对比链接
+                jQuery("#divCloneRightFloat").hide();       // 隐藏克隆链接 20131021 by WTang 添加 
+
+                jQuery("#listSectionExamedCount").hide();   // 隐藏已检查科室列表
+                jQuery("#listSectionExamFloat").hide();     // 隐藏客户科室列表
+                jQuery("#listHistoryExamCount").hide();     // 隐藏历史体检号对比列表
+                jQuery("#listFinalExamCompare").hide();     // 隐藏总检对比列表
+                jQuery("#listCloneRightFloat").hide();      // 隐藏克隆链接
+
+                //SetSideFloatXY(); // 计算侧边栏的坐标
+            }
+
+            var date = GetQueryString('date');
+            if (date == null || date == "" || date == undefined ) {
+                if (href.indexOf("?") >= 0) {
+                    href = href + "&date=" + encodeURIComponent(new Date());
+                }
+                else {
+                    href = href + "?date=" + encodeURIComponent(new Date());
+                }
+            }
+
+            SetUserRedirectUrl(href); // 每次加载前，先保存当前地址，用于在刷新页面时，页面进行自动加载 20130803 by WTang
+            DisposeCamera();//在加载页面之前判断是否开启视频资源，有则关闭
+            DisposeVideoCapture(); //在加载页面之前判断是否开启采集卡资源，有则关闭
+            jQuery("#" + parentContainer).empty();
+            jQuery("#" + parentContainer).load(href, { limit:200, cache: false }, function () {
+                //ShowSystemDialog("The last 25 entries in the feed have been loaded");
+            });
+            jQuery("#" + parentContainer).ajaxSend(function () {
+                ShowLoadingProcessBarDefault(1);
+            });
+
+            jQuery("#" + parentContainer).ajaxStart(function () {
+                ShowLoadingProcessBarDefault(1);
+            });
+
+            jQuery("#" + parentContainer).ajaxComplete(function () {
+                ShowLoadingProcessBarDefault(0);
+            });
+
+
+            // GetCustomerInfo();
+        }
+
+        function GetCustomerInfo() {
+            jQuery('title').val('身份证：' + jQuery("#txtSFZ").val());
+        }
+
+        function ShowAllLoginUserMenu(ClassID) {
+            jQuery("#LoginUserMenuFrame_" + ClassID).attr("style", "background-color:White;overflow:hidden; width:984px; ");
+            jQuery("#ShowAllLoginUserMenu_" + ClassID).hide();
+            jQuery("#HideLoginUserMoreMenu_" + ClassID).show();
+        }
+
+        function HideLoginUserMoreMenu(ClassID) {
+            jQuery("#LoginUserMenuFrame_" + ClassID).attr("style", "max-height:108px; overflow:auto; background-color:White; ");
+            jQuery("#ShowAllLoginUserMenu_" + ClassID).show();
+            jQuery("#HideLoginUserMoreMenu_" + ClassID).hide();
+        }
+
+
+
+        /// <summary>
+        /// 弹出用户密码修改页面
+        /// </summary>
+        function OpenUserPasswordModifyWindow() {
+            
+            var tipscontent = '<table class="ModifyPassword">'+
+            '<tbody>'+
+            '    <tr><td class="left">原密码：</td><td><input maxlength="30" type="password" name="txtOldPwd" id="txtOldPwd" /> &nbsp;</td></tr>' +
+            '    <tr><td class="left">新密码：</td><td><input maxlength="30" type="password" name="txtNewPwd" id="txtNewPwd" /> &nbsp;</td></tr>' +
+            '    <tr><td class="left">重复新密码：</td><td><input maxlength="30" type="password" name="txtRepeatOldPwd" id="txtRepeatOldPwd" /> &nbsp;</td></tr>' +
+            '</tbody>' +
+            '</table>';
+
+            art.dialog({
+                id: 'OperWindowFrame',
+                content: tipscontent,
+                lock: true,
+                fixed: true,
+                opacity: 0.3,
+                title: '用户口令修改',
+                button: [ {
+                        name: '取消'
+                    },{
+                    name: '确定',
+                    callback: function () {
+                        var bModifyState = ModifyUserPasswordInfo(); // 修改用户的密码。
+                        return bModifyState;
+                    }, focus: true
+                }]
+            });
+
+        }
+
+
+        /// <summary>
+        /// 修改用户的密码。
+        /// </summary>
+        function ModifyUserPasswordInfo() {
+            var OldPassword = jQuery("#txtOldPwd").val();
+            var NewPassword = jQuery("#txtNewPwd").val();
+            var RepeatOldPassword = jQuery("#txtRepeatOldPwd").val();
+
+            if (OldPassword == "") {
+                ShowSystemDialog("请输入原密码！");
+                jQuery("#txtOldPwd").focus();
+                jQuery("#txtOldPwd").select();
+                return false;
+            }
+
+            if (NewPassword == "") {
+                ShowSystemDialog("请输入新密码！");
+                jQuery("#txtNewPwd").focus();
+                jQuery("#txtNewPwd").select();
+                return false;
+            }
+
+            if (RepeatOldPassword == "") {
+                ShowSystemDialog("请再次输入新密码！");
+                jQuery("#txtRepeatOldPwd").focus();
+                jQuery("#txtRepeatOldPwd").select();
+                return false;
+            }
+
+            if (NewPassword != RepeatOldPassword) {
+
+                ShowSystemDialog("您输入的两次新密码不一致，请核对后重新再试！");
+                jQuery("#txtRepeatOldPwd").focus();
+                jQuery("#txtRepeatOldPwd").select();
+                return false;
+            }
+
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { OldPassword: OldPassword,
+                        NewPassword: NewPassword,
+                        action: 'ModifyUserPasswordInfo',
+                        currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+                    if (parseInt(jsonmsg) > 0) {
+                        ShowSystemDialog("修改密码成功!");
+                    }
+                    else if (parseInt(jsonmsg) == -1) {
+                        OpenUserPasswordModifyWindow();
+                        ShowSystemDialog("原密码错误，请重新输入!");
+                    }
+                    else { ShowSystemDialog("修改密码失败，请与技术人员联系!") }
+                }
+            });
+
+            return true;
+        }
+
+
+        /************************* 用户权限控制 start ***********************************/
+
+        /// <summary>
+        ///  判断用户是否具有相应的权限
+        /// </summary>
+        function GetIndexUserRight() {
+            var isHavePasswordChange_Right = Is_LoginUserRight('A.D.01_PasswordChange');    // 当前用户口令修改
+            if (isHavePasswordChange_Right == true) { jQuery("#aChangePassword_UserRightSet").show(); }
+        }
+
+        /************************* 用户权限控制 start ***********************************/
+    </script>
+    
+</head>
+<body onunload="DisposeVideoCapture();">
+<!--用于显示Com控件-->
+<div id="divComRead" style=" width:0px; height:0px;">
+    <object id="ComReadObject" classid="clsid:88D76990-883F-4678-9B08-CDF13021373B"></object>
+</div>
+
+<div id="divComReadScript"></div>
+<div id="divFloat">
+    <div id="divGotoBottom" onclick="GotoBottom();" title="跳转到底部【Ctrl+↓】">
+        &nbsp;
+    </div>
+    <div>
+    <div id="divRightSideFloat">
+        <div id="divCloneRightFloat" title="个人登记克隆" class="HistoryExamCount">
+            <div class="top" onclick="ShowHideCloneRightFloatDiv();" >
+                克隆
+            </div>
+            
+        <div id="listCloneRightFloat" class="FloatInfoDataContent">
+            
+            <div id="topCloneRightFloat" class="topFloatInfoData">
+                
+            </div>
+
+            <div class="innercontent" style="overflow:scroll;">
+            <div class="searcharea">
+                    体检号：<input class="span100" style="height:16px;" name="cloneCustomerID" id="cloneCustomerID" value="" />
+                    姓名：<input class="span50" style="height:16px;" name="cloneCustomerName" id="cloneCustomerName" value="" />
+                    性别：
+                    <select id="slGenderName">
+                        <option value="-1">请选择</option>
+                        <option value="0">女</option>
+                        <option value="1">男</option>
+                    </select>
+                    出生日期：<input class="span80" style="height:16px;" name="selBirthDay" id="selBirthDay" class="Wdate"/>
+                    
+                        
+                    <input id="btnSearchCloneCustomer" type="button" class="button50" onclick="SearchCloneCustomer();" value=" 查询 " />
+                       
+            </div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <td style="text-align:left;">体检号</td>
+                        <td> 姓名 </td>
+                        <td> 性别 </td>
+                        <td> 出生日期 </td>
+                        <td> 头像 </td>
+                        <td> 操作 </td>
+                    </tr>
+                </thead>
+
+                <tbody id="listCloneRightFloatData">
+                
+                   
+                </tbody>
+
+            </table>
+
+
+            </div>
+            <div id="bottomCloneRightFloat" class="bottomFloatInfoData">
+                
+            </div>
+        </div>
+
+
+        </div>
+
+        <div id="divSectionExamedCount" title="查看本次已检科室小结" onclick="ShowHideSectionExamedCount();" class="HistoryExamCount">
+            <div class="top">
+                结果
+            </div>
+            <div id="SectionExamedCount" onclick="ShowHideSectionExamedCount();" style=" display:none;">
+                0
+            </div>
+        </div>
+        <div id="listSectionExamedCount" class="FloatInfoDataContent" ondblclick="jQuery('#listSectionExamedCount').hide();" title="【双击关闭】检查结果">
+            <!-- 结果 浮动层当前加载的体检号-->
+            <input type="hidden" name="iptCustomerIDSectionExamedCount" id="iptCustomerIDSectionExamedCount" />
+            
+            <!-- 结果 浮动层上次加载结果的时间-->
+            <input type="hidden" name="iptLastTimeSectionExamedCount" id="iptLastTimeSectionExamedCount" />
+
+            <div id="topSectionExamedCount" class="topFloatInfoData">
+                
+            </div>
+            <div class="innercontent">
+            <table id="ulSectionExamedCount">
+                
+            </table>
+            </div>
+            <div id="bottomSectionExamedCount" class="bottomFloatInfoData">
+                
+            </div>
+        </div>
+
+        <!-- 暂时先隐藏对比浮动框 -->
+        <div id="divFinalExamCompare" title="对比总检历次体检结果" onclick="ShowHideFinalExamCompare();" class="HistoryExamCount" style="display:none;">
+            <div class="top">
+               对比
+            </div>
+            <div id="FinalExamCompareCount" style="display:none;" >
+                0
+            </div>
+        </div>
+        <div id="listFinalExamCompare" class="FloatInfoDataContent" ondblclick="jQuery('#listFinalExamCompare').hide();" title="【双击关闭】总检对比">
+            <!-- 对比 浮动层当前加载的身份证号码（体检号列表）-->
+            <input type="hidden" name="iptIDCardNoFinalExamCompare_CustList" id="iptIDCardNoFinalExamCompare_CustList" />
+            <!-- 对比 用户记录当前对比框中显示的数据属于那个体检号的-->
+            <input type="hidden" name="iptIDCardNoFinalExamCompare_CompareList" id="iptIDCardNoFinalExamCompare_CompareList" />
+            
+            <div id="topFinalExamCompare" class="topFloatInfoData">
+                
+            </div>
+
+            <div class="innercontent">
+                <div style="position:absolute; top:3px; right:25px;">
+                    <input id="Button6" type="button" class="button50" onclick="GetCustomerFinalHistoryCompareList();" ondblclick="javascript:void(0);" value=" 对比 " />
+                </div>
+
+            <table>
+                <thead> 
+                    <tr>
+                        <td style="text-align:right;">&nbsp;</td>
+                        <td>
+                            体检号1
+                        </td>
+                        <td>
+                            体检号2
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">科室</td>
+                        <td>
+                            <select id="selFinalCustomerID_1">
+                            </select>
+                        </td>
+                        <td>
+                            <select id="selFinalCustomerID_2">
+                            </select>
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody id="ulFinalExamCompare">
+                
+                </tbody>
+
+                <tbody id="ulFinalExamCompareFooter">
+                
+                </tbody>
+            </table>
+            </div>
+            <div id="bottomFinalExamCompare" class="bottomFloatInfoData">
+                
+            </div>
+        </div>
+
+
+        <!-- 暂时先隐藏对比浮动框 -->
+        <div id="divHistoryExamCount" title="对比本科室历次体检结果" onclick="ShowHideHistoryExamCount();" class="HistoryExamCount">
+            <div class="top">
+                对比
+            </div>
+            <div id="HistoryExamCount" style="display:none;" >
+                0
+            </div>
+        </div>
+
+        <div id="listHistoryExamCount" class="FloatInfoDataContent" ondblclick="jQuery('#listHistoryExamCount').hide();" title="【双击关闭】分科对比">
+            <!-- 对比 浮动层当前加载的身份证号码-->
+            <input type="hidden" name="iptIDCardNoHistoryExamCount" id="iptIDCardNoHistoryExamCount" />
+            <!-- 对比 用户记录当前对比框中显示的数据属于那个科室，那个体检号的-->
+            <input type="hidden" name="iptCurrShowSectionCustomerID" id="iptCurrShowSectionCustomerID" />
+            
+            <!-- 对比 浮动层上次加载结果的时间-->
+            <input type="hidden" name="iptLastTimeHistoryExamCount" id="iptLastTimeHistoryExamCount" />
+
+            <div id="topHistoryExamCount" class="topFloatInfoData">
+                
+            </div>
+
+            <div class="innercontent">
+                <div style="position:absolute; top:3px; right:25px;">
+                    <input id="Button5" type="button" class="button50" onclick="GetCustomerHistorySectionExamItemList();" ondblclick="javascript:void(0);" value=" 对比 " />
+                </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <td style="text-align:right;">&nbsp;</td>
+                        <td>
+                            体检号1
+                        </td>
+                        <td>
+                            体检号2
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right;">检查项目</td>
+                        <td>
+                            <select id="selCustomerID_1">
+                            </select>
+                        </td>
+                        <td>
+                            <select id="selCustomerID_2">
+                            </select>
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody id="ulHistoryExamCount">
+                
+                </tbody>
+
+                <tbody id="ulHistoryExamCountFooter">
+                
+                </tbody>
+            </table>
+            </div>
+            <div id="bottomHistoryExamCount" class="bottomFloatInfoData">
+                
+            </div>
+        </div>
+
+        <div id="divSectionExamFloat" onclick="ShowHideCustSectionList();" title="跳转到该客户其它检查科室中">
+            科
+            室
+        </div>
+        <div id="listSectionExamFloat" class="FloatInfoDataContent"  ondblclick="jQuery('#listSectionExamFloat').hide();" title="【双击关闭】换科室">
+            <!-- 换科室 浮动层当前加载的体检号-->
+            <input type="hidden" name="iptCustomerIDSectionExam" id="iptCustomerIDSectionExam" />
+
+            <div id="topSectionList">
+                ▲
+            </div>
+            <ul id="ulSectionList">
+
+            </ul>
+            
+            <div id="bottomSectionList">
+                ▼
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <div id="divGotoTop" onclick="GotoTop();" title="回到顶部【Ctrl+↑】">
+        &nbsp;
+    </div>
+
+</div>
+    <!-- 操作员职位类别 -->
+    <input type="hidden" name="LoginVocationType" id="LoginVocationType" value="${LoginUserModel.VocationType}" />
+    <!-- 操作员职位类别 -->
+    <input type="hidden" name="CookieUserID" id="CookieUserID" value="${LoginUserModel.UserID}" />
+<input type="hidden" name="CookieIsLogin" id="CookieIsLogin" value="${IsLogin}" />
+<input type="hidden" name="CookieSessionID" id="CookieSessionID" value="${SessionID}" />
+    <input type="hidden" name="CookieLoginName" id="CookieLoginName" value="${LoginUserModel.LoginName}" />
+  <input type="hidden" name="CookieUserName" id="CookieUserName" value="${LoginUserModel.UserName}" />
+  
+    <!-- 操作员操作密级，用于判断是否对某客户具有操作权限 -->
+    <input type="hidden" name="OperateLevel" id="OperateLevel" value="${LoginUserModel.OperateLevel}" />
+
+    <input type="hidden" name="IsVerifyCapture" id="IsVerifyCapture" value="-1" />
+
+    <div class="header">
+        <div class="headcontent">
+            <div class="title">
+                &nbsp;
+            </div>
+            <div class="headbg">
+                <div class="address">
+                    <a href="#" style="display:none;"><i class="icon-home"></i>首页</a>
+                    <a onclick="RefreshCurrentPage();" style="cursor:pointer;"><i class="icon-refush"></i>重新加载</a>
+                    <a id="aChangePassword_UserRightSet" href="javascript:void(0);" 
+                    onclick="OpenUserPasswordModifyWindow();" style="display:none;"><i class="icon-set"></i>修改密码</a> 
+
+                </div>
+
+                <div class="opertion">
+                    <a href="javascript:void(0);" onclick="CloseWindow();">
+                    <i class="icon-close">
+                    </i>安全退出 
+                    </a>
+                    
+                    <a href="javascript:void(0);" onclick="LogoutSystem();">
+                    <i class="icon-logout">
+                    </i>注销登录
+                    </a>
+                </div>
+
+                <div class="userinfo">$!{UserName}，您好，登录时间：$!{LastLoginTime} </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="UserMenuClass" id="LoginUserMenuClassDiv">
+            <ul id="LoginUserMenuClass" style="display:none;">
+                <li><a href="javascript:void(0);">系统配置</a></li>
+                <li><a href="javascript:void(0);">登记收费</a></li>
+                <li><a class="selected" href="javascript:void(0);">分检</a></li>
+                <li><a href="javascript:void(0);">总检总审</a></li>
+                <li><a href="javascript:void(0);">报告管理</a></li>
+            </ul> 
+        </div>
+
+        <!-- 快速导航区域 根据不同权限显示不同科室 -->
+        <div id="ShowUserMenuDiv">
+
+        </div>
+
+
+
+    </div>
+    <div id='loadForm'>
+    </div>
+    <div style="height: 20px;">
+    </div>
+    <!-- 模版 -->
+    <div style="display: none;">
+        <!-- 浮动层 体检号克隆模板 xmhuang 2013-10-21 Begin -->
+         <!--克隆数据模板 Begin-->
+        <table id="TemplateCloneCustomer">
+            <thead>
+                <tr>
+                    <tr>
+                        <td style="text-align:left;">体检号</td>
+                        <td> 姓名 </td>
+                        <td> 性别 </td>
+                        <td> 出生日期 </td>
+                        <td> 头像 </td>
+                        <td> 操作 </td>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="@class" ID_Customer="@ID_Customer" CustomerName="@CustomerName" GenderName="@GenderName" BirthDay="@BirthDay">
+                    <td>
+                        @ID_Customer
+                    </td>
+                    <td>
+                        @CustomerName
+                    </td>
+                    <td>
+                        @GenderName
+                    </td>
+                    <td>
+                        @BirthDay
+                    </td>
+                    <td>
+                        <img width="20px;" alt="" src="@Base64Photo" />
+                    </td>
+                    <td> <input type="button" value=" 克隆 " name="btnCustomerClone" onclick="DoCustomerClone('@ID_Customer');" /> </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--克隆数据模板 End-->
+        <!-- 浮动层 体检号克隆模板 xmhuang 2013-10-21 End -->
+
+        <!-- 浮动层 分科对比列表模版 -->
+        <table style=" display:none;">
+            <tbody id="HistoryExamCountTemplate">
+                <tr id="tr_@IDCardNo_@ID_ExamItem">
+                    <td class="ExamName" id="ExamName_@IDCardNo_@ID_ExamItem">@ExamItemName</td>
+                    <td id="ExamItem_@IDCardNo_@ID_ExamItem_1">@ExamItemResult01</td>
+                    <td id="ExamItem_@IDCardNo_@ID_ExamItem_2">@ExamItemResult02</td>
+                </tr>
+            </tbody>
+            <tbody id="HistoryResultSummaryTemplate">
+                <tr id="trSummary_@IDCardNo_@ID_ExamItem">
+                    <td class="ExamName" id="ResultSummary_@IDCardNo_@ID_ExamItem">@ExamItemName</td>
+                    <td id="ResultSummary_@IDCardNo_@ID_ExamItem_1">@ExamItemResult01</td>
+                    <td id="ResultSummary_@IDCardNo_@ID_ExamItem_2">@ExamItemResult02</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- 浮动层 总检对比列表模版 -->
+        <table style=" display:none;">
+            <tbody id="HistoryFinalExamTemplate">
+                <tr id="trSection_@IDCardNo_@ID_Section">
+                    <td class="SectionName" id="SectionName_@IDCardNo_@ID_Section">@SectionName</td>
+                    <td id="SectionSummary_@IDCardNo_@ID_Section_1">@SectionSummaryResult01</td>
+                    <td id="SectionSummary_@IDCardNo_@ID_Section_2">@SectionSummaryResult02</td>
+                </tr>
+            </tbody>
+            <tbody id="HistoryFinalResultSummaryTemplate">
+                 <tr>
+                    <td colspan="3" style="text-align:center; font-weight:bold;">总检结果</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_1">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_1">总检结论</td>
+                    <td id="FinalResultSummary_@IDCardNo_1_1">@FinalResult_1_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_1_2">@FinalResult_1_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_2">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_2">总检建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_2_1">@FinalResult_2_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_2_2">@FinalResult_2_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_3">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_3">结果对比</td>
+                    <td id="FinalResultSummary_@IDCardNo_3_1">@FinalResult_3_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_3_2">@FinalResult_3_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_4">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_4">饮食建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_4_1">@FinalResult_4_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_4_2">@FinalResult_4_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_5">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_5">运动建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_5_1">@FinalResult_5_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_5_2">@FinalResult_5_02</td>
+                </tr>
+                <tr id="trFinalSummary_@IDCardNo_6">
+                    <td class="SummaryName" id="ResultSummary_@IDCardNo_6">健康建议</td>
+                    <td id="FinalResultSummary_@IDCardNo_6_1">@FinalResult_6_01</td>
+                    <td id="FinalResultSummary_@IDCardNo_6_2">@FinalResult_6_02</td>
+                </tr>
+            </tbody>
+
+
+
+
+
+
+        </table>
+
+        
+        <!-- 浮动层 分科检查预览列表模版 -->
+        <!-- 浮动层 分科检查预览列表模版 -->
+        <table style=" display:none;" id="SectionExamedCountTemplate">
+            <tbody>
+                <tr>
+                    <td class="SectionName"><a href="javascript:void(0);" title="点击查看【@SectionName】检查结果详情" onclick="OpenSectionExamViewWindow('@ID_Section','@CustomerID');">@SectionName</a>：</td>
+                    <td colspan="5">@SectionSummary</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- 右侧科室列表模版（右侧浮动） -->
+        <ul id="ExamSectionTemplate">
+            <li><a href="javascript:void(0);" onclick="ReLoadCustomerSection('/System/Exam/ExamOper.aspx?txtSectionID=@ID_Section&txtCustomerID=@CustomerID','@ID_Section');" >@Number、@SectionName</a></li>
+        </ul>
+
+        <!-- 菜单项模版 -->
+        <ul id="LoginUserMenuTemplete">
+            <li><a class='bg_lb' id="menu_@ID_Menu_@ID_Section" menuid="@ID_Menu" sectionid="@ID_Section" targeturl='@MenuUrl' href="javascript:void(0);">@MenuName</a>
+            </li>
+        </ul>
+
+        <!-- 菜单分组显示模版（分组的标题栏） -->
+        <ul id="LoginUserMenuClassTemplete">
+            <li><a id="LoginUserMenuClassTitle_@ID_Menu" @IsSelected href="javascript:void(0);" onclick="ShowUserMenuClass('@ID_Menu');">@MenuClassName</a></li>
+        </ul>
+
+        <!-- 菜单分组显示模版（分组的详细信息） -->
+        <div id="LoginUserMenuClassSubItemTemplete">
+        <div id="LoginUserMenuClassSubItem_@ID_Menu" style="display:none;">
+            <div style="background-color:White; clear:both; display:block; ">
+            <div class="UserMenuFrame" id="LoginUserMenuFrame_@ID_Menu"  style="max-height: 108px; overflow: auto;">
+                <ul class="quick-actions" id="LoginUserMenu_@ID_Menu">
+                    @LoginUserMenuClassSubItem
+                </ul>
+            </div>
+            </div>
+            <div class="showhidebtndiv" id="ShowAllLoginUserMenu_@ID_Menu" onclick="ShowAllLoginUserMenu('@ID_Menu');">
+                显示全部 <span>↓</span>
+            </div>
+            <div class="showhidebtndiv" id="HideLoginUserMoreMenu_@ID_Menu" onclick="HideLoginUserMoreMenu('@ID_Menu');">
+                收起 <span>↑</span>
+            </div>
+        </div>
+        </div>
+
+
+        <object id="FastReport" classid="clsid:b4d9b4bf-d98d-4748-9018-73688e1fcb99" codebase="/ActiveX/FYHTakePhotoSetup.msi"></object>
+    
+    </div>
+
+    
+    <div class="loading">
+        <div class="frame" id="ProcessLoading">
+            <div class="title" id="ProcessTitle">
+            提示信息
+            </div>
+            <div class="info" id="ProcessInfo">
+            数据正在处理中，请稍后...
+            </div>
+            <div class="Process">
+                <div class="Bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cover">
+        
+    </div>
+
+    <script language="javascript" type="text/javascript">
+        // Com 端口数据读取回调事件 20140214 by wtang 
+        function ComReadObject::SendComRecvDataEvent(type, data){ 
+            ShowComReadData(type, data); 
+        }
+    </script>
+</body>
+</html>
+

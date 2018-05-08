@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .Yellow, .TeamYellow
+        {
+            color: Gray;
+        }
+        .Green, .TeamGreen
+        {
+            color: Green;
+        }
+        .TeamYellow td input[type='checkbox'], .TeamRed td input[type='checkbox'], .TeamGreen td input[type='checkbox'], .Yellow td input[type='checkbox']
+        {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+    </script>
+    <script src="$!{templatepath}/js/JS_CustomerSubScribDateOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <form id="form1" onkeyup="OnFormKeyUp();">
+    <div style="display: none;">
+        <!--收费项目模版 Begin-->
+        $!{HiddenInputQueryString}
+    </div>
+    <div class="content">
+        <!-- 快速导航区域 根据不同权限显示不同科室 -->
+        <!--客户信息扫描 Begin-->
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                扫描区
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <table class="tblRegistTableEdit" id="tblRegistTableEdit">
+                <tr>
+                    <td class="text_left">
+                        体检号：
+                        <input id="txtID_Customer" name="txtID_Customer" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                            style="ime-mode: Disabled" />
+                        <input type="button" class="button80" id="btnSearchCustomer" name="btnSearchCustomer"
+                            value=" 检  索 " onclick="DoSearchCustomerInfoAndCustFeeInfo();" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--客户信息扫描 End-->
+        <div class="widget-box showbox" id="divCustomerInfoArea">
+            <div class="widget-title bg_lg widget-title-middle">
+                客户基本信息
+                <label id="Label1" style="color: Red;">
+                </label>
+            </div>
+            <div style="min-height: 90px; height: 90px;">
+                <table class="tblCustomerBaseInfo" id="tblSearch">
+                    <tbody>
+                        <tr id="loading">
+                            <td style="text-align: center;" colspan="9">
+                                未找到该体检号对应的客户信息,请核对体检号是否正确...
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="showInfo">
+                    <tr style="display: none;">
+                        <td class="title">
+                            体检号
+                        </td>
+                        <td class="text_left width100">
+                            <label id="lblID_Customer" name="lblID_Customer">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            客户姓名
+                        </td>
+                        <td class="text_left width100">
+                            <label id="lblCustomerName" name="lblCustomerName">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            客户性别
+                        </td>
+                        <td class="text_left width50">
+                            <label id="lblSex" name="lblSex">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            客户年龄
+                        </td>
+                        <td class="text_left width50">
+                            <label id="lblAge" name="lblAge">
+                                &nbsp;</label>
+                            岁
+                        </td>
+                        <td class="text_center width100" rowspan="3">
+                            <img id="HeadImg" name="HeadImg" style="width: 80px;" src="/template/blue/images/icons/nohead.gif" />
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td class="title">
+                            证件号
+                        </td>
+                        <td class="text_left">
+                            <label id="lblIDCard" name="lblIDCard">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            联系电话
+                        </td>
+                        <td>
+                            <label id="lblTel" name="lblTel">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            体检类型
+                        </td>
+                        <td colspan="3">
+                            <label id="lblExamType" name="lblExamType">
+                                &nbsp;</label>
+                            <label id="lblOperateDate" style="display: none;">
+                            </label>
+                            <label id="lblOperator" style="display: none;">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td class="title ">
+                            体检单位
+                        </td>
+                        <td>
+                            <label id="lblTeamName" name="lblTeamName">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            婚姻状况
+                        </td>
+                        <td>
+                            <label id="lblMarriedName" name="lblMarriedName">
+                                &nbsp;</label>
+                        </td>
+                        <td class="title">
+                            体检日期
+                        </td>
+                        <td colspan="3">
+                            <label id="hidlblRegisterDate" style="display: none;">
+                            </label>
+                            <input type="text" id="lblRegisterDate" name="lblRegisterDate" onfocus="WdatePicker()"
+                                class="Wdate width100" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="LSave" title="点击修改体检日期" onclick="DoUpdateCustomerSubScribDate();"
+                                style="color: Blue; cursor: pointer;">保存</a>
+                        </td>
+                    </tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    $!{HiddenInputQueryString}
+    </form>
+</body>
+</html>

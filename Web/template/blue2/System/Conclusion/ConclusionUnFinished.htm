@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>解除总检</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+</head>
+<body>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span>体检号：</span>
+                <span class="search">
+                
+                    <input name="txtSectionID" id="txtSectionID" type="hidden"  value="$!{txtSectionID}"/>
+                    <input name="txtCustomerID"  id="txtCustomerID" type="text" onfocus="this.select();" onkeyup="AutoSearchCustomerBaseInfo();" value="$!{txtCustomerID}"
+                    onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                    style="ime-mode: Disabled" 
+                    />
+
+                    <a href="javascript:void(0);" title="查询(F4)"  onclick="SearchCustomerBaseInfo();" ></a>
+                </span>
+                
+                <span style="margin:7px 0px 0px 5px;">
+                    <input id="btnSearch" type="button" class="btn-cx-s  btn-common button65" onclick="SearchCustomerBaseInfo();" title="查询(F4)" value="查询" /> 
+                </span>
+
+
+                <span class="buttom-jclq" title="解除总检"><a name="ButUnLockFinalCheck" onclick="UnLockFinalFinished();" href="javascript:void(0);">解除总检</a></span>
+            </div>
+        	<div class="oper-bg"></div>
+   	    </div>
+        
+        
+        <div class="basic-sf basic-sf-zsy" id="divCustomerBaseInfo" style="width: 100%; position:static">
+
+            <div class="basic-sf-zsy-left"></div>
+        
+            <div class="basic-sf-zsy-center">
+            <div class="basic-sf-charge-1">
+                <div class="basic-sf-charge-1-s"><img  id="HeadImg" name="HeadImg"  src="" onerror="src='$!{templatepath}/images/avatar-s.jpg'" width="80" height="96" /></div>
+                <div class="basic-sf-charge-1-x"></div>
+            </div>
+            <div class="basic-sf-charge-2">
+                <p>
+                <span class="basic-sf-charge-2-bm"><label id="lblCustomerName" >$!{CustomerName}</label></span>
+                <span class="basic-sf-charge-2-bx"><label id="lblSex" >$!{GenderName}</label></span>
+                <span class="basic-sf-charge-2-bx"><label id="lblAge">&nbsp;</label>岁</span></p>
+                <p class="basic-sf-charge-2-qt">
+                婚姻状况：<label id="lblMarriedName">$!{MarriageName}</label><br />
+                联系电话：<label id="lblTel" >$!{MobileNo}</label><br />
+                证件号：<label id="lblIDCard">$!{IDCardNo}</label></p>
+            </div>
+            <div class="basic-sf-charge-3">
+                <div class="basic-sf-charge-3-bg">
+                    <div class="basic-sf-charge-3-arr"></div>
+                    <div class="basic-sf-charge-3-if">
+                        <span>体检号：<label id="lblID_Customer">&nbsp;</label></span><br />
+                        <span>体检类型：<label id="lblExamType">&nbsp;</label></span><br />
+                        <span>指引单打印日期：<label  id="lblRegisterDate">&nbsp;</label></span><br />
+                        <span>单位名称：<label id="lblTeamName">&nbsp;</label></span>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+            
+            <div class="basic-sf-zsy-right"></div>
+        
+
+        </div>
+        
+
+        <div class="recover" style="display:none;" id="DivUnCheckedTipsInfo">
+            <table width="100%;" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="12px">
+                        <div class="recover-left">
+                        </div>
+                    </td>
+                    <td>
+        	            <div class="recover-qj-center" id="UnCheckedTipsInfo">
+            	
+                        </div>
+                    </td>
+                    <td width="12px">
+                        <div class="recover-qj-right">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+      </div>
+       
+      
+        <div class="recover" style="display:none;" >
+        	<div class="recover-left"></div>
+        	<div class="recover-qj-center" id="UnFinishedSuccessTemplete">
+            	<table width="936" border="0" cellspacing="0" cellpadding="0">
+                  <tr bgcolor="#cbe0ff" height="28">
+                    <td>体检号</td>
+                    <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                    <td>姓名</td>
+                    <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                    <td>总检医生</td>
+                    <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                    <td>总检时间</td>
+                    <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                    <td>总检状态</td>
+                    <td rowspan="2" width="2" bgcolor="#FFFFFF"></td>
+                    <td>操作结果</td>
+
+                  </tr>
+                  <tr bgcolor="#e3eeff" height="28">
+                    <th>@ID_Customer</th>
+                    <th>@CustomerName</th>
+                    <th>@FinalDoctor</th>
+                    <th>@FinalDate</th>
+                    <th>已解除</th>
+                    <th class="red-x">解除总检成功</th>
+                  </tr>
+                </table>
+            </div>
+        	<div class="recover-qj-right"></div>
+      </div>
+
+
+
+    </div>
+	
+    
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Conclusion.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取分科检查（自动调用）
+        jQuery(document).ready(function () {
+
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+            
+        });
+
+        /// <summary>
+        /// 根据输入情况，自动获取客户的个人信息
+        /// </summary>
+        function AutoSearchCustomerBaseInfo() {
+            
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+                SearchCustomerBaseInfo();
+            }
+        }
+
+
+    </script>
+
+    
+    
+	    <!-- 标记当前操作的是解除总检 还是 解除总审 -->
+        <input type="hidden" name="Is_UncheckORUnFinish" id="Is_UncheckORUnFinish" value="" />
+
+	    <!-- 总审 -->
+        <input type="hidden" name="Is_FinalCheck" id="Is_FinalCheck" value="True" />
+	    <!-- 分科锁定 -->
+        <input type="hidden" name="Is_SectionLock" id="Is_SectionLock" value="$!{Is_SectionLock}" />
+	    <!-- 完成总检 -->
+        <input type="hidden" name="Is_FinalFinished" id="Is_FinalFinished" value="$!{Is_FinalFinished}" />
+	    <!-- 总检医生ID -->
+        <input type="hidden" name="ID_FinalDoctor" id="ID_FinalDoctor" value="$!{ID_FinalDoctor}" />
+	    <!-- 总检医生 -->
+        <input type="hidden" name="FinalDoctor" id="FinalDoctor" value="$!{FinalDoctor}" />
+	    <!-- 总检时间 -->
+        <input type="hidden" name="FinalDateDetail" id="FinalDateDetail" value="$!{FinalDateDetail}" />
+
+	    <!-- 审核通过 -->
+        <input type="hidden" name="Is_Checked" id="Is_Checked" value="$!{Is_Checked}" />
+	    <!-- 审核人ID -->
+        <input type="hidden" name="ID_Checker" id="ID_Checker" value="$!{ID_Checker}" />
+	    <!-- 审核人 -->
+        <input type="hidden" name="Checker" id="Checker" value="$!{Checker}" />
+	    <!-- 审核时间 -->
+        <input type="hidden" name="CheckedDate" id="CheckedDate" value="$!{CheckedDate}" />
+	    <!-- 隐藏的客户体检号 -->
+        <input type="hidden" name="HiddenCustomerID" id="HiddenCustomerID" value="$!{txtCustomerID}" />
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>系统设置-重发Lis</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script src="$!{templatepath}/js/JS_CustomerSubScribDateOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>体检号：</span> <span class="search">
+                    <input type="text" onfocus="this.select();" onkeyup="AutoRepeatSendLisCustomerQuery();"
+                        maxlength="20" id="txtCustomerID" name="txtCustomerID" />
+                    <a href="javascript:void(0);" title="查询(F4)" onclick="ButtonClickQuery();">
+                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" alt="" /></a>
+                </span><span class="buttom-cf floatleft" title="重发"><a href="javascript:void(0);"
+                    id="btnRepeatCustomerLisPacsProject" name="btnRepeatCustomerLisPacsProject" onclick="RepeatCustomerLisPacsProject();">
+                    重发</a></span>
+            </div>
+            <div class="oper-bg">
+                <div class="Information-s" id="btnCustomerSimpleInfo" onclick="OpenOrClose(this,'divCustomerBaseInfo');"
+                    style="cursor: pointer; display: none;" title="点击显示">
+                    <div class="Information-s-l">
+                    </div>
+                    <div class="Information-s-c">
+                        <a href="javascript:void(0);" id="lblCustomerName">$!{CustomerName}</a>
+                    </div>
+                    <div class="Information-s-r">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--客户浮动个人信息-->
+        <div class="Iperso" id="divCustomerBaseInfo" style="display: none; right:6px; top:auto; margin-top:-6px;">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td rowspan="4" class="Iperso-tx">
+                        <img width="70" height="82" id="HeadImg" name="HeadImg" src="$!{templatepath}/images/avatar.jpg" />
+                    </td>
+                    <td colspan="2" align="left">
+                        <span class="Iperso-name">
+                            <label name="lblCustomerName">
+                            </label>
+                        </span><span>
+                            <label id="lblSex">
+                            </label>
+                        </span><span>
+                            <label id="lblAge">
+                            </label>
+                        </span><span>
+                            <label id="lblMarriedName">
+                            </label>
+                        </span>
+                    </td>
+                    <td colspan="2" align="left" class="Iperso-Thm">
+                        <label id="lblID_Customer" name="lblID_Customer">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        电话：
+                    </td>
+                    <td align="left">
+                        <label id="lblTel" name="lblTel">
+                        </label>
+                    </td>
+                    <td width="80" align="right">
+                        体检日期：
+                    </td>
+                    <td align="left">
+                        <label id="lblRegisterDate" name="lblRegisterDate">
+                        </label>
+                        <label style="display: none;" id="lblHideRegisterDate" name="lblHideRegisterDate">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        证件：
+                    </td>
+                    <td align="left">
+                        <label id="lblIDCard" name="lblIDCard">
+                        </label>
+                    </td>
+                    <td width="80" align="right">
+                        体检类型：
+                    </td>
+                    <td align="left">
+                        <label id="lblExamType" name="lblExamType">
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50" align="right">
+                        单位：
+                    </td>
+                    <td colspan="3" align="left">
+                        <label id="lblTeamName" name="lblTeamName">
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--客户浮动个人信息 End-->
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table border="0" cellspacing="0" cellpadding="0" class="stripe" style="min-width: 958px;
+                        width: 100%;">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 8%" />
+                            <col style="width: 28%" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 26%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                项目编码
+                            </th>
+                            <th>
+                                项目名称
+                            </th>
+                            <th>
+                                所属科室
+                            </th>
+                            <th>
+                                标本
+                            </th>
+                            <th>
+                                接口名称
+                            </th>
+                            <th>
+                                接口类型
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="j-autoHeight" id="QueryExamListData" data-left="330" data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 8%" />
+                            <col style="width: 28%" />
+                            <col style="width: 12%" />
+                            <col style="width: 10%" />
+                            <col style="width: 26%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td id="QueryFeeItemCount" style="text-align: left; padding-left: 10px;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <table style="display: none;">
+        <tbody id="TipsInfoTemplete">
+            <tr>
+                <td class="msg" colspan="15">
+                    @TipsInfo
+                </td>
+            </tr>
+        </tbody>
+        <tbody id="SendLisPascFeeItemTemplete">
+            <tr>
+                <td>
+                    @RowNum
+                </td>
+                <td>
+                    @ID_Fee
+                </td>
+                <td class="project-align-left">
+                    @FeeName
+                </td>
+                <td class="project-align-left">
+                    @SectionName
+                </td>
+                <td class="project-align-left">
+                    @SpecimenName
+                </td>
+                <td class="project-align-left">
+                    @InterfaceName
+                </td>
+                <td>
+                    @InterfaceType
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript" language="javascript">
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+        });
+
+
+        /// <summary>
+        /// 点击重发按钮
+        /// </summary>
+        function ClickBtnRepeatCustomerLisPacsProject() {
+
+            ButtonClickQuery();
+            RepeatCustomerLisPacsProject();
+        }
+
+
+        /// <summary>
+        /// 更新重发的标记 
+        /// </summary>
+        function RepeatCustomerLisPacsProject() {
+
+            var ID_Customer = jQuery.trim(jQuery("#txtCustomerID").val());            // 体检号
+
+            if (!isCustomerExamNo(ID_Customer)) {
+
+                ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                return;
+            }
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { ID_Customer: ID_Customer,
+                    action: 'RepeatCustomerLisPacsProject',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+                    if (parseInt(jsonmsg) > 0) {
+                        ShowSystemDialog("提交重发【LIS/PACS】申请成功，请等待一分钟后重新读取数据!");
+                    }
+                    else {
+                        ShowSystemDialog("提交重发【LIS/PACS】申请失败!");
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// 自动查询
+        /// </summary>
+        function AutoRepeatSendLisCustomerQuery() {
+
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+                ButtonClickQuery();
+            }
+        }
+
+        // 查询客户的基本信息
+        function ButtonClickQuery() {
+
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+            if (customerid != "") {
+                // 如果输入的值满足体检号的条件，则自动跳转到分检页面
+                if (isCustomerExamNo(customerid)) {
+                    // 查询客户的基本信息，并显示
+                    SearchCustomerBaseInfo(1, 0); //原型：SearchCustomerBaseInfo(IsShowMsg, IsLoadCustomerInfo)
+                    GetCustomerFeeItemList();
+
+                } else {
+                    ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                }
+            } else {
+                ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+            }
+        }
+
+        // 获取客户收费项目列表
+        function GetCustomerFeeItemList() {
+
+            var ID_Customer = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { ID_Customer: ID_Customer,
+                    action: 'GetCustomerLisPacsFeeItem',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    var newcontent = "";
+                    // 从模版中读取数据加载列表
+                    var templateContent = jQuery('#SendLisPascFeeItemTemplete').html();
+                    if (templateContent == undefined) { return; }
+                    var RowNum = 1;
+                    jQuery(jsonmsg.dataList0).each(function (i, item) {
+                        newcontent += templateContent.replace(/@ID_Fee/gi, item.ID_Fee)
+                            .replace(/@FeeName/gi, item.FeeName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@SectionName/gi, item.SectionName)
+                            .replace(/@InterfaceName/gi, item.InterfaceName)
+                            .replace(/@InterfaceType/gi, item.InterfaceType)
+                            .replace(/@SpecimenName/gi, item.SpecimenName);
+                        RowNum++;
+                    });
+
+                    if (newcontent != '') {
+                        jQuery('#Searchresult').html(newcontent);
+                        jQuery("#btnCustomerSimpleInfo").show();
+                        SetTableEvenOddRowStyle(); // 奇偶行背景
+                        jQuery("#QueryFeeItemCount").html("共查询到【" + (parseInt(RowNum) - 1) + "】个项目！");
+                    } else {
+                        jQuery("#btnCustomerSimpleInfo").hide();
+                        jQuery('#Searchresult').html("");
+                        ShowSystemDialog("未查询到体检号对应的体检信息！");
+                        jQuery("#QueryFeeItemCount").html("");
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>分检查询与列表 </title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_TeamList.js" type="text/javascript"></script>
+    
+</head>
+<body>
+    <div class="center">
+        <!--查询区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>团体名称：</span> <span class="search-ttmc" style="width: 290px">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 270px;">
+                        <span id="spanTeam">
+                            <input  name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border:0; width: 260px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearchTeamTask"
+                    name="btnSearchTeamTask" onclick="Search();">查询</a></span><span class="buttom-tj-s"
+                        title="新增"><a href="javascript:void(0);" id="btnAddX" name="btnAddX" targeturl="/System/Customer/TeamListOper.aspx?type=add&modelName=dialogteamlist"
+                            onclick="AddTeam();">新增</a></span> <span class="buttom-sc-s" title="删除"><a href="javascript:void(0);"
+                                id="btnDelX" name="btnDelX" onclick="return DoDel();">删除</a></span>
+            </div>
+        </div>
+        <!--查询区域 End-->
+        <!--查询列表 Begin-->
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 21%" />
+                            <col style="width: 7%" />
+                            <col style="width: 16%" />
+                            <col style="width: 10%" />
+                            <col style="width: 23%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                团体名称
+                            </th>
+                            <th>
+                                创建人
+                            </th>
+                            <th>
+                                创建时间
+                            </th>
+                            <th>
+                                输入码
+                            </th>
+                            <th>
+                                备注
+                            </th>
+                            <th>
+                                任务
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="325"
+                    data-min="100" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 21%" />
+                            <col style="width: 7%" />
+                            <col style="width: 16%" />
+                            <col style="width: 10%" />
+                            <col style="width: 23%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--查询列表 End-->
+        <!--参数输出区域 Begin-->
+        $!{HiddenInputQueryString}
+        <!--参数输出区域 End-->
+        <!--模版区域 Begin-->
+        <div id="divTeamplate" style="display: none;">
+            <table id="TeamListTeamplate">
+                <tbody>
+                    <tr id="@ID_TeaM" ondblclick="ModifyTeam(this);" targeturl="/System/Customer/TeamListOper.aspx?type=Edit&mark=teamlist&modelName=dialogteamlist&ID_TeaM=@ID_TeaM"
+                        title="双击编辑团体: @TeamName">
+                        <td>
+                            <input id_team="@ID_TeaM" id="@ID_TeaM" title="" type="checkbox" name="ItemCheckbox" />
+                        </td>
+                        <td>
+                            @RowNum
+                        </td>
+                        <td>
+                            <label name="lblTeamID">
+                                @ID_TeaM</label>
+                        </td>
+                        <td class="project-align-left" title="@TeamName">
+                            <label name="lblTeamName" style="display: none;">
+                                @TeamName</label>
+                            <div class="nowrap" style="width: 100%;">
+                                <a href="javascript:void(0);">@TeamName</a></div>
+                        </td>
+                        <td class="project-align-left">
+                            <label name="lblIDCreator" style="display: none;">
+                                @ID_Creator</label>
+                            <label name="lblCreator">
+                                @Creator</label>
+                        </td>
+                        <td>
+                            <label name="lblCreateDate">
+                                @CreateDate</label>
+                        </td>
+                        <td class="project-align-left">
+                            <label name="lblInputCode">
+                                @InputCode</label>
+                        </td>
+                        <td class="project-align-left" title="@Note">
+                            <div class="nowrap" style="width: 100%;">
+                                @Note</div>
+                            <label name="lblNote" style="display: none;">
+                                @Noteeeffee</label>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="DoLoadX(this);" targeturl="/System/Customer/TeamTaskList.aspx?type=Edit&modelName=teamlist&ID_TeaM=@ID_TeaM&curTeam=@ID_TeaM&curTeamName=@targetTeamName"
+                                title="@editTitle">查看</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--模版区域 End-->
+        <!--团体信息新增弹出框模板 Begin-->
+        <div class="GroupXXdiv" id="teamAddDiv" style="display: none;">
+            <div class="GroupXXdiv-title">
+                <div class="GroupXXdiv-title-l">
+                </div>
+                <div class="GroupXXdiv-title-b">
+                    <div class="GroupXXdiv-title-total teamaddTitle">
+                        <div class="GroupXXdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>团体信息-新增</strong>
+                        </div>
+                        <div class="GroupXXdiv-title-off">
+                            <a href="javascript:void(0);" onclick="CloseTeamAddDialog();"></a>
+                        </div>
+                        <div class="GroupXXdiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="GroupXXdiv-title-r">
+                </div>
+            </div>
+            <div class="GroupXXdiv-center">
+                <div class="GroupXXdiv-center-l">
+                </div>
+                <div class="GroupXXdiv-center-b">
+                    <table width="265" border="0" cellspacing="0" cellpadding="0" class="GroupXXdiv-table1">
+                        <tr>
+                            <td width="85" align="right">
+                                团体ID：
+                            </td>
+                            <td align="left" width="190">
+                                <label id="lblIDTeam" name="txtID_TeaM">
+                                    ********</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                团体名称：
+                            </td>
+                            <td width="190">
+                                <input type="text" name="textfield" id="txtTeamName" name="txtTeamName" maxlength="20" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                备注：
+                            </td>
+                            <td width="190">
+                                <input type="text" name="txtNote" id="txtNote" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建人：
+                            </td>
+                            <td align="left" width="190">
+                                <label id="txtIDCreator" name="txtCreator" style="display: none;">
+                                    $!{UserID}
+                                </label>
+                                <label id="txtCreator" name="txtCreator">
+                                    $!{UserName}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建时间：
+                            </td>
+                            <td align="left" width="190">
+                                <label id="txtCreateDate" name="txtCreateDate">
+                                    $!{CreateDate}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height: 15px;">
+                                <div class="GroupXXdiv-table1-xx">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="GroupXXdiv-center-b-ann">
+                        <span class="buttom-bcbgb" title="保存并关闭"><a href="javascript:void(0);" onclick="SaveTeam(1);">
+                            保存并关闭</a></span> <span class="buttom-bcbjx" title="保存并继续"><a href="javascript:void(0);"
+                                onclick="SaveTeam(0);">保存并继续</a></span>
+                    </div>
+                </div>
+                <div class="GroupXXdiv-center-r">
+                </div>
+            </div>
+            <div class="GroupXXdiv-bottom">
+                <div class="GroupXXdiv-bottom-l">
+                </div>
+                <div class="GroupXXdiv-bottom-b">
+                </div>
+                <div class="GroupXXdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--团体信息新增弹出框模板 End-->
+        <!--团体信息修改弹出框模板 Begin-->
+        <div class="GroupXXdiv" id="teamModifyDiv" style="display: none;">
+            <div class="GroupXXdiv-title">
+                <div class="GroupXXdiv-title-l">
+                </div>
+                <div class="GroupXXdiv-title-b">
+                    <div class="GroupXXdiv-title-total teamModifyTitle">
+                        <div class="GroupXXdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>
+                                <label id="lblTeamModifyTitle">
+                                    团体编辑</label></strong>
+                        </div>
+                        <div class="GroupXXdiv-title-off">
+                            <a href="javascript:void(0);" onclick="CloseTeamModifyDialog();"></a>
+                        </div>
+                        <div class="GroupXXdiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="GroupXXdiv-title-r">
+                </div>
+            </div>
+            <div class="GroupXXdiv-center">
+                <div class="GroupXXdiv-center-l">
+                </div>
+                <div class="GroupXXdiv-center-b">
+                    <table width="265" border="0" cellspacing="0" cellpadding="0" class="GroupXXdiv-table1">
+                        <tr>
+                            <td width="85" align="right">
+                                团体ID：
+                            </td>
+                            <td align="left">
+                                <label id="lblModifyTeamID">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                团体名称：
+                            </td>
+                            <td align="left">
+                                <label id="lblModifyTeamName" style="height: 29px; overflow: hidden; display: block;">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="75" align="right">
+                                备注：
+                            </td>
+                            <td align="left">
+                                <input type="text" name="txtNote" id="txtModifyNote" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建人：
+                            </td>
+                            <td align="left">
+                                <label id="lblModifyIDCreator" style="display: none;">
+                                </label>
+                                <label id="lblModifyCreator" name="txtCreator">
+                                    $!{Creator}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="75" align="right">
+                                创建时间：
+                            </td>
+                            <td align="left">
+                                <label id="lblModifyCreateDate" name="txtCreateDate">
+                                    $!{CreateDate}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height: 15px;">
+                                <div class="GroupXXdiv-table1-xx">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="GroupXXdiv-center-b-ann" style="padding-left: 50px;">
+                        <span class="buttom-bc-s" title="保存"><a href="javascript:void(0);" onclick="SaveTeam(1);">
+                            保存</a></span> <span class="buttom-qx" title="取消"><a href="javascript:void(0);" onclick="CloseTeamModifyDialog();">
+                                取消</a></span>
+                    </div>
+                </div>
+                <div class="GroupXXdiv-center-r">
+                </div>
+            </div>
+            <div class="GroupXXdiv-bottom">
+                <div class="GroupXXdiv-bottom-l">
+                </div>
+                <div class="GroupXXdiv-bottom-b">
+                </div>
+                <div class="GroupXXdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--团体信息修改弹出框模板 End-->
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+
+    //关闭团体编辑窗口
+    function CloseTeamAddDialog() {
+        //设置收费显示内容
+        jQuery("#txtNote").val("");
+        CommonShowHideDialog('teamAddDiv');
+    }
+    //关闭团体编辑窗口
+    function CloseTeamModifyDialog() {
+        //设置收费显示内容
+        jQuery("#txtNote").val("");
+        jQuery("#txtModifyNote").val("");
+        CommonShowHideDialog('teamModifyDiv');
+    }
+    var IsAdd = false;
+    //新增团体信息
+    function AddTeam() {
+        IsAdd = true;
+        jQuery("#lblIDTeam").text("********");
+        jQuery("#txtTeamName").val("");
+        CommonShowHideDialog('teamAddDiv');
+        jQuery("#txtTeamName").focus();
+
+    }
+
+    function ModifyTeam(obj) {
+
+        IsAdd = false;
+        var TeamID = jQuery(obj).attr("id");
+        var title = jQuery(obj).attr("title");
+        var TeamName = jQuery(obj).find("td label[name='lblTeamName']").text();
+        var IDCreator = jQuery(obj).find("td label[name='lblIDCreator']").text();
+        var Creator = jQuery(obj).find("td label[name='lblCreator']").text();
+        var CreateDate = jQuery(obj).find("td label[name='lblCreateDate']").text();
+        var InputCode = jQuery(obj).find("td label[name='lblInputCode']").text();
+        var Note = jQuery(obj).find("td label[name='lblNote']").text();
+
+        //设置值
+        if (TeamName.length > 12) {
+            jQuery("#lblTeamModifyTitle").text(TeamName.substr(0, 12) + "...");
+        }
+        else {
+            jQuery("#lblTeamModifyTitle").text(TeamName);
+        }
+        jQuery("#lblModifyTeamID").text(TeamID);
+        jQuery("#lblModifyTeamName").text(TeamName);
+        jQuery("#txtModifyNote").val(Note);
+        jQuery("#lblModifyIDCreator").text(IDCreator);
+        jQuery("#lblModifyCreator").text(Creator);
+        jQuery("#lblModifyCreateDate").text(CreateDate);
+
+        CommonShowHideDialog('teamModifyDiv');
+        jQuery("#txtModifyNote").focus();
+        jQuery("#txtModifyNote").select();
+
+        jQuery("#txtModifyNote").attr("maxlength", "50"); //设置备注信息最长字符数为50 xmhuang 2014-04-27
+
+    }
+    function AddNewTeam() {
+
+        jQuery("#lblIDTeam").text("********");
+        jQuery("#txtTeamName").val("");
+        jQuery("#txtNote").val("");
+        jQuery("#txtNote").attr("maxlength", "50");       //设置备注信息最长字符数为50 xmhuang 2014-04-27
+        IsAdd = true;
+    }
+    /// <summary>
+    /// 保存团体信息
+    /// </summary>
+    function SaveTeam(IsClose) {
+        var modelName = jQuery("#modelName").val() == undefined ? "" : jQuery("#modelName").val(); //参数：上一页面来源
+        var ID_Team = "", TeamName = "", InputCode = "", Note = "";
+        if (IsAdd)//新增团体信息
+        {
+            if (jQuery.trim(jQuery("#txtTeamName").val()) == "")//判断团体名称不允许为空
+            {
+                IsCanSave = false;
+                ShowSystemDialog("对不起，团体名称不允许为空，请您填写！");
+                jQuery("#txtTeamName").focus();
+                jQuery("#txtTeamName").select();
+                return false;
+            }
+            TeamName = jQuery.trim(jQuery("#txtTeamName").val());  //团体名称
+            Note = jQuery("#txtNote").val();                       //备注信息
+            ID_Creator = jQuery("#txtIDCreator").text();
+            Creator = jQuery("#txtCreator").text();
+            CreateDate = jQuery("#txtCreateDate").text();
+
+        }
+        else//修改团体信息
+        {
+            ID_Team = jQuery("#lblModifyTeamID").text();
+            TeamName = jQuery("#lblModifyTeamName").text();
+            ID_Creator = jQuery("#lblModifyIDCreator").text();
+            Creator = jQuery("#lblModifyCreator").text();
+            CreateDate = jQuery("#lblModifyCreateDate").text();
+            InputCode = jQuery("#txtInputCode").val();
+            Note = jQuery("#txtModifyNote").val();
+        }
+        type = IsAdd ? "Add" : "Modify";
+
+        var qustData = {
+            action: 'SaveData',
+            modelName: modelName,
+            type: type,
+            ID_Team: ID_Team,
+            TeamName: TeamName,
+            ID_Creator: ID_Creator,
+            Creator: Creator,
+            CreateDate: CreateDate,
+            InputCode: InputCode,
+            Note: Note
+        };
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxTeamOper.aspx",
+            data: qustData,
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                ShowSystemDialog(msg.Message);
+                if (msg.success == "1") {
+                    if (IsAdd) {
+                        jQuery("#lblIDTeam").text(msg.ID_Team);
+                        jQuery("#txtInputCode").val(msg.InputCode);
+                    }
+                    else {
+                        jQuery("#lblModifyTeamID").text(msg.ID_Team);
+                        jQuery("#lblModifyInputCode").val(msg.InputCode);
+                    }
+                }
+                else {
+                }
+            },
+            complete: function () {
+                if (IsClose == 1) {
+                    if (IsAdd) {
+                        CloseTeamAddDialog();
+                    }
+                    else {
+                        CloseTeamModifyDialog();
+                    }
+                    RemoveSelectedTeam();
+                    //                    jQuery('#idSelectTeam').val("");            //重置团体ID   xmhuang 2014-04-28
+                    //                    jQuery('#nameSelectTeam').val("");          //重置团体名称  xmhuang 2014-04-28
+                    Search();
+                }
+                else if (IsClose == 0) {
+                    RemoveSelectedTeam();
+                    //                    jQuery('#idSelectTeam').val("");            //重置团体ID   xmhuang 2014-04-28
+                    //                    jQuery('#nameSelectTeam').val("");          //重置团体名称  xmhuang 2014-04-28
+                    Search();
+                    AddNewTeam();
+                }
+            }
+        });
+    }
+</script>

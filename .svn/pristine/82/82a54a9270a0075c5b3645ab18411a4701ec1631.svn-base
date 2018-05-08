@@ -1,0 +1,352 @@
+﻿
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            // alert(jQuery("#ShowUserMenuDiv").height());
+            jQuery("#QueryExamListData").attr("data-left", (232 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+            GetExamListParams(); // 获取上次保存的参数
+
+            InitSectionSelectList();
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+        });
+
+        /// <summary>
+        /// 加载操作员权限对应的科室 20140413 
+        /// </summary>
+        function InitSectionSelectList() {
+
+            jQuery(gLoginUserSection).each(function (j, sectionitem) {
+
+                var sectionID = jQuery('#txtSectionID').val();      // 科室ID
+                if (sectionID == sectionitem.ID_Section) {
+                    jQuery("#selSectionList").append('<option value="' + sectionitem.ID_Section + '" selected="selected">' + sectionitem.SectionName + '</option>');
+                } else {
+                    jQuery("#selSectionList").append('<option value="' + sectionitem.ID_Section + '">' + sectionitem.SectionName + '</option>');
+                }
+            });
+
+        }
+
+        /// <summary>
+        /// 获取Cookie中存放的分科检查查询列表页参数
+        /// </summary>
+        function GetExamListParams() {
+
+            var ParamsArgArray = GetUserCurrentQueryParams("QParam_SectionExamList");
+            if (ParamsArgArray == null) { return; }
+            if (ParamsArgArray.length <= 5) { return; }
+            // 注意放入数组的顺序
+            var sectionID = ParamsArgArray[0];      // 科室ID
+            var BeginExamDate = ParamsArgArray[1];  // 开始日期
+            var EndExamDate = ParamsArgArray[2];    // 结束日期
+            var OnlyMySelf = ParamsArgArray[3];     // 仅显示我操作的
+            var IsNotExam = ParamsArgArray[4];      // 未检
+
+            jQuery('#BeginExamDate').val(BeginExamDate); // 开始日期
+            jQuery('#EndExamDate').val(EndExamDate);     // 结束日期
+            // 仅显示我操作的
+            if (OnlyMySelf == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", true);
+            } else {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+            }
+            // 未检
+            if (IsNotExam == "0") {
+                jQuery("#chkNotExam").attr("checked", true);
+            } else {
+                jQuery("#chkNotExam").attr("checked", false);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 保存分科检查查询列表页参数
+        /// </summary>
+        function SaveExamListParams() {
+
+            var ParamsArgArray = new Array();
+
+
+            var sectionID = jQuery('#selSectionList').val();
+            if (sectionID == "") {
+                sectionID = jQuery('#txtSectionID').val();      // 科室ID
+            }
+
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+
+            // 注意放入数组的顺序
+            ParamsArgArray.push(sectionID);     // 科室ID
+            ParamsArgArray.push(BeginExamDate); // 开始日期
+            ParamsArgArray.push(EndExamDate);   // 结束日期
+            ParamsArgArray.push(OnlyMySelf);    // 仅显示我操作的
+            ParamsArgArray.push(IsNotExam);     // 未检
+
+            // 保存科室分检查询列表的参数
+            SetUserCurrentQueryParams("QParam_SectionExamList", ParamsArgArray);
+
+        }
+
+
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        function ButtonClickQuery() {
+            
+            var sectionID = jQuery('#selSectionList').val();
+            if (sectionID == "") {
+                sectionID = jQuery('#txtSectionID').val();      // 科室ID
+            }
+
+            if (sectionID == "" || sectionID == 0) {
+                ShowSystemDialog("请选择一个科室！");
+                return;
+            }
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+            if (customerid == "") {
+                SaveExamListParams();
+                tempOperPageCount = 0;
+                QueryPagesData(0); //重新按照新输入的条件进行查询
+            } else {
+                if (!isCustomerExamNo(customerid)) {
+                    ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                    return;
+                } else {
+                    DoLoad('/System/Exam/ExamOper.aspx?txtSectionID=' + sectionID + '&txtCustomerID=' + customerid, '');
+                }
+            }
+        }
+
+        var oldQueryCustomerID = ""; // 记录上次查询的体检号
+        /// <summary>
+        /// 自动查询
+        /// </summary>
+        function AutoSectionCustomerQuery() {
+
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+
+                var sectionID = jQuery('#selSectionList').val();
+                if (sectionID == "") {
+                    sectionID = jQuery('#txtSectionID').val();      // 科室ID
+                }
+
+                var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+                if (oldQueryCustomerID == customerid) { return; } // 如果与上次一样，则退出
+                if (customerid != "") {
+                    // 如果输入的值满足体检号的条件，则自动跳转到分检页面
+                    if (isCustomerExamNo(customerid)) {
+                        oldQueryCustomerID = customerid;
+                        DoLoad('/System/Exam/ExamOper.aspx?txtSectionID=' + sectionID + '&txtCustomerID=' + customerid, '');
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+
+            jQuery("#Pagination").hide(); // 开始查询的时候，隐藏分页信息
+
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+
+            var BeginExamDate = jQuery('#BeginExamDate').val(); // 开始日期
+            BeginExamDate = encodeURIComponent(BeginExamDate);
+
+            var EndExamDate = jQuery('#EndExamDate').val();     // 结束日期
+            EndExamDate = encodeURIComponent(EndExamDate);
+
+            var sectionID = jQuery('#selSectionList').val();
+            if (sectionID == "") {
+                sectionID = jQuery('#txtSectionID').val();      // 科室ID
+            }
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val(); // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { pageIndex: pageIndex, BeginExamDate: BeginExamDate, EndExamDate: EndExamDate, sectionID: sectionID, pageSize: pagePagination.items_per_page,
+                    OnlyMySelf: OnlyMySelf,
+                    IsNotExam: IsNotExam,
+                    action: 'GetCustomerExamList'
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+                    // 检查Ajax返回数据的状态等  20140430 by wtang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+
+                    var tmpCustomerIDsStr = ""; // 临时记录体检号（逗号分隔的字符串）
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+                        tempOldtotalCount = msg.totalCount;
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#QueryDataListTemplete').html();
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (tmpCustomerIDsStr == "") {
+                                tmpCustomerIDsStr = item.ID_Customer;
+                            } else {
+                                tmpCustomerIDsStr = tmpCustomerIDsStr + "," + item.ID_Customer;
+                            }
+                            if (templateContent == undefined) { return; }
+                            
+                            newcontent +=
+                             templateContent.replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ID_Section/gi, item.ID_Section)
+                            .replace(/@CustomerID/gi, item.ID_Customer)
+                            .replace(/@Examed/gi, item.SummaryDoctorName == '' ? '--' : '√')
+                            .replace(/@Checked/gi, item.Is_Check == 'True' ? '√' : '--')
+                            .replace(/@GiveUp/gi, item.IS_giveup == 'True' ? '√' : '--')
+                            .replace(/@SummaryDoctorName/gi, item.SummaryDoctorName)
+                            .replace(/@SectionSummaryFormatDate/gi, item.SummaryDoctorName == '' ? '--' : item.SectionSummaryFormatDate)
+                            .replace(/@CheckFormatDate/gi, item.Is_Check == 'True' ? item.CheckFormatDate : '--')
+                            .replace(/@CheckerName/gi, item.Is_Check == 'True' ? item.CheckerName : '--')
+                            .replace(/@SectionSummary/gi, item.SectionSummary == '' ? '--' : "<span title=" + item.SectionSummary + ">查看小结</span>")
+
+                            .replace(/@Is_GuideSheetPrinted/gi, item.Is_GuideSheetPrinted == 'True' ? '√' : '--')
+                            .replace(/@bgclass/gi, item.Is_GuideSheetPrinted == 'True' ? '' : 'noprint_bgclass')
+                            .replace(/@trTitle/gi, item.Is_GuideSheetPrinted == 'True' ? '' : "【" + item.CustomerName + '】还未打印指引单！')
+                            ;
+
+                            RowNum++;
+                        });
+                        if (newcontent != '') {
+                            jQuery('#Searchresult').html(newcontent);
+
+                            // 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+                            GetCustomerExamListArcPhysicalInfo(tmpCustomerIDsStr);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+                    } else {
+                        jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "在您查询的时间段内，没有找到客户的体检信息！"));
+                        jQuery("#Pagination").hide(); // 没有数据的时候，隐藏分页信息
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+
+        function Search() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+
+        /// <summary>
+        /// 查询指定体检号的存档信息及体检基本信息 (查询分页列表的补充信息)
+        /// </summary>
+        function GetCustomerExamListArcPhysicalInfo(CustomerIDsStr) {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustExam.aspx",
+                data: { CustomerIDsStr: CustomerIDsStr,
+                    action: 'GetCustomerExamListArcPhysicalInfo',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg == null || jsonmsg == "" || parseInt(jsonmsg.totalCount) <= 0)
+                    { return false; }
+
+                    jQuery(jsonmsg.dataList0).each(function (i, onarccustitem) {
+                        jQuery("#GenderName_" + onarccustitem.ID_Customer).html(onarccustitem.GenderName);
+                        jQuery("#Age_" + onarccustitem.ID_Customer).html(onarccustitem.Age);
+                        jQuery("#IDCard_" + onarccustitem.ID_Customer).html(onarccustitem.IDCard);
+                        jQuery("#ExamCard_" + onarccustitem.ID_Customer).html(onarccustitem.ExamCard);
+                        jQuery("#MobileNo_" + onarccustitem.ID_Customer + " div").html(onarccustitem.MobileNo);
+                        jQuery("#MobileNo_" + onarccustitem.ID_Customer).attr("title", onarccustitem.MobileNo);
+                    });
+                }
+            });
+
+        }
+
+        function ChangeNotExamState() {
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+            if (IsNotExam == "0") {
+                jQuery("#chkOnlyMySelf").attr("checked", false);
+            } else {
+                jQuery("#chkOnlyMySelf").attr("checked", true);
+            }
+        }
+
+        function ChangeOnlyMySelf() {
+
+            var OnlyMySelf = jQuery("input[name='chkOnlyMySelf']:checked").val();   // 仅显示我操作的
+            var IsNotExam = jQuery("input[name='chkNotExam']:checked").val();       // 未检
+            if (OnlyMySelf == "0") {
+                jQuery("#chkNotExam").attr("checked", false);
+            }
+        }

@@ -1,0 +1,244 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                
+                <span style="float:left;">
+                &nbsp;体检类型列表
+                </span>
+                <span style="float:left; font-weight:normal; font-size:10px;" id="ExamTypeItemCount">
+                </span>
+
+            </div>
+            <div class="query-area">
+                
+                <div class="query-group">
+                    <label class="query-label">
+                        体检类型/输入码：</label>
+                    <div class="query-controls">
+                        <input type="text" class="span150" onfocus="this.select();" 
+                        onkeydown="if(IsEnterKeyDown() == true) { ExamTypeKeywordsSearch();}" 
+                        id="txtSearchExamTypeKeyword" name="txtSearchExamTypeKeyword" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) " onclick="ExamTypeKeywordsSearch();" />
+                    </label>
+                </div>
+                <div class="query-group" style="float: right;">
+                    <input id="Button1" type="button" class="button80" value="  新 增  " onclick="OpenExamTypeOperWindow();" />
+                    <input id="Button2" type="button" class="button80" value="  修 改  " onclick="OpenEditExamTypeWindow();" />
+                </div>
+                <div style="width:100%; overflow:auto;">
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                体检类型名称
+                            </td>
+                            <td>
+                                输入码
+                            </td>
+                            <td>
+                                单项归档
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                      
+                    </tbody>
+                </table>
+                </div>
+                <div class="pagination">
+                    <ul id="Pagination">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <table style="display:none;">
+        <tbody id="ExamTypeListItemTemplete">
+            <tr onclick="SetExamTypeChecked('@ID_ExamType')" ondblclick="OpenEditExamTypeWindow();">
+                <td>
+                    <input id="rdiExamType_@ID_ExamType" title="" type="radio" name='ExamTypeRadio' value="@ID_ExamType" />
+                </td>
+                <td id="ExamTypeName_@ID_ExamType">@ExamTypeName</td>
+                <td id="InputCode_@ID_ExamType">@InputCode</td>
+                <td id="Is_Document_@ID_ExamType">@Is_Document</td>
+
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+
+</html>
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+            
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+        
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function ExamTypeKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var SearchExamTypeKeyword = jQuery('#txtSearchExamTypeKeyword').val();      // 科室关键字
+            
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                        SearchExamTypeKeyword: SearchExamTypeKeyword,
+                        pageSize: pagePagination.items_per_page,
+                        action: 'SearchExamTypeList',
+                        date: encodeURIComponent(new Date())
+                    },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#ExamTypeItemCount").html(" 【共有 " + msg.totalCount + " 个体检类型】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamTypeListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            newcontent +=
+                             templateContent.replace(/@ExamTypeName/gi, item.ExamTypeName)
+                            .replace(/@ID_ExamType/gi, item.ID_ExamType)
+                            .replace(/@Is_Document/gi, item.Is_Document =="1"?"是":"")
+                            .replace(/@InputCode/gi, item.InputCode)
+                            ;
+                        });
+                        
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#ExamTypeItemCount").html(" 【共有 0 个体检类型】");
+                    }
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个体检类型信息，用户更新修改后的体检类型列表中的数据
+        /// </summary>
+        function GetSingleExamTypeInfo(ID_ExamType, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ID_ExamType: ID_ExamType,
+                    action: 'GetSingleExamTypeInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamTypeListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (type == "edit") {
+                                jQuery("#ExamTypeName_" + item.ID_ExamType).html(item.ExamTypeName);
+                                jQuery("#Is_Document_" + item.ID_ExamType).html(item.Is_Document == "1" ? "是" : "");
+                                jQuery("#InputCode_" + item.ID_ExamType).html(item.InputCode);
+                                
+                            } else {
+
+                            newcontent +=
+                                 templateContent.replace(/@ExamTypeName/gi, item.ExamTypeName)
+                                .replace(/@ID_ExamType/gi, item.ID_ExamType)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@Is_Document/gi, item.Is_Document == "1" ? "是" : "")
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                }
+            });
+        }
+
+
+    </script>

@@ -1,0 +1,20 @@
+﻿$(function () {
+    if (typeof (quickSearchBoxData) != "undefined") {
+        QuickSearchBox(quickSearchBoxData);
+        $(".bread", parent.document).show();
+        $(".leftnav", parent.document).css("top", "120px");
+        $(".admin", parent.document).css("top", "120px");
+    } else {
+        //检查导航条状态决定隐藏还是显示
+            $(".bread", parent.document).hide();
+            $(".leftnav", parent.document).css("top", "70px");
+            $(".admin", parent.document).css("top", "70px");
+    }
+    var biTianBiaoZhi = '<span class="biTian">*</span>';
+    $(".biTianXiang").before(biTianBiaoZhi);
+    //加时间控件
+    $(".dateselect").flatpickr();
+    $(".datemaxselect").flatpickr({ maxDate: "today" });
+})
+
+//QuickSearchBox(quickSearchBoxData);

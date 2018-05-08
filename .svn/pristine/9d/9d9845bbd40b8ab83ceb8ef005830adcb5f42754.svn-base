@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>总审通过客户列表</title><title>报告预览</title>
+    <link href="$!{templatepath}/css/Css_RegistOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserName = "${UserName}"; //登记人
+        var ID_User = "${ID_User}"; //登记人
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_ReportPrint.js" type="text/javascript"></script>
+</head>
+<form onkeyup="OnFormKeyUp();">
+<body>
+    <div style="display: none;">
+        <!--体检报告预览模版 Begin-->
+        <table id="TemplateReportView">
+            <thead>
+                <tr>
+                    <td style="min-width: 30px;">
+                        <input style="width: 30px;" title="全选" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td style="min-width: 20px;">
+                        序号
+                    </td>
+                    <td style="width: 30px;">
+                        体检号
+                    </td>
+                    <td style="min-width: 30px;">
+                        姓名
+                    </td>
+                    <td style="min-width: 30px;">
+                        性别
+                    </td>
+                    <td style="min-width: 75px;">
+                        出生日期
+                    </td>
+                    <td style="min-width: 100px;">
+                        单位名称
+                    </td>
+                    <td style="min-width: 30px;">
+                        总审医生
+                    </td>
+                    <td style="min-width: 75px;">
+                        总审时间
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted" is_informed="@Is_Informed"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblChecker">
+                            @Checker</label>
+                    </td>
+                    <td>
+                        <label name="lblCheckedDate">
+                            @CheckedDate</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告预览模版 End-->
+        <!--体检报告待打印模版 Begin-->
+        <table id="TemplateReportPrintView">
+            <thead>
+                <tr>
+                    <td>
+                        <input title="全选" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        体检号
+                    </td>
+                    <td>
+                        姓名
+                    </td>
+                    <td>
+                        性别
+                    </td>
+                    <td>
+                        出生日期
+                    </td>
+                    <td>
+                        单位名称
+                    </td>
+                    <td>
+                        总审医生
+                    </td>
+                    <td>
+                        总审时间
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblChecker">
+                            @Checker</label>
+                    </td>
+                    <td>
+                        <label name="lblCheckedDate">
+                            @CheckedDate</label>
+                    </td>
+                    <td>
+                        <a style="color: Green;" href="javascript:void(0);" onclick="RemovePrintReport(this);"
+                            title="点击移除该项">×</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告待打印模版 End-->
+    </div>
+    <div class="project">
+        <!--<div class="basic-title">
+            <div class="basic-title-t">
+                <a href="javascript:void(0);" id="bcc" onclick="OpenOrClose(this,'bzz');">项目明细</a></div>
+            <div class="basic-title-j">
+                <a href="#" id="bcc" onclick="OpenOrClose(this,'bzz');">
+                    <img src="$!{templatepath}/images/arrow-top.png" width="12" height="13" /></a></div>
+        </div>-->
+        <div class="project-center">
+            <table style="width: 958px;">
+                <tbody>
+                    <tr>
+                        <td style="padding: 0px;" class="stripe">
+                            <div style="width: 445px; overflow: scroll; height: 450px;" id="tdLeft">
+                                <div style="height: 380px;">
+                                    <table id="tblLeftReportPrint" style="width: 878px;">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="15">
+                                                    <input id="printReportAll" type="radio" name="printReportRadio" value="all" checked="checked"
+                                                        onclick="SelectPrintReport(this,'all');" />全部
+                                                    <input id="printReportRadioSelf" type="radio" name="printReportRadio" value="self"
+                                                        onclick="SelectPrintReport(this,'self');" />个人
+                                                    <input id="printReportRadioTeam" type="radio" name="printReportRadio" value="team"
+                                                        onclick="SelectPrintReport(this,'team');" />团体
+                                                    <select id="slTeam" style="display: none; min-width: 50px; width: auto;" onchange="SelectPrintReport(this,'team');">
+                                                        <option code="-1" code="-1" value="-1">----</option>
+                                                        #foreach($info in $!{AllTeamInfo.Rows})
+                                                        <option code="${info.ID_Team}" code="${info.ID_Team}" value="${info.ID_Team}">${info.TeamName}</option>
+                                                        #end
+                                                    </select>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th style="min-width: 20px;">
+                                                    <input title="全选" id="chbCanPrintReport" type="checkbox" onclick='checkAll(this);' />
+                                                </th>
+                                                <th style="min-width: 30px;">
+                                                    序号
+                                                </th>
+                                                <th style="min-width: 60px;">
+                                                    体检号
+                                                </th>
+                                                <th style="min-width: 40px;">
+                                                    姓名
+                                                </th>
+                                                <th style="min-width: 30px;">
+                                                    性别
+                                                </th>
+                                                <th style="min-width: 80px;">
+                                                    出生日期
+                                                </th>
+                                                <th style="min-width: 100px;">
+                                                    单位名称
+                                                </th>
+                                                <th style="min-width: 60px;">
+                                                    总审医生
+                                                </th>
+                                                <th style="min-width: 80px;">
+                                                    总审时间
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="pagination" id="PaginationOld">
+                                <ul id="Pagination">
+                                </ul>
+                            </div>
+                        </td>
+                        <td style="width: 18px; text-align: center; padding: 0px;">
+                            <div>
+                                <label title="将勾选的数据添加到待打印列表" onclick="AppendToRight();" style="color: Blue; font-size: 16pt;">
+                                    ></label>
+                                <label title="隐藏或显示左右区域" id="hidLeft" onclick="Toggerter(this);" style="color: Blue;
+                                    font-size: 16pt;">
+                                    ←</label>
+                                <label title="隐藏或显示左右区域" id="hidRight" onclick="Toggerter(this);" style="color: Blue;
+                                    font-size: 16pt;">
+                                    →</label>
+                                <label title="恢复默认值" onclick="ToggerterCenter();" style="color: Blue; font-size: 16pt;">
+                                    ⊙</label></div>
+                        </td>
+                        <td style="vertical-align: top; text-align: left; padding: 0px;">
+                            <div id="tdRight" style="width: 445px; overflow: scroll; height: 450px;">
+                                <table class="stripe" id="tblRightReportPrint" style="width: 891px;">
+                                    <thead>
+                                        <div class="operarea">
+                                            <div class="oper-left">
+                                            </div>
+                                            <div class="oper-bg">
+                                                <span>体检号：</span> <span class="search">
+                                                    <input type="text" name="textfield" id="txtCustomerID" onfocus="this.select();" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                                                        style="width: 120px;" />
+                                                    <a href="#" title="查询(F4)">
+                                                        <img src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                                                </span><span class="buttom-tj-s" title="新增"><a href="javascript:void(0);" onclick="AutoGetCustomerReport();">
+                                                    新增</a></span> <span class="buttom-sc-s" title="移除"><a href="javascript:void(0);"
+                                                        onclick="RemoveAllPrintReport();">移除</a></span> <span class="buttom-yl" title="打印"><a
+                                                            href="javascript:void(0);" onclick="PrintReport();">打印</a></span>
+                                            </div>
+                                            <div class="oper-right">
+                                            </div>
+                                        </div>
+                                        <!--<tr style="text-align: center; width: 100%;">
+                                                <td colspan="16" align="left">
+                                                </td>
+                                            </tr>-->
+                                        <tr>
+                                            <th style="min-width: 20px;">
+                                                <input title="全选" id="chbPrintReport" type="checkbox" onclick='checkAll(this);' />
+                                            </th>
+                                            <th style="min-width: 30px;">
+                                                序号
+                                            </th>
+                                            <th style="min-width: 60px;">
+                                                体检号
+                                            </th>
+                                            <th style="min-width: 40px;">
+                                                姓名
+                                            </th>
+                                            <th style="min-width: 30px;">
+                                                性别
+                                            </th>
+                                            <th style="min-width: 80px;">
+                                                出生日期
+                                            </th>
+                                            <th style="min-width: 100px;">
+                                                单位名称
+                                            </th>
+                                            <th style="min-width: 60px;">
+                                                总审医生
+                                            </th>
+                                            <th style="min-width: 80px;">
+                                                总审时间
+                                            </th>
+                                            <th style="min-width: 30px;">
+                                                操作
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    $!{HiddenInputQueryString}
+</body>
+</form>
+</html>

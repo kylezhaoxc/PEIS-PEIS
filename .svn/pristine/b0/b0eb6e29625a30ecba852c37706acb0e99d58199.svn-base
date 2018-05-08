@@ -1,0 +1,11 @@
+﻿QuickSearchBox(quickSearchBoxData);
+//检查导航条状态决定隐藏还是显示
+if (haschild(".bread", 1) === 1) {
+    $(".bread", parent.document).show();
+    $(".leftnav", parent.document).css("top", "120px");
+    $(".admin", parent.document).css("top", "120px");
+} else {
+    $(".bread", parent.document).hide();
+    $(".leftnav", parent.document).css("top", "70px");
+    $(".admin", parent.document).css("top", "70px");
+}

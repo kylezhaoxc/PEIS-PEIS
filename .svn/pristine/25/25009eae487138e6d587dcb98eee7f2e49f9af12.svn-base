@@ -1,0 +1,1697 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <style type="text/css">
+        .lblTitle
+        {
+            display: none;
+            color: Gray;
+        }
+        .ErrorMessageX
+        {
+            background-color: Yellow !important;
+            color: Red;
+        }
+        .ErrorMessage
+        {
+            color: Red;
+        }
+        .NoErrorMessage
+        {
+            color: Black;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CurDate = "${CurDate}"; //当前服务器时间
+        var RegisteDate = "${RegisteDate}"; //登记日期
+        var Register = "${Register}"; //登记人
+        var DisCountRate = "$!{DisCountRate}"; //折扣为0表示没有折扣
+        DisCountRate = (DisCountRate == "" || DisCountRate == 0) ? 10 : DisCountRate;
+
+
+        var Gender = "$!{Gender}";
+        var selectedNation = "$!{NationID}";
+        var selectedNationName = "$!{NationName}";
+        //定义56个民族
+        var NationArray = ['汉族', '蒙古族', '回族', '藏族', '维吾尔族', '苗族', '彝族', '壮族', '布依族', '朝鲜族', '满族', '侗族', '瑶族', '白族', '土家族', '哈尼族', '哈萨克族', '傣族', '黎族', '傈僳族', '佤族', '畲族', '高山族', '拉祜族', '水族', '东乡族', '纳西族', '景颇族', '柯尔克孜族', '土族', '达翰尔族', '仫佬族', '羌族', '布朗族', '撒拉族', '毛南族', '仡佬族', '锡伯族', '阿昌族', '普米族', '塔吉克族', '怒族', '乌孜别克族', '俄罗斯族', '鄂温克族', '德昂族', '保安族', '裕固族', '京族', '塔塔尔族', '独龙族', '鄂伦春族', '赫哲族', '门巴族', '珞巴族', '基诺族'];
+
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_TeamOper.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_TeamSearch.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_TeamCustomerManageOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <!--页面模版 Begin-->
+        <object id="CVR_IDCard" height="0" width="0" classid="clsid:3C39D5DB-4DA5-4061-81CF-3F8ADD48B950"
+            name="CVR_IDCard">
+        </object>
+        <!--页面模版 End-->
+        <form id="form1" onkeyup="OnFormKeyUp();">
+        <!--模板区域 Begin-->
+        <div style="display: none;">
+            <!-- 民族相关模版 Begin -->
+            <div id="SecectedNationLableTemplete" style="display: none;">
+                <a style="display: none;" title="删除" href="javascript:void(0);" onclick="RemoveSelectedNation();">
+                    × </a>
+                <label class="dbclick" title="双击删除@NationName" ondblclick="RemoveSelectedNation();jQuery('#txtNationInputCode').focus();">
+                    @NationName</label>
+            </div>
+            <table style="display: none;">
+                <tbody id="NationQuickQueryTableTemplete">
+                    <tr style="cursor: pointer;" id="trNation_@NationID" ondblclick="SetNationChecked('@NationID');"
+                        onkeydown="if(IsEnterKeyDown() == true) { SetNationChecked('@NationID'); }">
+                        <td style="text-align: center;">
+                            <input type="radio" onfocus="NationClickBackground('@NationID')" name="@chkNationQueryList"
+                                style="clear: none; border: 0px; width: auto; height: auto;" id="chkNation_@NationID"
+                                value="@NationID" nationname="@NationName" />
+                        </td>
+                        <td onclick="NationClick('@NationID');">
+                            @NationName
+                        </td>
+                        <td onclick="NationClick('@NationID');">
+                            @InputCode
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="EmptyNationQuickQueryDataTemplete">
+                    <tr>
+                        <td colspan="3" style="text-align: left;">
+                            未找到民族，请重新输入...&nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="Div1" style="display: none;">
+                <a style="display: none;" title="删除" href="javascript:void(0);" onclick="RemoveSelectedNation();">
+                    × </a>
+                <label class="dbclick" title="双击删除@NationName" ondblclick="RemoveSelectedNation();jQuery('#txtNationInputCode').focus();">
+                    @NationName</label>
+            </div>
+            <!-- 民族相关模版 End -->
+            <!--客户名单导入隐藏域 Begin-->
+            <input id="HdExcelFilePath" type="hidden" name="HdExcelFilePath" runat="server">
+            <input id="HdFileFormat" type="hidden" name="HdFileFormat" runat="server">
+            <!--客户名单导入隐藏域 End-->
+            <input id="HdExcelFilePath" type="hidden" name="HdExcelFilePath" runat="server">
+            <!--团体任务分组模版 Begin-->
+            <table id="tblTemplateTeamTaskGroup_Add">
+                <tbody>
+                    <tr>
+                        <tr exist="@exist" id_teamtaskgroup="@ID_TeamTaskGroup" id_team="@ID_Team" id_teamtask="@TeamTaskID">
+                            <td>
+                                <input type="checkbox" name="ItemCheckbox" onclick="ClickChangeGroup(this);" onchange="ClickChangeGroup(this);"
+                                    style="width: 25px;" />
+                            </td>
+                            <td>
+                                <label name="lblRowNum" style="width: 35px;">
+                                    @rowNum</label>
+                            </td>
+                            <td>
+                                <label style="width: 35px;">
+                                    *</label>
+                            </td>
+                            <td oldteamtaskgroupname="@oldTeamTaskGroupName" class="project-align-left">
+                                <input type="text" maxlength="30" class="input_middle" id="txtTeamTaskGroupName"
+                                    name="txtTeamTaskGroupName" value="@TeamTaskGroupName" onblur="CheckTeamTaskGroup(this);"
+                                    style="width: 180px;" />
+                            </td>
+                            <td>
+                                <select id="slSex" name="slSex" onchange="ChangeBusSet(this);" style="width: 40px;">
+                                    <option code="qxz" forgender="2" value="-1">----</option>
+                                    <option code="nan" forgender="1" value="1">男</option>
+                                    <option code="nv" forgender="0" value="0">女</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select id="slMarried" name="slMarried" style="width: 40px;">
+                                    <option code="qxz" forgender="2" value="-1">----</option>
+                                    <option code="wh" forgender="2" value="0">未婚</option>
+                                    <option code="yh" forgender="2" value="1">已婚</option>
+                                    <option code="swyh" forgender="2" value="2">视为已婚</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="txtMinAgeValue" name="txtMinAgeValue" value="@MinAgeValue" maxlength="3"
+                                    onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" style="width: 50px;" />
+                            </td>
+                            <td>
+                                <input id="txtMaxAgeValue" name="txtMaxAgeValue" maxlength="3" value="@MaxAgeValue"
+                                    onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" style="width: 50px;" />
+                            </td>
+                            <td>
+                                <input name="txtRoleName" maxlength="20" value="@RoleName" style="width: 60px;" />
+                            </td>
+                            <td>
+                                <select id="slExamType" name="slExamType" style="width: 80px;">
+                                    #foreach($info in $!{ExamTypeDT.Rows})
+                                    <option code="${info.InputCode}" value="${info.ID_ExamType}">${info.ExamTypeName}</option>
+                                    #end
+                                </select>
+                            </td>
+                            <td>
+                                <select name="slBusSet" onchange="DoChangeBusSet(this);" style="width: 180px;">
+                                    <option code="qxz" forgender="2" value="-1">----</option>
+                                    #foreach($info in $!{BusSetDT.Rows})
+                                    <option code="${info.InputCode}" forgender="${info.Forsex}" value="${info.PEPackageID}">
+                                        ${info.PEPackageName}</option>
+                                    #end
+                                </select>
+                            </td>
+                            <td style="width: 40px;">
+                                <select id="SecurityLevel" name="SecurityLevel" style="width: 40px;">
+                                    #foreach($info in $!{SecurityLevelDT.Rows})
+                                    <option value="${info.key}" code="${info.key}">${info.value}</option>
+                                    #end
+                                </select>
+                            </td>
+                            <td>
+                                <select id="slFeeWay" name="slFeeWay" style="width: 80px;">
+                                    #foreach($info in $!{DctFeeWayDT.Rows}) #if('统一收费'== $!{info.FeeWayName})
+                                    <option code="${info.InputCode}" value="${info.ID_FeeWay}" is_default="${info.Is_Default}">
+                                        ${info.FeeWayName}</option>
+                                    #end #end
+                                </select>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" onclick="GetTaskGroupFee('');" style="width: 60px;">收费项目</a>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="chcIsPause" onclick="PauseTeamTaskGroup(this,'@ID_TeamTaskGroup');"
+                                    style="width: auto;" />
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <!--团体任务分组模版 End-->
+            <!--团体任务分组模版(只读)mark Begin-->
+            <table id="tblTemplateTeamTaskGroup">
+                <thead>
+                    <tr>
+                        <th width="35" rowspan="2">
+                            <input name="" type="checkbox" value="" />
+                        </th>
+                        <th width="35" rowspan="2">
+                            序号
+                        </th>
+                        <th width="35" rowspan="2">
+                            ID
+                        </th>
+                        <th width="203" rowspan="2">
+                            分组名称
+                        </th>
+                        <th width="330" colspan="5" id="Th4">
+                            分组依据
+                        </th>
+                        <th width="150" rowspan="2">
+                            体检类型
+                        </th>
+                        <th width="200" rowspan="2">
+                            套餐类型
+                        </th>
+                        <th width="40" rowspan="2">
+                            密级
+                        </th>
+                        <th width="80" rowspan="2">
+                            收费方式
+                        </th>
+                        <th width="60" rowspan="2">
+                            禁用
+                        </th>
+                    </tr>
+                    <tr>
+                        <th width="45">
+                            性别
+                        </th>
+                        <th width="45">
+                            婚姻
+                        </th>
+                        <th width="70">
+                            年龄下限
+                        </th>
+                        <th width="70">
+                            年龄上限
+                        </th>
+                        <th width="100">
+                            角色
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr exist="@exist" id_teamtaskgroup="@ID_TeamTaskGroup" id="@ID_TeamTaskGroup" id_team="@ID_Team"
+                        id_teamtask="@TeamTaskID">
+                        <td>
+                            <input type="checkbox" name="ItemCheckbox" onclick="ClickChangeGroup(this);" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td>
+                            @ID_TeamTaskGroup
+                        </td>
+                        <td oldteamtaskgroupname="@oldTeamTaskGroupName" class="project-align-left" title="@TeamTaskGroupName">
+                            <label name="txtTeamTaskGroupName" class="input_middle" style="display: none;">
+                                @TeamTaskGroupName</label>
+                            <input name="txtTeamTaskGroupName" value="@TeamTaskGroupName" style="display: none;" />
+                            <div class="nowrap" style="width: 100%;">
+                                @TeamTaskGroupName</div>
+                        </td>
+                        <td>
+                            <label id_gender="@ID_Gender" name="slSex" class="input_min">
+                                @GenderName</label>
+                        </td>
+                        <td>
+                            <label is_marriage="@Is_Marriage" name="slMarried" class="dafultSelect">
+                                @MarriageName</label>
+                        </td>
+                        <td>
+                            <label name="txtMinAgeValue" class="input_min">
+                                @MinAgeValue</label>
+                        </td>
+                        <td>
+                            <label name="txtMaxAgeValue" class="input_min">
+                                @MaxAgeValue</label>
+                        </td>
+                        <td>
+                            <label name="txtRoleName" class="dafultSelect">
+                                @RoleName</label>
+                        </td>
+                        <td>
+                            <label name="slExamType" class="dafultSelect">
+                                @ExamTypeName</label>
+                        </td>
+                        <td>
+                            <label id_set="@PEPackageID" name="slBusSet" class="select_max">
+                                @PEPackageName</label>
+                        </td>
+                        <td>
+                            <label name="slSecurityLevel">
+                                @SecurityLevel</label>
+                        </td>
+                        <td>
+                            <label id_feeway="@ID_FeeWay" name="slFeeWay" style="width: 100px;">
+                                @FeeWayName</label>
+                        </td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="GetTaskGroupFee('@ID_TeamTaskGroup','@oldTeamTaskGroupName','@FeeWayName','@PEPackageID','@ID_Gender','@GenderName');">
+                                收费项目</a>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="chcIsPause" onclick="PauseTeamTaskGroup(this,'@ID_TeamTaskGroup');" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--团体任务分组模版(只读) End-->
+            <!--团体任务分组套餐模版 Begin-->
+            <table id="tblTemplateTeamTaskGroupFee">
+                <thead>
+                    <tr>
+                        <td>
+                            <input type="checkbox" onclick="CheckAllTeamTaskGroupData(this,'tblTeamTaskGroupFee');" />
+                        </td>
+                        <td>
+                            序号
+                        </td>
+                        <td>
+                            项目名称
+                        </td>
+                        <td>
+                            原价(元)
+                        </td>
+                        <td>
+                            折扣
+                        </td>
+                        <td>
+                            实价(元)
+                        </td>
+                        <td>
+                            付费方式
+                        </td>
+                        <td style="display: none;">
+                            所属分组
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr feeway="@FeeWay" class="@class" id_set="@PEPackageID" id_teamtaskgroup="@ID_TeamTaskGroup"
+                        exist="@exist" custfeechargestate="@CustFeeChargeState" name="busList" id="@ID_Fee"
+                        id_fee="@ID_Fee" id_section="@ID_Section" sectionname="@SectionName">
+                        <td>
+                            <input type="checkbox" parentid="@ID_Fee" id="Checkbox_@ID_Fee" name="ItemCheckbox" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td class="project-align-left">
+                            <label name="xmmc">
+                                @FeeName</label>
+                        </td>
+                        <td class="project-align-right">
+                            <label name="yj">
+                                @Price</label>
+                        </td>
+                        <td class="project-align-right">
+                            <label custfeechargestate="@CustFeeChargeState" name="zk">
+                                @Discount</label>
+                        </td>
+                        <td class="project-align-right">
+                            <label name="sj">
+                                @FactPrice</label>
+                        </td>
+                        <td name="tdFeeWay">
+                            <label exist="@exist" feetype="@ID_FeeType" feeway="@FeeWay" name="fffs">
+                                @FeeWayName</label>
+                        </td>
+                        <td style="display: none;">
+                            <label name="fzmc">
+                                @TeamTaskGroupName</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--团体任务分组套餐模版 End-->
+            <!--团体名单模版 Begin-->
+            <table class="tblRegistTableEdit" id="tblTemplateTeamTaskGroupCustomer_Add" style="display: none;">
+                <tbody>
+                    <tr id="trAdd_@RowNum" exist="@exist" id_customer="@ID_Customer" flag="@flag" id_teamtaskgroup="@ID_TeamTaskGroup"
+                        groupname="@TeamTaskGroupName" errormessage="@ErrorMessage" ondblclick="OpenModifyCustomer(this,'@ID_Customer');">
+                        <td>
+                            <input type="checkbox" name="ItemCheckbox" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td style="text-align: center; display: none;">
+                            <label style="color: Red; font-weight: bold;" name="lblErorrMessage" title="尚未分组！">
+                                @ErorrMessage</label>
+                        </td>
+                        <td class="project-align-left">
+                            <label name="lblGroupName">
+                                @TeamTaskGroupName</label>
+                        </td>
+                        <td>
+                            <label name="lblID_Customer">
+                                @ID_Customer</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="chcIsPause" checked="@Is_Paused" />
+                        </td>
+                        <td>
+                            <input onchange="CheckCustomer(this);" style="width: 50px;" name="txtCustomerName"
+                                maxlength="50" value="@CustomerName" />
+                        </td>
+                        <td>
+                            <input maxlength="18" onblur="CheckCustomerIDCard(this);" name="txtIDCard" style="width: 100px;"
+                                value="" />
+                        </td>
+                        <td>
+                            <select name="slCustomerSex" style="width: 60px;" onchange="CheckCustomer(this);">
+                                <option code="nan" forgender="1" value="1">男</option>
+                                <option code="nv" forgender="0" value="0">女</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select style="width: 60px;" name="slCustomerMarried" onchange="CheckCustomer(this);">
+                                <option code="wh" forgender="2" value="0">未婚</option>
+                                <option code="yh" forgender="2" value="1">已婚</option>
+                                <option code="swyh" forgender="2" value="2">视为已婚</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" style="width: 50px;" name="txtCustomerRoleName" value="@CustomerRoleName"
+                                onchange="CheckCustomer(this);" />
+                        </td>
+                        <td>
+                            <input type="text" name="txtCustomerBirthDay" value="@CustomerBirthDay" onchange="CheckCustomer(this);"
+                                onblur="CheckCustomerIDCard(this);" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})"
+                                class="Wdate input_middle" style="width: 100px;" />
+                        </td>
+                        <td>
+                            <select name="slNation" style="width: 80px;">
+                                #foreach($info in $!{DictNationDT.Rows})
+                                <option code="${info.InputCode}" code="${info.InputCode}" value="${info.NationID}">
+                                    ${info.NationName}</option>
+                                #end
+                            </select>
+                        </td>
+                        <td class="project-align-left">
+                            <input type="text" onblur="CheckCustomer(this);" name="txtCustomerTel" value="@CustomerTel"
+                                onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                        </td>
+                        <td class="project-align-left">
+                            <input type="text" name="txtNote" maxlength="50" style="width: 100px;" value="@Note" />
+                        </td>
+                        <td>
+                            <input type="text" name="txtDepartment" maxlength="50" style="width: 100px;" value="@DepartmentX" />
+                        </td>
+                        <td class="project-align-left">
+                            <input type="text" name="txtDepartmentA" maxlength="50" style="width: 50px;" value="@DepartmentA" />
+                        </td>
+                        <td class="project-align-left">
+                            <input type="text" name="txtDepartmentB" maxlength="50" style="width: 50px;" value="@DepartmentB" />
+                        </td>
+                        <td class="project-align-left">
+                            <input type="text" name="txtDepartmentC" maxlength="50" style="width: 50px;" value="@DepartmentC" />
+                        </td>
+                        <td style="display: none;">
+                            <img name="HeadImg" class="headPic" src="@imgSrc" base64photo="@Base64Photo" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+             <script type="text/plain" class="tblRegistTableEdit" id="tblTemplateTeamTaskGroupCustomer">
+                    <tr id="trEdit_@RowNum" exist="@exist" id_customer="@ID_Customer" flag="@flag" id_teamtaskgroup="@ID_TeamTaskGroup"
+                        groupname="@TeamTaskGroupName" errormessage="@ErrorMessage" ondblclick="OpenModifyCustomer(this,'@ID_Customer');">
+                        <td>
+                            <input type="checkbox" name="ItemCheckbox" />
+                        </td>
+                        <td>
+                            <label name="lblRowNum">
+                                @RowNum</label>
+                        </td>
+                        <td style="text-align: center; display: none;">
+                            <label style="color: Red; font-weight: bold;" name="lblErorrMessage" title="尚未分组！">
+                                @ErorrMessage</label>
+                        </td>
+                        <td class="project-align-left" title="@TeamTaskGroupName">
+                            <div class="nowrap" style="width: 160px;" name="displayGroupName">
+                                @TeamTaskGroupName</div>
+                            <label name="lblGroupName" style="display: none;">
+                                @TeamTaskGroupName
+                            </label>
+                        </td>
+                        <td>
+                            <label name="lblID_Customer">
+                                @ID_Customer</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="chcIsPause" checkedme="@Is_Paused" onclick="PauseCustomer(this,'@ID_Customer');" />
+                        </td>
+                        <td title="@CustomerName" class="project-align-left">
+                            <div class="nowrap" style="width: 60px;">
+                                @CustomerName</div>
+                            <label name="txtCustomerName" style="display: none;">
+                                @CustomerName
+                            </label>
+                        </td>
+                        <td>
+                            <label name="txtIDCard">
+                                @IDCard
+                            </label>
+                        </td>
+                        <td>
+                            <label name="slCustomerSex" id_gender="@ID_Gender">
+                                @CustomerSex
+                            </label>
+                        </td>
+                        <td>
+                            <label name="slCustomerMarried" is_marriage="@Is_Marriage">
+                                @CustomerMarried
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@CustomerRoleName">
+                            <div class="nowrap" style="width: 60px;">
+                                @CustomerRoleName</div>
+                            <label name="txtCustomerRoleName" style="display: none;">
+                                @CustomerRoleName
+                            </label>
+                        </td>
+                        <td>
+                            <label name="txtCustomerBirthDay">
+                                @CustomerBirthDay
+                            </label>
+                        </td>
+                        <td>
+                            <label name="slNation" id_nation="@NationID">
+                                @NationName
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@CustomerTel">
+                            <div class="nowrap" style="width: 100px;">
+                                @CustomerTel</div>
+                            <label name="txtCustomerTel" style="display: none;">
+                                @CustomerTel
+                            </label>
+                        </td>
+                        <td title="@Note" class="project-align-left">
+                            <div class="nowrap" style="width: 110px;">
+                                @Note</div>
+                            <label name="txtNote" style="display: none;">
+                                @Note
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@DepartmentX">
+                            <div class="nowrap" style="width: 140px;">
+                                @DepartmentX</div>
+                            <label name="txtDepartment" style="display: none;">
+                                @DepartmentX
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@DepartmentA">
+                            <div class="nowrap" style="width: 92px;">
+                                @DepartmentA</div>
+                            <label name="txtDepartmentA" style="display: none;">
+                                @DepartmentA
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@DepartmentB">
+                            <div class="nowrap" style="width: 92px;">
+                                @DepartmentB</div>
+                            <label name="txtDepartmentB" style="display: none;">
+                                @DepartmentB
+                            </label>
+                        </td>
+                        <td class="project-align-left" title="@DepartmentC">
+                            <div class="nowrap" style="width: 92px;">
+                                @DepartmentC</div>
+                            <label name="txtDepartmentC" style="display: none;">
+                                @DepartmentC
+                            </label>
+                        </td>
+                        <td style="display: none;">
+                            <img name="HeadImg" class="headPic" src="@imgSrc" base64photo="@Base64Photo" />
+                        </td>
+                    </tr>
+            </script>
+            <!--团体名单模版 End-->
+            <select class="select_max" id="hidslBusSet" name="hidslBusSet">
+                <option code="qxz" forgender="2" value="-1">----</option>
+                #foreach($info in $!{BusSetDT.Rows})
+                <option code="${info.InputCode}" forgender="${info.Forsex}" value="${info.PEPackageID}">
+                    ${info.PEPackageName}</option>
+                #end
+            </select>
+            <select id="hidslFeeWay" name="hidslFeeWay">
+                #foreach($info in $!{DctFeeWayDT.Rows}) #if('统一收费'==${info.FeeWayName})
+                <option code="${info.InputCode}" value="${info.ID_FeeWay}" is_default="${info.Is_Default}">
+                    ${info.FeeWayName}</option>
+                #else
+                <option code="${info.InputCode}" value="${info.ID_FeeWay}" is_default="${info.Is_Default}">
+                    ${info.FeeWayName}</option>
+                #end #end
+            </select>
+        </div>
+        $!{HiddenInputQueryString}
+        <!--模板区域 End-->
+        <!--功能按钮区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>团体名称：</span> <span class="search-ttmc" style="width: 310px">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 270px;">
+                        <span id="spanTeam">
+                            <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border: 0px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span><span>任务名称：</span> <span class="search-ttmc" style="width: 200px;">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 180px;">
+                        <span id="spanTeamTask">
+                            <input type="hidden" name="tempSelectedTeamTaskID" id="tempSelectedTeamTaskID" value="" />
+                            <input type="text" class="QuickQueryShowBox" name="txtTeamTaskInputCode" id="txtTeamTaskInputCode"
+                                onkeyup="QuickQueryTeamTaskTableData_Ajax();" onchange="QuickQueryTeamTaskTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTaskTableData_Ajax();"
+                                maxlength="50" value="" style="border: 0px;" /></span> <span id="spanSelectTeamTask"
+                                    style="display: none;">-- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeamTask').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeamTask" id="idSelectTeamTask" value="" />
+                            <input type="hidden" name="nameSelectTeamTask" id="nameSelectTeamTask" value="" />
+                            <div id="QuickQueryTeamTaskTable" class="QuickQueryList" style="margin-left: -5px;
+                                margin-top: 23px; width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体任务
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTaskTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体任务，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamTaskColse" onclick="ShowHideQuickQueryTeamTaskTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamTaskSure" onclick="SelectTeamTaskDataList();TeamTaskCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-tj-s" title="新增"><a href="javascript:void(0);" id="btnAddTeamTaskGroup"
+                    name="btnAddTeamTaskGroup" title="新增任务分组" onclick="AddTeamTaskGroup('tblTemplateTeamTaskGroup_Add','tblTeamTaskGroupX');">
+                    新增</a></span> <span class="buttom-sc-s" title="删除"><a href="javascript:void(0);"
+                        id="btnDeleteTeamTaskGroup" name="btnDeleteTeamTaskGroup" value=" 删  除 " title="删除任务分组"
+                        onclick="DeleteTeamTaskGroup('tblTeamTaskGroupX');">删除</a></span> <span class="buttom-bc-s"
+                            title="保存"><a href="javascript:void(0);" id="btnSaveTeamTaskGroup" name="btnSaveTeamTaskGroup"
+                                title="保存任务分组" onclick="SaveTeamTaskGroup('tblTeamTaskGroupX');">保存</a></span>
+                <span class="buttom-khmd" title="客户名单"><a href="javascript:void(0);" onclick="GetAllTeamTaskGroup();">
+                    客户名单</a></span>
+            </div>
+        </div>
+        <!--功能按钮区域 Begin-->
+        <!-- 快速导航区域 根据不同权限显示不同科室 -->
+        <!--团体任务分组 Begin-->
+        <div class="project">
+            <div class="project-center">
+                <div style="overflow: hidden; width: 100%">
+                    <table border="0" cellspacing="0" cellpadding="0" class="stripe j-control-title"
+                        id="customerScrollTitle" style="min-width: 1260px; width: 100%;">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 16%" />
+                            <col style="width: 45px" />
+                            <col style="width: 45px" />
+                            <col style="width: 70px" />
+                            <col style="width: 70px" />
+                            <col style="width: 100px" />
+                            <col style="width: 12%" />
+                            <col style="width: 16%" />
+                            <col style="width: 50px" />
+                            <col style="width: 7%" />
+                            <col style="width: 6%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list-lh">
+                            <th rowspan="2">
+                                <input type="checkbox" id="Checkbox3" onclick="CheckAllTeamTaskGroupDataX(this,'tblTeamTaskGroupX');" />
+                            </th>
+                            <th rowspan="2">
+                                序号
+                            </th>
+                            <th rowspan="2">
+                                ID
+                            </th>
+                            <th rowspan="2">
+                                分组名称
+                            </th>
+                            <th colspan="5" class="project-center-lb1-list-lh-s">
+                                分组依据
+                            </th>
+                            <th rowspan="2">
+                                体检类型
+                            </th>
+                            <th rowspan="2">
+                                套餐类型
+                            </th>
+                            <th rowspan="2">
+                                密级
+                            </th>
+                            <th rowspan="2">
+                                收费方式
+                            </th>
+                            <th rowspan="2">
+                                操作
+                            </th>
+                            <th rowspan="2">
+                                是否禁用
+                            </th>
+                        </tr>
+                        <tr class="project-center-lb1-list-lh-x">
+                            <th height="29">
+                                性别
+                            </th>
+                            <th>
+                                婚姻
+                            </th>
+                            <th>
+                                年龄下限
+                            </th>
+                            <th>
+                                年龄上限
+                            </th>
+                            <th>
+                                角色
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="j-autoHeight j-scroll-control QueryListNoDataTips" data-left="229" data-min="200" data-extra = "35"
+                    style="overflow: auto;" id="customerScrollControl">
+                    <table id="tblTeamTaskGroupX" border="0" cellspacing="0" cellpadding="0" class="stripe"
+                        style="min-width: 1260px; width: 100%;">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 16%" />
+                            <col style="width: 45px" />
+                            <col style="width: 45px" />
+                            <col style="width: 70px" />
+                            <col style="width: 70px" />
+                            <col style="width: 100px" />
+                            <col style="width: 12%" />
+                            <col style="width: 16%" />
+                            <col style="width: 50px" />
+                            <col style="width: 7%" />
+                            <col style="width: 6%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                            <tr id="loding">
+                                <td class="msg" colspan="15" style="text-align: center;">
+                                    没有任何数据，请您维护！...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--团体任务分组 End-->
+        <!--体检项目 Begin-->
+        <div id="showDialogCustFee" class="Grouping_pddiv" style="display: none;">
+            <div class="Grouping_pddiv-title">
+                <div class="Grouping_pddiv-title-l">
+                </div>
+                <div class="Grouping_pddiv-title-b">
+                    <div class="Grouping_pddiv-title-total custFeeTitle">
+                        <div class="Grouping_pddiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>项目明细</strong>
+                        </div>
+                        <div class="Grouping_pddiv-title-off">
+                            <a href="javascript:void(0);" onclick="CloseDialogCustFee('showDialogCustFee');">
+                            </a>
+                        </div>
+                        <div class="Grouping_pddiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="Grouping_pddiv-title-r">
+                </div>
+            </div>
+            <div class="Grouping_pddiv-center">
+                <div class="Grouping_pddiv-center-l">
+                </div>
+                <div class="Grouping_pddiv-center-b">
+                    <div class="Grouping_pddiv-center-div-table">
+                        <div>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe ">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 35px" />
+                                    <col style="width: 420px" />
+                                    <col style="width: 75px" />
+                                    <col style="width: 75px" />
+                                    <col style="width: 75px" />
+                                </colgroup>
+                                <tr id="project-center-lb1-list">
+                                    <th>
+                                        <input type="checkbox" onclick="CheckAllTeamTaskGroupData(this,'tblTeamTaskGroupFee');" />
+                                    </th>
+                                    <th>
+                                        序号
+                                    </th>
+                                    <th>
+                                        项目名称
+                                    </th>
+                                    <th>
+                                        原价
+                                    </th>
+                                    <th>
+                                        折扣
+                                    </th>
+                                    <th>
+                                        实价
+                                    </th>
+                                    <th>
+                                        付费方式
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="divTeamTaskGroupFee" style="overflow: auto; height: 450px">
+                            <table id="tblTeamTaskGroupFee" width="100%" border="0" cellspacing="0" cellpadding="0"
+                                class="stripe">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 35px" />
+                                    <col style="width: 420px" />
+                                    <col style="width: 75px" />
+                                    <col style="width: 75px" />
+                                    <col style="width: 75px" />
+                                </colgroup>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div id="showBusFee" class="CustfeeSearch" style="position: relative">
+                                <table id="tblTeamListTableEdit" class="tblExamItemTable CustfeeSearchTA" width="100%"
+                                    border="0" cellspacing="0" cellpadding="0">
+                                    <thead>
+                                        <tr>
+                                            <td style="width: 20px;">
+                                                <input id="chbAll1" name="checkAllX" onkeydown="keyMove(this, event)" onclick="checkAllChildren(this);"
+                                                    type="checkbox" />
+                                            </td>
+                                            <td style="text-align: left; width: 260px;">
+                                                <input type="text" id="txtSearch" onkeyup="OnKeyUp();" style="width: 230px; margin-left: 10px;" />
+                                            </td>
+                                            <td colspan="2">
+                                                <input id="btnSure" name="btnsure" onclick="SureAddTeamTaskGroupFee('tblTemplateTeamTaskGroupFee', 'tblTeamTaskGroupFee');"
+                                                    type="button" value=" 确  定 " class="btnsure" />
+                                                <input id="btnClose" name="btnClose" onclick="DoClose();" type="button" class="btnclose"
+                                                    style="width: 60px;" value=" 关  闭 " />
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="showBusFeeItem">
+                                        <tr name="busList" exist="1">
+                                            <td colspan="4">
+                                                正在加载，请稍候...
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="position: relative">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                                <tr>
+                                    <td id="project-center-an">
+                                        <span class="buttom-tj" title="添加"><a href="javascript:void(0);" id="btnBatchAdd"
+                                            name="btnBatchAdd" onclick="return AddTeamTaskGroupFee('tblTemplateTeamTaskGroupFee','tblTeamTaskGroupFee');">
+                                            添加</a></span> <span class="buttom-sc" title="删除"><a href="javascript:void(0);" id="btnBatchDelete"
+                                                name="btnBatchDelete" onclick="return DoDeleteTeamTaskGroupFee('tblTeamTaskGroupFee');">
+                                                删除</a></span> <span class="buttom-tj" title="克隆"><a id="btnCloneCustFee" href="javascript:void(0);"
+                                                    onclick="ShowCloneWin();">克隆</a></span> <span class="buttom-bc-s" title="保存" style="margin-top: 5px;">
+                                                        <a id="btnRegiste1" name="btnComplete" href="javascript:void(0);" onclick="return SaveTeamTaskGroupFee('tblTeamTaskGroupFee');">
+                                                            保存</a></span>
+                                        <div class="zk-bg">
+                                            <span class="buttom-zk" title="折扣"><a href="javascript:void(0);">折扣</a></span>
+                                            <input type="text" value="10" maxlength="3" id="txtXMZK" name="txtXMZK" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                                        </div>
+                                        <span style="margin-left: 10px; margin-top: 5px;">
+                                            <select id="selFeeWay" name="hidslFeeWay">
+                                                #foreach($info in $!{DctFeeWayDT.Rows}) #if('统一收费'== $!{info.FeeWayName})
+                                                <option code="${info.InputCode}" value="${info.ID_FeeWay}" is_default="${info.Is_Default}"
+                                                    selected="selected">${info.FeeWayName}</option>
+                                                #end #if('记账'== $!{info.FeeWayName})
+                                                <option code="${info.InputCode}" value="${info.ID_FeeWay}" is_default="${info.Is_Default}">
+                                                    ${info.FeeWayName}</option>
+                                                #end #end
+                                            </select></span>
+                                        <div class="Income">
+                                            <div class="Income_left">
+                                            </div>
+                                            <div class="Income_center">
+                                                <label id="lblWaitCharge">
+                                                    待收：￥0.00</label>
+                                                <a href="javascript:void(0);" class="Income_right_ar"></a>
+                                            </div>
+                                            <div class="Income_right">
+                                            </div>
+                                        </div>
+                                        <div class="come_loose">
+                                            <div class="come_loose_left">
+                                            </div>
+                                            <div id="divSumHeader" class="come_loose_center">
+                                                <span>项目总数：</span> <span class="come_loose_center_red">0个</span> <span>原价：</span>
+                                                <span class="come_loose_center_red">￥0.00</span> <span>折后：</span> <span class="come_loose_center_red">
+                                                    ￥0.00</span> <span>记账：</span> <span class="come_loose_center_red">￥0.00</span>
+                                                <span>退费：</span> <span class="come_loose_center_red">￥0.00</span> <span>应收：</span>
+                                                <span class="come_loose_center_red">￥0.00</span> <span>已收：</span> <span class="come_loose_center_red">
+                                                    ￥0.00</span> <span>待收：</span> <span class="come_loose_center_red">￥0.00</span>
+                                            </div>
+                                            <div class="come_loose_right">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="Grouping_pddiv-center-r">
+                </div>
+            </div>
+            <div class="Grouping_pddiv-bottom">
+                <div class="Grouping_pddiv-bottom-l">
+                </div>
+                <div class="Grouping_pddiv-bottom-b">
+                </div>
+                <div class="Grouping_pddiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--体检项目 End-->
+        <!--客户名单 Begin-->
+        <div id="showDialog" class="Grouping_cldiv" style="display: none; height: auto;">
+            <div class="Grouping_cldiv-title">
+                <div class="Grouping_cldiv-title-l">
+                </div>
+                <div class="Grouping_cldiv-title-b">
+                    <div class="Grouping_cldiv-title-total customerListtitle">
+                        <div class="Grouping_cldiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>客户名单</strong>
+                        </div>
+                        <div class="Grouping_cldiv-title-off">
+                            <a href="javascript:void(0);" onclick="OpenOrCloseCustomerList();"></a>
+                        </div>
+                        <div class="Grouping_cldiv-title-fenge">
+                        </div>
+                    </div>
+                    <div class="Grouping_cldiv-letool-total">
+                        <span style="margin-top: 0px;">客户姓名：</span><span class="span-margin-top">
+                            <div class="Editor-l">
+                            </div>
+                            <div class="Editor-c" style="line-height: 24px;">
+                                <input type="text" id="txtCustomerName" placeholder="请输入客户姓名" class="tjzj-input input-4"
+                                    maxlength="10" />
+                                <a href="javascript:void(0);" title="查询">
+                                    <img src="$!{templatepath}/images/search.jpg" width="17" height="14" onclick="DoSearch();"
+                                        style="margin-top: 5px;" /></a>
+                            </div>
+                            <div class="Editor-r">
+                            </div>
+                        </span><span class="buttom-tj" title="新增"><a href="javascript:void(0);" name="btnAddCustomer"
+                            onclick="OpenNewCustomer();">新增</a></span> <span class="buttom-sc" title="删除" name="btnDeleteCustomer"
+                                onclick="return DoDeleteCustomerInfo('tblTeamTaskGroupCustomerX');"><a href="javascript:void(0);">
+                                    删除</a></span> <span class="buttom-drmd" title="导入名单"><a href="javascript:void(0);"
+                                        id="btnImport" onclick="return ImportFromExcel();">导入名单</a></span>
+                        <span class="buttom-qcmd" title="清除名单"><a href="javascript:void(0);" id="btnReset"
+                            onclick="return ResetCustomer();">清除名单</a></span> <span class="buttom-xzmb" title="下载模板">
+                                <a href="javascript:void(0);" name="btnUpload" onclick="OutToExcel();">下载模板</a></span>
+                        <span class="buttom-xzmb" title="下载模板" style="display: none;"><a id="loadExcel" style="color: Blue;
+                            cursor: pointer; font-size: 14px;" href="/File/TeamCustomerTemplate.xls">模板下载</a></span>
+                        <span class="buttom-fz" title="分组"><a href="javascript:void(0);" id="btnChangeCustomerGroup"
+                            onclick="return ChangeCustomerGroup();">分组</a></span> <span class="buttom-sctjh"
+                                title="生成体检号"><a href="javascript:void(0);" id="btnSaveCustomer" onclick="return SaveCustomer();">
+                                    生成体检号</a></span>
+                    </div>
+                </div>
+                <div class="Grouping_cldiv-title-r">
+                </div>
+            </div>
+            <div class="Grouping_cldiv-center">
+                <div class="Grouping_cldiv-center-l">
+                </div>
+                <div class="Grouping_cldiv-center-b">
+                    <div class="Grouping_cldiv-center-div-table" style="border-right: #abccff 1px solid;">
+                        <div style="overflow: hidden; width: 100%">
+                            <table width="1690" border="0" cellspacing="0" cellpadding="0" class="stripe j-control-title"
+                                id="customerScrollTitleX">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 55px" />
+                                    <col style="width: 180px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 40px" />
+                                    <col style="width: 70px" />
+                                    <col style="width: 150px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 80px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 150px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 100px" />
+                                </colgroup>
+                                <tr class="project-center-lb1-list">
+                                    <th>
+                                        <input type="checkbox" onclick="CheckAllCustomer(this,'tblTeamTaskGroupCustomerX');" />
+                                    </th>
+                                    <th>
+                                        序号
+                                    </th>
+                                    <th>
+                                        分组名称
+                                    </th>
+                                    <th>
+                                        体检号
+                                    </th>
+                                    <th>
+                                        禁用
+                                    </th>
+                                    <th>
+                                        姓名
+                                    </th>
+                                    <th>
+                                        证件号
+                                    </th>
+                                    <th>
+                                        性别
+                                    </th>
+                                    <th>
+                                        婚姻
+                                    </th>
+                                    <th>
+                                        角色
+                                    </th>
+                                    <th>
+                                        出生日期
+                                    </th>
+                                    <th>
+                                        民族
+                                    </th>
+                                    <th>
+                                        联系电话
+                                    </th>
+                                    <th>
+                                        备注
+                                    </th>
+                                    <th>
+                                        部门
+                                    </th>
+                                    <th>
+                                        二级部门
+                                    </th>
+                                    <th>
+                                        三级部门
+                                    </th>
+                                    <th>
+                                        四级部门
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="j-scroll-control" style="overflow: auto; height: 424px" id="customerScrollControlX">
+                            <table id="tblTeamTaskGroupCustomerX" width="1690" border="0" cellspacing="0" cellpadding="0"
+                                class="stripe">
+                                <colgroup>
+                                    <col style="width: 35px" />
+                                    <col style="width: 55px" />
+                                    <col style="width: 180px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 40px" />
+                                    <col style="width: 70px" />
+                                    <col style="width: 150px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 80px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 50px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 120px" />
+                                    <col style="width: 150px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 100px" />
+                                    <col style="width: 100px" />
+                                </colgroup>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table width="500" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom"
+                            class="reportdiv-feny-table">
+                            <tr>
+                                <td>
+                                    <div class="reportdiv-paging" id="Pagination">
+                                        <div class="reportdiv-paging-left">
+                                        </div>
+                                        <div class="reportdiv-paging-center">
+                                            <ul>
+                                            </ul>
+                                        </div>
+                                        <div class="reportdiv-paging-right">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="Grouping_cldiv-center-r">
+                </div>
+            </div>
+        </div>
+        <!--客户名单 End-->
+        <!--弹出客户名单新增模板 Begin-->
+        <div id="TeamCustomerAddDiv" class="CustomerAdddiv-center-b" style="display: none;
+            width: 300px; background-color: #333;">
+            <div class="CustomerAdddiv-div">
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-1">
+                    <tr>
+                        <td width="62" align="right">
+                            证件号：
+                        </td>
+                        <td align="left">
+                            <span>
+                                <input type="text" id="txtCustomerIDCard" /></span> <span class="buttom-cx-s" title="检索"
+                                    style="margin-top: 0px;"><a href="javascript:void(0);" name="btnSave" onclick="SearchIDCard();">
+                                        检索</a></span>
+                        </td>
+                    </tr>
+                </table>
+                <table width="265" height="116" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-2">
+                    <tr>
+                        <td rowspan="4">
+                            <div class="CustomerAdddiv-sf-charge-1">
+                                <div class="CustomerAdddiv-sf-charge-1-s">
+                                    <img base64photo="$!{Base64Photo}" name="HeadImg" width="80" height="96" src="/template/blue/images/icons/nohead.gif" />
+                                </div>
+                                <div class="basic-sf-charge-1-x">
+                                </div>
+                            </div>
+                        </td>
+                        <td width="60" align="right">
+                            姓名：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{CustomerName}" id="txtCustomerName" maxlength="15" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            性别：
+                        </td>
+                        <td>
+                            <select id="slCustomerSex" name="slCustomerSex" class="width60">
+                                #if('1'==$!{Gender})
+                                <option value="1" selected="selected">男</option>
+                                #else
+                                <option value="1">男</option>
+                                #end #if('2'==$!{Gender})
+                                <option value="2" selected="selected">女</option>
+                                #else
+                                <option value="2">女</option>
+                                #end
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            婚姻：
+                        </td>
+                        <td>
+                            <select id="slCustomerMarriage" name="slCustomerMarriage" class="width60">
+                                #if('1'==$!{ID_Marriage})
+                                <option value="1" selected="selected">未婚</option>
+                                #else
+                                <option value="1">未婚</option>
+                                #end #if('2'==$!{ID_Marriage})
+                                <option value="2" selected="selected">已婚</option>
+                                #else
+                                <option value="2">已婚</option>
+                                #end #if('3'==$!{ID_Marriage})
+                                <option value="3" selected="selected">视为已婚</option>
+                                #else
+                                <option value="3">视为已婚</option>
+                                #end
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            民族：
+                        </td>
+                        <td align="left" id="nationParentTemplate">
+                            <span id="spanNation">
+                                <input type="hidden" name="tempSelectedNationID" id="tempSelectedNationID" value="" />
+                                <input type="text" class="QuickQueryShowBox" name="txtNationInputCode" id="txtNationInputCode"
+                                    onkeyup="QuickQueryNationTableData_Ajax();" onchange="QuickQueryNationTableData_Ajax();"
+                                    onfocus="this.select();HideAllQuickTable();QuickQueryNationTableData_Ajax();"
+                                    maxlength="50" value="" /></span> <span id="spanSelectNation" style="display: none;">
+                                        -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectNation').hide();">
+                                            × </a></span>
+                            <div>
+                                <input type="hidden" name="idSelectNation" id="idSelectNation" value="" />
+                                <input type="hidden" name="nameSelectNation" id="nameSelectNation" value="" />
+                                <div id="QuickQueryNationTable" class="QuickQueryList" style="margin-top: 0px; width: 260px;">
+                                    <div>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 150px" />
+                                            </colgroup>
+                                            <tr>
+                                                <th nowrap="nowrap">
+                                                    &nbsp;
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    民族
+                                                </th>
+                                                <th nowrap="nowrap">
+                                                    输入码
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div style="max-height: 200px; width: auto; overflow: auto">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                            <colgroup>
+                                                <col style="width: 30px" />
+                                                <col style="width: 150px" />
+                                            </colgroup>
+                                            <tbody id="QuickQueryNationTableData">
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">
+                                                        未找到民族，请重新输入...&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="QuickQueryListButton">
+                                        <input type="button" class="btnclose" id="btnNationColse" onclick="ShowHideQuickQueryNationTable(false,'');"
+                                            value=" 关  闭 " />
+                                        <input type="button" class="btnsure" id="btnNationSure" onclick="SelectNationDataList();"
+                                            value=" 确  定 " />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-3">
+                    <tr>
+                        <td align="right">
+                            出生日期：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{BirthDay}" id="txtCustomerBirthDay" onfocus="WdatePicker()" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            联系电话：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{MobileNo}" id="txtCustomerMobileNo" maxlength="25" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="CustomerAdddiv-div">
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-4">
+                    <tr>
+                        <td align="right">
+                            客户角色：
+                        </td>
+                        <td>
+                            <input type="text" id="txtCustomerRole" value="$!{Role}" maxlength="10" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            部门名称：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{Department}" id="txtCustomerDepartment" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            二级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubA}" id="txtCustomerDepartSubA" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            三级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubB}" id="txtCustomerDepartSubB" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            四级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubC}" id="txtCustomerDepartSubC" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            备注信息：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{Note}" id="txtCustomerNote" maxlength="200" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="CustomerAdddiv-center-b-table2-xx">
+                &nbsp;</div>
+            <div class="CustomerAdddiv-center-b-ann">
+                <span class="buttom-bcbgb" title="保存并关闭"><a href="javascript:void(0);" onclick="SaveTeamCustomerManage(1);">
+                    保存并关闭</a></span> <span class="buttom-bcbjx" title="保存并继续"><a href="javascript:void(0);"
+                        onclick="SaveTeamCustomerManage(0);">保存并继续</a></span>
+            </div>
+        </div>
+        <!--弹出客户名单新增模板 End-->
+        <!--弹出修改客户名单 Begin-->
+        <div id="TeamCustomerModifyDiv" class="CustomerAdddiv-center-b" style="display: none;
+            width: 300px; background-color: #333;">
+            <div class="CustomerAdddiv-div">
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-1">
+                    <tr>
+                        <td width="62" align="right">
+                            证件号：
+                        </td>
+                        <td align="left">
+                            <span>
+                                <input type="text" id="txtModifyIDCard" maxlength="18" value="" class="lblText" />
+                                <div class="nowrap lblTitle" style="width: 200px;" id="lblModifyIDCard">
+                                    </div>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+                <table width="265" height="116" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-2">
+                    <tr>
+                        <td width="60" align="right">
+                            姓名：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{CustomerName}" id="txtModifyCustomerName" maxlength="10"
+                                class="lblText" />
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyCustomerName">
+                                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            性别：
+                        </td>
+                        <td>
+                            <select id="slModifyCustomerSex" name="slModifyCustomerSex" class="width60  lblText">
+                                #if('1'==$!{Gender})
+                                <option value="1" selected="selected">男</option>
+                                #else
+                                <option value="1">男</option>
+                                #end #if('2'==$!{Gender})
+                                <option value="2" selected="selected">女</option>
+                                #else
+                                <option value="2">女</option>
+                                #end
+                            </select>
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyCustomerSex">
+                                男</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            婚姻：
+                        </td>
+                        <td>
+                            <select id="slModifyCustomerMarriage" name="slModifyCustomerMarriage" class="width60 lblText">
+                                #if('1'==$!{ID_Marriage})
+                                <option value="1" selected="selected">未婚</option>
+                                #else
+                                <option value="1">未婚</option>
+                                #end #if('2'==$!{ID_Marriage})
+                                <option value="2" selected="selected">已婚</option>
+                                #else
+                                <option value="2">已婚</option>
+                                #end #if('3'==$!{ID_Marriage})
+                                <option value="3" selected="selected">视为已婚</option>
+                                #else
+                                <option value="3">视为已婚</option>
+                                #end
+                            </select>
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyCustomerMarriage">
+                                已婚</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="60" align="right">
+                            民族：
+                        </td>
+                        <td align="left" id="nationModifyTemplate" class="lblText">
+                        </td>
+                        <td align="left" id="nationModifyTemplate" class="lblTitle" style="display: none;">
+                            <div class="nowrap" style="width: 180px;" id="lblModifyNation">
+                                汉族</div>
+                        </td>
+                    </tr>
+                </table>
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-3">
+                    <tr>
+                        <td align="right">
+                            出生日期：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{BirthDay}" id="txtModifyBirthDay" onfocus="WdatePicker()"
+                                class="lblText" />
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyBirthDay">
+                                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            联系电话：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{MobileNo}" id="txtModifyMobileNo" maxlength="25" class="lblText" />
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyMobileNo">
+                                </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="CustomerAdddiv-div">
+                <table width="265" border="0" cellspacing="0" cellpadding="0" class="CustomerAdddiv-Tab-4">
+                    <tr>
+                        <td align="right">
+                            客户角色：
+                        </td>
+                        <td>
+                            <input type="text" id="txtModifyRole" value="$!{Role}" maxlength="10" class="lblText" />
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyRole">
+                                角色</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            备注信息：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{Note}" id="txtModifyNote" maxlength="200" class="lblText" />
+                            <div class="nowrap lblTitle" style="width: 180px;" id="lblModifyNote">
+                                备注信息</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            部门名称：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{Department}" id="txtModifyDepartment" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            二级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubA}" id="txtModifyDepartSubA" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            三级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubB}" id="txtModifyDepartSubB" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            四级部门：
+                        </td>
+                        <td>
+                            <input type="text" value="$!{DepartSubC}" id="txtModifyDepartSubC" maxlength="25" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="CustomerAdddiv-center-b-table2-xx">
+                &nbsp;</div>
+            <div class="CustomerAdddiv-center-b-ann">
+                <span class="buttom-bcbgb" title="保存并关闭"><a href="javascript:void(0);" onclick="SaveModifyCustomer(1);">
+                    保存并关闭</a></span> <span class="buttom-qx" title="取消"><a href="javascript:void(0);"
+                        onclick="SaveModifyCustomer(0);">取消</a></span>
+            </div>
+        </div>
+        <!--弹出修改客户名单 End-->
+        <!--选择客户名单模板 Begin-->
+        <div class="RegisteCustumerDialog" id="RegisteCustumerDialog" style="display: none; ">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr id="trChoose_@ID_ArcCustomer" id_arccustomer="@ID_ArcCustomer" idcard="@IDCard"
+                    id_gender="@ID_Gender" customername="@CustomerName" onclick="SureChoose(this)">
+                    <td rowspan="4" width="97" height="98">
+                        <img id="HeadImg1" name="HeadImg1" class="headPic" src="@imgSrc" width="98" height="118" />
+                    </td>
+                    <td class="RegisteCustumerDialog-1">
+                        @IDCard
+                    </td>
+                </tr>
+                <tr>
+                    <td class="RegisteCustumerDialog-2">
+                        @CustomerName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="RegisteCustumerDialog-1">
+                        @GenderName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="RegisteCustumerDialog-2">
+                        @date
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--选择客户名单模板 End-->
+        </form>
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+    //团体点击时重置
+    function TeamCallBack() {
+        ResetInfo();
+    }
+    /*待收金额 鼠标提示*/
+    var timer, startTimer;
+    function MouseoverWaitCharge() {
+        jQuery(".Income,.come_loose").unbind();
+        jQuery(".Income,.come_loose").bind("mouseover", function () {
+            if (startTimer) { clearTimeout(timer); return false; }
+            $(".come_loose").show();
+        });
+        jQuery(".Income,.come_loose").bind("mouseout", function () {
+            startTimer = true;
+            timer = setTimeout(function () {
+                $(".come_loose").hide();
+                startTimer = false;
+            }, 300);
+        });
+    }
+    jQuery(document).ready(function () {
+        MouseoverWaitCharge();
+
+    });
+    //关闭名单列表
+    function OpenOrCloseCustomerList() {
+        CommonShowHideDialog('showDialog');
+        //关闭团体客户名单窗口 xmhuang 2014-04-18
+        jQuery("#TeamCustomerAddDiv").hide();
+    }
+    //关闭团体名单编辑窗口
+    function CloseTeamAddDialog() {
+        CloseDialog("OpenNewCustomer");
+        //设置收费显示内容
+        //CommonShowHideDialog('TeamCustomerAddDiv');
+        //关闭团体客户名单窗口 xmhuang 2014-04-18
+        // jQuery("#TeamCustomerAddDiv").hide();
+    }
+    var IsAdd = false;
+    //新增团体名单
+    function AddTeamTaskGroupCustomer() {
+        IsAdd = true;
+        CommonShowHideDialog('TeamCustomerAddDiv');
+    }
+</script>

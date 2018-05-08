@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>数据字典-角色列表</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Right.js"></script>
+</head>
+<body>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                
+                <span>&nbsp;角色名：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input class="input-3" type="text" 
+                        onkeydown="if(IsEnterKeyDown() == true) { RoleKeywordsSearch();}" 
+                        onfocus="this.select();"  name="txtSearchRoleKeyword" id="txtSearchRoleKeyword" value="" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+
+            </div>
+        	<div class="oper-bg" style="margin-top:-20px">
+                <span class="buttom-cx-s" title="查询(F4)"><a id="btnSearch" href="javascript:void(0);"   onclick="RoleKeywordsSearch();">查询</a></span>
+                <span id="spanRoleRight_Right" class="buttom-mxgl float-right" title="角色配置"><a href="javascript:void(0);" onclick="OpenRoleRightRelWindowParams();">角色配置</a></span>
+                <span class="buttom-sq float-right" title="修改"><a href="javascript:void(0);"  onclick="OpenEditRoleWindow();">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"><a href="javascript:void(0);"  onclick="OpenRoleOperWindow();" >新增</a></span>
+            </div>
+   	    </div>
+        <div class="project">
+            <div class="project-center">
+              <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:35px"/>
+                    	<col style="width:5%"/>
+                    	<col style="width:50%"/>
+                    	<col style="width:10%"/>
+                    	<col style="width:10%"/>
+                      </colgroup>
+                          <tr id="project-center-lb1-list">
+                            <th></th>
+                            <th>序号</th>
+                            <th>角色名称</th>
+                            <th>排序编号</th>
+                            <th>系统角色</th>
+                            <th>备注</th>
+                          </tr>
+                </table>
+                </div>
+                <div class="j-autoHeight QueryListNoDataTips"  id="QueryExamListData" data-left="330" data-min="200" style="overflow:auto;">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                    <colgroup>
+                    	<col style="width:35px"/>
+                    	<col style="width:5%"/>
+                    	<col style="width:50%"/>
+                    	<col style="width:10%"/>
+                    	<col style="width:10%"/>
+                      </colgroup>
+                      
+                    <tbody id='Searchresult'>
+                        
+                    </tbody>
+
+                </table>
+
+                <!--用户列表模板-->
+                <script type="text/plain" id="RoleListItemTemplete">
+                    <tr onclick="SetRoleChecked('@ID_Role');"
+                        ondblclick="OpenEditRoleWindow();" >
+                        <td>
+                            <input id="rdiRole_@ID_Role" title="" type="radio" name='RoleRadio' Rolename="@RoleName" value="@ID_Role" />
+                        </td>
+                        <td>@RowNum</td>
+                        <td id="RoleName_@ID_Role"  class="project-align-left" title="@RoleName"><div class="nowrap" style="width:100%;">@RoleName</div></td>
+                        <td id="DispOrder_@ID_Role" class="project-align-left">@DispOrder</td>
+                        <td id="Is_DefaultRole_@ID_Role">@Is_DefaultRole</td>
+                        <td id="Remark_@ID_Role" class="project-align-left" title="@Remark"><div class="nowrap" style="width:100%;">@Remark</div></td>
+                    </tr>
+                </script>
+
+                </div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                    <td>      
+                        <div class="paging" id="Pagination">
+                            <div class="paging-left"></div>
+                            <div class="paging-center">
+                                <ul >
+                                </ul>
+                            </div>
+                            <div class="paging-right"></div>
+                        </div>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+
+    <script type="text/javascript">
+
+
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (351 + jQuery("#ShowRoleMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);               // 读取权限信息
+        });
+
+
+        /// <summary>
+        /// 按照权限名称关键字搜索
+        /// </summary>
+        function RoleKeywordsSearch() {
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+        }
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+            var SearchRoleKeyword = jQuery('#txtSearchRoleKeyword').val();      // 权限关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxRight.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchRoleKeyword: SearchRoleKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchRoleList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                       // jQuery("#RoleItemCount").html(" 【共有 " + msg.totalCount + " 个权限】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#RoleListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        var RoleState = "";
+                        var IsDefaultRole = "";
+                        jQuery(msg.dataList).each(function (i, item) {
+                            if (item.Is_Locked == 0) {
+                                RoleState = "--";
+                            } else if (item.Is_Locked == 2) {
+                                RoleState = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else if (item.Is_Locked == 1) {
+                                RoleState = '<span title="已删除" style="color:red;">√</span>';
+                            }
+                            if (item.Is_DefaultRole == "1") {
+                                IsDefaultRole = '<span title="系统角色" style="color:blank;">√</span>';
+                            } else {
+                                IsDefaultRole = "--";
+                            }
+
+
+                            newcontent +=
+                             templateContent.replace(/@RoleName/gi, item.RoleName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ID_Role/gi, item.ID_Role)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@Remark/gi, item.Remark)
+                            .replace(/@Is_DefaultRole/gi, IsDefaultRole)
+                            ;
+
+                            RowNum++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                      //  jQuery("#RoleItemCount").html(" 【共有 0 个权限】");
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+
+        /// <summary>
+        /// 查询单个权限信息，权限更新修改后的权限列表中的数据
+        /// </summary>
+        function GetSingleRoleInfo(ID_Role, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxRight.aspx",
+                data: { ID_Role: ID_Role,
+                    action: 'GetSingleNatRoleInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#RoleListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var RoleState = "";
+                        var IsDefaultRole = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (item.Is_Locked == 0) {
+                                RoleState = "--";
+                            } else if (item.Is_Locked == 2) {
+                                RoleState = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else if (item.Is_Locked == 1) {
+                                RoleState = '<span title="已删除" style="color:red;">√</span>';
+                            }
+
+                            if (item.Is_DefaultRole == "True") {
+                                IsDefaultRole = '<span title="已禁用" style="color:blank;">√</span>';
+                            } else {
+                                IsDefaultRole = "--";
+                            }
+
+                            if (type == "edit") {
+                                jQuery("#RoleName_" + item.ID_Role).html(item.RoleName);
+                                jQuery("#RowNum_" + item.ID_Role).html("");
+                                jQuery("#ID_Role_" + item.ID_Role).html(item.ID_Role);
+                                jQuery("#DispOrder_" + item.ID_Role).html(item.DispOrder);
+                                jQuery("#Remark_" + item.ID_Role).html(item.Remark);
+                                jQuery("#Is_Locked_" + item.ID_Role).html(RoleState);
+                                jQuery("#Is_DefaultRole" + item.ID_Role).html(IsDefaultRole);
+
+                            } else {
+                                newcontent +=
+                                templateContent.replace(/@RoleName/gi, item.RoleName)
+                                .replace(/@ID_Role/gi, item.ID_Role)
+                                .replace(/@DispOrder/gi, item.DispOrder)
+                                .replace(/@Remark/gi, item.Remark)
+                                .replace(/@Is_DefaultRole/gi, IsDefaultRole)
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+    </script>
+
+
+
+</html>

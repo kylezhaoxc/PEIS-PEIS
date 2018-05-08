@@ -1,0 +1,178 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 检查项目分组ID -->
+    <input type="hidden" name="ID_ExamItemGroup" id="ID_ExamItemGroup" value="$!{ID_ExamItemGroup}" />
+    <!-- 检查项目分组名称 -->
+    <input type="hidden" name="ExamItemGroupName" id="ExamItemGroupName" value="$!{ExamItemGroupName}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+
+    <!-- 用于保存上次保存的检查项目ID字符串 -->
+    <input type="hidden" name="OrgExamItemIDStrs" id="OrgExamItemIDStrs" value="" />
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">项目分组名称：</td>
+                <td> <span id="showExamItemGroupName"><strong>$!{ExamItemGroupName}</strong></span> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">检查项目：</td>
+                <td>
+                    <input class="width450"  name="txtExamItemInputCode" id="txtExamItemInputCode" onkeyup="QuickQueryExamItemTableData_Ajax();" onchange="QuickQueryExamItemTableData_Ajax();"  onfocus="QuickQueryExamItemTableData_Ajax();" maxlength="50" /> 
+                    
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryExamItemTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        
+                        <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 130px" />
+                                            <col style="width: 70px" />
+                                            <col style="width: 80px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th>
+                                                &nbsp;
+                                            </th>
+                                            <th>
+                                                检查项目名称
+                                            </th>
+                                            <th>
+                                                科室
+                                            </th>
+                                            <th>
+                                                备注
+                                            </th>
+                                            <th>
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                        <div style="height:200px;overflow:auto">
+
+                        <div>
+                        <table style="width:100%;" class="quicktable">
+                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 130px" />
+                                            <col style="width: 70px" />
+                                            <col style="width: 80px" />
+                                        </colgroup>
+                            <tbody id="QuickQueryExamItemTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关检查项目，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="btnsure" id="btnsave002" onclick="SelectExamItemDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="btnclose" id="btncolse002" onclick="ShowHideQuickQueryExamItemTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr><td colspan="2" style="line-height:10px;"> &nbsp; </td> </tr>
+
+            <tr>
+                <td style="border-top:1px solid #dcdcdc;border-right:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;" class="inputtitle">已选检查项目：</td>
+                <td style="border-top:1px solid #dcdcdc;border-left:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;">
+                    <div style="height:212px; overflow:auto; padding:6px;">
+                    <ul class="selExamItemList" id="tmpSelectedExamItemList">
+                        
+                    </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;">
+                    
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bc-s btn-common button60" title="" onclick="AutoCloseDialogWindow('True');SaveExamItemGroupExamRelConfirm();" value="保存" type="button"/>
+                    
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+        
+        <tbody id="EmptyExamItemQuickQueryDataTemplete">
+            <tr>
+                <td colspan="8" style="text-align:center;">未找到相关检查项目，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="ExamItemQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="checkbox" name="@chkExamItemQueryList" id="chkExamItem_@ID_ExamItem" 
+                    value="@ID_ExamItem"  ExamItemName="@ExamItemName"  />
+                </td>
+                <td title="@ExamItemCode">@ExamItemName</td>
+                <td>@SectionName</td>
+                <td>@Note</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <ul id="UserSelectedExamItemItemDataTemplete" style="display:none;">
+        <li id="spanSelectExamItem_@ID_ExamItem"><span> 
+        <span style="display:none;"><input type="checkbox" name="@chkSelectedExamItemList" id="chkSelectedExamItem_@ID_ExamItem" value="@ID_ExamItem" /></span>
+        <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectExamItem_@ID_ExamItem').remove();"> × </a> @ExamItemName </span> </li>
+      </ul>
+
+      <!--保存后，不能进行删除 20131122 by  wtang-->
+      <ul id="UserSelectedExamItemItemDataTemplete_CantDel" style="display:none;">
+        <li id="spanSelectExamItem_@ID_ExamItem"><span> 
+        <span style="display:none;"><input type="checkbox" name="@chkSelectedExamItemList" id="chkSelectedExamItem_@ID_ExamItem" value="@ID_ExamItem" /></span>
+        <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectExamItem_@ID_ExamItem').remove();"> × </a> @ExamItemName </span> </li>
+      </ul>
+
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    jQuery(document).ready(function () {
+        var ExamItemGroupID = jQuery("#ID_ExamItemGroup").val();
+        GetExamItemListByExamItemGroup_Ex01(ExamItemGroupID);               // 读取已经绑定的检查项目信息
+    });
+
+</script>

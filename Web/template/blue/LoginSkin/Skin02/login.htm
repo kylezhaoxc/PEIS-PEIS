@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Language" content="zh-cn" />
+    <title>四川省人民医院·健康体检中心 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/css.css" />
+    <link rel="stylesheet" href="$!{templatepath}/$!{LoginSkin}/css/login.css" />
+    <script type="text/javascript" src="template/blue2/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/ajax/ajaxUser.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/commom.js"></script>
+    <script src="$!{templatepath}/js/artDialog4.1.7/artDialog.source.js?skin=default"></script>
+    <script language="javascript" type="text/javascript">
+
+        jQuery(document).ready(function () {
+            jQuery("#UserLoginName").focus();
+            // 如果是正常退出,则清空进入首页后，跳转的地址
+            if (GetQueryString('flag') == 'logout') {
+                SetCookie('FYHCurrentUrl', '');     // 清除 当前Url地址
+                SetCookie('FYHSaveMenuID', '');     // 清除 当前选择的菜单分组
+                SetCookie('FYHSaveDate', '');       // 清除 当前保存的时间
+                SetCookie('FYHSubMenuID', '');      // 清除 子菜单的MenuID
+                SetCookie('FYHSubSectionID', '');   // 清除 子菜单的SectionID 
+                SetCookie('FYHUserID', '');         // 清除 UserID 
+            }
+        });
+
+        function OnPressEnterKey() {
+            var curEvent = window.event || e;
+            var id = document.activeElement.id;
+            if (curEvent.keyCode == 13) {
+                if (id == "UserPassword" || id == "btnLogin") { // 如果是 密码输入框或是登录按钮，则直接提交
+                    UserLoginAjax();
+                } else if (id == "UserLoginName") {             // 如果是用户名输入框，则焦点移动到密码框中
+                    // 当密码不为空时，直接触发登录事件
+                    if (jQuery("#UserPassword").val() != "") {
+                        UserLoginAjax();
+                    } else {
+                        jQuery("#UserPassword").focus();
+                    }
+                }
+            }
+        }
+
+        function UserReset() {
+            jQuery("#UserLoginName").val("");
+            jQuery("#UserPassword").val("");
+        }
+
+    </script>
+</head>
+<body class="bodylogin">
+    <div class="top">
+        <img style="height: 110px;" src="$!{templatepath}/$!{LoginSkin}/images/indx_03.png"
+            alt="" /></div>
+    <div class="content">
+        <div class="mainpic">
+            <div class="login-cont">
+                <div class="username">
+                    <input type="text" name="UserLoginName" id="UserLoginName" onkeyup="OnPressEnterKey();"
+                        maxlength="30" />
+                </div>
+                <div class="userpassword">
+                    <input type="password" name="UserPassword" id="UserPassword" onkeyup="OnPressEnterKey();"
+                        onfocus="this.select();" maxlength="30" />
+                </div>
+                <div class="loginbtn">
+                    <div class="left">
+                        <a href="javascript:void(0);" onclick="CloseWindow(1);">安全退出</a>
+                    </div>
+                    <div class="right">
+                        <input type="button" name="btnLogin" id="btnLogin" onclick="UserLoginAjax();" value="" />
+                    </div>
+                </div>
+                <div class="tipsmessage">
+                    <span id="UserLoginTips">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loading">
+        <div class="frame" id="ProcessLoading">
+            <div class="title" id="ProcessTitle">
+                进度显示
+            </div>
+            <div class="info" id="ProcessInfo">
+                正在加载数据，请稍后...
+            </div>
+            <div class="Process">
+                <div class="Bar">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

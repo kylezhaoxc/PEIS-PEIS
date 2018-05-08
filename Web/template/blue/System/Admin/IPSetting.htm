@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8" />
+    <title>$!{webName} $!{pageTitle} </title>
+</head>
+<body>
+    <div style="display: none;">
+        <table id="ClientListTempLate">
+            <thead>
+                <tr>
+                    <td>
+                        <input name="ckbAll" title="全选" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        部门标识
+                    </td>
+                    <td>
+                        部门名称
+                    </td>
+                    <td>
+                        部门编码
+                    </td>
+                    <td>
+                        起始IP
+                    </td>
+                    <td>
+                        终止IP
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr guid="@GUID" ondblclick="OpenIP(this,'编辑部门: @DepartName');" targeturl="/System/Admin/IPSettingOper.aspx?type=Edit&mark=iplist&modelName=dialogiplist&GUID=@GUID"
+                    title="双击编辑部门: @DepartName">
+                    <td>
+                        @ItemCheckbox
+                        <!-- <input type="checkbox" name='ItemCheckbox' />-->
+                    </td>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td>
+                        @GUID
+                    </td>
+                    <td>
+                        @DepartName
+                    </td>
+                    <td>
+                        @DepartCode
+                    </td>
+                    <td>
+                        @BeginIP
+                    </td>
+                    <td>
+                        @EndIP
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;$!{pageTitle}</div>
+            <div class="query-area">
+                <div class="query-group">
+                    <input id="btnAddIP" type="button" class="button80" value=" 新  增 " onclick="OpenIP(this,'新增部门IP段设置');"
+                        targeturl="/System/Admin/IPSettingOper.aspx?type=add&mark=iplist&modelName=dialogiplist" />
+                    <input id="btnDeleteIP" type="button" class="button80" value=" 删  除 " onclick="DeleteIP();" />
+                </div>
+            </div>
+            <div>
+                <table class="tblList querylist" id="tblCustomerList" cellpadding="0" cellspacing="0"
+                    border="1" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <td>
+                                <input name="ckbAll" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="PaginationOld">
+                <ul id="Pagination">
+                </ul>
+            </div>
+        </div>
+        $!{HiddenInputQueryString}
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var data = "";
+    jQuery(document).ready(function () {
+        jQuery("#tblCustomerList thead").html(jQuery("#ClientListTempLate thead").html());
+        //加载列表
+        LoadIP_Ajax();
+    });
+    /// <summary>
+    /// 绑定IP段
+    /// </summary>
+    function LoadIP_Ajax() {
+        var ClientListTempLateContent = jQuery("#ClientListTempLate tbody").html();
+        var ClientListTempLateHeadContent = jQuery("#ClientListTempLate thead").html();
+        var NewContent = "", RowNum = 1;
+        jQuery("#tblCustomerList tbody").html("");
+        var ItemCheckbox = "<input type='checkbox' name='ItemCheckbox' />";
+        //
+        //发送ajax请求
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxClientList.aspx",
+            data: { action: "GetIP" },
+            dataType: "json",
+            cache: false,
+            contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+            success: function (jsonData) {
+                data = jsonData.dataList;
+                jQuery(jsonData.dataList).each(function (i, item) {
+                    if (ClientListTempLateContent == null) {
+                        return false;
+                    }
+                    else {
+                        ItemCheckbox = "<input type='checkbox' name='ItemCheckbox' />";
+                        if (item.GUID == 0) {
+                            ItemCheckbox = "";
+                            item.GUID = "00000000-0000-0000-0000-000000000000";
+                        }
+                        NewContent += ClientListTempLateContent.replace(/@RowNum/gi, RowNum)
+                        .replace(/@GUID/gi, item.GUID)
+                        .replace(/@DepartName/gi, item.DepartName)
+                        .replace(/@DepartCode/gi, item.DepartCode)
+                        .replace(/@BeginIP/gi, item.BeginIP)
+                        .replace(/@EndIP/gi, item.EndIP)
+                         .replace(/@ItemCheckbox/gi, ItemCheckbox)
+                        RowNum++;
+                    }
+                });
+                if (NewContent != "") {
+                    jQuery("#tblCustomerList tbody").html(NewContent);
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    /// 新增IP段
+    /// </summary>
+    function AddIP() {
+
+    }
+    /// <summary>
+    /// 删除IP段
+    /// </summary>
+    function DeleteIP() {
+        var GUID = "";
+        var checkedObj = jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked");
+        var checkedObjCount = jQuery(checkedObj).length;
+        if (checkedObjCount == 0) {
+            ShowSystemDialog("请您选择需要删除的部门IP段设置！");
+            return false;
+        }
+        else {
+            jQuery("#tblCustomerList tbody tr[id!='loading'] td input:checked").each(function () {
+                GUID += jQuery(this).parent().parent().attr("guid") + ",";
+            });
+        }
+        if (GUID != "") {
+            if (confirm("您确认要删除选中的部门IP段设置吗？")) {
+                jQuery.ajax({
+                    type: "POST",
+                    url: "/Ajax/AjaxClientList.aspx",
+                    data: { action: "DeleteIP", GUID: GUID },
+                    cache: false,
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.success == "1") {
+                            ShowSystemDialog(msg.Message);
+                            LoadIP_Ajax();
+                        }
+                        else {
+
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    /// <summary>
+    /// 弹出团体编辑页面
+    /// </summary>
+    function OpenIP(obj, title) {
+        var guid = jQuery(obj).attr("guid");
+        if (guid == 0 || guid == "00000000-0000-0000-0000-000000000000") {
+            ShowSystemDialog("对不起,此项设置不允许修改！");
+            return;
+        }
+        var url = jQuery(obj).attr("targeturl");
+        if (title == "" || title == undefined) {
+            title = "新增部门IP设置";
+        }
+        art.dialog.data("data", data);
+        art.dialog.open(url,
+    {
+        width: 350,
+        height: 250,
+        drag: false,
+        lock: true,
+        id: 'OperWindowFrame',
+        title: title,
+        cache: false,
+        init: function () {
+            jQuery(".aui_close").hide();
+        },
+        close: function () {
+            LoadIP_Ajax();
+        }
+    });
+    }
+    /************************************************/
+
+</script>

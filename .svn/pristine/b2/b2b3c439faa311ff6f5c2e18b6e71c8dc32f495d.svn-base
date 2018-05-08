@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>标本维护</title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" type="text/css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/new.css" type="text/css" />
+    
+    <script type="text/javascript" src="$!{templatepath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/Commom.js"></script>
+
+    
+    
+    <script type="text/javascript">
+
+        jQuery(document).ready(function () {
+            var CustomerID = jQuery("#ID_Customer").val();
+            GetCustomerDiseaseLevelExamResultList(CustomerID);
+            GetCustomerDiseaseLevelInform(CustomerID);
+        });
+
+        function SaveCustomerDiseaselLevelInformInfo() {
+            var content = jQuery("#InformContent").val();
+            var CustomerID = jQuery("#ID_Customer").val();
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    InformContent: encodeURIComponent(content),
+                    action: 'SaveCustomerDiseaselLevelInformInfo',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "") {
+                        if (parseInt(jsonmsg) > 0) {
+                            parent.GetCustomerDiseaseLevelInform(CustomerID);
+                            parent.ShowSystemDialogCloseDialog("保存通知内容成功!", "True");
+                        }
+                        else {
+                            parent.ShowSystemDialog("保存通知内容失败!");
+                        }
+                    }
+                }
+            });
+        }
+
+
+        /// <summary>
+        /// 获取客户病症级别大于0的体检号和检查结果值 20140818 by WTang 
+        /// </summary>
+        function GetCustomerDiseaseLevelExamResultList(CustomerID) {
+
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery("#Searchresult").html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    action: 'GetCustomerDiseaseLevelExamResultList',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "" && jsonmsg.dataList0.length > 0) {
+                        // 显示查询到的信息
+                        ShowExamResultDetailListByExamID(jsonmsg, CustomerID);
+                    } else {
+                        var ExamResultListItemTempleteContent = jQuery('#NoDataExamResultListItemTemplete').html();
+                        jQuery("#Searchresult").html(ExamResultListItemTempleteContent);  // 显示每列的数据
+
+                    }
+                }
+            });
+
+        }
+
+        /// <summary>
+        /// 根据体检号，查找病症级别明细 (显示)
+        /// </summary>
+        function ShowExamResultDetailListByExamID(ExamResultlist, CustomerID) {
+
+            var tempListContent = "";  // 临时内容
+
+            // 病症级别显示模版
+            var ExamResultListItemTempleteContent = jQuery('#ExamResultListItemTemplete').html();
+
+            if (ExamResultListItemTempleteContent == undefined) { return; }
+
+            jQuery("#Searchresult").html(""); //   先清空列表
+
+            var ExamResultItemCount = 0;
+            var RowNum = 1;
+            // dataList0 显示所有的角色信息
+            jQuery(ExamResultlist.dataList0).each(function (j, ExamResultitem) {
+                ExamResultItemCount++;
+                tempListContent += ExamResultListItemTempleteContent
+                        .replace(/@RowNum/gi, RowNum)
+                        .replace(/@ExamItemName/gi, ExamResultitem.ExamItemName)
+                        .replace(/@ResultSummary/gi, ExamResultitem.ResultSummary)
+                        .replace(/@SummaryDoctorName/gi, ExamResultitem.SummaryDoctorName)
+                        .replace(/@ExamItemSummaryDate/gi, ExamResultitem.ExamItemSummaryDate)
+                        .replace(/@DiseaseLevel/gi, ExamResultitem.DiseaseLevel);
+
+                RowNum++;
+            });
+
+            jQuery("#Searchresult").html(tempListContent);  // 显示每列的数据
+
+        }
+        
+        /// <summary>
+        /// 获取客户的通知人信息
+        /// </summary>
+        function GetCustomerDiseaseLevelInform(CustomerID) {
+            
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    action: 'GetCustomerDiseaseLevelInform',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "" && jsonmsg.dataList0.length > 0) {
+                        jQuery(jsonmsg.dataList0).each(function (j, CustItem) {
+                            
+                            jQuery("#InformContent").val(CustItem.DiseaseLevelInformNote);
+
+                        });
+                    }
+                }
+            });
+
+        }
+
+    </script>
+    
+            <script type="text/plain" id="TipsInfoTemplete">
+                <tr>
+                    <td class="msg" colspan="17" >
+                        @TipsInfo
+                        <br/><br/><br/>
+                    </td>
+                </tr>
+            </script>
+
+        
+        <script type="text/plain" id="ExamResultListItemTemplete">
+            <tr>
+                <td >@RowNum</td>
+                <td  class="project-align-left">@ExamItemName</td>
+                <td  class="project-align-left">@ResultSummary</td>
+                <td>@DiseaseLevel</td>
+            </tr>
+
+        </script>
+        
+        <script type="text/plain" id="NoDataExamResultListItemTemplete">
+            
+            <tr>
+                <td colspan="12" style="text-align:center;"> 没有查询到数据！ </td>
+            </tr>
+
+        </script>
+
+
+</head>
+
+	
+	
+<body style="background-image:none; height:auto;  padding-left:15px;width:620px;" >
+
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 科室ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_Customer" id="ID_Customer" value="$!{ID_Customer}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    
+            
+        <div class="project" style="min-width:620px; width:620px; text-align:center; overflow:hidden;">
+            <div style="width:100%;text-align:center;">
+                <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                        <col style="width:36px" />
+                    	<col style="width:200px" />
+                        <col style="width:320px" />
+                      </colgroup>
+                          <tr class="project-center-lb1-list">
+                            <th>序号</th>
+                            <th class="project-align-left">检查项目</th>
+                            <th class="project-align-left">结论</th>
+                            <th>病症级别</th>
+                          </tr>
+                </table>
+                </div>
+                <div id="QueryExamListData"  style="height:200px; overflow:auto;">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                        <col style="width:36px" />
+                    	<col style="width:200px" />
+                        <col style="width:320px" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="padding-top:10px;">
+              <tr>
+                <td colspan="4" style="padding-bottom:10px;"><div class="Spediv-center-b-table1-xx" style="width:100%; margin-left:0px;"></div></td>
+              </tr>
+              <tr>
+                <td width="45" align="center" valign="top">通知<br/>内容<br/>备注:</td>
+                <td colspan="3"><textarea id="InformContent" style="width:100%" cols="" rows="4"></textarea></td>
+              </tr>
+              <tr>
+                <td colspan="4"><div class="Spediv-center-b-table1-xx" style="width:100%;margin-left:0px;"></div></td>
+              </tr>
+            </table>
+
+	        <div class="Spediv-center-b-ann" >
+                <span class="buttom-bcbgb" style="margin-left:200px;" title="保存" onclick="SaveCustomerDiseaselLevelInformInfo();" name="btnSaveclose" id="btnSaveclose" onclick="" ><a href="javascript:void(0);">保存</a></span>
+            </div>
+
+          <table style="display:none;">
+            <tbody id="SpecimenTypeQuickQueryTableTemplete">
+                <tr onclick="SetSpecimenTypeChecked('@ID_SpecimenType');"
+                    ondblclick="SelectSpecimenTypeDataList();" onkeydown="if(IsEnterKeyDown() == true) { SelectSpecimenTypeDataList(); }" >
+                    <td>
+                    <input type="radio" name="@chkSpecimenTypeQueryList" id="chkSpecimenType_@ID_SpecimenType" 
+                        value="@ID_SpecimenType"
+                        SpecimenTypeName="@SpecimenTypeName"  />
+                    </td>
+                    <td>@SpecimenTypeName</td>
+                    <td>@InputCode</td>
+                </tr>
+            </tbody>
+          </table>
+      
+          
+</body>
+
+
+<script language="javascript" type="text/javascript">
+
+    jQuery(document).ready(function () {
+
+        
+    });
+
+
+</script>
+
+
+
+
+</html>

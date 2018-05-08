@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <script src="../template/blue2/LoginSkin/skin04/assets/js/jquery-1.8.2.min.js"></script>
+    <script src="../template/blue2/LoginSkin/skin04/assets/js/supersized.3.2.7.min.js"></script>
+    <script src="../template/blue2/LoginSkin/skin04/assets/js/supersized-init.js"></script>
+    <script src="../template/blue2/LoginSkin/skin04/assets/js/scripts.js"></script>
+
+    <meta charset="utf-8">
+    <title>四川省人民医院健康体检中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <link rel="stylesheet" href="../template/blue2/LoginSkin/skin04/assets/css/reset.css">
+    <link rel="stylesheet" href="../template/blue2/LoginSkin/skin04/assets/css/supersized.css">
+    <link rel="stylesheet" href="../template/blue2/LoginSkin/skin04/assets/css/style.css">
+    <script src="../template/blue2/js/skin05/pages/login.js"></script>
+    <script src="../template/blue2/js/skin05/common/tools.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  
+<!--<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
+</head>
+<body>
+
+<!--<h1>体检系统登陆</h1>-->
+<div class="login-form">
+	<!--<div class="head-info">
+		<label class="lbl-1"> </label>
+		<label class="lbl-2"> </label>
+		<label class="lbl-3"> </label>
+	</div>
+	<div class="clear"> </div>
+	<div class="avtar"><img src="../template/blue2/images/avatar.jpg" /></div>
+	<form >
+		<input id="username" type="text" class="text" placeholder="Username" onkeyup="onPressEnterKey()">
+		<div class="key"><input id="password" type="password" placeholder="Password" onkeyup="onPressEnterKey()"></div>
+	</form>
+	<div class="signin"><input id="loginbtn" type="button" value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆" ></div>
+	<div id="tips" style="color:red"></div>-->
+    <div class="page-container">
+        <h1>四川省人民医院体检管理系统</h1>
+        <form action="" method="post">
+            <input type="text" id="username" class="username" placeholder="用户名" onkeyup="onPressEnterKey()">
+            <input type="password" id="password" class="password" placeholder="密码" onkeyup="onPressEnterKey()">
+            
+                <!--<button id="loginbtn" type="button">Sign me in</button>-->
+            <div class="signin"><input id="loginbtn" type="button" value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆"></div>
+            <div id="tips" style="color:red"></div>
+</form>
+        </div>
+    </div>
+<div style="margin-top:20%">
+	<p>Copyright &copy; 2017.Yinjw All rights </p>
+</div>
+
+</body>
+</html>

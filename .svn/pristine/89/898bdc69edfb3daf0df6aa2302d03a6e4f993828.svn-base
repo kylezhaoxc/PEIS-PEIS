@@ -1,0 +1,666 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+    <!--<script src="$!{templatepath}/js/JS_DiseaseLevelInform.js" type="text/javascript"></script>-->
+
+
+    
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                tempOperPageCount++;
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            jQuery("#txtCustomerID").focus(); // 体检号文本框获取焦点
+
+        });
+
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        function ButtonClickQuery() {
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+            if (customerid == "") {
+                tempOperPageCount = 0;
+                QueryPagesData(0); //重新按照新输入的条件进行查询
+            } else {
+                if (!isCustomerExamNo(customerid)) {
+                    ShowSystemDialog("体检号格式错误，请检核对后重新输入！");
+                    return;
+                } else {
+                    QueryPagesData(0); // 查询该体检号对应数据
+                }
+            }
+        }
+
+        /// <summary>
+        /// 自动查询
+        /// </summary>
+        function AutoDiseaseLevelCustomerQuery() {
+
+            var curEvent = window.event || e;
+            if (curEvent.keyCode == 13) {
+
+                var customerid = jQuery.trim(jQuery('#txtCustomerID').val());    // 体检号
+                if (customerid != "") {
+                    // 如果输入的值满足体检号的条件，则自动跳转到分检页面
+                    if (isCustomerExamNo(customerid)) {
+                        QueryPagesData(0);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+
+            jQuery("#Pagination").hide(); // 开始查询的时候，隐藏分页信息
+
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+            var MinLevel = jQuery.trim(jQuery('#txtMinLevel').val());
+            var MaxLevel = jQuery.trim(jQuery('#txtMiaxLevel').val());
+
+            var customerid = jQuery.trim(jQuery('#txtCustomerID').val());
+            if (customerid != "" && !isCustomerExamNo(customerid)) {
+
+                ShowSystemDialog("对不起，您输入的体检号不正确，请重新输入");
+                jQuery('#txtCustomerID').focus();
+                return false;
+            }
+
+            if (!isCustomerExamNo(customerid)) {
+
+                if (MinLevel == "") {
+                    ShowSystemDialog("对不起，请您输入最低病症级别");
+                    jQuery('#txtMinLevel').focus();
+                    return false;
+                }
+                if (MaxLevel == "") {
+                    ShowSystemDialog("对不起，请您输入最高病症级别");
+                    jQuery('#txtMiaxLevel').focus();
+                    return false;
+                }
+                if (parseFloat(MaxLevel) < parseFloat(MinLevel)) {
+                    ShowSystemDialog("对不起，起始值不得大于终止值");
+                    jQuery('#txtMinLevel').focus();
+                    return false;
+                }
+            }
+
+            MinLevel = MinLevel == "" ? 0 : MinLevel;
+            MaxLevel = MaxLevel == "" ? 0 : MaxLevel;
+            if (parseFloat(MinLevel) > parseFloat(MaxLevel)) {
+
+                return false;
+            }
+            var IsInformed = document.getElementById("slInformed").options[document.getElementById("slInformed").selectedIndex].value; //通知状态
+            
+            var BeginExamDate = jQuery.trim(jQuery('#BeginExamDate').val());
+            BeginExamDate = encodeURIComponent(BeginExamDate); //编码开始日期
+            var EndExamDate = jQuery.trim(jQuery('#EndExamDate').val());
+            EndExamDate = encodeURIComponent(EndExamDate);    //结束日期
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: {
+                    pageIndex: pageIndex,
+                    pageSize: pagePagination.items_per_page,
+                    CustomerID: customerid,
+                    IsInformed: IsInformed,
+                    MinLevel: MinLevel,
+                    MaxLevel: MaxLevel,
+                    BeginExamDate: BeginExamDate,
+                    EndExamDate: EndExamDate,
+                    action: 'QueryCustDiseaseLevelList'
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+                    // 检查Ajax返回数据的状态等  20140430 by wtang 
+                    msg = CheckAjaxReturnDataInfo(msg);
+
+                    if (msg == null || msg == "") {
+                        return;
+                    }
+
+                    var tmpCustomerIDsStr = ""; // 临时记录体检号（逗号分隔的字符串）
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+                        tempOldtotalCount = msg.totalCount;
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#QueryDataListTemplete').html();
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (tmpCustomerIDsStr == "") {
+                                tmpCustomerIDsStr = item.ID_Customer;
+                            } else {
+                                tmpCustomerIDsStr = tmpCustomerIDsStr + "," + item.ID_Customer;
+                            }
+                            if (templateContent == undefined) { return; }
+
+                            newcontent +=
+                             templateContent.replace(/@CustomerName/gi, item.CustomerName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ID_Section/gi, item.ID_Section)
+                            .replace(/@CustomerID/gi, item.ID_Customer)
+                            .replace(/@GenderName/gi, item.GenderName)
+                            .replace(/@MobileNo/gi, item.MobileNo)
+                            .replace(/@Age/gi, item.Age)
+                            .replace(/@FinalDoctor/gi, item.FinalDoctor)
+                            .replace(/@DiseaseLevelNumber/gi, item.DiseaseLevel == "0" ? "" : item.DiseaseLevel )
+                            .replace(/@CheckedDate/gi, item.CheckedDate)
+                            .replace(/@OperateDate/gi, item.OperateDate)
+                            .replace(/@DiseaseLevelInformedDate/gi, item.DiseaseLevelInformedDate)
+                            .replace(/@DiseaseLevelInformer/gi, item.DiseaseLevelInformer)
+                            .replace(/@Examed/gi, item.OperateDate == '' ? '--' : '√')
+                            .replace(/@IsNeedInform/gi, item.DiseaseLevel == "0" ? "display:none;" : "")
+                            .replace(/@Is_DiseaseLevelInformed/gi, item.Is_DiseaseLevelInformed == '1' ? '√' : ' ')
+                            .replace(/@CheckerName/gi, item.Is_Check == 'True' ? item.CheckerName : '--')
+                            .replace(/@bgclass/gi, item.OperateDate == '' ? 'noprint_bgclass' : '')
+                            .replace(/@trTitle/gi, item.DiseaseLevel == "0" ? "【" + item.CustomerName + "】还未总检！" : "")
+                            ;
+
+                            RowNum++;
+                        });
+                        if (newcontent != '') {
+                            jQuery('#Searchresult').html(newcontent);
+
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+                    } else {
+                        jQuery('#Searchresult').html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "在您查询的时间段内，没有找到客户的体检信息！"));
+                        jQuery("#Pagination").hide(); // 没有数据的时候，隐藏分页信息
+                    }
+
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 获取客户的通知人信息
+        /// </summary>
+        function GetCustomerDiseaseLevelInform(CustomerID) {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    action: 'GetCustomerDiseaseLevelInform',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "" && jsonmsg.dataList0.length > 0) {
+                        jQuery(jsonmsg.dataList0).each(function (j, CustItem) {
+                            ExamResultItemCount++;
+                            jQuery("#InformContent").val(CustItem.DiseaseLevelInformNote);
+
+                            RowNum++;
+                        });
+                    }
+                }
+            });
+
+        }
+
+        function Search() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 根据体检号获取病症级别大于1的体检号
+        /// </summary>
+        function GetCustomDiseaseLevelDetail(obj) {
+            var ID_Customer = jQuery(obj).attr("CustomerID");
+            var DiseaseLevelNumber = jQuery(obj).attr("DiseaseLevelNumber");
+            if (DiseaseLevelNumber == "") { return; }
+
+            //jQuery("#box_CustomerDiseaseLevelDetail_" + ID_Customer).show();
+
+            if (jQuery("#box_CustomerDiseaseLevelDetail_" + ID_Customer).is(":hidden")) {
+
+                jQuery(".CustomerDiseaseLevelDetailList").parent().parent().parent().hide();
+                jQuery("#box_CustomerDiseaseLevelDetail_" + ID_Customer).show();
+            } else {
+                jQuery("#box_CustomerDiseaseLevelDetail_" + ID_Customer).hide();
+                return;
+            }
+
+            GetCustomerDiseaseLevelExamResultList(ID_Customer);
+
+        }
+
+
+        /// <summary>
+        /// 获取客户病症级别大于0的体检号和检查结果值 20140818 by WTang 
+        /// </summary>
+        function GetCustomerDiseaseLevelExamResultList(CustomerID) {
+
+
+            var TipsInfoTempletecontent = jQuery('#TipsInfoTemplete').html();
+            if (TipsInfoTempletecontent == undefined) { return; }
+            jQuery("#box_CustomerDiseaseLevelDetail_" + CustomerID + " .CustomerDiseaseLevelDetailList").html(TipsInfoTempletecontent.replace(/@TipsInfo/gi, "正在查询，请稍等..."));
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    action: 'GetCustomerDiseaseLevelExamResultList',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "" && jsonmsg.dataList0.length > 0) {
+                        // 显示查询到的信息
+                        ShowExamResultDetailListByExamID(jsonmsg, CustomerID);
+                    } else {
+                        var ExamResultListItemTempleteContent = jQuery('#NoDataExamResultListItemTemplete').html();
+                        jQuery("#box_CustomerDiseaseLevelDetail_" + ID_Customer + " .CustomerDiseaseLevelDetailList").html(ExamResultListItemTempleteContent);  // 显示每列的数据
+
+                    }
+                }
+            });
+
+        }
+
+        /// <summary>
+        /// 根据体检号，查找病症级别明细 (显示)
+        /// </summary>
+        function ShowExamResultDetailListByExamID(ExamResultlist, CustomerID) {
+
+            var tempListContent = "";  // 临时内容
+
+            // 病症级别显示模版
+            var ExamResultListItemTempleteContent = jQuery('#ExamResultListItemTemplete').html();
+
+            if (ExamResultListItemTempleteContent == undefined) { return; }
+
+            jQuery("#ExamResultListItem").html(""); //   先清空列表
+
+            var ExamResultItemCount = 0;
+            var RowNum = 1;
+            // dataList0 显示所有的角色信息
+            jQuery(ExamResultlist.dataList0).each(function (j, ExamResultitem) {
+                ExamResultItemCount++;
+                tempListContent += ExamResultListItemTempleteContent
+                        .replace(/@RowNum/gi, RowNum)
+                        .replace(/@ExamItemName/gi, ExamResultitem.ExamItemName)
+                        .replace(/@ResultSummary/gi, ExamResultitem.ResultSummary)
+                        .replace(/@SummaryDoctorName/gi, ExamResultitem.SummaryDoctorName)
+                        .replace(/@ExamItemSummaryDate/gi, ExamResultitem.ExamItemSummaryDate)
+                        .replace(/@DiseaseLevel/gi, ExamResultitem.DiseaseLevel);
+
+                RowNum++;
+            });
+
+            jQuery("#box_CustomerDiseaseLevelDetail_" + CustomerID + " .CustomerDiseaseLevelDetailList").html(tempListContent);  // 显示每列的数据
+
+        }
+
+
+    </script>
+
+
+    <script type="text/javascript" language="javascript">
+
+        /// <summary>
+        /// 弹出样本设置页面(样本ID编号)
+        /// </summary>
+        function OpenInforOperWindowParams(obj) {
+            var CustomerID = jQuery(obj).attr("CustomerID");
+            var url = '/System/DiseaseLevel/InformOper.aspx?num=' + Math.random();
+            if (CustomerID != "") {
+                url = url + "&CustomerID=" + CustomerID;
+            }
+            var CustomerName = jQuery(obj).attr("CustomerName");
+            var MobileNo = jQuery(obj).attr("MobileNo");
+            var Age = jQuery(obj).attr("Age");
+            var GenderName = jQuery(obj).attr("GenderName");
+            var OperateDate = jQuery(obj).attr("OperateDate");
+            var ShowTitle = "[" + CustomerID + "][" + CustomerName + "][" + Age + "岁][" + GenderName + "][" + OperateDate + "]  【" + MobileNo + "】通知";
+            art.dialog.open(url,
+            {
+                width: 650,
+                height: 410,
+                drag: true,
+                lock: true,
+                id: 'OperWindowFrame',
+                title: ShowTitle
+            });
+        }
+
+        /// <summary>
+        /// 获取客户的通知人信息
+        /// </summary>
+        function GetCustomerDiseaseLevelInform(CustomerID) {
+
+            jQuery.ajax({
+                type: "POST",
+                url: "/Ajax/AjaxCustDiseaseLevel.aspx",
+                data: { CustomerID: CustomerID,
+                    action: 'GetCustomerDiseaseLevelInform',
+                    currenttime: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (jsonmsg) {
+
+                    if (jsonmsg != null && jsonmsg != "" && jsonmsg.dataList0.length > 0) {
+                        jQuery(jsonmsg.dataList0).each(function (j, CustItem) {
+                            jQuery("#DiseaseLevelInformer_" + CustomerID).html(CustItem.DiseaseLevelInformer);
+                            jQuery("#DiseaseLevelInformedDate_" + CustomerID).html(CustItem.DiseaseLevelInformedDate);
+
+                        });
+                    }
+                }
+            });
+
+        }
+    </script>
+
+</head>
+<body>
+    <div class="center">
+        
+        <table style="display: none;">
+            <script type="text/plain"  id="QueryDataListTemplete">
+            
+                <tr class="@bgclass" title="@trTitle" >
+                    <td style="display: none;"><input name="ItemCheckbox" title="" type="checkbox" value="@CustomerID" /></td>
+                    <td style="text-align: center;">
+                        <a href="javascript:void(0);" onclick="GetCustomDiseaseLevelDetail(this);" CustomerID="@CustomerID"  DiseaseLevelNumber="@DiseaseLevelNumber" style="@IsNeedInform"><img src="/template/blue2/images/grid-detail-close.gif" width="11" height="11"></a>
+                    </td>
+                    <td>@RowNum</td>
+                    <td class="project-align-left">@CustomerID</td>
+                    <td class="project-align-left" title="@CustomerName"><div class="nowrap" style="width:48px;">@CustomerName</div></td>
+                    <td style="text-align: center;">@GenderName</td>
+                    <td style="text-align: center;">@Age</td>
+                    <td style="display: none;">@IDCard</td>
+                    <td style="display: none;">@ExamCard</td>
+                    <td  class="project-align-left" title="@MobileNo"><div class="nowrap" style="width:67px;">@MobileNo</div></td>
+                    <td style="text-align: center;"><a style="COLOR: green"  href="javascript:void(0);">@DiseaseLevelNumber</a></td>
+                    <td style="text-align: center;">@OperateDate</td>
+                    <td class="project-align-left">@FinalDoctor</td>
+                    <td style="text-align: center;">@CheckedDate</td>
+                    <td id="DiseaseLevelInformer_@CustomerID" style="text-align: center;">@DiseaseLevelInformer</td>
+                    <td id="DiseaseLevelInformedDate_@CustomerID" style="text-align: center;">@DiseaseLevelInformedDate</td>
+                    <td style="text-align: center;"><A CustomerID="@CustomerID"  OperateDate="@OperateDate"  GenderName="@GenderName"  CustomerName="@CustomerName" MobileNo="@MobileNo" Age="@Age" style="COLOR: green;@IsNeedInform" onclick="OpenInforOperWindowParams(this)"  href="javascript:void(0);">通知</A></td>
+                </tr>
+                
+              <tr id="box_CustomerDiseaseLevelDetail_@CustomerID" style="display:none;">
+                <td colspan="17">
+                    <table width="98%" border="0" cellspacing="0" cellpadding="0" class="qttable" style="margin-left:7px;" >
+                        <tr>
+                        <th>序号</th>
+                        <th  class="project-align-left">检查项目</th>
+                        <th>结论</th>
+                        <th>病症级别</th>
+                        <th>检查人</th>
+                        <th>检查时间</th>
+                        </tr>
+                        <tbody class="CustomerDiseaseLevelDetailList">
+
+                        </tbody>
+                     </table>
+                </td>
+              </tr>
+            </script>
+            <script type="text/plain" id="TipsInfoTemplete">
+                <tr>
+                    <td class="msg" colspan="17" >
+                        @TipsInfo
+                        <br/><br/><br/>
+                    </td>
+                </tr>
+            </script>
+        </table>
+
+
+        
+        <script type="text/plain" id="ExamResultListItemTemplete">
+            <tr onclick="jQuery('#rdi_ExamResultItem_@ID_ExamResult').attr('checked',true);" >
+                <td style="width:36px">@RowNum<span style="display:none;"><input id="rdi_ExamResultItem_@ID_ExamResult" type="radio" value="@ID_ExamResult" name='ExamResultItemRadio' /></span></td>
+                <td class="project-align-left">@ExamItemName</td>
+                <td class="project-align-left">@ResultSummary</td>
+                <td style="width:65px">@DiseaseLevel</td>
+                <td class="project-align-left" style="width:65px" >@SummaryDoctorName</td>
+                <td style="width:125px" >@ExamItemSummaryDate</td>
+            </tr>
+
+        </script>
+        
+    <table style="display:none;">
+        <tbody id="NoDataExamResultListItemTemplete">
+            
+            <tr>
+                <td colspan="12" style="text-align:center;"> 没有查询到数据！ </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>病症级别：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="txtMinLevel" class="input-1" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="txtMiaxLevel" class="input-1" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+                <div id="divInformed">
+                    <span>&nbsp;状态：</span> <span class="span-margin-top">
+                        <div class="Editor-l">
+                        </div>
+                        <div class="Editor-c">
+                            <select id="slInformed">
+                                <option value="-1">--请选择--</option>
+                                <option value="0">未通知</option>
+                                <option value="1">已通知</option>
+                            </select>
+                        </div>
+                        <div class="Editor-r">
+                        </div>
+                    </span>
+                </div>
+                <span>&nbsp;日期：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})"
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})"
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+                <span class="search" style="padding-left:10px;">
+                    <input  name="txtCustomerID"  id="txtCustomerID" onkeyup="AutoDiseaseLevelCustomerQuery();" maxlength="20" type="text"
+                            onfocus="this.select();" value="$!{txtCustomerID}" />
+                    <a href="javascript:void(0);" onclick="ButtonClickQuery();" ><img alt="" src="$!{templatepath}/images/search.jpg" width="17" height="14" /></a>
+                </span>
+                
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s float-right"
+                    title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="ButtonClickQuery();">
+                        查询</a></span>
+            </div>
+        </div>
+
+        
+        <div class="project">
+            <div class="project-center">
+                <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                        <col style="width:30px" />
+                    	<col style="width:35px" />
+                    	<col style="width:12%" />
+                    	<col style="width:6%" />
+                    	<col style="width:4%" />
+
+                    	<col style="width:4%" />
+                    	<col style="width:9%" />
+                    	<col style="width:4%" />
+                        <col style="width:12%" />
+                    	<col style="width:6%" />
+
+                    	<col style="width:13%" />
+                        <col style="width:5%" />
+                        <col style="width:13%" />
+                      </colgroup>
+                          <tr class="project-center-lb1-list">
+                            <th style="display:none;">
+                                <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>&nbsp;</th>
+                            <th>序号</th>
+                            <th>体检号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>联系方式</th>
+                            <th>级别</th>
+                            <th>体检时间</th>
+                            <th>总检</th>
+                            <th>总审时间</th>
+                            <th>通知人</th>
+                            <th>通知时间</th>
+                            <th>操作</th>
+                          </tr>
+                </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="400" data-min="200" style="overflow:auto;">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                        <col style="width:30px" />
+                    	<col style="width:35px" />
+                    	<col style="width:12%" />
+                    	<col style="width:6%" />
+                    	<col style="width:4%" />
+
+                    	<col style="width:4%" />
+                    	<col style="width:9%" />
+                    	<col style="width:4%" />
+                        <col style="width:12%" />
+                    	<col style="width:6%" />
+
+                    	<col style="width:13%" />
+                        <col style="width:5%" />
+                        <col style="width:13%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                <tr>
+                <td colspan="10">
+                    <div class="paging" id="Pagination">
+                        <div class="paging-left"></div>
+                        <div class="paging-center">
+                            <ul >
+                            </ul>
+                        </div>
+                        <div class="paging-right"></div>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
+        <div id="divLoadCustomerReport" style="display: none;">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>权限列表 </title>
+
+    <meta charset="UTF-8" />
+
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Right.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        // 读取全部权限信息
+        jQuery(document).ready(function () {
+
+            GetAllRightItemList();
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;系统权限列表 <span style="float:right;"></span> </div>
+                <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+
+                <table class="querylist" >
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td>
+                            权限列表
+                        </td>
+                        <td>
+                            权限操作区域
+                        </td>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <tr>
+                        <td class="RightTree" id='RightTree' style="width:50%;vertical-align:top; text-align:left;">
+                            
+                        </td>
+                        <td style=" vertical-align:top; text-align:left;">
+                            <div class="RightTreeOper"  style=" vertical-align:top; text-align:left;">
+                                <div class="RightItemContentArea" id="RightItemContentArea">
+                                    <ul>
+                                        <li>
+                                            <input type="hidden" name="txtRightID"  id="txtRightID" value="" />
+                                            <input type="hidden" name="txtParentRightID"  id="txtParentRightID" value="" />
+                                            <input type="hidden" name="txtCurrentLevel"  id="txtCurrentLevel" value="" />
+
+                                            <span class="title">权限名称：</span>
+
+                                            <span class="oper"><input name="txtRightName"  id="txtRightName" value="" /></span>
+                                        </li>
+                                        <li>
+                                            <span class="title">权限代码：</span>
+                                            <span class="oper"><input name="txtRightCode"  id="txtRightCode" value="" /></span>
+                                        </li>
+                                        <li>
+                                            <span class="title">分组排序：</span>
+                                            <span class="oper"><input name="txtDispOrder"  id="txtDispOrder" value="" maxlength="3" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /></span>
+                                        </li>
+                                        <li>
+                                            <span class="title">是否锁定：</span>
+                                            <span class="oper">
+                                                <input type="radio" name="IsLockedRight"  id="IsLockedRight01" value="0"/> 未锁定
+                                                <input type="radio" name="IsLockedRight"  id="IsLockedRight02" value="1"/> 锁定  </span>
+                                        </li>
+                                    </ul>                                                                                                                                                                                                                                                                                                                                                           
+                                </div>
+                                
+                                <div class="ButtonArea" >
+                                    <input type="button" class="button120" name="btnAddFirstLevelNode" onclick="SaveRightNodeItem(1);" value="新增第一级节点" /> 
+                                    <input type="button" class="button120" name="btnAddNextLevelNode" onclick="SaveRightNodeItem(2);" value="新增下一级节点" />
+                                    <br />
+                                    <input type="button" class="button120" name="btnEditCurrentNode" onclick="SaveRightNodeItem(3);" value=" 修改选中节点 " />
+                                    <input type="button" class="button120" name="btnDeleteCurrentNode" onclick="DeleteRightNodeClick();" value=" 删除选中节点 " />
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+        </div>
+    </div>
+
+    <div style="display:none;">
+        
+        <div id="SingleRightItemTemplete">
+            <ul id="RightItem_@ID_Right">
+                <li class="RightItem" >
+                <span id="openflag_@ID_Right" class="openflag" onclick="ShowHideSubRightItem('@ID_Right');">&nbsp;</span>
+                <span>
+                
+                <input 
+                id="chkRight_@ID_Right" 
+                name="chkRight" 
+                rightname="@RightName" 
+                parentid="@ID_ParentRight" 
+                isLocked="@Is_Locked" 
+                rightcode="@RightCode" 
+                disporder="@DispOrder" 
+                currentlevel="@CurrentLevel" 
+                type="radio" 
+                value="@ID_Right"
+                onclick="SelectRightItem('@ID_Right');" />
+                
+                </span>
+                <span onclick="ShowHideSubRightItem('@ID_Right');">@ShowRightName</span>
+                </li>
+                <li id="SubRightFrame_@ID_Right" class="SubRightFrame"></li>
+            </ul>
+        </div>
+        
+    </div>
+
+
+</body>
+
+
+
+</html>

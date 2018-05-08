@@ -1,0 +1,810 @@
+﻿/**----------------------------------------------全局样式-------------------------------------------------------**/
+html, span, img, li, p, ol, ul, body, fieldset, ht1, ht2, ht3, ht4, ht5, ht6, form, div, table, tr, th, td, iframe, blockquote, pre, a, address, big, cite, code, del, em, font, ins, small, strong, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, label, legend
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+table
+{
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.display
+{
+    display: none;
+}
+input
+{
+    padding: 0px;
+    margin: 0px;
+}
+img
+{
+    border-style: none;
+    border-color: inherit;
+    border-width: 0;
+}
+
+select
+{
+    vertical-align: middle;
+}
+input
+{
+    vertical-align: middle;
+}
+ol
+{
+    list-style-type: none;
+}
+ul
+{
+    list-style-type: none;
+}
+a
+{
+    text-decoration: none;
+    color: #050505;
+}
+a:visited
+{
+    color: #050505;
+}
+a:focus
+{
+    color: #990000;
+}
+a:active
+{
+    color: #990000;
+}
+a:hover
+{
+    color: #990000;
+}
+.clearit
+{
+    clear: both;
+}
+
+body
+{
+    font-size: 12px;
+    font-family: "微软雅黑" , "宋体";
+}
+
+/**--------------------通用样式专区开始----------------------------**/
+/**字号颜色专区开始**/
+.underline
+{
+    text-decoration: underline;
+}
+.display_none
+{
+    display: none;
+}
+.display_block
+{
+    display: block;
+}
+.linehrough
+{
+    text-decoration: line-through;
+}
+.b
+{
+    font-weight: bold;
+}
+.normal
+{
+    font-weight: normal;
+}
+.f12
+{
+    font-size: 12px;
+    font-weight: normal;
+}
+.f14
+{
+    font-size: 14px;
+}
+.f16
+{
+    font-size: 14px;
+}
+.f18
+{
+    font-size: 18px;
+}
+.f20
+{
+    font-size: 18px;
+}
+.f22
+{
+    font-size: 18px;
+}
+.f24
+{
+    font-size: 24px;
+}
+.f26
+{
+    font-size: 18px;
+}
+.f28
+{
+    font-size: 18px;
+}
+.f30
+{
+    font-size: 18px;
+}
+.white
+{
+    color: white;
+}
+.a_white a
+{
+    color: white;
+}
+.a_white a:visited
+{
+    color: white;
+}
+.a_white a:hover
+{
+    color: red;
+}
+.red
+{
+    color: red;
+}
+.a_red a
+{
+    color: red;
+}
+.a_red a:visited
+{
+    color: red;
+}
+.blue
+{
+    color: blue;
+}
+.a_blue a
+{
+    color: blue;
+}
+.a_blue a:visited
+{
+    color: blue;
+}
+.black
+{
+    color: black;
+}
+.a_black a
+{
+    color: black;
+}
+.a_black a:visited
+{
+    color: black;
+}
+.a_black a:hover
+{
+    color: red;
+}
+.gray6
+{
+    color: #666666;
+}
+.a_gray6 a
+{
+    color: #666666;
+}
+.a_gray6 a:visited
+{
+    color: #666666;
+}
+.a_gray6 a:hover
+{
+    color: red;
+}
+.gray9
+{
+    color: #999999;
+}
+.a_gray9 a
+{
+    color: #999999;
+}
+.a_gray9 a:visited
+{
+    color: #999999;
+}
+.a_gray9 a:hover
+{
+    color: #990000;
+}
+/**字号颜色专区结束**/
+/**背景重复方式开始**/
+.background_repeat_no
+{
+    background-repeat: no-repeat;
+}
+.background_repeat_x
+{
+    background-repeat: repeat-x;
+}
+.background_repeat_y
+{
+    background-repeat: repeat-y;
+}
+/**背景重复方式结束**/
+/**浮动对齐方式开始**/
+.float_left
+{
+    float: left;
+}
+.float_right
+{
+    float: right;
+}
+/**浮动对齐方式结束**/
+/**通用行高开始**/
+.spline05
+{
+    height: 5px;
+    clear: both;
+    overflow: hidden;
+}
+.spline10
+{
+    height: 10px;
+    clear: both;
+    overflow: hidden;
+}
+.spline15
+{
+    height: 15px;
+    clear: both;
+    overflow: hidden;
+}
+.spline20
+{
+    height: 20px;
+    clear: both;
+    overflow: hidden;
+}
+.spline25
+{
+    height: 25px;
+    clear: both;
+    overflow: hidden;
+}
+.spline30
+{
+    height: 30px;
+    clear: both;
+    overflow: hidden;
+}
+.spline35
+{
+    height: 35px;
+    clear: both;
+    overflow: hidden;
+}
+.spline40
+{
+    height: 40px;
+    clear: both;
+    overflow: hidden;
+}
+.spline45
+{
+    height: 40px;
+    clear: both;
+    overflow: hidden;
+}
+/**通用行高结束**/
+/**回车样式开始**/
+.pstr
+{
+    padding: 5px 0;
+    clear: both;
+}
+.pstr1
+{
+    padding: 3px 0;
+    clear: both;
+}
+.pad10
+{
+    padding: 10px;
+}
+.pb10
+{
+    padding-bottom: 10px;
+}
+/**回车样式结束**/
+/**对齐方式开始**/
+.text_center
+{
+    text-align: center;
+}
+.text_left
+{
+    text-align: left;
+}
+.text_right
+{
+    text-align: right;
+}
+.margin
+{
+    margin: 0 auto;
+}
+/**对齐方式结束**/
+
+/**Table基偶项交替颜色**/
+
+.tblList tbody tr:nth-child(even)
+{
+    background-color: #ececec;
+}
+
+.tblList tbody tr:nth-child(odd)
+{
+    background-color: White;
+}
+
+.tblList tbody tr:hover
+{
+    background: #27a9e3;
+}
+.width20
+{
+    width: 20px;
+}
+
+.tblList tbody .selected
+{
+    background: #27a9e3;
+}
+
+.width40
+{
+    width: 40px;
+}
+.width50
+{
+    width: 50px;
+}
+.width60
+{
+    width: 60px;
+}
+.width70
+{
+    width: 70px;
+}
+.width80
+{
+    width: 80px;
+}
+.width90
+{
+    width: 90px;
+}
+.width100
+{
+    width: 100px;
+}
+.width110
+{
+    width: 110px;
+}
+.width120
+{
+    width: 120px;
+}
+.width130
+{
+    width: 130px;
+}
+.width140
+{
+    width: 140px;
+}
+.width150
+{
+    width: 150px;
+}
+.width160
+{
+    width: 160px;
+}
+.width170
+{
+    width: 170px;
+}
+.width180
+{
+    width: 180px;
+}
+.width190
+{
+    width: 190px;
+}
+.width200
+{
+    width: 200px;
+}
+.width210
+{
+    width: 210px;
+}
+.width220
+{
+    width: 220px;
+}
+.width230
+{
+    width: 230px;
+}
+.width240
+{
+    width: 240px;
+}
+.width250
+{
+    width: 250px;
+}
+.width260
+{
+    width: 260px;
+}
+.width270
+{
+    width: 270px;
+}
+.width280
+{
+    width: 280px;
+}
+.width290
+{
+    width: 290px;
+}
+.width300
+{
+    width: 300px;
+}
+
+.width350
+{
+    width: 350px;
+}
+.width400
+{
+    width: 400px;
+}
+
+.width450
+{
+    width: 450px;
+}
+
+/** 通用按钮样式 **/
+.button50
+{
+    height: 28px;
+    width: 50px;
+}
+.button60
+{
+    height: 28px;
+    width: 60px;
+}
+.button70
+{
+    height: 28px;
+    width: 70px;
+}
+.button80
+{
+    height: 28px;
+    width: 80px;
+}
+.button90
+{
+    height: 28px;
+    width: 90px;
+}
+.button100
+{
+    height: 28px;
+    width: 100px;
+}
+.button110
+{
+    height: 28px;
+    width: 110px;
+}
+.button120
+{
+    height: 28px;
+    width: 120px;
+}
+.button130
+{
+    height: 28px;
+    width: 130px;
+}
+.button140
+{
+    height: 28px;
+    width: 140px;
+}
+.button150
+{
+    height: 28px;
+    width: 150px;
+}
+.button160
+{
+    height: 28px;
+    width: 160px;
+}
+.button170
+{
+    height: 28px;
+    width: 170px;
+}
+.button180
+{
+    height: 28px;
+    width: 180px;
+}
+.button190
+{
+    height: 28px;
+    width: 190px;
+}
+.button200
+{
+    height: 28px;
+    width: 200px;
+}
+.button210
+{
+    height: 28px;
+    width: 210px;
+}
+
+
+
+.tblExamItemTable thead, .tblRegistTableEdit thead
+{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tblRegistTableEdit tr td
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 35px;
+    border: 1px solid #d0d0d0;
+}
+
+
+.tblRegistTableEdit tr td tr
+{
+    height: 22px;
+}
+
+.tblRegistTableEdit tr td tr td
+{
+    height: 22px;
+    font-size: 12px;
+}
+
+.tblRegistTableEdit tr .title
+{
+    background-color: #e3e3e3;
+    text-align: center;
+    width: 90px;
+}
+.tblExamItemTable tr td
+{
+    text-align: left;
+    padding-left: 5px;
+    height: 35px;
+    border: 1px solid #d0d0d0;
+    font-size: 10pt;
+}
+.tdlabel
+{
+    background-color: Red;
+    width: 100px;
+}
+.tblRegistTableEdit tr select
+{
+    width: 155px;
+}
+.tblExamItemTable .qx
+{
+    height: 25px; /* width: 20px; */
+}
+.tblExamItemTable .xmmc
+{
+    height: 25px; /* width: 250px; */
+}
+.tblExamItemTable .yj
+{
+    height: 25px; /* width: 50px; */
+}
+.tblExamItemTable .zk
+{
+    height: 25px; /* width: 50px; */
+}
+.tblExamItemTable .zkx
+{
+    /* width: 35px; */
+}
+.tblExamItemTable .sj
+{
+    height: 25px; /* width: 50px; */
+}
+
+.tblExamItemTable input
+{
+    background-color: transparent;
+    width: 30px;
+}
+.tblExamItemTable tr select
+{
+    background-color: transparent;
+    width: 60px;
+}
+.tblExamItemTable .djr
+{
+    height: 25px; /* width: 70px; */
+}
+.tblExamItemTable .djsj
+{
+    height: 25px; /* width: 100px; */
+}
+.tblExamItemTable .xmzt
+{
+    text-align: center;
+    height: 25px; /* width: 350px; */
+}
+.tblExamItemTable .ysf
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yyy
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .ytf
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yjz
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .yfxj
+{
+    text-align: center;
+    height: 25px; /*  width: 50px; */
+}
+.tblExamItemTable .cz
+{
+    padding-left: 5px;
+    text-align: center;
+    height: 25px; /* width: 80px; */
+}
+.tblExamItemTable .sffs
+{
+    text-align: center;
+    height: 25px; /* width: 100px; */
+}
+.tblExtern
+{
+    text-align: right;
+    height: 15px;
+    width: 100%;
+}
+.divOperate
+{
+    text-align: center;
+    padding: 8px;
+    float: right;
+    height: 30px;
+}
+.headPic
+{
+    width: 140px;
+    height: 130px;
+}
+.takePhote
+{
+    width: 140px;
+    height: 30px;
+}
+.lblRequired
+{
+    padding-left: 5px;
+    color: Red;
+}
+.xmzj
+{
+    /*background-color:#d0d0d0;*/
+    width: 50px;
+    color: Red;
+}
+
+
+
+
+.content .quicktable thead, .content .quicktable thead tr, .content .quicktable thead th
+{
+    background-color: #efefef;
+    height: 26px;
+    line-height: 26px;
+}
+
+.content .quicktable tbody
+{
+    background-color: #f9f9f9;
+}
+.content .quicktable th, .content .quicktable td
+{
+    padding: 2px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd;
+}
+.content .quicktable th
+{
+    font-weight: bold;
+}
+.content .quicktable thead th
+{
+    vertical-align: bottom;
+}
+.content .quicktable caption + thead tr:first-child th, .content .quicktable caption + thead tr:first-child td, .content .quicktable colgroup + thead tr:first-child th, .content .quicktable colgroup + thead tr:first-child td, .content .quicktable thead:first-child tr:first-child th, .content .quicktable thead:first-child tr:first-child td
+{
+    border-top: 0;
+}
+.content .quicktable tbody + tbody
+{
+    border-top: 2px solid #ddd;
+}
+.content .quicktable .table
+{
+    background-color: #fff;
+}
+
+
+.InputNoBorder
+{
+    border: 0px;
+    background-color: transparent;
+}

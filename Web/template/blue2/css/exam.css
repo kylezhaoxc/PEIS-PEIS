@@ -1,0 +1,541 @@
+﻿
+.content .splitline
+{
+    height: 1px;
+    border-bottom: 1px solid #d0d0d0;
+    width: 100%;
+}
+.content .examtable
+{
+    width: 100%;
+    border: 1px;
+}
+.fenk-bs .fenk-bs-xqlb-table tr td
+{
+    padding-left: 2px;
+    padding-right: 2px;
+    line-height: 18px;
+    padding-top: 3px;
+    vertical-align: middle;
+}
+
+.examtable .tr_even
+{
+    background-color: White;
+}
+
+.examtable .tr_odd
+{
+    background-color: #ececec;
+}
+
+        
+/*** 检查项目栏左边样式 **/
+.fenk-bs .fenk-bs-xqlb-table .examitemleft
+{
+    width: 100px;
+    height: auto;
+    overflow: hidden;
+    text-align: right;
+}
+        
+.fenk-bs .fenk-bs-xqlb-table .examitemright
+{
+    width: 700px;
+    height: auto;
+    overflow: hidden;
+}
+/*** 收费项目栏样式 **/
+.fenk-bs .fenk-bs-xqlb-table .examitemfeeline
+{
+    line-height: 32px;
+    background-color: #27a9e3;
+    color: White;
+    font-size: 16px;
+}
+        
+/*** 检查项目栏左边样式 **/
+.fenk-bs .fenk-bs-xqlb-table .examitemleft_lab
+{
+    width: 150px;
+    height: auto;
+    overflow: hidden;
+    text-align: right;
+}
+/*** 检查项目异常值背景色 **/
+.fenk-bs .fenk-bs-xqlb-table .lohilimitbg
+{
+    background-color: #b6cbef;
+    color:Red;
+}
+        
+/*** 必须输入值的文本行背景色 #f1ebdc**/
+.fenk-bs .notmustinputbg
+{
+    background-color: White;
+    color: #c19f6f;
+}
+        
+        
+/*** 体征词样式 1 （每行显示一个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_1
+{
+    width: 100%;
+    float: left;
+}
+/*** 体征词样式 2 （每行显示2个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_2
+{
+    width: 50%;
+    float: left;
+}
+/*** 体征词样式 3 （每行显示3个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_3
+{
+    width: 33%;
+    float: left;
+}
+        
+/*** 体征词样式 4 （每行显示4个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_4
+{
+    width: 25%;
+    float: left;
+}
+
+.fenk-bs .fenk-bs-xqlb-table input{ float:left;}
+.fenk-bs-xqlb-table label{  margin:2px 5px 0px 15px; display:block; }
+        
+/*** 体征词样式 5 （每行显示5个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_5
+{
+    width: 20%;
+    float: left;
+}
+        
+/*** 体征词样式 6 （每行显示6个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_6
+{
+    width: 16%;
+    float: left;
+}
+        
+/*** 体征词样式 7 （每行显示7个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_7
+{
+    width: 14%;
+    float: left;
+}
+        
+/*** 体征词样式 8 （每行显示7个） **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomCols_8
+{
+    width: 14%;
+    float: left;
+}
+        
+/*** 无体征词时，输入框的样式 **/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymtomTextInput
+{
+    width: 70%;
+    float: left;
+}
+        
+        
+/*** 检验科输入框的样式 **/
+.fenk-bs .fenk-bs-xqlb-table .ClassLabSectionTextInput
+{
+    width: 80px;
+    float: left;
+}
+         
+/*** 检查项目头部样式 **/
+.fenk-bs .fenk-bs-xqlb-table .itemheaderclass
+{
+    text-align:center;
+    background-color:#3399cc;
+    font-size:14px;
+}
+/*** 检验科收费项目列所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .feenameclass
+{
+    min-width: 110px;
+}
+/*** 检验科收费项目列所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .feenameclass2
+{
+    min-width: 50px;
+}
+/*** 收费项目直接的boder样式 **/
+.fenk-bs .fenk-bs-xqlb-table .feeitemboder
+{
+    border-top:1px #3399cc solid;
+}
+/*** 检验科输入所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .examresultclass
+{
+    width: 80px;
+}
+/***总检 检查时间所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .examdateclass
+{
+    width: 90px;
+    text-align:center;
+    white-space:nowrap;
+}
+/***总检 检查医生所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .examdoctorclass
+{
+    width: 90px;
+    text-align:center;
+    white-space:nowrap;
+}
+/***总检 已检 、已审 所占比例 **/
+.fenk-bs .fenk-bs-xqlb-table .examisexamclass
+{
+    width: 50px;
+    text-align:center;
+    white-space:nowrap;
+}
+/*** 体检项目单项结果显示框 （同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv
+{
+    width: 96%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv
+{
+    width: 34%;
+    float: right;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 上边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomDiffRowPartDiv
+{
+    width: 96%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 下边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultDiffRowPartDiv
+{
+    width: 96%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_1
+{
+    width: 48%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_1
+{
+    width: 48%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_2
+{
+    width: 65%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_2
+{
+    width: 32%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_3
+{
+    width: 75%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_3
+{
+    width: 24%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_4
+{
+    width: 80%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_4
+{
+    width: 20%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_5
+{
+    width: 83%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_5
+{
+    width: 16.5%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_6
+{
+    width: 86%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_6
+{
+    width: 13.5%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_7
+{
+    width: 87.5%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_7
+{
+    width: 12%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_8
+{
+    width: 89%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_8
+{
+    width: 10.5%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （不同行显示 - 左边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassSymptomSameRowPartDiv_9
+{
+    width: 90%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 （不同行显示 - 右边）**/
+.fenk-bs .fenk-bs-xqlb-table .ClassResultSameRowPartDiv_9
+{
+    width: 9.6%;
+    float: right;
+}
+/*** 体检项目单项结果显示框 （单行）**/
+.fenk-bs .fenk-bs-xqlb-table .ExamItemResultText01
+{
+    width: 100%;
+    float: left;
+}
+        
+/*** 体检项目单项结果显示框 (多行) **/
+.fenk-bs .fenk-bs-xqlb-table .ExamItemResultText02
+{
+    width: 100%;
+    float: left;
+}
+        
+/*** 等待信息 及 空信息 样式 **/
+.content .ExamItemWaiting, .content .ExamItemEmpty
+{
+    width: 96%;
+    text-align: center;
+    line-height: 36px;
+    font-size: 14px;
+    padding: 100px 0px 100px 0px;
+}
+        
+.tblCustInfoTableEdit
+{
+    border: 0px;
+}
+.tblCustInfoTableEdit tr
+{
+    border: 0px;
+}
+.tblCustInfoTableEdit tr td
+{
+    padding-left: 5px;
+    height: 35px;
+    border: 0px;
+    font-size: 10pt;
+}
+        
+        
+/*** 体检者照片的大小 **/
+.CustPhotoShowSize
+{
+    width: 68px;
+    height: 69px;
+}
+.submitlinestyle
+{
+    height: 45px;
+    line-height: 45px;
+}
+        
+.ResultSummaryArea
+{
+    height: 63px;
+    width: 537px;
+}
+        
+.SectionResultSummaryArea
+{
+    width: 100%;
+}
+        
+.SectionResultSummaryReadOnlyArea
+{
+    width: 100%;
+    background-color:#dcdcdc;
+}
+        
+.showlidata
+{
+    width:100%;    
+}
+.showlidata li
+{
+    width:20%;
+    float:left;
+}
+
+
+/** 视频采集卡相关样式 ***/
+.ShowCaptureBigImage
+{
+    width:768px;
+    height:576px;
+    overflow:hidden;
+}
+
+.CaptureImage
+{
+    cursor:pointer;
+    overflow:hidden;
+}
+
+
+.CaptureImage img
+{
+    border:1px solid #969696;
+    width:120px;
+    height:90px;
+    overflow:hidden;
+}
+
+
+.CaptureImage .showreport
+{
+    position:absolute;
+    height:20px;
+    left:10px;
+    top:6px;
+    color:White;
+    background-color:Blue;
+    border:1px solid #6c6c6c;
+    /*font-size:12px;*/
+    display:none;
+}
+
+.CaptureImage .delete
+{
+    position:absolute;
+    height:20px;
+    right:10px;
+    top:6px;
+    color:White;
+    background-color:Olive;
+    border:1px solid #6c6c6c;
+    /*font-size:12px;*/
+    display:none;
+}
+
+.CaptureImage .up
+{
+    position:absolute;
+    height:20px;
+    right:10px;
+    top:36px;
+    width:20px;
+    color:#999999;
+    background-color:transparent;
+    border:1px solid #6c6c6c;
+    display:none;
+}
+
+.CaptureImage .down
+{
+    position:absolute;
+    height:20px;
+    right:10px;
+    top:60px;
+    width:20px;
+    color:#999999;
+    background-color:transparent;
+    border:1px solid #6c6c6c;
+    display:none;
+}
+
+.CaptureImage .message
+{
+    position:absolute;
+    width:120px;
+    height:90px;
+    line-height:90px;
+    left:0px;
+    top:0px;
+    color:White;
+    text-align:center;
+    /*font-size:12px;*/
+    display:none;
+}
+
+
+.CaptureImage .uploaded
+{
+    position:absolute;
+    line-height:88px;
+    width:116px;
+    left:0px;
+    top:0px;
+    color:#9c9c9c;
+    /*font-size:12px;*/
+    text-align:center;
+    display:none;
+    border:2px solid Orange;
+}
+
+
+.CaptureImage .used
+{
+    position:absolute;
+    width:12px;
+    height:12px;
+    right:1px;
+    bottom:6px;
+    background-image: url('../images/flag01.png');
+    display:none;
+}

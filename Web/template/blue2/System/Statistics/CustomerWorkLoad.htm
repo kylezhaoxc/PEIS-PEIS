@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_CustomerWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="CustFeeTemplate">
+                <tbody id="SearchresultTeamplate">
+                    <tr targeturl="/System/ReportManage/ReportPreview.aspx?ID_Customer=@ID_Customer"
+                        ondblclick="OpenCustomerReport(this,this.title);">
+                        <td>
+                            @index
+                        </td>
+                        <td class="project-align-left">
+                            @ID_ArcCustomer
+                        </td>
+                        <td class="project-align-left" title="@CustomerName">
+                            <div class="nowrap" style="width: 100%;">
+                                @CustomerName</div>
+                        </td>
+                        <td>
+                            @ID_Customer
+                        </td>
+                        <td>
+                            @GenderName
+                        </td>
+                        <td>
+                            @MarriageName
+                        </td>
+                        <td>
+                            @IDCard
+                        </td>
+                        <td class="project-align-left" title="@MobileNo">
+                            <div class="nowrap" style="width: 100%;">
+                                @MobileNo</div>
+                        </td>
+                        <td class="project-align-left" title="@TeamName">
+                            <div class="nowrap" style="width: 100%;">
+                                @TeamName</div>
+                        </td>
+                        <td class="project-align-left" title="@DepartmentX">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartmentX</div>
+                        </td>
+                        <td title="@DepartSubA">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubA</div>
+                        </td>
+                        <td title="@DepartSubB">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubB</div>
+                        </td>
+                        <td title="@DepartSubC">
+                            <div class="nowrap" style="width: 100%;">
+                                @DepartSubC</div>
+                        </td>
+                        <td class="project-align-left">
+                            @SubScribDate
+                        </td>
+                        <td>
+                            @ExamTypeName
+                        </td>
+                        <td class="project-align-left" title="@ExamPlaceName">
+                            <div class="nowrap" style="width: 100%;">
+                                @ExamPlaceName</div>
+                        </td>
+                        <td>
+                            @Is_FinalFinished
+                        </td>
+                        <td class="project-align-left" title="@FinalDoctor">
+                            <div class="nowrap" style="width: 100%;">
+                                @FinalDoctor</div>
+                        </td>
+                        <td class="project-align-left">
+                            @FinalDate
+                        </td>
+                        <td>
+                            @Is_Checked
+                        </td>
+                        <td class="project-align-left">
+                            @Checker
+                        </td>
+                        <td class="project-align-left">
+                            @CheckedDate
+                        </td>
+                        <td>
+                            @Is_ReportPrinted
+                        </td>
+                        <td class="project-align-left" title=" @ReportPrinter">
+                            <div class="nowrap" style="width: 100%;">
+                                @ReportPrinter</div>
+                        </td>
+                        <td class="project-align-left">
+                            @ReportPrintedDate
+                        </td>
+                        <td>
+                            @Is_Informed
+                        </td>
+                        <td class="project-align-left" title="@Informer">
+                            <div class="nowrap" style="width: 100%;">
+                                @Informer</div>
+                        </td>
+                        <td class="project-align-left">
+                            @InformedDate
+                        </td>
+                        <td>
+                            @Is_ReportReceipted
+                        </td>
+                        <td class="project-align-left" title="@ReportReceiptor">
+                            <div class="nowrap" style="width: 100%;">
+                                @ReportReceiptor</div>
+                        </td>
+                        <td class="project-align-left">
+                            @ReportReceiptedDate
+                        </td>
+                        <td>
+                            @ExamState
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--检查数量统计模板 End-->
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>姓名：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="txtCustomer" name="txtCustomer" placeholder=" " style="width: 58px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;类型：</span> <span class="span-margin-top" style="margin-right: 5px;">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slDataType">
+                            <option value="ID_Customer" selected="selected">体检号</option>
+                            <option value="MobileNo">手机号</option>
+                            <option value="IDCard" selected="selected">证件号</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" name="txtIDCard" id="txtIDCard" class="input-3" style="width: 100px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;团体名称：</span> <span class="search-ttmc" style="width: 150px">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 140px;">
+                        <span id="spanTeam">
+                            <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border: 0px; width: 80px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span><span>
+                    <input type="checkbox" id="chcIsSearchDate" value="1" /><label for="chcIsSearchDate">日期:
+                    </label>
+                </span><span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" class="dateselect" id="BeginExamDate" name="BeginExamDate" 
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="EndExamDate" name="EndExamDate"  class="dateselect"
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);" id="btnExport"
+                    name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="GetCustomerWorkLoad();">
+                            查询</a></span><a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center" style="overflow: hidden;">
+                <div style="overflow: hidden; width: 100%">
+                    <table id="customerScrollTitle" border="0" cellspacing="0" cellpadding="0" class="stripe j-control-title"
+                        style="min-width: 3216px; width: 100%;">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 120px" />
+                            <col style="width: 50px" />
+                            <col style="width: 50px" />
+                            <col style="width: 140px" />
+                            <col style="width: 90px" />
+                            <col style="width: 180px" />
+                            <col style="width: 180px" />
+                            <col style="width: 90px" />
+                            <col style="width: 90px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 95px" />
+                            <col style="width: 165px" />
+                            <col style="width: 70px" />
+                            <col style="width: 85px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 80px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 80px" />
+                            <col style="width: 140px" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                存档号码
+                            </th>
+                            <th>
+                                姓名
+                            </th>
+                            <th>
+                                体检号
+                            </th>
+                            <th>
+                                性别
+                            </th>
+                            <th>
+                                婚姻
+                            </th>
+                            <th>
+                                证件号
+                            </th>
+                            <th>
+                                联系电话
+                            </th>
+                            <th>
+                                单位名称
+                            </th>
+                            <th>
+                                部门
+                            </th>
+                            <th>
+                                部门2
+                            </th>
+                            <th>
+                                部门3
+                            </th>
+                            <th>
+                                部门4
+                            </th>
+                            <th>
+                                指引单打印时间
+                            </th>
+                            <th>
+                                体检类型
+                            </th>
+                            <th>
+                                体检地点
+                            </th>
+                            <th>
+                                是否总检
+                            </th>
+                            <th>
+                                总检人
+                            </th>
+                            <th>
+                                总检时间
+                            </th>
+                            <th>
+                                是否总审
+                            </th>
+                            <th>
+                                审核人
+                            </th>
+                            <th>
+                                审核时间
+                            </th>
+                            <th>
+                                是否打印
+                            </th>
+                            <th>
+                                打印人
+                            </th>
+                            <th>
+                                打印时间
+                            </th>
+                            <th>
+                                是否通知
+                            </th>
+                            <th>
+                                通知人
+                            </th>
+                            <th>
+                                通知时间
+                            </th>
+                            <th>
+                                是否领取
+                            </th>
+                            <th>
+                                领取人
+                            </th>
+                            <th>
+                                领取时间
+                            </th>
+                            <th>
+                                所在位置
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="customerScrollControl" class="j-autoHeight j-scroll-control QueryListNoDataTips"
+                    data-left="330" data-min="300" style="overflow: auto;">
+                    <table id="tbCustomerList" name="tbCustomerList" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe" style="min-width: 3216px; width: 100%;">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 120px" />
+                            <col style="width: 50px" />
+                            <col style="width: 50px" />
+                            <col style="width: 140px" />
+                            <col style="width: 90px" />
+                            <col style="width: 180px" />
+                            <col style="width: 180px" />
+                            <col style="width: 90px" />
+                            <col style="width: 90px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 95px" />
+                            <col style="width: 165px" />
+                            <col style="width: 70px" />
+                            <col style="width: 85px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 80px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 90px" />
+                            <col style="width: 140px" />
+                            <col style="width: 70px" />
+                            <col style="width: 80px" />
+                            <col style="width: 140px" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <!--分页区域　Begin-->
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!--分页区域 End-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+   
+</script>

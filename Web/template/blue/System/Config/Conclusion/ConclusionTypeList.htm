@@ -1,0 +1,266 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                
+                <span style="float:left;">
+                &nbsp;结论词分类列表
+                </span>
+                <span style="float:left; font-weight:normal; font-size:10px;" id="ConclusionTypeItemCount">
+                </span>
+
+            </div>
+            <div class="query-area">
+                
+                <div class="query-group">
+                    <label class="query-label">
+                        结论词分类/输入码：</label>
+                    <div class="query-controls">
+                        <input type="text" class="span150" onfocus="this.select();" 
+                        
+                        onkeydown="if(IsEnterKeyDown() == true) { ConclusionTypeKeywordsSearch();}" 
+                        id="txtSearchConclusionTypeKeyword" name="txtSearchConclusionTypeKeyword" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) " onclick="ConclusionTypeKeywordsSearch();" />
+                    </label>
+                </div>
+                <div class="query-group" style="float: right;">
+                    <input id="Button1" type="button" class="button80" value="  新 增  " onclick="OpenConclusionTypeOperWindow();" />
+                    <input id="Button2" type="button" class="button80" value="  修 改  " onclick="OpenEditConclusionTypeWindow();" />
+                </div>
+                <div style="width:100%; overflow:auto;">
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                结论词分类名称
+                            </td>
+                            <td>
+                                输入码
+                            </td>
+                            <td>
+                                禁用
+                            </td>
+                            <td>
+                                禁用人
+                            </td>
+                            <td style="text-align:center;">
+                                禁用时间
+                            </td>
+                            <td>
+                                禁用说明
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                      
+                    </tbody>
+                </table>
+                </div>
+                <div class="pagination">
+                    <ul id="Pagination">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <table style="display:none;">
+        <tbody id="ConclusionTypeListItemTemplete">
+            <tr onclick="SetConclusionTypeChecked('@ID_ConclusionType')" ondblclick="OpenEditConclusionTypeWindow();">
+                <td>
+                    <input id="rdiConclusionType_@ID_ConclusionType" title="" type="radio" name='ConclusionTypeRadio' value="@ID_ConclusionType" />
+                </td>
+                <td id="ConclusionTypeName_@ID_ConclusionType">@ConclusionTypeName</td>
+                <td id="InputCode_@ID_ConclusionType">@InputCode</td>
+                <td id="Is_Banned_@ID_ConclusionType">@Is_Banned</td>
+                <td id="BanOperator_@ID_ConclusionType">@BanOperator</td>
+                <td style="text-align:center; width:120px;" id="BanDate_@ID_ConclusionType">@BanDate</td>
+                <td style="word-break:break-all; max-width:200px;" id="BanDescribe_@ID_ConclusionType">@BanDescribe</td>
+
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+
+</html>
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function ConclusionTypeKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var SearchConclusionTypeKeyword = jQuery('#txtSearchConclusionTypeKeyword').val();      // 结论词分类关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchConclusionTypeKeyword: SearchConclusionTypeKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchConclusionTypeList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#ConclusionTypeItemCount").html(" 【共有 " + msg.totalCount + " 个结论词分类】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ConclusionTypeListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            newcontent +=
+                             templateContent.replace(/@ConclusionTypeName/gi, item.ConclusionTypeName)
+                            .replace(/@ID_ConclusionType/gi, item.ID_ConclusionType)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                            .replace(/@BanOperator/gi, item.Is_Banned == 'True' ? item.BanOperator : ' ')
+                            .replace(/@BanDate/gi, item.Is_Banned == 'True' ? item.BanDate : ' ')
+                            .replace(/@BanDescribe/gi, item.Is_Banned == 'True' ? item.BanDescribe : ' ')
+                            ;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#ConclusionTypeItemCount").html(" 【共有 0 个结论词分类】");
+                    }
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个样本信息，用户更新修改后的样本列表中的数据
+        /// </summary>
+        function GetSingleConclusionTypeInfo(ID_ConclusionType, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ID_ConclusionType: ID_ConclusionType,
+                    action: 'GetSingleConclusionTypeInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ConclusionTypeListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (type == "edit") {
+                                jQuery("#ConclusionTypeName_" + item.ID_ConclusionType).html(item.ConclusionTypeName);
+                                jQuery("#InputCode_" + item.ID_ConclusionType).html(item.InputCode);
+                                jQuery("#Is_Banned_" + item.ID_ConclusionType).html(item.Is_Banned == 'True' ? '√' : ' ');
+                                jQuery("#BanOperator_" + item.ID_ConclusionType).html(item.Is_Banned == 'True' ? item.BanOperator:" ");
+                                jQuery("#BanDate_" + item.ID_ConclusionType).html(item.Is_Banned == 'True' ? item.BanDate:" ");
+                                jQuery("#BanDescribe_" + item.ID_ConclusionType).html(item.Is_Banned == 'True' ? item.BanDescribe:" ");
+
+                            } else {
+
+                                newcontent +=
+                                 templateContent.replace(/@ConclusionTypeName/gi, item.ConclusionTypeName)
+                                .replace(/@ID_ConclusionType/gi, item.ID_ConclusionType)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@Is_Banned/gi, item.Is_Banned == 'True' ? '√' : ' ')
+                                .replace(/@BanOperator/gi,  item.Is_Banned == 'True' ? item.BanOperator : ' ')
+                                .replace(/@BanDate/gi,  item.Is_Banned == 'True' ? item.BanDate : ' ')
+                                .replace(/@BanDescribe/gi, item.Is_Banned == 'True' ? item.BanDescribe : ' ')
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                }
+            });
+        }
+
+
+    </script>

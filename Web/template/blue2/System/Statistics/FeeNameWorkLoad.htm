@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        var UserID = "$!{UserID}"; //登录人ID
+        var UserName = "$!{UserName}"; //登录人名称
+        var CurDate = "$!{CurDate}"; //当前服务器日期
+        var type = "$!{type}"; //当前操作类型
+        var modelName = "$!{modelName}"; //当前操作模块
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_FeeNameWorkLoad.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <div id="divHidTemplate" style="display: none;">
+            <!--检查数量统计模板 Begin-->
+            <table id="CustFeeTemplate">
+                <tbody id="SearchresultTeamplate">
+                    <tr name="@ID_Fee" onclick="ShowMe(this);" style="color: Green; cursor: pointer;
+                        background-color: Silver;">
+                        <td>
+                            @OrderIndex
+                        </td>
+                        <td class="project-align-left">
+                            <a href="javascript:void(0);">@FeeItemName</a>
+                        </td>
+                        <td class="project-align-left">
+                            @FeeItemNum
+                        </td>
+                        <td class="project-align-right">
+                            @SumFactPrice
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="Searchresult_detail">
+                    <tr name="Searchresult_detail_@ID_Fee" style="display: none;">
+                        <td>
+                            @OrderIndex
+                        </td>
+                        <td class="project-align-left">
+                            @CustomerName
+                        </td>
+                        <td>
+                            @ID_Customer
+                        </td>
+                        <td class="project-align-left">
+                            @TeamName
+                        </td>
+                        <td>
+                            @ExamState
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--检查数量统计模板 End-->
+            $!{HiddenInputQueryString}
+        </div>
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>项目名称：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="slFeeName" name="slFeeName" style="width: 250px;" required="Required"
+                            errormessage="项目名称不允许为空！">
+                            #foreach($info in $!{BusFeeDT.Rows})
+                            <option code="${info.InputCode}" value="${info.ID_Fee}">${info.FeeName}</option>
+                            #end
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;日期：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" value="${today}" class="datemaxselect"
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span><span>&nbsp;至&nbsp;</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" class="datemaxselect"
+                            style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-dc float-right" title="导出"><a href="javascript:void(0);" id="btnExport"
+                    name="btnExport" onclick="OutToExcel();">导出</a></span> <span class="buttom-cx-s float-right"
+                        title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" name="btnSearch" onclick="GetCustFeeWorkLoad();">
+                            查询</a></span> <a id="loadExcel" style="display: none;" target="_blank">导出</a>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                           <col style="width: 35px" />
+                            <col style="width: 50%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                收费项目
+                            </th>
+                            <th>
+                                累计数量
+                            </th>
+                            <th>
+                                总金额
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="330"
+                    data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 50%" />
+                            <col style="width: 13%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

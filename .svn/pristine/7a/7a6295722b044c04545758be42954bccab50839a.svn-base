@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_ExamList.js" type="text/javascript"></script>
+<title>分科检查列表</title>
+</head>
+
+<body>
+    
+  	<div class="center">
+        
+        <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+
+        <table style="display: none;">
+            <script type="text/plain"  id="QueryDataListTemplete">
+        
+                <tr class="@bgclass" title="@trTitle">
+                    <td style="display: none;">
+                        <input name="ItemCheckbox" title="" type="checkbox" value="@CustomerID" />
+                    </td>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td class="project-align-left">
+                        <a href="javascript:void(0);" onclick="DoLoad('/System/Exam/ExamOper.aspx?txtSectionID=@ID_Section&txtCustomerID=@CustomerID','');"
+                            title="点击进入【@CustomerName】的体检页面">@CustomerID</a>
+                    </td>
+                    <td class="project-align-left" title="@CustomerName"><div class="nowrap" style="width:100%;">@CustomerName</div></td>
+                    
+                    <td id="GenderName_@CustomerID" style="text-align: center;">
+                        --
+                    </td>
+                    <td id="Age_@CustomerID" style="text-align: center;">
+                        --
+                    </td>
+                    <td id="IDCard_@CustomerID" style="display: none;">
+                        --
+                    </td>
+                    <td id="ExamCard_@CustomerID" style="display: none;">
+                        --
+                    </td>
+                    <td id="MobileNo_@CustomerID" title=""><div class="nowrap" style="width:100%;">--</div></td>
+                    <td style="text-align: center;">
+                        @Examed
+                    </td>
+                    <td style="text-align: center;" title="@SummaryDoctorName">
+                        <div class="nowrap" style="width:100%;">@SummaryDoctorName</div>
+                    </td>
+                    <td style="text-align: center;">
+                        @SectionSummaryFormatDate
+                    </td>
+                    <td style="text-align: center;">
+                        @Checked
+                    </td>
+                    <td style="text-align: center;" title="@CheckerName">
+                        <div class="nowrap" style="width:100%;">@CheckerName</div>
+                    </td>
+                    <td style="text-align: center;">
+                        @CheckFormatDate
+                    </td>
+                    <td style="text-align: center;">
+                        @GiveUp
+                    </td>
+                    <td style="text-align: center;">
+                        @SectionSummary
+                    </td>
+                    <td style="text-align: center;">
+                        @Is_GuideSheetPrinted
+                    </td>
+                </tr>
+            </script>
+            <script type="text/plain" id="TipsInfoTemplete">
+                <tr>
+                    <td class="msg" colspan="15" >
+                        @TipsInfo
+                    </td>
+                </tr>
+            </script>
+        </table>
+
+    	<div class="operarea">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+            
+                <span>体检号(F2)：</span>
+                <span class="search">
+                    <input type="text" onfocus="this.select();" onkeyup="AutoSectionCustomerQuery();" maxlength="20" id="txtCustomerID"name="txtCustomerID" />  
+                    <a href="javascript:void(0);" title="查询(F4)" onclick="ButtonClickQuery();"><img src="$!{templatepath}/images/search.jpg" width="17" height="14" alt="" /></a>
+                </span>
+                <span>&nbsp;&nbsp;</span>
+                
+                <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="BeginExamDate" name="BeginExamDate" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})" value="${today}" style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+                <span>&nbsp;至&nbsp;</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" id="EndExamDate"   name="EndExamDate" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})"  value="${today}" style="width: 75px;" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+                
+                <span class="span-margin-top" style="margin-right:5px; padding-left:5px;">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="selSectionList">
+                            <option value="">请选择科室</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+
+                <span class="search-4 FxkList"><label class="checkbox" for="chkOnlyMySelf"><input type="checkbox"  id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf" onclick="ChangeOnlyMySelf();" onfocus="ChangeOnlyMySelf();" value="0" />仅我的</label></span>
+                <span class="search-4 FxkList"><label class="checkbox" for="chkNotExam"><input type="checkbox"  id="chkNotExam" name="chkNotExam" onclick="ChangeNotExamState();" onfocus="ChangeNotExamState();" value="0" />未检</label> </span>
+                
+            </div>
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"  onclick="ButtonClickQuery();" >查询</a></span>
+        	<div class="oper-bg">
+            </div>
+   	    </div>
+        
+        <div class="project">
+            <div class="project-center">
+                <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:40px" />
+                    	<col style="width:11%" />
+                    	<col style="width:6%" />
+                    	<col style="width:4%" />
+                    	<col style="width:4%" />
+
+                    	<col style="width:9%" />
+                    	<col style="width:5%" />
+                    	<col style="width:6%" />
+                    	<col style="width:12%" />
+                        <col style="width:5%" />
+
+                        <col style="width:6%" />
+                        <col style="width:12%" />
+                        <col style="width:5%" />
+                        <col style="width:7%" />
+                      </colgroup>
+                          <tr class="project-center-lb1-list">
+                            <th style="display:none;">
+                                <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>序号</th>
+                            <th>体检号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>联系方式</th>
+                            <th>已检查</th>
+                            <th>检查</th>
+                            <th>检查时间</th>
+                            <th>已提交</th>
+                            <th>提交</th>
+                            <th>提交时间</th>
+                            <th>已弃检</th>
+                            <th>小结</th>
+                            <th>状态</th>
+                          </tr>
+                </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="100" data-min="200" style="overflow:auto;">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                    	<col style="width:40px" />
+                    	<col style="width:11%" />
+                    	<col style="width:6%" />
+                    	<col style="width:4%" />
+                    	<col style="width:4%" />
+
+                    	<col style="width:9%" />
+                    	<col style="width:5%" />
+                    	<col style="width:6%" />
+                    	<col style="width:12%" />
+                        <col style="width:5%" />
+
+                        <col style="width:6%" />
+                        <col style="width:12%" />
+                        <col style="width:5%" />
+                        <col style="width:7%" />
+                        </colgroup>
+                             
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                <tr>
+                <td colspan="10">
+                    <div class="paging" id="Pagination">
+                        <div class="paging-left"></div>
+                        <div class="paging-center">
+                            <ul >
+                            </ul>
+                        </div>
+                        <div class="paging-right"></div>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+   </div>
+</body>
+
+</html>

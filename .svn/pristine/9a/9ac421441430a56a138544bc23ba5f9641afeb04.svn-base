@@ -1,0 +1,224 @@
+using PEIS.IDAL;
+using PEIS.Model;
+using PEIS.DBUtility;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Text;
+
+namespace PEIS.SQLServerDAL
+{
+	public class SYSSection : ISYSSection
+	{
+		public int GetMaxId()
+		{
+			return DbHelperSQL.GetMaxID("ID_Section", "NatSection");
+		}
+
+		public bool Exists(int ID_Section)
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.Append("select count(1) from NatSection");
+			stringBuilder.Append(" where ID_Section=@ID_Section ");
+			SqlParameter[] array = new SqlParameter[]
+			{
+				new SqlParameter("@ID_Section", SqlDbType.Int, 4)
+			};
+			array[0].Value = ID_Section;
+			return DbHelperSQL.Exists(stringBuilder.ToString(), array);
+		}
+
+		public int Add(PEIS.Model.SYSSection model)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into SYSSection(");
+            strSql.Append("SectionID,SectionName,FunctionType,DisplayMenu,Is_Del)");
+            strSql.Append(" values (");
+            strSql.Append("@SectionID,@SectionName,@FunctionType,@DisplayMenu,@Is_Del)");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@SectionID", SqlDbType.Int,4),
+                    new SqlParameter("@SectionName", SqlDbType.VarChar,20),
+                    new SqlParameter("@FunctionType", SqlDbType.Bit,1),
+                    new SqlParameter("@DisplayMenu", SqlDbType.VarChar,80),
+                    new SqlParameter("@Is_Del", SqlDbType.Bit,1)};
+            parameters[0].Value = model.SectionID;
+            parameters[1].Value = model.SectionName;
+            parameters[2].Value = model.FunctionType;
+            parameters[3].Value = model.DisplayMenu;
+            parameters[4].Value = model.Is_Del;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+		public bool Update(PEIS.Model.SYSSection model)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update SYSSection set ");
+            strSql.Append("SectionName=@SectionName,");
+            strSql.Append("FunctionType=@FunctionType,");
+            strSql.Append("DisplayMenu=@DisplayMenu,");
+            strSql.Append("Is_Del=@Is_Del");
+            strSql.Append(" where SectionID=@SectionID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@SectionName", SqlDbType.VarChar,20),
+                    new SqlParameter("@FunctionType", SqlDbType.Bit,1),
+                    new SqlParameter("@DisplayMenu", SqlDbType.VarChar,80),
+                    new SqlParameter("@Is_Del", SqlDbType.Bit,1),
+                    new SqlParameter("@SectionID", SqlDbType.Int,4)};
+            parameters[0].Value = model.SectionName;
+            parameters[1].Value = model.FunctionType;
+            parameters[2].Value = model.DisplayMenu;
+            parameters[3].Value = model.Is_Del;
+            parameters[4].Value = model.SectionID;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+		public bool Delete(int SectionID)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from SYSSection ");
+            strSql.Append(" where SectionID=@SectionID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@SectionID", SqlDbType.Int,4)         };
+            parameters[0].Value = SectionID;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+		public bool DeleteList(string SectionIDlist)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from SYSSection ");
+            strSql.Append(" where SectionID in (" + SectionIDlist + ")  ");
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+		public PEIS.Model.SYSSection GetModel(int SectionID)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 SectionID,SectionName,FunctionType,DisplayMenu,Is_Del from SYSSection ");
+            strSql.Append(" where SectionID=@SectionID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@SectionID", SqlDbType.Int,4)         };
+            parameters[0].Value = SectionID;
+
+            PEIS.Model.SYSSection model = new PEIS.Model.SYSSection();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+		public DataSet GetList(string strWhere)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select SectionID,SectionName,FunctionType,DisplayMenu,Is_Del ");
+            strSql.Append(" FROM SYSSection ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+		public DataSet GetList(int Top, string strWhere, string filedOrder)
+		{
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select ");
+            if (Top > 0)
+            {
+                strSql.Append(" top " + Top.ToString());
+            }
+            strSql.Append(" SectionID,SectionName,FunctionType,DisplayMenu,Is_Del ");
+            strSql.Append(" FROM SYSSection ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            strSql.Append(" order by " + filedOrder);
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+
+        public PEIS.Model.SYSSection DataRowToModel(DataRow row)
+        {
+            PEIS.Model.SYSSection model = new PEIS.Model.SYSSection();
+            if (row != null)
+            {
+                if (row["SectionID"] != null && row["SectionID"].ToString() != "")
+                {
+                    model.SectionID = int.Parse(row["SectionID"].ToString());
+                }
+                if (row["SectionName"] != null)
+                {
+                    model.SectionName = row["SectionName"].ToString();
+                }
+                if (row["FunctionType"] != null && row["FunctionType"].ToString() != "")
+                {
+                    if ((row["FunctionType"].ToString() == "1") || (row["FunctionType"].ToString().ToLower() == "true"))
+                    {
+                        model.FunctionType = true;
+                    }
+                    else
+                    {
+                        model.FunctionType = false;
+                    }
+                }
+                if (row["DisplayMenu"] != null)
+                {
+                    model.DisplayMenu = row["DisplayMenu"].ToString();
+                }
+                if (row["Is_Del"] != null && row["Is_Del"].ToString() != "")
+                {
+                    if ((row["Is_Del"].ToString() == "1") || (row["Is_Del"].ToString().ToLower() == "true"))
+                    {
+                        model.Is_Del = true;
+                    }
+                    else
+                    {
+                        model.Is_Del = false;
+                    }
+                }
+            }
+            return model;
+        }
+    }
+}

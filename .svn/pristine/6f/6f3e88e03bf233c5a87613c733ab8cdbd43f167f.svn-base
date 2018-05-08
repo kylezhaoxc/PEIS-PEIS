@@ -1,0 +1,1016 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>$!{webName} $!{pageTitle}</title>
+    <link href="$!{templatepath}/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .default
+        {
+            width: 100px;
+        }
+        .default_middle
+        {
+            width: 70px;
+        }
+        .default_min
+        {
+            width: 30px;
+        }
+    </style>
+    <script type="text/javascript" language="javascript">
+        var CreateDate = "$!{CreateDate}"; //创建日期
+        var Creator = "$!{Creator}"; //创建者
+        var ID_Creator = "$!{ID_Creator}"; //创建者
+        var ID_Team = "$!{ID_TeaM}"; //创建者
+    </script>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_TeamOper.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="center">
+        <!--查询区域 Begin-->
+        <div class="operarea">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>团体名称：</span> <span class="search-ttmc" style="width: 290px">
+                    <div class="copydiv-letool-total-input1-l">
+                    </div>
+                    <div class="copydiv-letool-total-input1-ttmc-sele" style="width: 270px;">
+                        <span id="spanTeam">
+                            <input type="hidden" name="tempSelectedTeamID" id="tempSelectedTeamID" value="" />
+                            <input type="text" class="QuickQueryShowBox DefaultStyleInput" name="txtTeamInputCode"
+                                id="txtTeamInputCode" onkeyup="QuickQueryTeamTableData_Ajax();" onchange="QuickQueryTeamTableData_Ajax();"
+                                onfocus="this.select();HideAllQuickTable();QuickQueryTeamTableData_Ajax();" maxlength="50"
+                                value="" style="border: 0px; width: 260px;" /></span> <span id="spanSelectTeam" style="display: none;">
+                                    -- <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectTeam').hide();">
+                                        × </a></span>
+                        <div>
+                            <input type="hidden" name="idSelectTeam" id="idSelectTeam" value="" />
+                            <input type="hidden" name="nameSelectTeam" id="nameSelectTeam" value="" />
+                            <div id="QuickQueryTeamTable" class="QuickQueryList" style="margin-left: -5px; margin-top: 23px;
+                                width: 400px;">
+                                <div>
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListHeader">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tr>
+                                            <th nowrap="nowrap">
+                                                &nbsp;
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                团体
+                                            </th>
+                                            <th nowrap="nowrap">
+                                                输入码
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div style="max-height: 200px; width: auto; overflow: auto">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="QuickQueryListContent">
+                                        <colgroup>
+                                            <col style="width: 30px" />
+                                            <col style="width: 250px" />
+                                        </colgroup>
+                                        <tbody id="QuickQueryTeamTableData">
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    未找到团体，请重新输入...&nbsp;
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="QuickQueryListButton">
+                                    <input type="button" class="btnclose" id="btnTeamColse" onclick="ShowHideQuickQueryTeamTable(false,'');"
+                                        value=" 关  闭 " />
+                                    <input type="button" class="btnsure" id="btnTeamSure" onclick="SelectTeamDataList();TeamCallBack();"
+                                        value=" 确  定 " />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copydiv-letool-total-input1-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearchTeamTask"
+                    name="btnSearchTeamTask" onclick="SearchTeamTask();">查询</a></span><span class="buttom-tj-s"
+                        title="新增"><a href="javascript:void(0);" id="btnAddX" name="btnAddX" targeturl="/System/Customer/TeamTaskOper.aspx?type=add&modelName=dialogteamtasklist"
+                            onclick="AddTeamTask();">新增</a></span> <span class="buttom-sc-s" title="删除"><a href="javascript:void(0);"
+                                id="btnDelX" name="btnDelX" onclick="return DeleteTeamTask();">删除</a></span>
+            </div>
+        </div>
+        <!--查询区域 End-->
+        <!--查询列表 Begin-->
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 20%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 7%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                                <input id="Checkbox1" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                任务名称
+                            </th>
+                            <th>
+                                创建日期
+                            </th>
+                            <th>
+                                开始日期
+                            </th>
+                            <th>
+                                结束日期
+                            </th>
+                            <th>
+                                体检人数
+                            </th>
+                            <th>
+                                联系人
+                            </th>
+                            <th>
+                                联系电话
+                            </th>
+                            <th>
+                                输入码
+                            </th>
+                            <th>
+                                分组
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="299"
+                    data-min="300" style="overflow: auto;">
+                    <table id="tblTeamTask" width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 20%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 7%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tbody id="Searchresult">
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--查询列表 End-->
+        <!--模版区域 Begin-->
+        <div id="hidDiv" style="display: none;">
+            <!--团体任务编辑模版(只读)  Begin-->
+            <script type="text/plain" id="tblTemplateTeamTaskList">
+           
+                    <tr exist="@exist" teamid="@TeamID" id="@TeamTaskID" ondblclick="ModifyTeamTask(this);"
+                        targeturl="/System/Customer/TeamTaskOper.aspx?type=edit&modelName=dialogteamtasklist&ID_TeamTask=@TeamTaskID"
+                        title="双击编辑任务: @TitleOldTeamTaskName">
+                        <td>
+                            <input type="checkbox" name='ItemCheckbox' />
+                        </td>
+                        <td>
+                            @RowNum
+                        </td>
+                        <td>
+                            <label name="ID_TeamTask">
+                                @TeamTaskID</label>
+                        </td>
+                        <td oldteamtaskname="@TitleOldTeamTaskName" class="project-align-left" title="@OldTeamTaskName"> 
+                                <div class="nowrap" style="width: 100%;">
+                                      <a href="javascript:void(0);">@OldTeamTaskName</a> </div>
+                                <label name="lblTeamTaskName" oldteamtaskname="@OldTeamTaskName" style="display: none;">
+                                     @OldTeamTaskName</label>
+                          
+                            <!-- <label name="TeamTaskName" class="default">
+                            @OldTeamTaskName</label>-->
+                        </td>
+                        <td>
+                            <label name="lblIDCreator" style="display: none;" oldid_creator="@ID_Creator">
+                                @ID_Creator</label>
+                            <label name="lblCreator" style="display: none;" oldcreator="@Creator">
+                                @Creator</label>
+                            <label name="lblCreateDate" oldcreatedate="@CreateDate">
+                                @CreateDate</label>
+                        </td>
+                        <td>
+                            <label name="TaskExamStartDate" oldtaskexamstartdate="@TaskExamStartDate">
+                                @TaskExamStartDate</label>
+                        </td>
+                        <td>
+                            <label name="TaskExamEndDate" oldtaskexamenddate="@TaskExamEndDate">
+                                @TaskExamEndDate</label>
+                        </td>
+                        <td>
+                            <label name="TaskNumCount" oldtasknumcount="@TaskNumCount">
+                                @TaskNumCount</label>
+                        </td>
+                        <td class="project-align-left" title="@Contact">
+                            <div class="nowrap" style="width: 100%;">
+                                @Contact</div>
+                            <label name="Contact" oldcontact="@Contact" style="display: none;">
+                                @Contact</label>
+                        </td>
+                        <td title="@Tel" class="project-align-left">
+                            <div class="nowrap" style="width: 100%;">
+                                @Tel</div>
+                            <label name="Tel" oldtel="@Tel" style="display: none;">
+                                @Tel</label>
+                        </td>
+                        <td title="@TitleInputCode" class="project-align-left" title="@InputCode">
+                            <div class="nowrap" style="width: 100%;">
+                                @InputCode</div>
+                            <label name="InputCode" oldinputcode="@InputCode" style="display: none;">
+                                @InputCode</label>
+                        </td>
+                        <td>
+                            <label name="ID_Team" style="display: none;" oldid_team="@TeamID">
+                                @TeamID</label>
+                            <label name="TeamName" style="display: none;" oldteamname="@TeamName">
+                                @TeamName</label>
+                            <a href="javascript:void(0);" title="@editTitle" onclick="LoadTeamTaskGroup(this);">
+                                查看</a>
+                        </td>
+                    </tr>
+            </script>
+            <!--团体任务编辑模版(只读)  End-->
+            <!--页面参数 Begin-->
+            $!{HiddenInputQueryString}
+            <!--页面参数 End-->
+        </div>
+        <!--模版区域 End-->
+        <!--团体任务新增弹出界面模板 Begin-->
+        <div class="GroupRwdiv" id="teamTaskAddDiv" style="display: none;">
+            <div class="GroupRwdiv-title">
+                <div class="GroupRwdiv-title-l">
+                </div>
+                <div class="GroupRwdiv-title-b">
+                    <div class="GroupRwdiv-title-total teamtaskTitle">
+                        <div class="GroupRwdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>团体任务信息-新增</strong>
+                        </div>
+                        <div class="GroupRwdiv-title-off">
+                            <a href="javascript:void(0);" onclick="CloseTeamTaskAddDialog();"></a>
+                        </div>
+                        <div class="GroupRwdiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="GroupRwdiv-title-r">
+                </div>
+            </div>
+            <div class="GroupRwdiv-center">
+                <div class="GroupRwdiv-center-l">
+                </div>
+                <div class="GroupRwdiv-center-b">
+                    <table width="265" border="0" cellspacing="0" cellpadding="0" class="GroupRwdiv-table1">
+                        <tr>
+                            <td width="85" align="right">
+                                任务ID：
+                            </td>
+                            <td align="left">
+                                <label id="lblIDTeamTask">
+                                    ********</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                任务名称：
+                            </td>
+                            <td>
+                                <input type="text" name="txtTeamTaskName" id="txtTeamTaskName" maxlength="25" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                开始日期：
+                            </td>
+                            <td>
+                                <input type="text" name="txtTaskExamStartDate" id="txtTaskExamStartDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                结束日期：
+                            </td>
+                            <td>
+                                <input type="text" name="txtTaskExamEndDate" id="txtTaskExamEndDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                体检人数：
+                            </td>
+                            <td>
+                                <input type="text" id="txtTaskNumCount" name="txtTaskNumCount" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"
+                                    maxlength="9" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                联系人：
+                            </td>
+                            <td>
+                                <input type="text" id="txtContact" name="txtContact" maxlength="25" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                联系电话：
+                            </td>
+                            <td>
+                                <input type="text" id="txtTel" name="txtTel" maxlength="25" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建人：
+                            </td>
+                            <td align="left">
+                                <label id="lblCreator">
+                                    $!{Creator}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建时间：
+                            </td>
+                            <td align="left">
+                                <label id="lblCreateDate">
+                                    $!{CreateDate}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height: 15px;">
+                                <div class="GroupRwdiv-table1-xx">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="GroupRwdiv-center-b-ann">
+                        <span class="buttom-bcbgb" title="保存并关闭"><a href="javascript:void(0);" onclick="SaveTeamTask(0);">
+                            保存并关闭</a></span> <span class="buttom-bcbjx" title="保存并继续"><a href="javascript:void(0);"
+                                onclick="SaveTeamTask(1);">保存并继续</a></span>
+                    </div>
+                </div>
+                <div class="GroupRwdiv-center-r">
+                </div>
+            </div>
+            <div class="GroupRwdiv-bottom">
+                <div class="GroupRwdiv-bottom-l">
+                </div>
+                <div class="GroupRwdiv-bottom-b">
+                </div>
+                <div class="GroupRwdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--团体任务新增弹出界面模板 End-->
+        <!--团体任务修改弹出界面模板 Begin-->
+        <div class="GroupRwdiv" id="teamTaskModifyDiv" style="display: none;">
+            <div class="GroupRwdiv-title">
+                <div class="GroupRwdiv-title-l">
+                </div>
+                <div class="GroupRwdiv-title-b">
+                    <div class="GroupRwdiv-title-total teamtaskTitle">
+                        <div class="GroupRwdiv-title-btke">
+                            <img src="$!{templatepath}/images/list-icon.png" width="17" height="13" />
+                            <strong>
+                                <label id="lblModifyTitle">
+                                    编辑团体任务信息</label></strong>
+                        </div>
+                        <div class="GroupRwdiv-title-off">
+                            <a href="javascript:void(0);" onclick="CloseTeamTaskModifyDialog();"></a>
+                        </div>
+                        <div class="GroupRwdiv-title-fenge">
+                        </div>
+                    </div>
+                </div>
+                <div class="GroupRwdiv-title-r">
+                </div>
+            </div>
+            <div class="GroupRwdiv-center">
+                <div class="GroupRwdiv-center-l">
+                </div>
+                <div class="GroupRwdiv-center-b">
+                    <table width="265" border="0" cellspacing="0" cellpadding="0" class="GroupRwdiv-table1">
+                        <tr>
+                            <td width="85" align="right">
+                                任务ID：
+                            </td>
+                            <td align="left">
+                                <label id="lblModifyTeamID" style="display: none;">
+                                </label>
+                                <label id="lblModifyTeamTaskID">
+                                    ********</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                任务名称：
+                            </td>
+                            <td align="left">
+                                <label id="lblHidModifyTeamTaskName" style="height: 29px; overflow: hidden; display: block;">
+                                </label>
+                                <label id="lblModifyTeamTaskName" style="display: none;">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                开始日期：
+                            </td>
+                            <td>
+                                <input type="text" name="txtTaskExamStartDate" id="txtModifyTaskExamStartDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                结束日期：
+                            </td>
+                            <td>
+                                <input type="text" name="txtTaskExamEndDate" id="txtModifyTaskExamEndDate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                体检人数：
+                            </td>
+                            <td>
+                                <input type="text" id="txtModifyTaskNumCount" name="txtTaskNumCount" maxlength="9" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                联系人：
+                            </td>
+                            <td>
+                                <input type="text" id="txtModifyContact" name="txtContact" maxlength="15" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                联系电话：
+                            </td>
+                            <td>
+                                <input type="text" id="txtModifyTel" name="txtTel" maxlength="50" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建人：
+                            </td>
+                            <td align="left">
+                                <label id="txtIDCreator" name="txtCreator" style="display: none;">
+                                    $!{UserID}
+                                </label>
+                                <label id="txtCreator" name="txtCreator">
+                                    $!{UserName}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="85" align="right">
+                                创建时间：
+                            </td>
+                            <td align="left">
+                                <label id="txtCreateDate" name="txtCreateDate">
+                                    $!{CreateDate}
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="height: 15px;">
+                                <div class="GroupRwdiv-table1-xx">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="GroupXXdiv-center-b-ann" style="padding-left: 50px;">
+                        <span class="buttom-bc-s" title="保存"><a href="javascript:void(0);" onclick="SaveTeamTask(0);">
+                            保存</a></span> <span class="buttom-qx" title="取消"><a href="javascript:void(0);" onclick="CloseTeamTaskModifyDialog();">
+                                取消</a></span>
+                    </div>
+                </div>
+                <div class="GroupRwdiv-center-r">
+                </div>
+            </div>
+            <div class="GroupRwdiv-bottom">
+                <div class="GroupRwdiv-bottom-l">
+                </div>
+                <div class="GroupRwdiv-bottom-b">
+                </div>
+                <div class="GroupRwdiv-bottom-r">
+                </div>
+            </div>
+        </div>
+        <!--团体任务修改弹出界面模板 End-->
+    </div>
+</body>
+</html>
+<script type="text/javascript" language="javascript">
+    function LoadTeamTaskGroup(obj) {
+        var curTeam //= jQuery("#curTeam").val();         //参数:团体ID
+        var curTeamName// = decodeURIComponent(jQuery("#curTeamName").val()); //参数:团体名称
+        curTeam = jQuery('#idSelectTeam').val();
+        curTeamName = jQuery('#nameSelectTeam').val();
+        if (curTeam == "") {
+            curTeam = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='ID_Team']").text());
+            curTeamName = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='TeamName']").text());
+
+        }
+        var curTeamTask = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='ID_TeamTask']").text());
+        var curTeamTaskName = jQuery.trim(jQuery(obj).parent().parent().find("td label[name='lblTeamTaskName']").text());                //传入的任务名称
+        var targeturl = "/System/Customer/TeamOper.aspx?type=Edit&modelName=TeamTask&ID_TeaM=" + curTeam + "&curTeam=" + curTeam + "&curTeamName=" + encodeURIComponent(curTeamName) + "&curTeamTask=" + curTeamTask + "&curTeamTaskName=" + encodeURIComponent(curTeamTaskName);
+        DoLoad(targeturl);
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    var CreateDate = "$!{CreateDate}";
+    /// <summary>
+    /// 隐藏快速查询框
+    /// </summary>
+    function HideAllQuickTable() {
+        ShowHideQuickQueryTeamTable(false, "");      // 团体
+        ShowHideQuickQueryTeamTaskTable(false, "");  // 团体任务
+    }
+    function ResetInfo() {
+        jQuery("#tblTeamTask tbody").empty();
+    }
+
+    function TeamCallBack() {
+        ResetInfo();
+        ResetSearchInfo("正在查询，请稍候...");
+        SearchTeamTask();
+    }
+    /// <summary>
+    /// 重置检索无结果显示的信息
+    /// </summary>
+    function ResetSearchInfo(msgInfo) {
+        if (msgInfo == "" || msgInfo == undefined) {
+            msgInfo = "在您查询的条件内，没有找到任何信息！";
+        }
+        var html = "<tr><td class='msg' colSpan='1000'>" + msgInfo + "</td></tr>";
+        jQuery('#Searchresult').html(html); //设置无数据检索时显示提示信息
+        SetTableRowStyle();
+        jQuery("#Pagination").hide(); //隐藏分页控件
+    }
+    /************************分页获取分组任务信息 xmhuang 2014-04-06 Begin******************************/
+    var tempOperPageCount = 0;
+    var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+    var curMsgData = "";
+    var pagerData = null; //记录当前分页数据源
+    function pageselectCallback(page_index, jq) {
+        if (tempOperPageCount > 0) {
+            QueryTeamTaskData(page_index);
+        }
+        tempOperPageCount++;
+        return false;
+    }
+
+    function QueryTeamTaskData(pageIndex) {
+        if (pagerData != null) {
+            if (pagerData.length == 0) {
+                ResetSearchInfo("");
+                jQuery("#Pagination").hide();
+                return false;
+            }
+            var ShowDataElementID = "tblTeamTask";
+            var dataLength = pagerData.length;
+            var flag = jQuery.trim(jQuery('#flag').val());
+            var curPageSize = pagePagination.items_per_page;
+            var optInit = getOptionsFromForm();                   //获取分页配置参数
+            jQuery("#Pagination").show();
+            if (tempOperPageCount == 0) {
+                jQuery("#Pagination ul").pagination(dataLength, optInit);
+            }
+            else if (tempOldtotalCount != dataLength) {
+                jQuery("#Pagination ul").pagination(dataLength, optInit);
+            }
+            tempOldtotalCount = dataLength;
+            var item;
+            var rowNum = curPageSize * pageIndex; //计算
+            var newcontent = '';
+            //var teamTask = new ReadTeamTaskTemplate("tblTemplateTeamTaskList", ShowDataElementID);
+            //var teamTaskListTheadTempleteContent = teamTask.teamTaskListTheadTempleteContent;
+            var teamTaskListBodyTempleteContent = jQuery("#tblTemplateTeamTaskList").html(); //  teamTask.teamTaskListBodyTempleteContent;
+            for (var c = 0; c < curPageSize; c++) {
+                if (rowNum + c > dataLength) {
+                    break;
+                }
+                item = pagerData[rowNum + c];
+                if (item != undefined) {
+                    newcontent += teamTaskListBodyTempleteContent.replace(/@exist/gi, item.exist)
+                            .replace(/@RowNum/gi, rowNum + c + 1)
+                            .replace(/@TeamTaskID/gi, item.ID_TeamTask)
+                            .replace(/@TitleOldTeamTaskName/gi, item.TeamTaskName)
+                            .replace(/@OldTeamTaskName/gi, item.TeamTaskName)
+                            .replace(/@TitleTel/gi, item.Tel)
+                            .replace(/@Tel/gi, item.Tel, 12)
+                            .replace(/@TaskNumCount/gi, item.TaskNumCount)
+                            .replace(/@TitleContact/gi, item.Contact)
+                            .replace(/@Contact/gi, item.Contact)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@TaskExamStartDate/gi, item.TaskExamStartDate)
+                            .replace(/@TaskExamEndDate/gi, item.TaskExamEndDate)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@TitleInputCode/gi, item.InputCode)
+                            .replace(/@CreateDate/gi, item.CreateDate)
+                            .replace(/@editTitle/gi, editTitle)
+                            .replace(/@TeamID/gi, item.ID_Team)
+                            .replace(/@ID_TeaM/gi, curTeam)
+                            .replace(/@TeamTaskID/gi, item.ID_TeamTask)
+                            .replace(/@TeamID/gi, item.ID_Team)
+                            .replace(/@TeamName/gi, item.TeamName)
+                            .replace(/@ID_Creator/gi, item.ID_Subscriber)
+                            .replace(/@Creator/gi, item.Subscriber)
+
+                    //                            .replace(/@OldTeamTaskName/gi, item.TeamTaskName)
+                    //                            .replace(/@OldCreateDate/gi, item.CreateDate)
+                    //                            .replace(/@OldTaskExamStartDate/gi, item.TaskExamStartDate)
+                    //                            .replace(/@OldTaskExamEndDate/gi, item.TaskExamEndDate)
+                    //                            .replace(/@OldContact/gi, item.Contact)
+                    //                            .replace(/@OldTel/gi, item.Tel)
+                    //                            .replace(/@OldInputCode/gi, item.InputCode);
+                }
+            }
+            if (newcontent != '') {
+                jQuery('#' + ShowDataElementID + ' tbody').html(newcontent);
+                SetTableRowStyle();
+            } else {
+                ResetSearchInfo("");
+                // jQuery('#' + ShowDataElementID + ' tbody').html("");
+                jQuery("#Pagination").hide();
+            }
+            // 判断表格是否存在滚动条,并设置相应的样式 
+            JudgeTableIsExistScroll();
+        }
+    }
+    /************************分页获取分组任务信息 xmhuang 2014-04-06 End******************************/
+
+    //关闭团体任务新增界面
+    function CloseTeamTaskAddDialog() {
+        CommonShowHideDialog('teamTaskAddDiv');
+    }
+    //关闭团体任务修改界面
+    function CloseTeamTaskModifyDialog() {
+        CommonShowHideDialog('teamTaskModifyDiv');
+    }
+
+    var IsAdd = false;
+    //新增团体任务信息
+    function AddTeamTask() {
+        IsAdd = true;
+        //这里绑定团体任务信息
+        var ID_Team = jQuery('#idSelectTeam').val();
+        if (ID_Team == "") {
+            ShowSystemDialog("对不起，请您选择需要新建任务的团体信息！");
+            return false;
+        }
+
+        //重置显示内容
+        jQuery("#lblIDTeamTask").text("********");   //重置任务ID为********
+        jQuery("#txtTeamTaskName").val("");         //重置任务名称
+        jQuery("#txtTaskExamStartDate").val(CreateDate);    //重置开始时间CreateDate
+        jQuery("#txtTaskExamEndDate").val("");      //重置开始时间
+        jQuery("#txtTaskNumCount").val("");         //重置体检人数
+        jQuery("#txtContact").val("");              //重置联系人
+        jQuery("#txtTel").val("");                  //重置联系电话
+        CommonShowHideDialog('teamTaskAddDiv');
+
+        jQuery("#txtTeamTaskName").focus();
+    }
+    function GetTeamInfoByID(TaskID) {
+        var allTeamDT = ""; //当前团体所有不可用于删除的团体ID，团体任务，团体任务分组，体检号
+        var flag = false;
+        jQuery.ajax({
+            type: "POST",
+            async: false,
+            url: "/Ajax/AjaxTeamOper.aspx",
+            data: { action: "GetTeamTaskInfoByTaskID", TeamTaskID: TaskID },
+            contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                allTeamDT = msg;
+            }
+        });
+        return allTeamDT;
+    }
+    //修改团体任务信息
+    function ModifyTeamTask(obj) {
+        //通过团体ID获取团体信息
+        var TeamID = jQuery(obj).attr("teamid");
+        var TeamTaskID = jQuery(obj).attr("id");
+
+
+        var title = ""; //  jQuery(obj).attr("title");
+        var TeamTaskName = ""; // jQuery(obj).find("td label[name='lblTeamTaskName']").text();         //任务名称
+        var IDCreator = ""; //jQuery(obj).find("td label[name='lblIDCreator']").text();               //创建人ID
+        var Creator = ""; //jQuery(obj).find("td label[name='lblCreator']").text();                   //创建人
+        var CreateDate = ""; // jQuery(obj).find("td label[name='lblCreateDate']").text();             //创建日期
+        var TaskExamStartDate = ""; //jQuery(obj).find("td label[name='TaskExamStartDate']").text();  //开始日期
+        var TaskExamEndDate = ""; //jQuery(obj).find("td label[name='TaskExamEndDate']").text();      //结束日期
+        var TaskNumCount = ""; //jQuery(obj).find("td label[name='TaskNumCount']").text();            //体检人数
+        var Contact = ""; //jQuery(obj).find("td label[name='Contact']").text();                      //联系人
+        var Tel = ""; //jQuery(obj).find("td label[name='Tel']").text();                              //联系电话
+        var InputCode = ""; // jQuery(obj).find("td label[name='InputCode']").text();                  //输入码
+
+        var allTeamDT = GetTeamInfoByID(TeamTaskID);
+        if (allTeamDT.dataList != undefined) {
+            var item = allTeamDT.dataList[0];
+            title = jQuery(obj).attr("title");
+            TeamTaskName = item.TeamTaskName;         //任务名称
+            IDCreator = item.ID_Subscriber;             //创建人ID
+            Creator = item.Subscriber;                    //创建人
+            CreateDate = item.CreateDate;             //创建日期
+            TaskExamStartDate = item.TaskExamStartDate; //开始日期
+            TaskExamEndDate = item.TaskExamEndDate;       //结束日期
+            TaskNumCount = item.TaskNumCount;             //体检人数
+            Contact = item.Contact;                      //联系人
+            Tel = item.Tel;                              //联系电话
+            InputCode = item.InputCode;                 //输入码
+        }
+        else {
+
+        }
+        CommonShowHideDialog('teamTaskModifyDiv');
+        IsAdd = false;
+
+
+        //设置值
+        if (TeamTaskName.length > 12) {
+            jQuery("#lblModifyTitle").text(TeamTaskName.substr(0, 12) + "...");
+        }
+        else {
+            jQuery("#lblModifyTitle").text(TeamTaskName);
+        }
+        var CurTeamTaskName = TeamTaskName;
+        jQuery("#lblModifyTeamID").text(TeamID);
+        jQuery("#lblModifyTeamTaskID").text(TeamTaskID);
+        jQuery("#lblModifyTeamTaskName").text(TeamTaskName);
+        if (CurTeamTaskName.length > 15) {
+            CurTeamTaskName = CurTeamTaskName.substr(0, 15) + "...";
+        }
+        jQuery("#lblHidModifyTeamTaskName").text(CurTeamTaskName);
+        jQuery("#lblHidModifyTeamTaskName").attr("title", TeamTaskName);
+        jQuery("#txtModifyTaskExamStartDate").val(TaskExamStartDate);
+        jQuery("#txtModifyTaskExamEndDate").val(TaskExamEndDate);
+        jQuery("#txtModifyTaskNumCount").val(TaskNumCount);
+        jQuery("#txtModifyContact").val(Contact);
+        jQuery("#txtModifyTel").val(Tel);
+        jQuery("#txtIDCreator").text(IDCreator);
+        jQuery("#txtCreator").text(Creator);
+        jQuery("#txtCreateDate").text(CreateDate);
+    }
+
+    //继续新增团体任务信息
+    function AddNewTeamTask() {
+        //重置显示内容
+        jQuery("#lblIDTeamTask").text("********");   //重置任务ID为********
+        jQuery("#txtTeamTaskName").val("");         //重置任务名称
+        jQuery("#txtTaskExamStartDate").val("");    //重置开始时间CreateDate
+        jQuery("#txtTaskExamEndDate").val("");      //重置开始时间
+        jQuery("#txtTaskNumCount").val("");         //重置体检人数
+        jQuery("#txtContact").val("");              //重置联系人
+        jQuery("#txtTel").val("");                  //重置联系电话
+        jQuery("#txtTeamTaskName").focus();
+    }
+    /// <summary>
+    /// 保存团体任务
+    /// </summary>
+    function SaveTeamTask(IsClose) {
+        var TeamID, TeamTaskID, TeamTaskName, TaskExamStartDate, TaskExamEndDate, TaskNumCount, Contact, Tel, DispOrder = 0;
+        var exist = 0, InputCode = "";
+        if (IsAdd)//新增团体任务信息
+        {
+            exist = 0;
+            TeamID = jQuery('#idSelectTeam').val();
+            TeamTaskID = jQuery.trim(jQuery("#lblIDTeamTask").text());
+            TeamTaskName = jQuery.trim(jQuery("#txtTeamTaskName").val());
+            TaskExamStartDate = jQuery.trim(jQuery("#txtTaskExamStartDate").val());
+            TaskExamEndDate = jQuery.trim(jQuery("#txtTaskExamEndDate").val());
+            TaskNumCount = jQuery.trim(jQuery("#txtTaskNumCount").val());
+            Contact = jQuery.trim(jQuery("#txtContact").val());
+            Tel = jQuery.trim(jQuery("#txtTel").val());
+
+            if (TeamTaskName == "")//判断任务名称是否为空
+            {
+                ShowCallBackSystemDialog("对不起，任务名称不允许为空，请您填写！", function () {
+                    jQuery("#txtTeamTaskName").focus();
+                    jQuery("#txtTeamTaskName").select();
+                });
+                //                jQuery("#txtTeamTaskName").focus();
+                //                jQuery("#txtTeamTaskName").select();
+                return false;
+            }
+            if (TaskExamStartDate == "")//判断开始日期是否为空
+            {
+                //ShowCallBackSystemDialog("对不起，开始日期不允许为空，请您填写！", jQuery("#txtTaskExamStartDate"));
+                jQuery("#txtTaskExamStartDate").select();
+                return false;
+            }
+            if (TaskExamEndDate == "")//判断结束日期是否为空
+            {
+                //ShowCallBackSystemDialog("对不起，结束日期不允许为空，请您填写！", jQuery("#txtTaskExamEndDate"));
+                jQuery("#txtTaskExamEndDate").select();
+                return false;
+            }
+            if (TaskExamStartDate > TaskExamEndDate)//判断日期是否满足要求
+            {
+                //ShowCallBackSystemDialog("对不起，开始日期不得大于结束日期，请您修改！", jQuery("#txtTaskExamStartDate"));
+                jQuery("#txtTaskExamStartDate").select();
+                return false;
+            }
+            if (TaskNumCount == "") //判断体检人数是否为空
+            {
+                ShowCallBackSystemDialog("对不起，体检人数不允许为空，请您填写！", function () {
+                    jQuery("#txtTaskNumCount").focus();
+                    jQuery("#txtTaskNumCount").select();
+                });
+                return false;
+            }
+            if (!IsNum(TaskNumCount)) {
+                ShowCallBackSystemDialog("对不起，体检人数必须为正整数，请您重新填写！", function () {
+                    jQuery("#txtTaskNumCount").focus();
+                    jQuery("#txtTaskNumCount").select();
+                });
+
+                return false;
+            }
+            if (Contact == "")//判断联系人是否为空
+            {
+                ShowCallBackSystemDialog("对不起，联系人不允许为空，请您填写！", function () {
+                    jQuery("#txtContact").focus();
+                    jQuery("#txtContact").select();
+                });
+                return false;
+            }
+            if (Tel == "")//判断联系电话是否为空
+            {
+                ShowCallBackSystemDialog("对不起，联系电话不允许为空，请您填写！", function () {
+                    jQuery("#txtTel").focus();
+                    jQuery("#txtTel").select();
+                });
+                return false;
+            }
+        }
+        else {
+            exist = 1;
+            TeamID = jQuery.trim(jQuery("#lblModifyTeamID").text());
+            TeamTaskID = jQuery.trim(jQuery("#lblModifyTeamTaskID").text());
+            TeamTaskName = jQuery.trim(jQuery("#lblModifyTeamTaskName").text());
+            TaskExamStartDate = jQuery.trim(jQuery("#txtModifyTaskExamStartDate").val());
+            TaskExamEndDate = jQuery.trim(jQuery("#txtModifyTaskExamEndDate").val());
+            TaskNumCount = jQuery.trim(jQuery("#txtModifyTaskNumCount").val());
+            Contact = jQuery.trim(jQuery("#txtModifyContact").val());
+            Tel = jQuery.trim(jQuery("#txtModifyTel").val());
+
+            if (TeamTaskName == "")//判断任务名称是否为空
+            {
+                ShowSystemDialog("对不起，任务名称不允许为空，请您填写！");
+                return false;
+            }
+            if (TaskExamStartDate == "")//判断开始日期是否为空
+            {
+                //ShowCallBackSystemDialog("对不起，开始日期不允许为空，请您填写！", jQuery("#txtModifyTaskExamStartDate"));
+                jQuery("#txtModifyTaskExamStartDate").select();
+                return false;
+            }
+            if (TaskExamEndDate == "")//判断结束日期是否为空
+            {
+                // ShowCallBackSystemDialog("对不起，结束日期不允许为空，请您填写！", jQuery("#txtModifyTaskExamEndDate"));
+                jQuery("#txtModifyTaskExamEndDate").select();
+                return false;
+            }
+            if (TaskExamStartDate > TaskExamEndDate)//判断日期是否满足要求
+            {
+                ShowSystemDialog("对不起，开始日期不得大于结束日期，请您修改！");
+                //jQuery("#txtModifyTaskExamStartDate").select();
+                return false;
+            }
+            if (TaskNumCount == "") //判断体检人数是否为空
+            {
+                ShowCallBackSystemDialog("对不起，体检人数不允许为空，请您填写！", function () {
+                    jQuery("#txtModifyTaskNumCount").focus();
+                    jQuery("#txtModifyTaskNumCount").select();
+                });
+                return false;
+            }
+            if (!IsNum(TaskNumCount)) {
+                ShowCallBackSystemDialog("对不起，体检人数必须为正整数，请您重新填写！", function () {
+                    jQuery("#txtTaskNumCount").focus();
+                    jQuery("#txtTaskNumCount").select();
+                });
+                return false;
+            }
+            if (Contact == "")//判断联系人是否为空
+            {
+                ShowCallBackSystemDialog("对不起，联系人不允许为空，请您填写！", function () {
+                    jQuery("#txtModifyContact").focus();
+                    jQuery("#txtModifyContact").select();
+                });
+                return false;
+            }
+            if (Tel == "")//判断联系电话是否为空
+            {
+                ShowCallBackSystemDialog("对不起，联系电话不允许为空，请您填写！", function () {
+                    jQuery("#txtModifyTel").focus();
+                    jQuery("#txtModifyTel").select();
+                });
+                return false;
+            }
+        }
+
+        /*********这里结束****************************/
+        var modelName = jQuery("#modelName").val() == undefined ? "" : jQuery("#modelName").val();  //参数：上一页面来源
+        var curItem = "", TeamTaskItems = "";                                                       //提交的数据字符串
+        curItem = TeamTaskID + "_" + TeamTaskName + "_" + TaskExamStartDate + "_" + TaskExamEndDate + "_" + TaskNumCount + "_" + Contact + "_" + Tel + "_" + DispOrder + "_" + InputCode + "_" + exist;
+        TeamTaskItems += curItem + "|";
+        var qustData = { action: 'SaveTeamTaskData',
+            modelName: modelName,
+            type: type,
+            ID_Team: TeamID,
+            TeamTaskItems: TeamTaskItems
+        }
+        //存储大数据请设置Content-length值
+        jQuery.ajax({
+            type: "POST",
+            url: "/Ajax/AjaxTeamOper.aspx",
+            data: qustData,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded;Content-length=1024000",
+            dataType: "json",
+            success: function (msg) {
+                ShowSystemDialog(msg.Message);
+                //                if (msg.success == "1") {
+                //                }
+            },
+            complete: function () {
+                if (IsAdd) {
+                    if (IsClose == 0) {
+                        CloseTeamTaskAddDialog();
+                    }
+                    else {
+                        AddNewTeamTask();
+                    }
+                }
+                else {
+                    CloseTeamTaskModifyDialog();
+                }
+                SearchTeamTask();
+            }
+        });
+    }
+    jQuery(document).ready(function () {
+        ResetSearchInfo("");
+    });
+</script>

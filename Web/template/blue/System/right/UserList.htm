@@ -1,0 +1,421 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+
+    <meta charset="UTF-8" />
+    
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Right.js"></script>
+
+</head>
+<body>
+    
+    <!-- 
+    记录读取分页数据操作的次数，用于判断是否进行回调 
+    <input name="tempOperPageCount" id="tempOperPageCount" value="0" />
+    -->
+    <!-- 记录上次已经选中的角色个数 -->
+    <input type="hidden"  name="LastTimeSelectedRoleCount"  id="LastTimeSelectedRoleCount"  value="0" />
+    
+    <!-- 记录上次已经选中的权限个数 -->
+    <input type="hidden"  name="LastTimeSelectedRightCount" id="LastTimeSelectedRightCount" value="0" />
+    
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                &nbsp;用户权限分配列表 </div>
+                <input type="hidden" name="txtSectionID" id="txtSectionID" value="$!{txtSectionID}" />
+                
+                <table class="querylist" >
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                    <tr>
+                        <td>
+                            姓名/登录名：<input type="text" name="txtSearchUserKeyword" id="txtSearchUserKeyword" value="" /> 
+                            <input type="button" class="button80" name="btnSearchUser" id="btnSearchUser" onclick="UserKeywordsSearch();" value="  查 询  " /> 
+                        </td>
+                        <td>
+                            角色/权限管理区域
+                        </td>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <tr>
+                        <td class="RightTree" style="width:50%;vertical-align:top; text-align:left;">
+                            
+                            <ul class="rolelist" id="SystemUserRightList">
+                                
+                                <li id="Li1">
+                                    <span class="radio">选择</span>
+                                    <span class="username">姓名</span>
+                                    <span class="loginname">登录名</span>
+                                    <span class="lock">是否锁定</span>
+                                </li>
+                                
+                            </ul>
+                            
+                            <div class="pagination" style="text-align:center;">
+                                <ul id="Pagination">
+                    
+                                </ul>
+                            </div>
+                        </td>
+                        <td style=" vertical-align:top; text-align:left;">
+                            <div class="RightTreeOper"  style=" vertical-align:top; text-align:left;">
+                                <div class="RightItemContentArea" id="RightItemContentArea">
+                                    
+                                    <div class="UserRightArea">  
+                                        <div class="UserNameInfo">
+                                            <span class="UserNameTitle">用户名称:</span>
+                                            <span class="UserName" id="SelectedUserName" > -- </span>
+                                            <input type="hidden" name="RightUserID"  id="RightUserID" value="0" />
+                                        </div>
+                                    </div>
+                                           
+                                    <div class="UserRightArea" id="divRole_UserRightSet" style="display:none;">  
+                                        <div class="RightAreaInfo">
+                                            <span class="RightAreaTitle">分配角色</span>
+                                            <span class="TipsInfo">(直接选择下面设置好的角色，分配给当前用户即可，可多选)</span>
+                                        </div>
+                                        <div class="dashedline"></div>
+
+                                        <div class="SelectRoleList" style=" width:500px; clear:both; float:left; text-align:left;" id="SelectRoleList">
+
+                                            <div style="width:100%;"> <span style="color:#dcdcdc;">数据加载中...</span> </div>
+                                            
+                                        </div>
+                                        <div class="solidline"></div>
+                                    </div>  
+                                          
+                                    <div class="UserRightArea" id="divRight_UserRightSet" style="display:none;">  
+                                        <div class="RightAreaInfo">
+                                            <span class="RightAreaTitle">分配权限</span>
+                                            <span class="TipsInfo">(如果以上角色不能达到你的目的，你可以在下面直接选择对应的权限)</span>
+                                        </div>
+                                        <div class="dashedline"></div>
+                                        <div style="height:300px; overflow:auto;">
+                                        
+                                        <div class="RightTree" id='RightTree' style="width:470px; overflow:hidden;" >
+                                            <ul>
+                                                <li class="RightItem" >
+                                                <span style="color:#dcdcdc;">数据加载中...</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        </div>
+
+                                        <div class="solidline"></div>
+                                    </div>   
+                                    
+                                    <div class="UserRightArea" id="divSection_UserRightSet" style="overflow:hidden;display:none; ">  
+                                        <div class="RightAreaInfo">
+                                            <span class="RightAreaTitle">分检科室选择</span>
+                                            <span class="TipsInfo">(请直接输入科室简码，查询需要添加的科室)</span>
+                                        </div>
+                                        <div class="dashedline"></div>
+                                        <div style="overflow:auto;">
+
+                                        <div class="RightAreaInfo"  style="position:absolute; overflow:hidden; width:500px;" id="QuickQueryTableFrame" >
+                                            <span class="RightAreaTitle">科室简码：<input name="txtSectionInputCode" id="txtSectionInputCode" value="" onkeyup="QuickQueryTableData_Ajax();" onchange="QuickQueryTableData_Ajax();"  onfocus="QuickQueryTableData_Ajax();"  /> </span> 
+
+                                            <div id="QuickQueryTable" style="max-width:330px; position:relative; border:1px solid red; background-color:White; margin-top:-1px; margin-left:60px; display:none; ">
+                                            <div style="max-height:200px;overflow:auto">
+                                            <table style=" width:100%;">
+                                                <thead>
+                                                <tr>
+                                                    <td><input type="checkbox" name="chkSelectAllUserSection" id="chkSelectAllUserSection" onclick="AllUserSectionSelect(this);" value="0" /></td>
+                                                    <td>科室名称</td>
+                                                    <td>输入码</td>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="QuickQuerySectionTableData">
+                                                <tr>
+                                                    <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            <div style="width:100%; text-align:center;">
+
+                                                <input type="button" class="button80" id="btnsave001" onclick="SelectSectionDataList();" value=" 确定 " /> &nbsp;&nbsp;
+                                                <input type="button" class="button80" id="btncolse001" onclick="ShowHideQuickQueryTable(false,'');" value=" 取消 " /> 
+                                                
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                        <div style="height:28px; width:300px;">&nbsp;</div>
+                                        <div class="dashedline"></div>
+                                        
+                                        <div style="max-height:300px; overflow:auto;">
+                                            <div class="RightTree" style="padding-top:5px; padding-bottom:5px;" id='RightTree' style="width:470px; overflow:hidden;" >
+                                                <ul id="SectionItemList" style=" padding-left:30px;">
+                                                    <li style="width:300px; float:left;">
+                                                        <div style="float:left; "> <strong>科室名称</strong> </div> 
+                                                        <div style="float:right;"> <strong><a href="javascript:void(0);">操作</a></strong> </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        </div>
+
+                                        <div class="solidline"></div>
+                                    </div>   
+                                                                                                                                                                                                                                                                                                                                                                             
+                                </div>
+                                
+                                <div class="ButtonArea">
+                                    <input type="button" class="button80" name="btnAddRole" onclick="SaveUserRoleRightSectionClick();" value="  确定保存  " />
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+        </div>
+    </div>
+ 
+ <div style="display:none;" >
+    <ul class="rolelist" id="SystemUserRightListItemTemplete">
+        <li id="userli_@ID_User" onclick="UserRightLiClick('@ID_User');">
+            <span class="radio">
+                <input class=".UserRightRadioClass" onclick="UserIDOnchange('@ID_User');" type="radio" name="radioUserRight" 
+                id="radioUser_@ID_User" 
+                username="@UserName" 
+                isLocked="@Is_Locked" 
+                value="@ID_User" />
+            </span>
+            <span class="username">@UserName</span>
+            <span class="loginname">@LoginName</span>
+            <span class="lock">@ShowLockedState</span>
+        </li>
+    </ul>
+    <ul class="rolelist" id="SystemUserRightHeaderItemTemplete">
+        <li id="roleli_0">
+            <span class="radio">选择</span>
+            <span class="username">姓名</span>
+            <span class="loginname">登录名</span>
+            <span class="lock">是否锁定</span>
+        </li>
+    </ul>
+
+    <!-- 角色模版 -->
+    <div class="SelectRoleList" id="SelectRoleListItemTemplete">
+        <div style="float:left; padding-left:30px; width:180px; overflow:hidden; display:block; margin:0;"><input type="checkbox" class="RoleItemClass" name="SelectUserRole" id="selRole_@ID_Role" value="@ID_Role" /> <label for="selRole_@ID_Role">@RoleName@ShowLockedState</label> </div>
+    </div>
+
+    
+    <!-- 权限模版 -->
+    <div id="SelectSingleRightItemTemplete">
+        <ul id="RightItem_@ID_Right">
+            <li class="RightItem" >
+            <span id="openflag_@ID_Right" class="openflag" onclick="ShowHideSubRightItem('@ID_Right');">&nbsp;</span>
+            <span>
+                
+            <input 
+            id="chkRight_@ID_Right" 
+            name="chkRight" 
+            class="RightItemClass"
+            rightname="@RightName" 
+            parentid="@ID_ParentRight" 
+            isLocked="@Is_Locked" 
+            rightcode="@RightCode" 
+            disporder="@DispOrder" 
+            currentlevel="@CurrentLevel" 
+            type="checkbox" 
+            value="@ID_Right" />
+                
+            </span>
+            <span onclick="ShowHideSubRightItem('@ID_Right');">@ShowRightName</span>
+            </li>
+            <li id="SubRightFrame_@ID_Right" class="SubRightFrame" style="display:none;"></li>
+        </ul>
+    </div>
+      
+      <table>
+        <tbody id="SectionQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="checkbox" name="@chkSectionQueryList" id="chkSection_@ID_Section" 
+                    value="@ID_Section"
+                    SectionName="@SectionName"  />
+                </td>
+                <td>@SectionName</td>
+                <td>@InputCode</td>
+            </tr>
+        </tbody>
+        <tbody id="EmptySectionQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关科室，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+      </table>
+
+      <ul id="UserSelectedSectionItemHeaderTemplete">
+        <li style="width:300px; float:left;">
+            <div style="float:left; "> <strong>科室名称</strong> </div> 
+            <div style="float:right;"> <strong><a href="javascript:void(0);">操作</a></strong> </div>
+        </li>
+      </ul>
+
+      <ul id="UserSelectedSectionItemDataTemplete">
+        <li style="width:300px; float:left;" id="liSectionItem_@ID_Section">
+            <div style="float:left;"> @SectionName
+                <span style="display:none;">
+                    <input type="checkbox" name="@chkUserSection" id="chkUserSection_@ID_Section" sectionname="@SectionName" value="@ID_Section" />
+                </span>
+            </div> 
+            <div style="float:right;">
+                <a href="javascript:void(0);" onclick="delSelectedSection('@ID_Section');">删除</a> 
+            </div>
+        </li>
+      </ul>
+      
+        <ul id="EmptySystemUserRightListTemplete">
+            <li>
+                <span style="width:100%">未找到相关数据，请核对后重新查询...</span>
+            </li>
+        </ul>
+    </div>
+
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0; 
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+            
+            // tempOperPageCount = jQuery("#tempOperPageCount").val();
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+            // jQuery("#tempOperPageCount").val(tempOperPageCount);
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+            GetUserAssignAllRoleItemList();  // 读取所有的角色信息 （用户权限分配页面中）
+            GetUserAssignAllRightItemList(); // 读取所有的权限信息（用户权限分配页面中）
+
+            GetUserRight(); // 获取用户相应的权限
+        });
+
+
+        /// <summary>
+        /// 按照用户名称关键字搜索
+        /// </summary>
+        function UserKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm04();
+            var totalCount = 0;
+
+            // 角色列表头部
+            var SystemUserRightHeaderItemTempleteContent = jQuery('#SystemUserRightHeaderItemTemplete').html();
+
+            var SearchUserKeyword = jQuery('#txtSearchUserKeyword').val();      // 用户姓名关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxUser.aspx",
+                data: { pageIndex: pageIndex, SearchUserKeyword: SearchUserKeyword, pageSize: pagePagination04.items_per_page, action: 'GetUserList' },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    var tmpUserIDsStr = ""; // 临时用户ID字符串（逗号分隔的字符串）
+                    jQuery("#SystemUserRightList").html(""); //   先清空列表
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        // tempOperPageCount = jQuery("#tempOperPageCount").val();
+
+                        jQuery("#SystemUserRightList").append(SystemUserRightHeaderItemTempleteContent); //显示头部
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                            // jQuery("#tempOperPageCount").val("1");
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            // jQuery("#tempOperPageCount").val("1");
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SystemUserRightListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            if (tmpUserIDsStr == "") {
+                                tmpUserIDsStr = item.ID_User;
+                            } else {
+                                tmpUserIDsStr = tmpUserIDsStr + "," + item.ID_User;
+                            }
+
+                            newcontent +=
+                             templateContent.replace(/@UserName/gi, item.UserName)
+                            .replace(/@ID_User/gi, item.ID_User)
+                            .replace(/@LoginName/gi, item.LoginName)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@ShowLockedState/gi, item.Is_Locked == 'True' ? '已锁定' : '--')
+                            ;
+
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#SystemUserRightList").append(newcontent);
+                        }
+
+                    } else {
+                        jQuery("#SystemUserRightList").html(jQuery("#EmptySystemUserRightListTemplete").html());
+                        jQuery("#Pagination").hide();
+                    }
+                }
+            });
+
+        }
+
+        /************************* 用户权限控制 start ***********************************/
+
+        /// <summary>
+        ///  判断用户是否具有相应的权限
+        /// </summary>
+        function GetUserRight() {
+            var isHaveRight_Right   = Is_LoginUserRight('A.E.01_UserRight');    // 判断用户是否能 直接分配权限
+            var isHaveRight_Role = Is_LoginUserRight('A.E.02_UserRole');        // 判断用户是否能 直接分配角色
+            var isHaveRight_Section = Is_LoginUserRight('A.E.03_UserSection');  // 判断用户是否能 直接分配科室
+            if (isHaveRight_Right == true) { jQuery("#divRight_UserRightSet").show(); }
+            if (isHaveRight_Role == true) { jQuery("#divRole_UserRightSet").show(); }
+            if (isHaveRight_Section == true) { jQuery("#divSection_UserRightSet").show(); }
+        }
+
+        /************************* 用户权限控制 start ***********************************/
+
+    </script>
+
+</body>
+</html>

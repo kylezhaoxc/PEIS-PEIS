@@ -1,0 +1,253 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Specimen.js"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle">
+                
+                <span style="float:left;">
+                &nbsp;样本列表
+                </span>
+                <span style="float:left; font-weight:normal; font-size:10px;" id="SpecimenItemCount">
+                </span>
+
+            </div>
+            <div class="query-area">
+                
+                <div class="query-group">
+                    <label class="query-label">
+                        样本/输入码：</label>
+                    <div class="query-controls">
+                        <input type="text" class="span150" onfocus="this.select();" 
+                        
+                        onkeydown="if(IsEnterKeyDown() == true) { SpecimenKeywordsSearch();}" 
+                        id="txtSearchSpecimenKeyword" name="txtSearchSpecimenKeyword" />
+                    </div>
+                </div>
+                <div class="query-group">
+                    <label class="query-label">
+                        <input id="btnSearch" type="button" class="button80" value=" 查  询(F4) " onclick="SpecimenKeywordsSearch();" />
+                    </label>
+                </div>
+                <div class="query-group" style="float: right;">
+                    <input id="Button1" type="button" class="button80" value="  新 增  " onclick="OpenSpecimenOperWindow();" />
+                    <input id="Button2" type="button" class="button80" value="  修 改  " onclick="OpenEditSpecimenWindow();" />
+                </div>
+                <div style="width:100%; overflow:auto;">
+                <table class="tblList querylist" cellpadding="0" cellspacing="0" border="1">
+                    <thead style="font-weight: bold; text-align: center; line-height: 26px;">
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                样本名称
+                            </td>
+                            <td>
+                                输入码
+                            </td>
+                            <td>
+                                显示顺序
+                            </td>
+                            <td>
+                                检验科名称
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id='Searchresult'>
+                      
+                    </tbody>
+                </table>
+                </div>
+                <div class="pagination">
+                    <ul id="Pagination">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <table style="display:none;">
+        <tbody id="SpecimenListItemTemplete">
+            <tr onclick="SetSpecimenChecked('@ID_Specimen')" ondblclick="OpenEditSpecimenWindow();">
+                <td>
+                    <input id="rdiSpecimen_@ID_Specimen" title="" type="radio" name='SpecimenRadio' value="@ID_Specimen" />
+                </td>
+                <td id="SpecimenName_@ID_Specimen">@SpecimenName</td>
+                <td id="InputCode_@ID_Specimen">@InputCode</td>
+                <td id="DispOrder_@ID_Specimen">@DispOrder</td>
+                <td id="LisSpecimenName_@ID_Specimen">@LisSpecimenName</td>
+
+            </tr>
+        </tbody>
+    </table>
+    
+</body>
+
+</html>
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+            
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+        
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+            QueryPagesData(0);               // 读取用户信息
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function SpecimenKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            var SearchSpecimenKeyword = jQuery('#txtSearchSpecimenKeyword').val();      // 科室关键字
+            
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                        SearchSpecimenKeyword: SearchSpecimenKeyword,
+                        pageSize: pagePagination.items_per_page,
+                        action: 'SearchSpecimenList',
+                        date: encodeURIComponent(new Date())
+                    },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#SpecimenItemCount").html(" 【共有 " + msg.totalCount + " 个样本】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination").pagination(msg.totalCount, optInit);
+                        }
+
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SpecimenListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            newcontent +=
+                             templateContent.replace(/@SpecimenName/gi, item.SpecimenName)
+                            .replace(/@ID_Specimen/gi, item.ID_Specimen)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@LisSpecimenName/gi, item.LisSpecimenName)
+                            ;
+                        });
+                        
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("");
+                        jQuery("#SpecimenItemCount").html(" 【共有 0 个样本】");
+                    }
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个样本信息，用户更新修改后的样本列表中的数据
+        /// </summary>
+        function GetSingleSpecimenInfo(ID_Specimen, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ID_Specimen: ID_Specimen,
+                    action: 'GetSingleSpecimenInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SpecimenListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (type == "edit") {
+                                jQuery("#SpecimenName_" + item.ID_Specimen).html(item.SpecimenName);
+                                jQuery("#InputCode_" + item.ID_Specimen).html(item.InputCode);
+                                jQuery("#DispOrder_" + item.ID_Specimen).html(item.DispOrder);
+                                jQuery("#LisSpecimenName_" + item.ID_Specimen).html(item.LisSpecimenName);
+                                
+                            } else {
+
+                            newcontent +=
+                                 templateContent.replace(/@SpecimenName/gi, item.SpecimenName)
+                                .replace(/@ID_Specimen/gi, item.ID_Specimen)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@DispOrder/gi, item.DispOrder)
+                                .replace(/@LisSpecimenName/gi, item.LisSpecimenName)
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                }
+            });
+        }
+
+
+    </script>

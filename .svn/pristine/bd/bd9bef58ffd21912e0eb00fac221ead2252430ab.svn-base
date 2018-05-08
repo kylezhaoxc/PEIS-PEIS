@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>数据字典-体检地址维护</title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_ExamPlace.js"></script>
+</head>
+<body>
+
+  	<div class="center">
+    	<div class="oper">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+        	<div class="oper-bg1">
+                <span>体检地址/输入码：</span>
+                <span class="span-margin-top">
+                    <div class="Editor-l"></div>
+                    <div class="Editor-c">
+                        <input type="text" class="input-3" onfocus="this.select();" 
+                        onkeydown="if(IsEnterKeyDown() == true) { ExamPlaceKeywordsSearch();}" 
+                        id="txtSearchExamPlaceKeyword" name="txtSearchExamPlaceKeyword" />
+                    </div>
+                    <div class="Editor-r"></div>
+                </span>
+            </div>
+        	<div class="oper-bg">
+            
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);"  onclick="ExamPlaceKeywordsSearch();" >查询</a></span>
+
+                <span style="display:none;" id="ExamPlaceItemCount"></span>
+                <span class="buttom-sq float-right" title="修改" onclick="OpenEditExamPlaceWindow();"><a href="javascript:void(0);">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"  onclick="OpenExamPlaceOperWindow();"><a href="javascript:void(0);">新增</a></span>
+
+            </div>
+   	    </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+            	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                          <tr id="project-center-lb1-list">
+                           
+                          </tr>
+                         </table>
+
+                         
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:35px" />
+                    	<col style="width:4%" />
+                    	<col style="width:65%" />
+                    	<col style="width:9%" />
+                        
+                      </colgroup>
+                          <tr>
+                            <th></th>
+                            <th>序号</th>
+                            <th>体检地址名称</th>
+                            <th>是否默认</th>
+                            <th>输入码</th>
+                          </tr>
+                </table>
+                    </div>
+
+                    <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="400" data-min="200" style="overflow:auto;">
+            	        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                            <colgroup>
+                    	        <col style="width:35px" />
+                    	        <col style="width:4%" />
+                    	        <col style="width:65%" />
+                    	        <col style="width:9%" />
+                            </colgroup>
+                             
+                            <tbody id='Searchresult'>
+                            </tbody>
+                        </table>
+                    </div>
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                        <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left"></div>
+                                <div class="paging-center">
+                                    <ul >
+                                    </ul>
+                                </div>
+                                <div class="paging-right"></div>
+                            </div>
+                        </td>
+                        </tr>
+                    </table>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <table style="display:none;">
+        <tbody id="ExamPlaceListItemTemplete">
+            <tr onclick="SetExamPlaceChecked('@ExamPlaceID')" ondblclick="OpenEditExamPlaceWindow();">
+                <td><input id="rdiExamPlace_@ExamPlaceID" title="" type="radio" name='ExamPlaceRadio' value="@ExamPlaceID" /></td>
+                <td>@RowNum</td>
+                <td id="ExamPlaceName_@ExamPlaceID" class="project-align-left">@ExamPlaceName&nbsp;</td>
+                <td id="Is_Default_@ExamPlaceID">@Is_Default&nbsp;</td>
+                <td id="InputCode_@ExamPlaceID" class="project-align-left">@InputCode&nbsp;</td>
+                <td style="display:none;" id="DispOrder_@ExamPlaceID" class="project-align-left">@DispOrder&nbsp;</td>
+                
+            </tr>
+
+        </tbody>
+    </table>
+    
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (265 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function ExamPlaceKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+            var SearchExamPlaceKeyword = jQuery('#txtSearchExamPlaceKeyword').val();      // 科室关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchExamPlaceKeyword: SearchExamPlaceKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchExamPlaceList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        jQuery("#ExamPlaceItemCount").html(" 【共有 " + msg.totalCount + " 个体检地址】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamPlaceListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            newcontent +=
+                             templateContent.replace(/@ExamPlaceName/gi, item.ExamPlaceName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ExamPlaceID/gi, item.ExamPlaceID)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@Is_Default/gi, item.Is_Default == "True" ? "是" : "否")
+                            ;
+                            RowNum++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                            // 如果是总审页面，则先设置背景， 设置Table的基数偶数项背景
+                            SetTableEvenOddRowStyle();
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                        jQuery("#ExamPlaceItemCount").html(" 【共有 0 个体检地址】");
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个体检地址信息，用户更新修改后的体检地址列表中的数据
+        /// </summary>
+        function GetSingleExamPlaceInfo(ExamPlaceID, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ExamPlaceID: ExamPlaceID,
+                    action: 'GetSingleExamPlaceInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#ExamPlaceListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (type == "edit") {
+                                jQuery("#ExamPlaceName_" + item.ExamPlaceID).html(item.ExamPlaceName + "&nbsp;");
+                                jQuery("#InputCode_" + item.ExamPlaceID).html(item.InputCode + "&nbsp;");
+                                jQuery("#DispOrder_" + item.ExamPlaceID).html(item.DispOrder);
+                                jQuery("#Is_Default_" + item.ExamPlaceID).html(item.Is_Default == "True" ? "是" : "否");
+
+                            } else {
+
+                                newcontent +=
+                                 templateContent.replace(/@ExamPlaceName/gi, item.ExamPlaceName)
+                                .replace(/@RowNum/gi, "&nbsp;")
+                                .replace(/@ExamPlaceID/gi, item.ExamPlaceID)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@DispOrder/gi, item.DispOrder)
+                                .replace(/@Is_Default/gi, item.Is_Default == "True" ? "是" : "否")
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                            }
+
+                        });
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+
+    </script>
+
+</body>
+</html>

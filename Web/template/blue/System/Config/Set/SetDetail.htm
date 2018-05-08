@@ -1,0 +1,142 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+    <link rel="stylesheet" href="$!{templatepath}/css/common.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/right.css" />
+    <link rel="stylesheet" href="$!{templatepath}/css/dialogcss.css" />
+    <script src="$!{templatepath}/js/jquery.min.js"></script>            
+    <script src="$!{templatepath}/js/Commom.js" type="text/javascript"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+</head>
+<body>
+    
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 套餐ID -->
+    <input type="hidden" name="PEPackageID" id="PEPackageID" value="$!{PEPackageID}" />
+    <!-- 套餐名称 -->
+    <input type="hidden" name="PEPackageName" id="PEPackageName" value="$!{PEPackageName}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+
+    <!-- 用于保存上次保存的收费项目ID字符串 -->
+    <input type="hidden" name="OrgFeeItemIDStrs" id="OrgFeeItemIDStrs" value="" />
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+            <tr>
+                <td class="inputtitle">套餐名称：</td>
+                <td> <span id="showFeeName"><strong>$!{PEPackageName}</strong></span> </td>
+            </tr>
+            <tr>
+                <td class="inputtitle">收费项目：</td>
+                <td>
+                    <input class="width300" style="width:450px;"  name="txtFeeInputCode" id="txtFeeInputCode" onkeyup="QuickQueryFeeTableData_Ajax();" onchange="QuickQueryFeeTableData_Ajax();"  onfocus="QuickQueryFeeTableData_Ajax();" maxlength="50" /> 
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryFeeTable" style="max-width:480px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>收费项目名称</td>
+                                <td>输入码</td>
+                                <td>科室</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryFeeTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关收费项目，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave002" onclick="SelectFeeDataList();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse002" onclick="ShowHideQuickQueryFeeTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr><td colspan="2" style="line-height:10px;"> &nbsp; </td> </tr>
+
+            <tr>
+                <td style="border-top:1px solid #dcdcdc;border-right:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;" class="inputtitle">已选收费项目：</td>
+                <td style="border-top:1px solid #dcdcdc;border-left:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;">
+                    <div style="height:212px; overflow:auto; padding:6px;">
+                    <ul class="selFeeList" id="tmpSelectedFeeList">
+                        
+                    </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;">
+                    
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bc-s btn-common button60" title="保存" onclick="AutoCloseDialogWindow('True');SaveSetFeeRel();" value="保存" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+    
+      <table style="display:none;">
+        
+        <tbody id="EmptyFeeQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关检查项目，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="FeeQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="checkbox" name="@chkFeeQueryList" id="chkFee_@ID_Fee" 
+                    value="@ID_Fee"  FeeName="@FeeName"  />
+                </td>
+                <td title="@FeeCode">@FeeName</td>
+                <td>@InputCode</td>
+                <td>@SectionName</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <ul id="UserSelectedFeeItemDataTemplete" style="display:none;">
+        <li id="spanSelectFee_@ID_Fee"><span> 
+        <span style="display:none;"><input type="checkbox" name="@chkSelectedFeeList" id="chkSelectedFee_@ID_Fee" value="@ID_Fee" /></span>
+        <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectFee_@ID_Fee').remove();"> × </a> @FeeName </span> </li>
+      </ul>
+
+      <!-- 保存原字符串，用于比较是否进行了改动 -->
+      <input name="OrgFeeIDStrs" id="OrgFeeIDStrs" value="" type="hidden" />
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    jQuery(document).ready(function () {
+        var SetID = jQuery("#PEPackageID").val();
+        GetFeeListBySet_Ex01(SetID);               // 读取已经绑定的收费项目信息
+    });
+
+</script>

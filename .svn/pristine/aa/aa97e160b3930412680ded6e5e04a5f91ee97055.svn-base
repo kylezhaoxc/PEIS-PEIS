@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>科室管理</title>
+   
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>科室/输入码：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" class="input-3" onfocus="this.select();" onkeydown="if(IsEnterKeyDown() == true) { SectionKeywordsSearch();}"
+                            id="txtSearchSectionKeyword" name="txtSearchSectionKeyword" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg"><span class="buttom-cx-s" title="查询(F4)"><a id="btnSearch" href="javascript:void(0);"
+                    onclick="SectionKeywordsSearch();">查询</a></span> <span class="buttom-sq float-right"
+                        title="修改"><a href="javascript:void(0);" onclick="OpenEditSectionWindow();">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增"><a href="javascript:void(0);" onclick="OpenSectionOperWindow();">
+                    新增</a></span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div style="overflow: hidden; ">
+                    <table id="customerScrollTitle" width="1620" border="0" cellspacing="0" cellpadding="0"
+                        class="stripe j-control-title">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 3%" />
+                            <col style="width: 11%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 3%" />
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 5%" />
+                            <col style="width: 6%" />
+                            <col style="width: 5%" />
+                            <col style="width: 6%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                科室ID
+                            </th>
+                            <th>
+                                科室名称
+                            </th>
+                            <th>
+                                不进总检
+                            </th>
+                            <th>
+                                不打报告
+                            </th>
+                            <th>
+                                非功能科室
+                            </th>
+                            <th>
+                                接口类型
+                            </th>
+                            <th>
+                                排序
+                            </th>
+                            <th>
+                                小结命名
+                            </th>
+                            <th>
+                                缺省小结
+                            </th>
+                            <th>
+                                项目分隔符
+                            </th>
+                            <th>
+                                体征词分隔符
+                            </th>
+                            <th>
+                                项目终结符
+                            </th>
+                            <th>
+                                小结分隔符
+                            </th>
+                            <th>
+                                项目序号
+                            </th>
+                            <th>
+                                体征词序号
+                            </th>
+                            <th>
+                                输入码
+                            </th>
+                            <th>
+                                所属菜单
+                            </th>
+                            <th>
+                                是否禁用
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight j-scroll-control QueryListNoDataTips" data-left="330" data-min="100" style="overflow: auto;">
+                    <table width="1620" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 35px" />
+                            <col style="width: 3%" />
+                            <col style="width: 11%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 4%" />
+                            <col style="width: 3%" />
+                            <col style="width: 4%" />
+                            <col style="width: 10%" />
+                            <col style="width: 5%" />
+                            <col style="width: 6%" />
+                            <col style="width: 5%" />
+                            <col style="width: 6%" />
+                            <col style="width: 4%" />
+                            <col style="width: 5%" />
+                            <col style="width: 7%" />
+                            <col style="width: 4%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <script type="text/plain" id="SectionListItemTemplete">
+                    <tr onclick="SetSectionChecked('@SectionID')" ondblclick="OpenEditSectionWindow();">
+                        <td>
+                            <input id="rdiSection_@SectionID" title="" type="radio" name='SectionRadio' value="@SectionID" />
+                        </td>
+                        <td>@RowNum</td>
+                        <td>@SectionID</td>
+                        <td id="SectionName_@SectionID" class="project-align-left" title="@SectionName"><div class="nowrap" style="width:100%;">@SectionName</div></td>
+                        <td id="IsNoEntryFinalSummary_@SectionID">@IsNoEntryFinalSummary</td>
+                        <td id="IsNonPrintInReport_@SectionID">@IsNonPrintInReport</td>
+                        <td id="FunctionType_@SectionID">@FunctionType</td>
+                        <td id="InterfaceType_@SectionID">@InterfaceType</td>
+                        <td id="DispOrder_@SectionID">@DispOrder</td>
+                        <td id="SummaryName_@SectionID" class="project-align-left" title="@SummaryName"><div class="nowrap" style="width:100%;">@SummaryName</div></td>
+                        <td id="DefaultSummary_@SectionID" class="project-align-left" title="@DefaultSummary"><div class="nowrap" style="width:100%;">@DefaultSummary</div></td>
+                        <td id="SepBetweenExamItems_@SectionID">@SepBetweenExamItems</td>
+                        <td id="SepBetweenSymptoms_@SectionID">@SepBetweenSymptoms</td>
+                        <td id="TerminalSymbol_@SectionID">@TerminalSymbol</td>
+                        <td id="SepExamAndValue_@SectionID">@SepExamAndValue</td>
+                        <td id="NoBetweenExamItems_@SectionID">@NoBetweenExamItems</td>
+                        <td id="NoBetweenSympotms_@SectionID">@NoBetweenSympotms</td>
+                        <td id="InputCode_@SectionID" title="@InputCode"><div class="nowrap" style="width:100%;">@InputCode</div></td>
+                        <td id="DisplayMenu_@SectionID">@DisplayMenu</td>
+                        <td id="IsDel_@SectionID">@IsDel</td>
+                    </tr>
+                </script>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="project-center-lb1-list-bottom">
+                    <tr>
+                        <td>
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+
+    // 记录读取分页数据操作的次数，用于判断是否进行回调
+    // 1、只有第1次才调用 jQuery("#Pagination").pagination
+    // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+    var tempOperPageCount = 0;
+    var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+    function pageselectCallback(page_index, jq) {
+
+        if (tempOperPageCount > 0) {
+            QueryPagesData(page_index);
+        }
+        tempOperPageCount++;
+
+        return false;
+    }
+
+    jQuery(document).ready(function () {
+
+        jQuery("#QueryExamListData").attr("data-left", (269 + jQuery("#ShowUserMenuDiv").height()));
+        jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+        // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 
+
+
+        TableScrollByID("customerScrollTitle", "QueryExamListData");
+
+    });
+
+
+    /// <summary>
+    /// 按照科室关键字搜索
+    /// </summary>
+    function SectionKeywordsSearch() {
+
+        tempOperPageCount = 0;
+        QueryPagesData(0); //重新按照新输入的条件进行查询
+
+    }
+
+
+    /// <summary>
+    /// 按条件进行分页查询
+    /// </summary>
+    function QueryPagesData(pageIndex) {
+        var optInit;
+        optInit = getOptionsFromForm();
+        var totalCount = 0;
+
+        jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+        var SearchSectionKeyword = jQuery('#txtSearchSectionKeyword').val();      // 科室关键字
+
+        jQuery.ajax({
+            type: "GET",
+            url: "/Ajax/AjaxSection.aspx",
+            data: { pageIndex: pageIndex,
+                SearchSectionKeyword: SearchSectionKeyword,
+                pageSize: pagePagination.items_per_page,
+                action: 'SearchSectionList',
+                date: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (parseInt(msg.totalCount) > 0) {
+
+                    jQuery("#SectionItemCount").html(" 【共有 " + msg.totalCount + " 个科室】");
+
+                    jQuery("#Pagination").show();
+                    if (tempOperPageCount == 0) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        tempOldtotalCount = msg.totalCount;
+                    }
+                    else if (tempOldtotalCount != msg.totalCount) {
+                        jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                    }
+
+
+                    var RowNum = 1;
+                    if (pageIndex > 0) {
+                        RowNum = optInit.items_per_page * (pageIndex) + 1;
+                    }
+                    var newcontent = "";
+                    // 从模版中读取数据加载列表
+                    var templateContent = jQuery('#SectionListItemTemplete').html();
+                    if (templateContent == undefined) { return; }
+                    jQuery(msg.dataList).each(function (i, item) {
+
+                        newcontent +=
+                             templateContent.replace(/@SectionName/gi, item.SectionName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@SectionID/gi, item.SectionID)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@FunctionType/gi, item.FunctionType == 'True' ? '√' : '--')
+                            .replace(/@InterfaceType/gi, item.InterfaceType)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@SummaryName/gi, item.SummaryName)
+                            .replace(/@DefaultSummary/gi, item.DefaultSummary)
+
+                            .replace(/@SepBetweenExamItems/gi, item.SepBetweenExamItems)
+                            .replace(/@SepBetweenSymptoms/gi, item.SepBetweenSymptoms)
+                            .replace(/@TerminalSymbol/gi, item.TerminalSymbol)
+                            .replace(/@SepExamAndValue/gi, item.SepExamAndValue)
+                            .replace(/@NoBetweenExamItems/gi, item.NoBetweenExamItems)
+                            .replace(/@NoBetweenSympotms/gi, item.NoBetweenSympotms)
+                            .replace(/@IsNoEntryFinalSummary/gi, item.IsNoEntryFinalSummary == 'True' ? '√' : '--')
+                            .replace(/@IsNonPrintInReport/gi, item.IsNonPrintInReport == 'True' ? '√' : '--')
+                            .replace(/@IsDel/gi, item.IsDel == 'True' ? '√' : '--')
+                            .replace(/@DisplayMenu/gi, item.DisplayMenu)
+                            ;
+                        RowNum++;
+                    });
+
+                    if (newcontent != '') {
+                        jQuery("#Searchresult").html(newcontent);
+
+                        jQuery(".d-content-22").subLength({ len: 16, left: 6 }); // 隐藏分科多余的内容，只显示20个字
+                        SetTableEvenOddRowStyle(); // 奇偶行背景
+                    }
+
+                } else {
+                    jQuery("#Pagination").hide();
+                    jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                    jQuery("#SectionItemCount").html(" 【共有 0 个科室】");
+                }
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+            }
+        });
+
+    }
+
+    /// <summary>
+    /// 获取修改或新增的单条科室项目的数据
+    /// </summary>
+    function GetSingleSectionItem(SectionID, type) {
+
+        jQuery.ajax({
+            type: "GET",
+            url: "/Ajax/AjaxSection.aspx",
+            data: {SectionID: SectionID,
+                action: 'GetSingleSectionItem',
+                date: encodeURIComponent(new Date())
+            },
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+
+                if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                    var newcontent = "";
+                    // 从模版中读取数据加载列表
+                    var templateContent = jQuery('#SectionListItemTemplete').html();
+                    if (templateContent == undefined) { return; }
+
+                    jQuery(msg.dataList0).each(function (i, item) {
+
+                        if (type == "edit") {
+
+                            var tmpCurrEditID = item.ID_Section;
+
+                            ShowModifyTableListInfo("SectionName_" + tmpCurrEditID, item.SectionName);
+                            ShowModifyTableListInfo("InputCode_" + tmpCurrEditID, item.InputCode);
+                            ShowModifyTableListInfo("SummaryName_" + tmpCurrEditID, item.SummaryName);
+                            ShowModifyTableListInfo("DefaultSummary_" + tmpCurrEditID, item.DefaultSummary);
+
+                            jQuery("#FunctionType_" + item.SectionID).html(item.FunctionType == 'True' ? '√' : '--');
+                            jQuery("#InterfaceType_" + item.SectionID).html(item.InterfaceType);
+                            jQuery("#DispOrder_" + item.SectionID).html(item.DispOrder);
+
+                            jQuery("#SepBetweenExamItems_" + item.SectionID).html(item.SepBetweenExamItems);
+                            jQuery("#SepBetweenSymptoms_" + item.SectionID).html(item.SepBetweenSymptoms);
+                            jQuery("#TerminalSymbol_" + item.SectionID).html(item.TerminalSymbol);
+                            jQuery("#SepExamAndValue_" + item.SectionID).html(item.SepExamAndValue);
+
+                            jQuery("#NoBetweenExamItems_" + item.SectionID).html(item.NoBetweenExamItems);
+                            jQuery("#NoBetweenSympotms_" + item.SectionID).html(item.NoBetweenSympotms);
+                            jQuery("#IsNoEntryFinalSummary_" + item.SectionID).html(item.IsNoEntryFinalSummary == 'True' ? '√' : '--');
+                            jQuery("#IsNonPrintInReport_" + item.SectionID).html(item.IsNonPrintInReport == 'True' ? '√' : '--');
+                            jQuery("#IsDel_" + item.SectionID).html(item.IsDel == 'True' ? '√' : '--');
+                            jQuery("#DisplayMenu_" + item.SectionID).html(item.DisplayMenu);
+
+                        } else {
+
+                            newcontent +=
+                                     templateContent.replace(/@SectionName/gi, item.SectionName)
+                                    .replace(/@RowNum/gi, "&nbsp;")
+                                    .replace(/@SectionID/gi, item.SectionID)
+                                    .replace(/@InputCode/gi, item.InputCode)
+                                    .replace(/@FunctionType/gi, item.FunctionType == 'True' ? '√' : '--')
+                                    .replace(/@InterfaceType/gi, item.InterfaceType)
+                                    .replace(/@DispOrder/gi, item.DispOrder)
+                                    .replace(/@SummaryName/gi, item.SummaryName)
+                                    .replace(/@DefaultSummary/gi, item.DefaultSummary)
+
+                                    .replace(/@SepBetweenExamItems/gi, item.SepBetweenExamItems)
+                                    .replace(/@SepBetweenSymptoms/gi, item.SepBetweenSymptoms)
+                                    .replace(/@TerminalSymbol/gi, item.TerminalSymbol)
+                                    .replace(/@SepExamAndValue/gi, item.SepExamAndValue)
+                                    .replace(/@NoBetweenExamItems/gi, item.NoBetweenExamItems)
+                                    .replace(/@NoBetweenSympotms/gi, item.NoBetweenSympotms)
+                                    .replace(/@IsNoEntryFinalSummary/gi, item.IsNoEntryFinalSummary == 'True' ? '√' : '--')
+                                    .replace(/@IsNonPrintInReport/gi, item.IsNonPrintInReport == 'True' ? '√' : '--')
+                                    .replace(/@IsDel/gi, item.IsDel == 'True' ? '√' : '--')
+                                    .replace(/@DisplayMenu/gi, item.DisplayMenu);
+
+                            // 将新增加的数据，追加到列表的第一行位置
+                            jQuery("#Searchresult").prepend(newcontent);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+
+                        }
+                        jQuery(".d-content-22").subLength({ len: 16, left: 6 }); // 隐藏分科多余的内容，只显示20个字
+
+                    });
+                }
+                // 判断表格是否存在滚动条,并设置相应的样式
+                JudgeTableIsExistScroll();
+            }
+        });
+    }
+
+    /// <summary>
+    /// 设置表横向滚动 
+    /// </summary>
+    function TableScrollByID(titleID, scrollID) {
+        var jQueryscrollControl = jQuery("#" + scrollID);
+        if (jQueryscrollControl.length > 0) {
+            var widthLeft = jQueryscrollControl.width() - jQueryscrollControl[0].clientWidth;
+            if (widthLeft > 0) {
+                var jQueryscrollTitle = jQuery("#" + titleID);
+                jQueryscrollTitle.css("width", jQueryscrollTitle.width() + widthLeft);
+            }
+            jQueryscrollControl.bind("scroll.j-control", function () {
+                var left = jQuery(this).scrollLeft();
+                jQuery("#" + titleID).css("margin-left", 0 - left);
+            });
+        }
+    }
+
+</script>
+</html>

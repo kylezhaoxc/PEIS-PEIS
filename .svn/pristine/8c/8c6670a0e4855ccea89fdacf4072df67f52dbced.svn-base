@@ -1,0 +1,317 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+    <title>数据字典-标本维护</title>
+    <srcipt src="$!{templatepath}/js/skin05/config/base1.js"></srcipt>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Config.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/JS_Specimen.js"></script>
+</head>
+<body>
+    <div class="center">
+        <div class="oper">
+            <div class="oper-left">
+            </div>
+            <div class="oper-right">
+            </div>
+            <div class="oper-bg1">
+                <span>样本/输入码：</span> <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <input type="text" class="input-3" onfocus="this.select();" onkeydown="if(IsEnterKeyDown() == true) { SpecimenKeywordsSearch();}"
+                            id="txtSearchSpecimenKeyword" name="txtSearchSpecimenKeyword" />
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+            </div>
+            <div class="oper-bg">
+                <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" onclick="SpecimenKeywordsSearch();">
+                    查询</a></span> <span id="SpecimenItemCount"></span><span class="buttom-sq float-right"
+                        title="修改" onclick="OpenEditSpecimenWindow();"><a href="javascript:void(0);">修改</a></span>
+                <span class="buttom-tj-s float-right" title="新增" onclick="OpenSpecimenOperWindow();">
+                    <a href="javascript:void(0);">新增</a></span>
+            </div>
+        </div>
+        <div class="project">
+            <div class="project-center">
+                <div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 20%" />
+                            <col style="width: 10%" />
+                            <col style="width: 7%" />
+                            <col style="width: 19%" />
+                            <col style="width: 4%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tr id="project-center-lb1-list">
+                            <th>
+                            </th>
+                            <th>
+                                序号
+                            </th>
+                            <th>
+                                样本名称
+                            </th>
+                            <th>
+                                输入码
+                            </th>
+                            <th>
+                                显示顺序
+                            </th>
+                            <th>
+                                接口名称
+                            </th>
+                            <th>
+                                禁用
+                            </th>
+                            <th>
+                                禁用人
+                            </th>
+                            <th>
+                                禁用说明
+                            </th>
+                            <th>
+                                禁用时间
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="400" data-min="200" style="overflow: auto;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                            <col style="width: 35px" />
+                            <col style="width: 4%" />
+                            <col style="width: 20%" />
+                            <col style="width: 10%" />
+                            <col style="width: 7%" />
+                            <col style="width: 19%" />
+                            <col style="width: 4%" />
+                            <col style="width: 6%" />
+                            <col style="width: 7%" />
+                        </colgroup>
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                    <tr>
+                        <td colspan="10">
+                            <div class="paging" id="Pagination">
+                                <div class="paging-left">
+                                </div>
+                                <div class="paging-center">
+                                    <ul>
+                                    </ul>
+                                </div>
+                                <div class="paging-right">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--查询列表模板-->
+    <script type="text/plain" id="SpecimenListItemTemplete">
+        <tr onclick="SetSpecimenChecked('@ID_Specimen')" ondblclick="OpenEditSpecimenWindow();">
+            <td><input id="rdiSpecimen_@ID_Specimen" title="" type="radio" name='SpecimenRadio' value="@ID_Specimen" /></td>
+            <td>@RowNum</td>
+            <td id="SpecimenName_@ID_Specimen" class="project-align-left" title="@SpecimenName"><div class="nowrap" style="width:100%;">@SpecimenName&nbsp;</div></td>
+            <td id="InputCode_@ID_Specimen" class="project-align-left" title="@InputCode"><div class="nowrap" style="width:100%;">@InputCode&nbsp;</div></td>
+            <td id="DispOrder_@ID_Specimen" class="project-align-left"> @DispOrder&nbsp;</td>
+            <td id="LisSpecimenName_@ID_Specimen" class="project-align-left" title="@LisSpecimenName"><div class="nowrap" style="width:100%;">@LisSpecimenName&nbsp;</div></td>
+            <td> -- </td>
+            <td class="project-align-left"> --</td>
+            <td class="project-align-left"> --</td>
+            <td> --</td>
+        </tr>
+    </script>
+
+    <script type="text/javascript">
+
+        // 记录读取分页数据操作的次数，用于判断是否进行回调
+        // 1、只有第1次才调用 jQuery("#Pagination").pagination
+        // 2、只有第2次及以后的操作才调用回调函数 pageselectCallback 中的 QueryPagesData(page_index );
+        var tempOperPageCount = 0;
+        var tempOldtotalCount = 0; //初始总页数，用于判断是否更新页码
+
+        function pageselectCallback(page_index, jq) {
+
+            if (tempOperPageCount > 0) {
+                QueryPagesData(page_index);
+            }
+            tempOperPageCount++;
+
+            return false;
+        }
+
+        jQuery(document).ready(function () {
+
+            jQuery("#QueryExamListData").attr("data-left", (268 + jQuery("#ShowUserMenuDiv").height()));
+            jQuery(".j-autoHeight").autoHeight(); // 自适应高度
+
+            // QueryPagesData(0);  // 改成页面加载时，不进行自动读取数据 20140422 by wtang
+        });
+
+
+        /// <summary>
+        /// 按照科室关键字搜索
+        /// </summary>
+        function SpecimenKeywordsSearch() {
+
+            tempOperPageCount = 0;
+            QueryPagesData(0); //重新按照新输入的条件进行查询
+
+        }
+
+
+        /// <summary>
+        /// 按条件进行分页查询
+        /// </summary>
+        function QueryPagesData(pageIndex) {
+            var optInit;
+            optInit = getOptionsFromForm();
+            var totalCount = 0;
+
+            jQuery("#Searchresult").html("<tr><td class='msg'  colspan='150' >正在查询，请稍后...</td></tr>");
+            var SearchSpecimenKeyword = jQuery('#txtSearchSpecimenKeyword').val();      // 科室关键字
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { pageIndex: pageIndex,
+                    SearchSpecimenKeyword: SearchSpecimenKeyword,
+                    pageSize: pagePagination.items_per_page,
+                    action: 'SearchSpecimenList',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+                    if (parseInt(msg.totalCount) > 0) {
+
+                        //jQuery("#SpecimenItemCount").html(" 【共有 " + msg.totalCount + " 个样本】");
+
+                        jQuery("#Pagination").show();
+                        if (tempOperPageCount == 0) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                            tempOldtotalCount = msg.totalCount;
+                        }
+                        else if (tempOldtotalCount != msg.totalCount) {
+                            jQuery("#Pagination ul").pagination(msg.totalCount, optInit);
+                        }
+
+                        var RowNum = 1;
+                        if (pageIndex > 0) {
+                            RowNum = optInit.items_per_page * (pageIndex) + 1;
+                        }
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SpecimenListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+                        jQuery(msg.dataList).each(function (i, item) {
+
+                            newcontent +=
+                             templateContent.replace(/@SpecimenName/gi, item.SpecimenName)
+                            .replace(/@RowNum/gi, RowNum)
+                            .replace(/@ID_Specimen/gi, item.ID_Specimen)
+                            .replace(/@DispOrder/gi, item.DispOrder)
+                            .replace(/@InputCode/gi, item.InputCode)
+                            .replace(/@LisSpecimenName/gi, item.LisSpecimenName)
+                            ;
+                            RowNum++;
+                        });
+
+                        if (newcontent != '') {
+                            jQuery("#Searchresult").html(newcontent);
+                            SetTableEvenOddRowStyle(); // 奇偶行背景
+                        }
+
+                    } else {
+                        jQuery("#Pagination").hide();
+                        jQuery("#Searchresult").html("<tr><td class='msg' colspan='150' >未查询到数据！</td></tr>");
+                       // jQuery("#SpecimenItemCount").html(" 【共有 0 个样本】");
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+
+        }
+
+
+
+        /// <summary>
+        /// 查询单个样本信息，用户更新修改后的样本列表中的数据
+        /// </summary>
+        function GetSingleSpecimenInfo(ID_Specimen, type) {
+
+            jQuery.ajax({
+                type: "GET",
+                url: "/Ajax/AjaxConfig.aspx",
+                data: { ID_Specimen: ID_Specimen,
+                    action: 'GetSingleSpecimenInfo',
+                    date: encodeURIComponent(new Date())
+                },
+                cache: false,
+                dataType: "json",
+                success: function (msg) {
+
+
+                    if (msg != null && msg != "" && parseInt(msg.totalCount) > 0) {
+
+                        var newcontent = "";
+                        // 从模版中读取数据加载列表
+                        var templateContent = jQuery('#SpecimenListItemTemplete').html();
+                        if (templateContent == undefined) { return; }
+
+                        var userState = "";
+                        jQuery(msg.dataList0).each(function (i, item) {
+
+                            if (type == "edit") {
+
+                                var tmpCurrEditID = item.ID_Specimen;
+
+                                ShowModifyTableListInfo("SpecimenName_" + tmpCurrEditID, item.SpecimenName);
+                                ShowModifyTableListInfo("InputCode_" + tmpCurrEditID, item.InputCode);
+                                ShowModifyTableListInfo("DispOrder_" + tmpCurrEditID, item.DispOrder);
+                                ShowModifyTableListInfo("LisSpecimenName_" + tmpCurrEditID, item.LisSpecimenName);
+
+
+                            } else {
+
+                                newcontent +=
+                                 templateContent.replace(/@SpecimenName/gi, item.SpecimenName)
+                                .replace(/@RowNum/gi, "&nbsp;")
+                                .replace(/@ID_Specimen/gi, item.ID_Specimen)
+                                .replace(/@InputCode/gi, item.InputCode)
+                                .replace(/@DispOrder/gi, item.DispOrder)
+                                .replace(/@LisSpecimenName/gi, item.LisSpecimenName)
+                                ;
+
+                                // 将新增加的数据，追加到列表的第一行位置
+                                jQuery("#Searchresult").prepend(newcontent);
+                                SetTableEvenOddRowStyle(); // 奇偶行背景
+                            }
+
+                        });
+                    }
+                    // 判断表格是否存在滚动条,并设置相应的样式
+                    JudgeTableIsExistScroll();
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html>

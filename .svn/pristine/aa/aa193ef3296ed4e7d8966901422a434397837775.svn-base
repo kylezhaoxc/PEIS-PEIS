@@ -1,0 +1,63 @@
+﻿/**
+ * Created by gjq on 2017/2/28.
+ */
+var thisPageUrl = window.location.href;
+var isLogin = getUrlParam(thisPageUrl, "IsLogin");
+if (isLogin === "1") {
+    userIsLogin();
+   // quitAndLogin("请您重新登陆"); // 提示重新登录
+    GetUserLoginInfo();
+    //alert(getCookies("UserLoginName"));
+    getIndexListData();
+    checkBread();
+    var href = '/System/Welcome.aspx?date='+ encodeURIComponent(new Date())+'';
+    $("#iframe").attr("src", href);
+}
+function checkBread(){
+    //检查导航条状态决定隐藏还是显示
+    if (haschild(".bread",0) === 1) {
+        $(".bread").show();
+        $(".leftnav").css("top", "120px");
+        $(".admin").css("top", "120px");
+    } else {
+        $(".bread").hide();
+        $(".leftnav").css("top", "70px");
+        $(".admin").css("top", "70px");
+    }
+}
+//function intoJs() {
+//    //var iframe = $(document.getElementById("iframe").contentWindow.document.head);
+//    $(document.getElementById("iframe").contentWindow.document.head).html("<script  src='/template/blue2/js/move.js'></script>");
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<link href="/template/blue2/css/Css_TeamOper.css" rel="stylesheet" type="text/css" />');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<link rel="stylesheet" href="/template/blue2/css/style.css" type="text/css" />');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<link rel="stylesheet" href="/template/blue2/css/new.css" type="text/css" />');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<link rel="stylesheet" href="/template/blue2/css/exam.css" />');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.min.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.md5.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/bootstrap.min.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.uniform.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/select2.min.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/My97DatePicker/WdatePicker.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/Commom.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/JS_FloatRight.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.pagination.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/artDialog4.1.7/artDialog.source.js?skin=opera"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/artDialog4.1.7/plugins/iframeTools.source.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/WebIm.js"></script>');
+
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/Enlarge-Editor.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/Jq-common.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/Total-seizure.js"></script>');
+
+////    // <!--<script type="text/javascript" src="/template/blue2/js/stripe.js"></script>-->
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="$!{templat/js/wp-auto-top.js"></script>');
+////    //<!--表头固定插件 xmhuang 2014-04-02-->
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.tablefix_1.0.1.js"></script>');
+////    //<!--表横向滚动插件 xmhuang 2014-04-04引入-->
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/table-scroll-x.js"></script>');
+////    //<!--表单拖动 xmhuang 2014-04-04引入-->
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/dragDrop.min.js"></script>');
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/JS_index.js"></script>');
+//    //<!-- jQuery poshytip -->
+//    $(document.getElementById("iframe").contentWindow.document.head).append('<script type="text/javascript" src="/template/blue2/js/jquery.poshytip.min.js"></script>');
+//}

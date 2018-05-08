@@ -1,0 +1,166 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>指引单回收列表 </title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_GuideSheetReturnList.js" type="text/javascript"></script>
+    
+</head>
+<body>
+
+  	<div class="center">
+        <table style="display: none;">
+            <tbody id="QueryDataListTemplete">
+                <tr class="@bgclass" title="@trTitle">
+                    <td style="display: none;">
+                        <input id="@CheckboxID" title="" type="checkbox" value="@CustomerID" name="ItemCheckbox" />
+                    </td>
+                    <td>
+                        @RowNum
+                    </td>
+                    <td class="project-align-left">
+                        <a href="javascript:void(0);" onclick="DoLoad('/System/GuideSheet/GuideSheetReturnOper.aspx?txtCustomerID=@CustomerID','');"
+                            title="点击进入【@CustomerName】的指引单回收页面">@CustomerID</a>
+                    </td>
+                    <td class="project-align-left" title="@CustomerName"><div class="nowrap" style="width:100%;">@CustomerName</div></td>
+                    <td style="text-align: center;" id="GenderName_@CustomerID">
+                        --
+                    </td>
+                    <td style="text-align: center;" id="Age_@CustomerID">
+                        --
+                    </td>
+                    <td style="display: none;" id="ExamCard_@CustomerID">
+                        --
+                    </td>
+                    <td id="MobileNo_@CustomerID" class="project-align-left"  title=""><div class="nowrap" style="width:100;">--</div></td>
+                    <td>
+                        @Is_GuideSheetReturned
+                    </td>
+                    <td>
+                        @GuideSheetReturnedDate
+                    </td>
+                    <td>
+                        @GuideSheetReturnedby
+                    </td>
+                    <td style="text-align: center; display: none;">
+                        @Is_GuideSheetPrinted
+                    </td>
+                </tr>
+            </tbody>
+            <tbody id="TipsInfoTemplete">
+                <tr>
+                    <td colspan="11" class="msg" >
+                        @TipsInfo
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="operarea">
+        	<div class="oper-left"></div>
+        	<div class="oper-right"></div>
+            <div class="oper-bg1">
+                <span>体检号：</span> <span class="search" style=" margin-right:10px;">
+                    <input type="text" name="textfield" id="textfield" />
+                    <a href="javascript:void(0);" title="查询(F4)">
+                        <img  width="17" height="14" onclick="ButtonClickQuery();" /></a>
+                </span><span class="search-3"><input type="text" id="BeginExamDate" name="BeginExamDate"
+                    value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})" />
+                </span><span>&nbsp;至&nbsp;</span> <span class="search-3">
+                    <input type="text" id="EndExamDate" name="EndExamDate" value="${today}" onfocus="WdatePicker({minDate:'%y-%M-#{%d-35}', maxDate:'%y-%M-#{%d}'})" />
+                </span>
+                <span class="search-4 FxkList">
+                    <label for="chkOnlyMySelf" class="checkbox"><input type="checkbox" id="chkOnlyMySelf" checked="checked" name="chkOnlyMySelf"
+                        onclick="ChangeOnlyMySelf();" onfocus="ChangeOnlyMySelf();" value="0" />仅我的</label></span>
+                 <span class="search-4 FxkList">
+                                <label for="chkNotExam" class="checkbox"><input type="checkbox" id="chkNotExam" name="chkNotExam" onclick="ChangeNotExamState();"
+                                    onfocus="ChangeNotExamState();" value="0" />未回收</label></span>
+
+                <span class="span-margin-top">
+                    <div class="Editor-l">
+                    </div>
+                    <div class="Editor-c">
+                        <select id="selIsTeam" title="下拉可选择不同的体检类型进行查询">
+                            <option value="-1">全部</option>
+                            <option value="1">团队体检</option>
+                            <option value="0">个人体检</option>
+                        </select>
+                    </div>
+                    <div class="Editor-r">
+                    </div>
+                </span>
+
+            </div>
+        	<div class="oper-bg">
+               <span class="buttom-cx-s" title="查询(F4)"><a href="javascript:void(0);" id="btnSearch" onclick="ButtonClickQuery();">查询</a></span>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-center">
+                <div>
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                	  <colgroup>
+                    	<col style="width:45px" />
+                    	<col style="width:15%" />
+                    	<col style="width:9%" />
+                    	<col style="width:5%" />
+                    	<col style="width:5%" />
+                    	<col style="width:15%" />
+                    	<col style="width:8%" />
+                    	<col style="width:16%" />
+                      </colgroup>
+                          <tr class="project-center-lb1-list">
+                            <th style="display:none;">
+                                <input id="Checkbox11" title="全选" type="checkbox" onclick='checkAll(this);' />
+                            </th>
+                            <th>序号</th>
+                            <th>体检号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>年龄</th>
+                            <th>联系方式</th>
+                            <th>已回收</th>
+                            <th>回收时间</th>
+                            <th>回收人</th>
+                            <th style="display: none;">已打印</th>
+                          </tr>
+                </table>
+                </div>
+                <div id="QueryExamListData" class="j-autoHeight QueryListNoDataTips" data-left="400" data-min="200" style="overflow:auto;">
+            	    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="stripe">
+                        <colgroup>
+                    	<col style="width:45px" />
+                    	<col style="width:15%" />
+                    	<col style="width:9%" />
+                    	<col style="width:5%" />
+                    	<col style="width:5%" />
+                    	<col style="width:15%" />
+                    	<col style="width:8%" />
+                    	<col style="width:16%" />
+                        </colgroup>
+                        
+                        <tbody id='Searchresult'>
+                        </tbody>
+                    </table>
+                </div>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="project-center-lb1-list-bottom">
+                <tr>
+                <td colspan="10">
+                    <div class="paging" id="Pagination">
+                        <div class="paging-left"></div>
+                        <div class="paging-center">
+                            <ul >
+                            </ul>
+                        </div>
+                        <div class="paging-right"></div>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>

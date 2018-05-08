@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>报告预览</title>
+    <link href="$!{templatepath}/css/Css_RegistOper.css" rel="stylesheet" type="text/css" />
+    <script src="$!{templatepath}/js/JS_ReportInformerAndReceipt.js" type="text/javascript"></script>
+</head>
+<form onkeyup="OnFormKeyUp();">
+<body style="text-align: center;">
+    <div style="display: none;">
+        <!--体检报告通知模版 Begin-->
+        <table id="TemplateReportView">
+            <thead>
+                <tr>
+                    <td>
+                        <input title="全选" id="chbCanInformedReport" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td>
+                        序号
+                    </td>
+                    <td>
+                        体检号
+                    </td>
+                    <td>
+                        姓名
+                    </td>
+                    <td>
+                        性别
+                    </td>
+                    <td style="display: none;">
+                        证件号
+                    </td>
+                    <td>
+                        出生日期
+                    </td>
+                    <td>
+                        联系电话
+                    </td>
+                    <td>
+                        单位名称
+                    </td>
+                    <td>
+                        打印人
+                    </td>
+                    <td>
+                        打印时间
+                    </td>
+                    <td>
+                        操作
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted" id_customer="@ID_Customer"
+                    idcard="@IDCard">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td style="display: none;">
+                        <label name="lblIDCard">
+                            @IDCard</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblMobileNo">
+                            @MobileNo</label>
+                    </td>
+                    <td>
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblReportPrinter">
+                            @ReportPrinter</label>
+                    </td>
+                    <td>
+                        <label name="lblReportPrintedDate">
+                            @ReportPrintedDate</label>
+                    </td>
+                    <td>
+                        <a onclick="SingleInforCustomer(this);" href="javascript:void(0);" style="color: Green;">
+                            通知</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告通知模版 End-->
+        <!--体检报告领取模版 Begin-->
+        <table id="TemplateReportViewX">
+            <thead>
+                <tr>
+                    <td>
+                        <input title="全选" id="chbCanInformedReport" type="checkbox" onclick='checkAll(this);' />
+                    </td>
+                    <td style="min-width: 30px;">
+                        序号
+                    </td>
+                    <td style="min-width: 60px;">
+                        体检号
+                    </td>
+                    <td style="min-width: 50px;">
+                        姓名
+                    </td>
+                    <td style="min-width: 30px;">
+                        性别
+                    </td>
+                    <td style="min-width: 200px;">
+                        领取人
+                    </td>
+                    <td style="min-width: 40px;">
+                        操作
+                    </td>
+                    <td style="min-width: 80px;">
+                        证件号
+                    </td>
+                    <td style="min-width: 80px;">
+                        出生日期
+                    </td>
+                    <td style="min-width: 100px;">
+                        联系电话
+                    </td>
+                    <td style="min-width: 120px;">
+                        单位名称
+                    </td>
+                    <td style="min-width: 40px;">
+                        通知人
+                    </td>
+                    <td style="min-width: 80px;">
+                        通知时间
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr is_team="@Is_Team" is_canselect="@Is_CanSelect" is_checked="@Is_Checked" is_reportprinted="@Is_ReportPrinted"
+                    is_informed="@Is_Informed" is_reportreceipted="@Is_ReportReceipted" id_customer="@ID_Customer"
+                    idcard="@IDCard">
+                    <td>
+                        <input name="ItemCheckbox" type="checkbox" />
+                    </td>
+                    <td>
+                        <label name="lblRowNum">
+                            @RowNum</label>
+                    </td>
+                    <td>
+                        <label name="lblID_Customer">
+                            @ID_Customer</label>
+                    </td>
+                    <td>
+                        <label name="lblCustomerName">
+                            @CustomerName</label>
+                    </td>
+                    <td>
+                        <label name="lblGenderName">
+                            @GenderName</label>
+                    </td>
+                    <td>
+                        本人<input type="checkbox" name="ItemCheckbox_Selft" onclick="ChangeSelf(this);" />
+                        <input maxlength="30" name="txtSelf" style="width: 120px;" type="text" />
+                    </td>
+                    <td>
+                        <a style="color: Green;" href="javascript:void(0);" onclick="SingleReceiptCustomer(this);">
+                            领取</a>
+                    </td>
+                    <td>
+                        <label name="lblIDCard">
+                            @IDCard</label>
+                    </td>
+                    <td>
+                        <label name="lbldate">
+                            @date</label>
+                    </td>
+                    <td>
+                        <label name="lblMobileNo">
+                            @MobileNo</label>
+                    </td>
+                    <td>
+                        <label name="lblTeamName">
+                            @TeamName</label>
+                    </td>
+                    <td>
+                        <label name="lblInformer">
+                            @Informer</label>
+                    </td>
+                    <td>
+                        <label name="lblInformedDate">
+                            @InformedDate</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--体检报告领取模版 End-->
+    </div>
+    <div class="content">
+        <div class="widget-box showbox">
+            <div class="widget-title bg_lg widget-title-middle" style="font-size: 14px;">
+                <label style="font-size: 14px;">
+                    体检号/证件号(F2)：</label>
+                <input name="txtCustomerID" id="txtCustomerID" type="text" onfocus="this.select();"
+                    onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" />
+                <input id="btnSearch" type="button" class="button80" onclick="AutoGetCustomerReport();"
+                    style="width: auto;" value=" 查  询(F4) " />
+                <input id="btnInformer" type="button" class="button80" value=" 批量通知 " onclick="InforCustomer();" />
+                <input id="btnReceipt" type="button" class="button80" value=" 批量领取 " onclick="ReceiptCustomer();" />
+                <input id="btnSetReceipter" type="button" class="button80" value="设置领取人" onclick="BatchSetReceipter(this);"
+                    style="display: none;" />
+                <input id="printReportAll" type="radio" name="printReportRadio" value="all" checked="checked"
+                    onclick="SelectPrintReport(this,'all');" />全部
+                <input id="printReportRadioSelf" type="radio" name="printReportRadio" value="self"
+                    onclick="SelectPrintReport(this,'self');" />个人
+                <input id="printReportRadioTeam" type="radio" name="printReportRadio" value="team"
+                    onclick="SelectPrintReport(this,'team');" />团体 &nbsp;
+                <select id="slTeam" style="width: 120px; display: none;" onchange="SelectTeamPrintReport(this);">
+                    <option code="qzz" value="-1">---</option>
+                    #foreach($info in $!{TeamDT.Rows})
+                    <option code="${info.InputCode}" value="${info.ID_Team}">${info.TeamName}</option>
+                    #end
+                </select>
+            </div>
+            <div class="widget-title bg_lg widget-title-middle" style="font-size: 14px;">
+                <label id="lblErrorMessage" style="color: Red;">
+                </label>
+            </div>
+            <div class="splitline" style="min-height: 300px; overflow: scroll;">
+                <table class="tblList tblExamItemTable" id="tbReportInformer" style="width: 100%;">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="PaginationOld">
+                <ul id="Pagination">
+                </ul>
+            </div>
+        </div>
+    </div>
+    $!{HiddenInputQueryString}
+</body>
+</form>
+</html>

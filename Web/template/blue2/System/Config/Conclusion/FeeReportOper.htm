@@ -1,0 +1,231 @@
+﻿
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>列表 </title>
+   <script src="$!{templatepath}/js/skin05/config/base1.js"></script>
+    <script src="$!{templatepath}/js/JS_Config.js" type="text/javascript"></script>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+        body{ font-size:12px;}
+        table td{ font-size:12px !important; line-height:36px;}
+    </style>
+</head>
+<body style="background:none;">
+
+    <!-- 用于标记是否可以进行保存，如果在验证的，某个数据验证不通过，则将该值置为False，全部验证通过后，该值该表为True -->
+    <input type="hidden" name="IsCanSaveInfo" id="IsCanSaveInfo" value="False" />
+    <!-- 科室ID，在数据修改时，才会有该值 -->
+    <input type="hidden" name="ID_FeeReport" id="ID_FeeReport" value="$!{ID_FeeReport}" />
+    <input type="hidden" name="txtIs_Default" id="txtIs_Default" value="$!{Is_Default}" />
+    <!-- 是否自动关闭弹出窗口 -->
+    <input type="hidden" name="IS_AutoCloseDialog" id="IS_AutoCloseDialog" value="False" />
+    
+    <!-- 用户签名图片（64位数据） -->
+    <input type="hidden" name="txtImageCodeBase64" id="txtImageCodeBase64" value="" />
+
+    <div class="content">
+        
+        <form action="" id="form1">
+        <table>
+                <tr>
+                    <td class="inputtitle">收费项目：</td>
+                <td>
+                    <input type="hidden" name="idSelectFee" id="idSelectFee" value="$!{ID_Fee}" />
+                    <input type="hidden" name="nameSelectFee" id="nameSelectFee" value="$!{FeeName}" />
+                    <span id="spanFee"><input style="width:260px; height:24px; line-height:20px;"  name="txtFeeInputCode" id="txtFeeInputCode" onkeyup="QuickQueryFeeTableData_Ajax();" onchange="QuickQueryFeeTableData_Ajax();"  onfocus="QuickQueryFeeTableData_Ajax();"  maxlength="50" value="$!{Fee}" /></span>
+                    <span id="spanSelectFee" style="display:none;"> 妇科 <a title="删除" href="javascript:void(0);" onclick="jQuery('#spanSelectFee').hide();"> × </a> </span>
+                    <div>
+                    <div style="position:absolute; display:block; clear:both; ">
+                    <div id="QuickQueryFeeTable" style="max-width:330px; position:relative; border:1px solid #666666; background-color:White; margin-top:-1px; display:none; ">
+                        <div style="height:200px;overflow:auto">
+                        <table style="width:100%;" class="quicktable">
+                            <thead>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>收费项目名称</td>
+                                <td style="display:none;">输入码</td>
+                            </tr>
+                            </thead>
+                            <tbody id="QuickQueryFeeTableData">
+                            <tr>
+                                <td colspan="3" style="text-align:center;">未找到相关收费项目，请重新输入...&nbsp;</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div style="width:100%; text-align:center;">
+
+                            <input type="button" class="button80" id="btnsave003" onclick="SelectFeeDataList2();" value=" 确  定 " /> &nbsp;&nbsp;
+                            <input type="button" class="button80" id="btncolse003" onclick="ShowHideQuickQueryFeeTable(false,'');" value=" 取  消 " /> 
+                            
+                        </div>
+                    </div>
+                    
+                    </div>
+                    </div>
+                </td>
+                </tr>
+
+            <tr>
+                <td class="inputtitle">模板名称：</td>
+                <td class="inputtext"><input style="width:260px; height:24px; line-height:20px;" name="txtReportKey" id="txtReportKey" maxlength="50" value="$!{ReportKey}" /> </td>
+            </tr>
+            
+<!--            <tr>
+                <td class="inputtitle">备注图片：</td>
+                <td class="inputtext">
+                    <span style="float:left;"><input onchange="GetImageUrl();" name="fileImageUrl" id="fileImageUrl" style="width:165px;" type="file" /> &nbsp;&nbsp;</span>
+                    <span style="float:left;"><img src="" alt="" height="26" style="display:none;" name="showImageUrl" id="showImageUrl" /></span>
+                    <span style="display:none;float:left; cursor:pointer;" id="spanShowImageUrl" onclick="clearImageUrl()">×</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="inputtitle">文本备注：</td>
+                <td class="inputtext">
+                    <textarea rows="3" cols="35"  name="txtNote"  onkeyup="SetTextAreaMaxLength(this,50);" onafterpaste="SetTextAreaMaxLength(this,50);" id="txtNote">$!{Note}</textarea>
+                </td>
+            </tr>-->
+
+            <tr>
+                <td class="inputtitle">是否禁用：</td>
+                <td class="inputtext">
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned01" value="0" checked="checked" /> <label for="radioIs_Banned01">正常 </label>  
+                    <input type="radio" name="radioIs_Banned" id="radioIs_Banned02" value="1" /> <label for="radioIs_Banned02">禁用 </label>  
+                </td>
+            </tr>
+
+            <tr id="trIs_Banned" style="display:none;">
+                <td class="inputtitle">禁用说明：</td>
+                <td class="inputtext">
+                    <textarea rows="2" cols="35" name="txtBanDescribe" id="txtBanDescribe">$!{BanDescribe}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding-top:20px; text-align:center;" class="inputtext">
+                
+                    <input id="btnSaveclose" name="btnSaveclose" class="btn-bcbgb btn-common button105" title="保存并关闭" onclick="AutoCloseDialogWindow('True');SaveFeeReportInfo();" value="保存并关闭" type="button"/>
+                    <input id="btnSave" name="btnSave" class="btn-bcbjx btn-common button100" title="保存并继续" onclick="AutoCloseDialogWindow('False');SaveFeeReportInfo();" value="保存并继续" type="button"/>
+
+                    <span style=" display:none;">
+                    <input type="reset" name="btnReset" id="btnReset" value="" />
+                    </span>
+                </td>
+            </tr>
+
+        </table>
+        
+        </form>
+    </div>
+    
+      <table style="display:none;">
+        
+        <tbody id="EmptyFeeQuickQueryDataTemplete">
+            <tr>
+                <td colspan="3" style="text-align:center;">未找到相关检查项目，请重新输入...&nbsp;</td>
+            </tr>
+        </tbody>
+        
+        <tbody id="FeeQuickQueryTableTemplete">
+            <tr>
+                <td>
+                <input type="radio" name="@chkFeeQueryList" id="chkFee_@ID_Fee" 
+                    value="@ID_Fee"  FeeName="@FeeName"  />
+                </td>
+                <td title="@FeeCode">@FeeName</td>
+                <td style="display:none;">@InputCode</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <ul id="UserSelectedFeeItemDataTemplete" style="display:none;">
+        <li id="spanSelectFee_@ID_Fee"><span> 
+        <span style="display:none;"><input type="checkbox" name="@chkSelectedFeeList" id="chkSelectedFee_@ID_Fee" value="@ID_Fee" /></span>
+        <a title="删除" href="javascript:void(0);" onclick="RemoveSelectedFee();"> × </a> @FeeName </span> </li>
+      </ul>
+
+</body>
+
+</html>
+
+<script language="javascript" type="text/javascript">
+
+    /// <summary> 
+    /// 点击选中对应体检地址分类的单选按钮（快速选择列表）
+    /// </summary>
+    function SetFeeReportTypeChecked(ID_FeeReportType) {
+        jQuery("#chkFeeReportType_" + ID_FeeReportType).attr("checked", jQuery("#chkFeeReportType_" + ID_FeeReportType).attr("checked"));
+    }
+
+
+    jQuery(document).ready(function () {
+
+        // 禁用时，显示禁用输入信息框
+        jQuery("input[name='radioIs_Banned']").change(function () {
+            jQuery("input[name='radioIs_Banned']:radio:checked").each(function () {
+
+                if (jQuery(this).val() == "0") {
+                    jQuery("#txtBanDescribe").attr("disabled", "disabled");
+                    jQuery("#trIs_Banned").hide();
+                } else {
+                    jQuery("#txtBanDescribe").removeAttr("disabled");
+                    jQuery("#trIs_Banned").show();
+                }
+            });
+
+        });
+        // 科室编辑操作时，初始化页面数据
+        InitFeeReportEditData();
+
+    });
+
+    /// <summary>
+    /// 选择图片后，先读取图片的64位数据，并回显到页面上
+    /// <summary>
+    function GetImageUrl() {
+        try {
+
+            var filePathSignature = jQuery("#fileImageUrl").val();             // 签名图片路径
+            var ImageCodeBase64 = parent.GetImageCodeBase64(filePathSignature);
+            if (txtImageCodeBase64 == "0") {
+                parent.ShowSystemDialog("未找到你选择的图片，请确定图片是否存在!");
+                return;
+            }
+            if (txtImageCodeBase64 == "-1") {
+                parent.ShowSystemDialog("你选择的不是图片文件，请重新选择!");
+                return;
+            }
+            jQuery("#showImageUrl").data("imagedata", ImageCodeBase64);
+            //jQuery("#txtImageCodeBase64").val(ImageCodeBase64);
+            document.getElementById("showImageUrl").src = "data:image/gif;base64," + ImageCodeBase64;
+
+            jQuery("#showImageUrl").css("height", "26");
+            jQuery("#showImageUrl").show();
+            // jQuery("#spanShowImageUrl").show(); 暂时不做删除的功能
+        } catch (e) { }
+    }
+
+    /// <summary>
+    /// 清除选择的图片
+    /// <summary>
+    function clearImageUrl() {
+        jQuery("#spanShowImageUrl").hide();
+        jQuery("#showImageUrl").hide();
+        var fileObj = jQuery("#fileImageUrl");
+        fileObj.outerHTML = "";
+        jQuery("#txtImageCodeBase64").val("");
+    }
+
+    function SetTextAreaMaxLength(obj, cnt) {
+
+        var s = document.getElementById("txtNote").value;
+        if (s.length > cnt) {
+            document.getElementById("txtNote").value = s.substring(0, cnt);
+        }
+    }
+    
+</script>
+
+

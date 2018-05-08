@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=8;text/html; charset=utf-8"/>
+<title>$!{pagetitle}</title>
+<link href="$!{templatepath}/$!{LoginSkin}/css/login.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="$!{templatepath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/ajax/ajaxUser.js"></script>
+    <script type="text/javascript" src="$!{templatepath}/js/commom.js"></script>
+    <script src="$!{templatepath}/js/artDialog4.1.7/artDialog.source.js?skin=opera"></script>
+    <script src="$!{templatepath}/js/Clouds-float.js" type="text/javascript"></script>
+      <script language="javascript" type="text/javascript">
+          jQuery(document).ready(function () {
+              jQuery("#UserLoginName").focus();
+              // 如果是正常退出,则清空进入首页后，跳转的地址
+              //if (GetQueryString('flag') == 'logout') {
+              SetCookie('FYHCurrentUrl', '');     // 清除 当前Url地址
+              SetCookie('FYHSaveMenuID', '');     // 清除 当前选择的菜单分组
+              SetCookie('FYHSaveDate', '');       // 清除 当前保存的时间
+              SetCookie('FYHSubMenuID', '');      // 清除 子菜单的MenuID
+              SetCookie('FYHSubSectionID', '');   // 清除 子菜单的SectionID 
+              SetCookie('FYHUserID', '');         // 清除 UserID 
+              //}
+              var saveUserName = GetCookie('SaveUserName'); // 获取保存的用户名
+              
+              if (saveUserName != "" && saveUserName != null) {
+                  jQuery("#UserLoginName").val(saveUserName);
+                  jQuery("#chkIsSaveUserName").attr("checked", true);
+              }
+          });
+
+          // 保存用户名
+          function SaveUserLoginName() {
+              if ( jQuery("input[name='chkIsSaveUserName']:checked").val() == "1") {
+                  SetCookie('SaveUserName', jQuery("#UserLoginName").val());     // 保存用户名
+              } else {
+                  SetCookie('SaveUserName', "");
+              }
+          }
+
+          function OnPressEnterKey() {
+              var curEvent = window.event || e;
+              var id = document.activeElement.id;
+              if (curEvent.keyCode == 13) {
+                  if (id == "UserPassword" || id == "btnLogin") { // 如果是 密码输入框或是登录按钮，则直接提交
+                      UserLoginAjax();
+                  } else if (id == "UserLoginName") {             // 如果是用户名输入框，则焦点移动到密码框中
+                      // 当密码不为空时，直接触发登录事件
+                      if (jQuery("#UserPassword").val() != "") {
+                          UserLoginAjax();
+                      } else {
+                          jQuery("#UserPassword").focus();
+                      }
+                  }
+              }
+          }
+
+          function UserReset() {
+              jQuery("#UserLoginName").val("");
+              jQuery("#UserPassword").val("");
+          }
+
+    </script>
+</head>
+
+<body style=" background-position:center top; overflow:hidden;">
+<div id="mainBody">
+  <div id="cloud1" class="cloud"></div>
+  <div id="cloud2" class="cloud"></div>
+</div>
+	<div class="login" style="">
+    	<div class="login-logo"></div>
+        <div class="login-unk">
+            <div class="login-box">
+        	<div class="login-box-user">
+            	<div class="login-user-icon"></div>
+            	<div class="login-user-input">
+                <input type="text" name="UserLoginName" id="UserLoginName" onkeyup="OnPressEnterKey();"
+                        maxlength="30" /></div>
+            </div>
+       	    <div class="login-box-password">
+            	<div class="login-password-icon"></div>
+            	<div class="login-password-input">
+                <input type="password" name="UserPassword" id="UserPassword" onkeyup="OnPressEnterKey();"
+                        onfocus="this.select();" maxlength="30" /></div>
+            </div>
+        	<div class="login-box-keep">
+            	<div class="login-box-keep-left"><label class="checkbox" for="chkIsSaveUserName"><input name="chkIsSaveUserName" id="chkIsSaveUserName" type="checkbox" value="1" />保存用户名</label></div>
+                <div class="login-box-keep-right"><a href="javascript:void(0);" onclick="CloseWindow(1);">安全退出</a></div>
+            </div>
+        	<div class="login-box-button" onclick="SaveUserLoginName();UserLoginAjax();" name="btnLogin" id="btnLogin"><a href="javascript:void(0);" >登&nbsp;&nbsp;&nbsp;&nbsp;录</a></div>
+            </div>
+            <div>有新版啦 ！<a href="http://192.170.1.91/template/ocx/FYH更新程序.bat">点我更新</a></div>
+        </div>
+            
+        
+        <div id="UserLoginTips" style="display:none;"></div>
+        <div class="login-Copyright">$!{BottomInfo}</div>
+    </div>
+</body>
+</html>

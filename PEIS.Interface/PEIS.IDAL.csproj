@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{2C1C8A59-A564-4DBF-991F-F427AF0F261A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>PEIS.IDAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PEIS.Common">
+      <HintPath>..\Web\bin\PEIS.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PEIS.IDAL\IBusBackLogType.cs" />
+    <Compile Include="PEIS.IDAL\IBusConclusion.cs" />
+    <Compile Include="PEIS.IDAL\IBusConclusionType.cs" />
+    <Compile Include="PEIS.IDAL\IBusExamItem.cs" />
+    <Compile Include="PEIS.IDAL\IBusExamItemGroup.cs" />
+    <Compile Include="PEIS.IDAL\IBusExamPlace.cs" />
+    <Compile Include="PEIS.IDAL\IDictExamType.cs" />
+    <Compile Include="PEIS.IDAL\IBusFee.cs" />
+    <Compile Include="PEIS.IDAL\IBusFeeDetail.cs" />
+    <Compile Include="PEIS.IDAL\IBusFeeReport.cs" />
+    <Compile Include="PEIS.IDAL\IDictReceiveReportWay.cs" />
+    <Compile Include="PEIS.IDAL\IBusPEPackage.cs" />
+    <Compile Include="PEIS.IDAL\IBusSetFeeDetail.cs" />
+    <Compile Include="PEIS.IDAL\IBusSpecimen.cs" />
+    <Compile Include="PEIS.IDAL\IBusSymptom.cs" />
+    <Compile Include="PEIS.IDAL\ICommandWebserviceInterface.cs" />
+    <Compile Include="PEIS.IDAL\ICommonConclusion.cs" />
+    <Compile Include="PEIS.IDAL\ICommonConfig.cs" />
+    <Compile Include="PEIS.IDAL\ICommonCustExam.cs" />
+    <Compile Include="PEIS.IDAL\ICommonExcuteSql.cs" />
+    <Compile Include="PEIS.IDAL\ICommonRegiste.cs" />
+    <Compile Include="PEIS.IDAL\ICommonReport.cs" />
+    <Compile Include="PEIS.IDAL\ICommonRight.cs" />
+    <Compile Include="PEIS.IDAL\ICommonStatistics.cs" />
+    <Compile Include="PEIS.IDAL\ICommonSubScribe.cs" />
+    <Compile Include="PEIS.IDAL\ICommonSystemInfo.cs" />
+    <Compile Include="PEIS.IDAL\ICommonUser.cs" />
+    <Compile Include="PEIS.IDAL\IDictCountry.cs" />
+    <Compile Include="PEIS.IDAL\IDictCultrul.cs" />
+    <Compile Include="PEIS.IDAL\IDictFeeWay.cs" />
+    <Compile Include="PEIS.IDAL\IDctFinalConclusionType.cs" />
+    <Compile Include="PEIS.IDAL\IDictGender.cs" />
+    <Compile Include="PEIS.IDAL\IDctICDTen.cs" />
+    <Compile Include="PEIS.IDAL\IDictMarriage.cs" />
+    <Compile Include="PEIS.IDAL\IDctNation.cs" />
+    <Compile Include="PEIS.IDAL\IDictVocation.cs" />
+    <Compile Include="PEIS.IDAL\INatLog.cs" />
+    <Compile Include="PEIS.IDAL\ISysMenu.cs" />
+    <Compile Include="PEIS.IDAL\ISYSRight.cs" />
+    <Compile Include="PEIS.IDAL\ISysRole.cs" />
+    <Compile Include="PEIS.IDAL\ISysRoleRight.cs" />
+    <Compile Include="PEIS.IDAL\ISYSSection.cs" />
+    <Compile Include="PEIS.IDAL\ISYSOpUser.cs" />
+    <Compile Include="PEIS.IDAL\ISYSUserRight.cs" />
+    <Compile Include="PEIS.IDAL\ISYSUserRole.cs" />
+    <Compile Include="PEIS.IDAL\ISYSUserSection.cs" />
+    <Compile Include="PEIS.IDAL\IOnArcCust.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustApply.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustBackLog.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustConclusion.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustExamItem.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustExamItemResult.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustExamSection.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustFee.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustPhysicalExamInfo.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustRelationCustPEInfo.cs" />
+    <Compile Include="PEIS.IDAL\IOnCustReportManage.cs" />
+    <Compile Include="PEIS.IDAL\IOnFianlCheck.cs" />
+    <Compile Include="PEIS.IDAL\ISysManage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PEIS.DBUtility\PEIS.DBUtility.csproj">
+      <Project>{9d28201b-34cd-4a3e-beae-20318cbf3d5c}</Project>
+      <Name>PEIS.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PEIS.Model\PEIS.Model.csproj">
+      <Project>{a79d351e-fab1-4c76-80be-54f437a0281b}</Project>
+      <Name>PEIS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
